@@ -67,6 +67,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Contactos\EditarContacto.aspx" />
     <Content Include="Contactos\DetalleContacto.aspx" />
     <Content Include="Css\bootstrap.min.css" />
     <Content Include="Dashboard.aspx" />
@@ -75,6 +76,13 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Contactos\EditarContacto.aspx.cs">
+      <DependentUpon>EditarContacto.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Contactos\EditarContacto.aspx.designer.cs">
+      <DependentUpon>EditarContacto.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Contactos\DetalleContacto.aspx.cs">
       <DependentUpon>DetalleContacto.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

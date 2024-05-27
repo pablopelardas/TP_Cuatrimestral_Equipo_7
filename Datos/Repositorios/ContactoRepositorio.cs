@@ -22,7 +22,7 @@ namespace Datos.Repositorios
             entidad.producto_que_provee = reader["producto_que_provee"] == DBNull.Value ? null : (string)reader["producto_que_provee"];
             entidad.desea_recibir_correos = (bool)reader["desea_recibir_correos"];
             entidad.desea_recibir_whatsapp = (bool)reader["desea_recibir_whatsapp"];
-            entidad.informacion_personal = (string)reader["informacion_personal"];
+            entidad.informacion_personal = reader["informacion_personal"] == DBNull.Value ? null : (string)reader["informacion_personal"];
             return entidad;
         }
         public List<Dominio.Modelos.ContactoModelo> Listar()
@@ -82,7 +82,54 @@ namespace Datos.Repositorios
 
         public void Modificar(Dominio.Modelos.ContactoModelo contacto)
         {
-            throw new NotImplementedException();
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                Entidades.ContactoEntidad entidad = Mappers.ContactoMapper.ModeloAEntidad(contacto);
+                datos.SetearConsulta("UPDATE [dbo].[CONTACTOS] SET nombre_apellido = @nombre_apellido, tipo = @tipo, telefono = @telefono, correo = @correo, direccion = @direccion, fuente = @fuente, producto_que_provee = @producto_que_provee, desea_recibir_correos = @desea_recibir_correos, desea_recibir_whatsapp = @desea_recibir_whatsapp, informacion_personal = @informacion_personal WHERE id_contacto = @id_contacto");
+                datos.SetearParametro("@id_contacto", entidad.id_contacto);
+                datos.SetearParametro("@nombre_apellido", entidad.nombre_apellido);
+                datos.SetearParametro("@tipo", entidad.tipo);
+                datos.SetearParametro("@telefono", entidad.telefono);
+                datos.SetearParametro("@correo", entidad.correo);
+                datos.SetearParametro("@direccion", entidad.direccion);
+                datos.SetearParametro("@fuente", entidad.fuente);
+                // validar si es nulo el producto que provee
+                if (entidad.producto_que_provee == null)
+                {
+                    datos.SetearParametro("@producto_que_provee", DBNull.Value);
+                }
+                else
+                {
+                    datos.SetearParametro("@producto_que_provee", entidad.producto_que_provee);
+                }
+                datos.SetearParametro("@desea_recibir_correos", entidad.desea_recibir_correos);
+                datos.SetearParametro("@desea_recibir_whatsapp", entidad.desea_recibir_whatsapp);
+                // validar informacion personal
+            if (entidad.informacion_personal == null)
+                {
+                    datos.SetearParametro("@informacion_personal", DBNull.Value);
+                }
+                else
+                {
+                    datos.SetearParametro("@informacion_personal", entidad.informacion_personal);
+                }
+
+                datos.EjecutarAccion();
+
+
+
+            }
+            catch (Exception ex)
+            {
+                
+                throw ex;
+            }
+            finally
+            {
+                datos.CerrarConexion();
+            }
         }
 
         public void Eliminar(int id)

@@ -30,9 +30,9 @@ namespace Negocio.Servicios
             contactosRepositorio.Agregar(contacto);
         }
 
-        public void Actualizar(Dominio.Modelos.ContactoModelo contacto)
+        public void Modificar(Dominio.Modelos.ContactoModelo contacto)
         {
-            contactosRepositorio.Actualizar(contacto);
+            contactosRepositorio.Modificar(contacto);
         }
 
         public void Eliminar(int id)
