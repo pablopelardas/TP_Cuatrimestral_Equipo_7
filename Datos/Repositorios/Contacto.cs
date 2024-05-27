@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace Datos
 {
-    public class CategoriasRepositorio
+    public class Contacto
     {
         private AccesoDatos datos;
 
-        public CategoriasRepositorio()
+        public Contacto()
         {
             datos = new AccesoDatos();
         }
