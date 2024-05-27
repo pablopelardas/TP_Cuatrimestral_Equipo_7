@@ -67,11 +67,19 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Contactos\DetalleContacto.aspx" />
     <Content Include="Dashboard.aspx" />
     <Content Include="Global.asax" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Contactos\DetalleContacto.aspx.cs">
+      <DependentUpon>DetalleContacto.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Contactos\DetalleContacto.aspx.designer.cs">
+      <DependentUpon>DetalleContacto.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Dashboard.aspx.cs">
       <DependentUpon>Dashboard.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -104,6 +112,16 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Models\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Dominio\Dominio.csproj">
+      <Project>{3145291c-415b-4ee0-9fec-58db28be0d20}</Project>
+      <Name>Dominio</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Negocio\Negocio.csproj">
+      <Project>{c456ceab-b41a-402b-8b5e-fef39a6a2e86}</Project>
+      <Name>Negocio</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
