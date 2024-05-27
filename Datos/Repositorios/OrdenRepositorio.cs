@@ -110,7 +110,7 @@ namespace Datos.Repositorios
             AccesoDatos datos = new AccesoDatos();
             try
             {
-                datos.SetearConsulta(datos.Comando.CommandText = "UPDATE Ordenes set id_cliente = @id_cliente, fecha = @fecha, tipo_evento = @tipo_evento, tipo_entrega = @tipo_entrega, total = @total, descuento");
+                datos.SetearConsulta(datos.Comando.CommandText = "UPDATE Ordenes set id_cliente = @id_cliente, fecha = @fecha, tipo_evento = @tipo_evento, tipo_entrega = @tipo_entrega, total = @total, descuento = @descuento, incremento = @incremento, descripcion = @descripcion");
                 datos.SetearParametro("@id_cliente", orden.IdCliente);
                 datos.SetearParametro("@fecha", orden.Fecha);
                 datos.SetearParametro("@tipo_evento", orden.TipoEvento);
