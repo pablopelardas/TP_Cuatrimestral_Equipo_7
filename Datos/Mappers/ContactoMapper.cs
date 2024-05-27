@@ -21,7 +21,8 @@ namespace Datos.Mappers
                 Fuente = contactoEntidad.fuente,
                 ProductoQueProvee = contactoEntidad.producto_que_provee,
                 DeseaRecibirCorreos = contactoEntidad.desea_recibir_correos,
-                DeseaRecibirWhatsapp = contactoEntidad.desea_recibir_whatsapp
+                DeseaRecibirWhatsapp = contactoEntidad.desea_recibir_whatsapp,
+                InformacionPersonal = contactoEntidad.informacion_personal
             };
         }
 
@@ -38,7 +39,8 @@ namespace Datos.Mappers
                 fuente = contacto.Fuente,
                 producto_que_provee = contacto.ProductoQueProvee,
                 desea_recibir_correos = contacto.DeseaRecibirCorreos,
-                desea_recibir_whatsapp = contacto.DeseaRecibirWhatsapp
+                desea_recibir_whatsapp = contacto.DeseaRecibirWhatsapp,
+                informacion_personal = contacto.InformacionPersonal
             };
         }
 

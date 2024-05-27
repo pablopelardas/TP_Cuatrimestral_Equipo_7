@@ -21,6 +21,8 @@ namespace Datos.Entidades
         public bool desea_recibir_correos { get; set; }
         public bool desea_recibir_whatsapp { get; set; }
 
+        public string informacion_personal { get; set; }
+
         public ContactoEntidad()
         {
         }

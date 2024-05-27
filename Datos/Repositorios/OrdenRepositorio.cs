@@ -10,7 +10,7 @@ namespace Datos.Repositorios
     {
         public List<Dominio.Modelos.OrdenModelo> Listar()
         {
-            List<Dominio.Modelos.OrdenModelo> ordenes = new List<Dominio.Modelos.Modelo>();
+            List<Dominio.Modelos.OrdenModelo> ordenes = new List<Dominio.Modelos.OrdenModelo>();
             AccesoDatos datos = new AccesoDatos();
 
             try
@@ -27,8 +27,8 @@ namespace Datos.Repositorios
                     entidad.tipo_evento = (string)datos.Lector["tipo_evento"];
                     entidad.tipo_entrega = (string)datos.Lector["tipo_entrega"];
                     entidad.total = (decimal)datos.Lector["total"];
-                    entidad.descuentos = (decimal)datos.Lector["descuentos"];
-                    entidad.incrementos = (decimal)datos.Lector["incrementos"];
+                    entidad.descuento = (decimal)datos.Lector["descuentos"];
+                    entidad.incremento = (decimal)datos.Lector["incrementos"];
                     entidad.descripcion = (string)datos.Lector["descripcion"];
 
                     ordenes.Add(Mappers.OrdenMapper.EntidadAModelo(entidad));
@@ -61,8 +61,8 @@ namespace Datos.Repositorios
                 entidad.tipo_evento = (string)datos.Lector["tipo_evento"];
                 entidad.tipo_entrega = (string)datos.Lector["tipo_entrega"];
                 entidad.total = (decimal)datos.Lector["total"];
-                entidad.descuentos = (decimal)datos.Lector["descuentos"];
-                entidad.incrementos = (decimal)datos.Lector["incrementos"];
+                entidad.descuento = (decimal)datos.Lector["descuentos"];
+                entidad.incremento = (decimal)datos.Lector["incrementos"];
                 entidad.descripcion = (string)datos.Lector["descripcion"];
 
                 return Mappers.OrdenMapper.EntidadAModelo(entidad);

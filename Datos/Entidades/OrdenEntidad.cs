@@ -18,6 +18,6 @@ namespace Datos.Entidades
         public decimal descuento { get; set; }
         public decimal incremento { get; set; }
         public string descripcion { get; set; }
-        public OrdenEntidad() { };
+        public OrdenEntidad() { }
     }
 }

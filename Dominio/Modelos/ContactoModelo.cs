@@ -17,6 +17,8 @@ namespace Dominio.Modelos
         public string Email { get; set; }
         public string Direccion { get; set; }
 
+        public string InformacionPersonal { get; set; }
+
         public string Fuente { get; set; }
         public string ProductoQueProvee { get; set; }
         public bool DeseaRecibirCorreos { get; set; }

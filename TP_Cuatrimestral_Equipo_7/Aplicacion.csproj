@@ -68,8 +68,10 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Contactos\DetalleContacto.aspx" />
+    <Content Include="Css\bootstrap.min.css" />
     <Content Include="Dashboard.aspx" />
     <Content Include="Global.asax" />
+    <Content Include="Js\bootstrap.bundle.min.js" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>

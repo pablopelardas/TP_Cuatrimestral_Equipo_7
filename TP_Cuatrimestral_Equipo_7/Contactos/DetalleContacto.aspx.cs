@@ -9,13 +9,14 @@ namespace TP_Cuatrimestral_Equipo_7.Contactos
 {
     public partial class DetalleContacto : System.Web.UI.Page
     {
-        private Dominio.Modelos.ContactoModelo contacto;
+        public Dominio.Modelos.ContactoModelo contacto;
+        private Negocio.Servicios.ContactoServicio negocio;
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
             {
                 string id = Request.QueryString["id"];
-                Negocio.Servicios.ContactoServicio negocio = new Negocio.Servicios.ContactoServicio();
+                negocio = new Negocio.Servicios.ContactoServicio();
                 if (id == null) Response.Redirect("/Dashboard.aspx", false);
                 try
                 {
@@ -25,7 +26,16 @@ namespace TP_Cuatrimestral_Equipo_7.Contactos
                         contacto = negocio.ObtenerPorId(idInt);
                         if (contacto != null)
                         {
-                            // CARGAR LOS DATOS DEL CONTACTO EN LOS CONTROLES
+                            lblTipo.Text = contacto.Rol;
+                            lblNombreApellido.Text = contacto.NombreApellido;
+                            lblCorreo.Text = contacto.Email;
+                            lblTelefono.Text = contacto.Telefono;
+                            lblFuente.Text = contacto.Fuente;
+                            lblDireccion.Text = contacto.Direccion;
+                            lblDeseaRecibirCorreos.Text = contacto.DeseaRecibirCorreos ? "Sí" : "No";
+                            lblDeseaRecibirWhatsapps.Text = contacto.DeseaRecibirWhatsapp ? "Sí" : "No";
+                            
+                            litInformacionPersonal.Text = contacto.InformacionPersonal;
                         }
                     }
                 }

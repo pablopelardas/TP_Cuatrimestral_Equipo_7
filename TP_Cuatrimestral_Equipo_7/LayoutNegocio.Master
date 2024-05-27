@@ -6,21 +6,17 @@
 <head runat="server">
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
     <title>Pasteleria</title>
+    <link href="Css/bootstrap.min.css" rel="stylesheet" />
+    
     <asp:ContentPlaceHolder ID="head" runat="server">
     </asp:ContentPlaceHolder>
     <style>
         ul {
             list-style-type: none;
-            top: 0;
-            left: 0;
             margin: 0;
             padding: 0;
-            width: 200px;
             background-color: #293C4F;
-            height: 100%;
-            position: fixed;
             overflow: auto;
         }
 
@@ -40,26 +36,32 @@
             background-color: #405162;
             color: white;
         }
-        body {
-            margin: 0;
-        }
+
     </style>
 </head>
 <body>
     <form id="form1" runat="server">
-        <ul id="myList">
-            <li class="active"><a href="#">Dashboard</a></li>
-            <li><a href="#">Ordenes</a></li>
-            <li><a href="#">Contactos</a></li>
-            <li><a href="#">Pedidos</a></li>
-            <li><a href="#">Ingredientes</a></li>
-            <li><a href="#">Recetas</a></li>
-            <li><a href="#">Productos</a></li>
-        </ul>
-        <div>
-            <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
-            </asp:ContentPlaceHolder>
+        <div class="container-fluid bg-black bg-opacity-50" >
+            <div class="container bg-light">
+                <div class="row">
+                    <ul class="col-2" id="myList">
+                        <li class="active"><a href="/Dashboard.aspx">Dashboard</a></li>
+                        <li><a href="#">Ordenes</a></li>
+                        <li><a href="/Contactos/DetalleContacto.aspx?id=1">Contactos</a></li>
+                        <li><a href="#">Pedidos</a></li>
+                        <li><a href="#">Ingredientes</a></li>
+                        <li><a href="#">Recetas</a></li>
+                        <li><a href="#">Productos</a></li>
+                    </ul>
+                    <div class="col-10 container main-content" style="min-height: 100vh">
+                        <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+                        </asp:ContentPlaceHolder>
+                    </div>
+                </div>
+            </div>
         </div>
+
+
     </form>
     <asp:PlaceHolder runat="server">
         <script>
@@ -71,5 +73,6 @@
             });
         </script>
     </asp:PlaceHolder>
+    <script src="Js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
