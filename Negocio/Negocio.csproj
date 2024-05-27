@@ -41,8 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Mappers\ContactoEtoContactoM.cs" />
-    <Compile Include="Servicios\Contacto.cs" />
+    <Compile Include="Servicios\ContactoServicio.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

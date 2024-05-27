@@ -4,13 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Negocio.Mappers
+namespace Datos.Mappers
 {
-    public class Contacto
+    public class ContactoMapper
     {
-        public static Dominio.Modelos.Contacto EntidadAModelo(Datos.Entidades.Contacto contactoEntidad)
+        public static Dominio.Modelos.ContactoModelo EntidadAModelo(Entidades.ContactoEntidad contactoEntidad)
         {
-            return new Dominio.Modelos.Contacto
+            return new Dominio.Modelos.ContactoModelo
             {
                 Id = contactoEntidad.Id,
                 NombreApellido = contactoEntidad.NombreApellido,
@@ -25,9 +25,9 @@ namespace Negocio.Mappers
             };
         }
 
-        public static Datos.Entidades.Contacto ModeloAEntidad(Dominio.Modelos.Contacto contacto)
+        public static Entidades.ContactoEntidad ModeloAEntidad(Dominio.Modelos.ContactoModelo contacto)
         {
-            return new Datos.Entidades.Contacto
+            return new Entidades.ContactoEntidad
             {
                 Id = contacto.Id,
                 NombreApellido = contacto.NombreApellido,

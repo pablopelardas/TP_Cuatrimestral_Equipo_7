@@ -1,5 +1,4 @@
-﻿using Datos.Entidades;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace Datos.Repositorios
 {
-    public class Contacto
+    public class ContactoRepositorio
     {
-        public List<Entidades.Contacto> Listar()
+        public List<Dominio.Modelos.ContactoModelo> Listar()
         {
-            List<Entidades.Contacto> contactoEntidades = new List<Entidades.Contacto>();
+            List<Dominio.Modelos.ContactoModelo > contactos = new List<Dominio.Modelos.ContactoModelo>();
             AccesoDatos datos = new AccesoDatos();
             try
             {
@@ -20,7 +19,7 @@ namespace Datos.Repositorios
 
                 while (datos.Lector.Read())
                 {
-                    Entidades.Contacto entidad = new Entidades.Contacto();
+                    Entidades.ContactoEntidad entidad = new Entidades.ContactoEntidad();
                     entidad.Id = (int)datos.Lector["Id"];
                     entidad.NombreApellido = (string)datos.Lector["NombreApellido"];
                     entidad.Tipo = (string)datos.Lector["Tipo"];
@@ -32,9 +31,9 @@ namespace Datos.Repositorios
                     entidad.DeseaRecibirCorreos = (bool)datos.Lector["DeseaRecibirCorreos"];
                     entidad.DeseaRecibirWhatsapp = (bool)datos.Lector["DeseaRecibirWhatsapp"];
 
-                    contactoEntidades.Add(entidad);
+                    contactos.Add(Mappers.ContactoMapper.EntidadAModelo(entidad));
                 }
-                return contactoEntidades;
+                return contactos;
             }
             catch (Exception ex)
             {
@@ -46,12 +45,12 @@ namespace Datos.Repositorios
             }
         }
 
-        public void Agregar(Datos.Entidades.Contacto contactoEntidad)
+        public void Agregar(Dominio.Modelos.ContactoModelo contacto)
         {
             throw new NotImplementedException();
         }
 
-        public void Modificar(Datos.Entidades.Contacto contactoEntidad)
+        public void Modificar(Dominio.Modelos.ContactoModelo contacto)
         {
             throw new NotImplementedException();
         }
@@ -61,7 +60,7 @@ namespace Datos.Repositorios
             throw new NotImplementedException();
         }
 
-        public void Actualizar(Datos.Entidades.Contacto contactoEntidad)
+        public void Actualizar(Dominio.Modelos.ContactoModelo contacto)
         {
             throw new NotImplementedException();
         }
