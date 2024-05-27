@@ -4,16 +4,72 @@
 
 <html>
 <head runat="server">
-    <title></title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Pasteleria</title>
     <asp:ContentPlaceHolder ID="head" runat="server">
     </asp:ContentPlaceHolder>
+    <style>
+        ul {
+            list-style-type: none;
+            top: 0;
+            left: 0;
+            margin: 0;
+            padding: 0;
+            width: 200px;
+            background-color: #293C4F;
+            height: 100%;
+            position: fixed;
+            overflow: auto;
+        }
+
+        li a {
+            display: block;
+            padding: 8px 16px;
+            color: #CCD2D3;
+            text-decoration: none;
+        }
+
+            li a:hover {
+                background-color: #304355;
+                color: white;
+            }
+
+        li.active {
+            background-color: #405162;
+            color: white;
+        }
+        body {
+            margin: 0;
+        }
+    </style>
 </head>
 <body>
     <form id="form1" runat="server">
+        <ul id="myList">
+            <li class="active"><a href="#">Dashboard</a></li>
+            <li><a href="#">Ordenes</a></li>
+            <li><a href="#">Contactos</a></li>
+            <li><a href="#">Pedidos</a></li>
+            <li><a href="#">Ingredientes</a></li>
+            <li><a href="#">Recetas</a></li>
+            <li><a href="#">Productos</a></li>
+        </ul>
         <div>
             <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
             </asp:ContentPlaceHolder>
         </div>
     </form>
+    <asp:PlaceHolder runat="server">
+        <script>
+            document.querySelectorAll('#myList li').forEach(item => {
+                item.addEventListener('click', function () {
+                    document.querySelector('#myList li.active')?.classList.remove('active');
+                    this.classList.add('active');
+                });
+            });
+        </script>
+    </asp:PlaceHolder>
 </body>
 </html>
