@@ -8,21 +8,20 @@ namespace Datos.Entidades
 {
     public class ContactoEntidad
     {
-        public int Id { get; set; }
-        public string NombreApellido { get; set; }
+        public int id_contacto { get; set; }
+        public string nombre_apellido { get; set; }
 
-        public string Tipo { get; set; }
+        public string tipo { get; set; }
 
-        public string Telefono { get; set; }
-        public string Correo { get; set; }
-        public string Direccion { get; set; }
+        public string correo { get; set; }
+        public string telefono { get; set; }
+        public string fuente { get; set; }
+        public string direccion { get; set; }
+        public string producto_que_provee{ get; set; }
+        public bool desea_recibir_correos { get; set; }
+        public bool desea_recibir_whatsapp { get; set; }
 
-        public string Fuente { get; set; }
-        public string ProductoQueProvee { get; set; }
-        public bool DeseaRecibirCorreos { get; set; }
-        public bool DeseaRecibirWhatsapp { get; set; }
-
-        public Contacto()
+        public ContactoEntidad()
         {
         }
 

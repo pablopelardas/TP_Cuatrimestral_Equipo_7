@@ -20,16 +20,16 @@ namespace Datos.Repositorios
                 while (datos.Lector.Read())
                 {
                     Entidades.ContactoEntidad entidad = new Entidades.ContactoEntidad();
-                    entidad.Id = (int)datos.Lector["Id"];
-                    entidad.NombreApellido = (string)datos.Lector["NombreApellido"];
-                    entidad.Tipo = (string)datos.Lector["Tipo"];
-                    entidad.Telefono = (string)datos.Lector["Telefono"];
-                    entidad.Correo = (string)datos.Lector["Correo"];
-                    entidad.Direccion = (string)datos.Lector["Direccion"];
-                    entidad.Fuente = (string)datos.Lector["Fuente"];
-                    entidad.ProductoQueProvee = (string)datos.Lector["ProductoQueProvee"];
-                    entidad.DeseaRecibirCorreos = (bool)datos.Lector["DeseaRecibirCorreos"];
-                    entidad.DeseaRecibirWhatsapp = (bool)datos.Lector["DeseaRecibirWhatsapp"];
+                    entidad.id_contacto = (int)datos.Lector["id_contacto"];
+                    entidad.nombre_apellido = (string)datos.Lector["nombre_apellido"];
+                    entidad.tipo = (string)datos.Lector["tipo"];
+                    entidad.telefono = (string)datos.Lector["telefono"];
+                    entidad.correo = (string)datos.Lector["correo"];
+                    entidad.direccion = (string)datos.Lector["direccion"];
+                    entidad.fuente = (string)datos.Lector["fuente"];
+                    entidad.producto_que_provee = (string)datos.Lector["producto_que_provee"];
+                    entidad.desea_recibir_correos= (bool)datos.Lector["desea_recibir_correos"];
+                    entidad.desea_recibir_whatsapp= (bool)datos.Lector["desea"];
 
                     contactos.Add(Mappers.ContactoMapper.EntidadAModelo(entidad));
                 }
@@ -37,6 +37,40 @@ namespace Datos.Repositorios
             }
             catch (Exception ex)
             {
+                throw ex;
+            }
+            finally
+            {
+                datos.CerrarConexion();
+            }
+        }
+
+        public Dominio.Modelos.ContactoModelo ObtenerPorId(int id)
+        {
+            AccesoDatos datos = new AccesoDatos();
+            try
+            {
+                datos.SetearParametro("@id", id);
+                datos.SetearConsulta(datos.Comando.CommandText = "SELECT * FROM [dbo].[CONTACTOS] WHERE id_contacto = @id");
+                datos.EjecutarLectura();
+                datos.Lector.Read();
+                Entidades.ContactoEntidad entidad = new Entidades.ContactoEntidad();
+                entidad.id_contacto = (int)datos.Lector["id_contacto"];
+                entidad.nombre_apellido = (string)datos.Lector["nombre_apellido"];
+                entidad.tipo = (string)datos.Lector["tipo"];
+                entidad.telefono = (string)datos.Lector["telefono"];
+                entidad.correo = (string)datos.Lector["correo"];
+                entidad.direccion = (string)datos.Lector["direccion"];
+                entidad.fuente = (string)datos.Lector["fuente"];
+                entidad.producto_que_provee = datos.Lector["producto_que_provee"] == DBNull.Value ? null : (string)datos.Lector["producto_que_provee"];
+                entidad.desea_recibir_correos = (bool)datos.Lector["desea_recibir_correos"];
+                entidad.desea_recibir_whatsapp = (bool)datos.Lector["desea_recibir_whatsapp"];
+
+                return Mappers.ContactoMapper.EntidadAModelo(entidad);
+            }
+            catch (Exception ex)
+            {
+                
                 throw ex;
             }
             finally

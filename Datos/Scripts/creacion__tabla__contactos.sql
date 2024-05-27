@@ -5,7 +5,7 @@
 -- GO
 
 
--- CREATE TABLE "Contacto"(
+-- CREATE TABLE "Contactos"(
 --     "id_contacto" INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
 --     "nombre_apellido" VARCHAR(100) NOT NULL,
 --     "tipo" VARCHAR(20) NOT NULL,
@@ -21,7 +21,7 @@
 -- );
 
 
--- INSERT INTO "Contacto" (
+-- INSERT INTO "Contactos" (
 --     "nombre_apellido",
 --     "tipo",
 --     "correo",

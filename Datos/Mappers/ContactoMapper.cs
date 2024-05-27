@@ -12,16 +12,16 @@ namespace Datos.Mappers
         {
             return new Dominio.Modelos.ContactoModelo
             {
-                Id = contactoEntidad.Id,
-                NombreApellido = contactoEntidad.NombreApellido,
-                Rol = contactoEntidad.Tipo,
-                Telefono = contactoEntidad.Telefono,
-                Email = contactoEntidad.Correo,
-                Direccion = contactoEntidad.Direccion,
-                Fuente = contactoEntidad.Fuente,
-                ProductoQueProvee = contactoEntidad.ProductoQueProvee,
-                DeseaRecibirCorreos = contactoEntidad.DeseaRecibirCorreos,
-                DeseaRecibirWhatsapp = contactoEntidad.DeseaRecibirWhatsapp
+                Id = contactoEntidad.id_contacto,
+                NombreApellido = contactoEntidad.nombre_apellido,
+                Rol = contactoEntidad.tipo,
+                Telefono = contactoEntidad.telefono,
+                Email = contactoEntidad.correo,
+                Direccion = contactoEntidad.direccion,
+                Fuente = contactoEntidad.fuente,
+                ProductoQueProvee = contactoEntidad.producto_que_provee,
+                DeseaRecibirCorreos = contactoEntidad.desea_recibir_correos,
+                DeseaRecibirWhatsapp = contactoEntidad.desea_recibir_whatsapp
             };
         }
 
@@ -29,16 +29,16 @@ namespace Datos.Mappers
         {
             return new Entidades.ContactoEntidad
             {
-                Id = contacto.Id,
-                NombreApellido = contacto.NombreApellido,
-                Tipo = contacto.Rol,
-                Telefono = contacto.Telefono,
-                Correo = contacto.Email,
-                Direccion = contacto.Direccion,
-                Fuente = contacto.Fuente,
-                ProductoQueProvee = contacto.ProductoQueProvee,
-                DeseaRecibirCorreos = contacto.DeseaRecibirCorreos,
-                DeseaRecibirWhatsapp = contacto.DeseaRecibirWhatsapp
+                id_contacto = contacto.Id,
+                nombre_apellido = contacto.NombreApellido,
+                tipo = contacto.Rol,
+                telefono = contacto.Telefono,
+                correo = contacto.Email,
+                direccion = contacto.Direccion,
+                fuente = contacto.Fuente,
+                producto_que_provee = contacto.ProductoQueProvee,
+                desea_recibir_correos = contacto.DeseaRecibirCorreos,
+                desea_recibir_whatsapp = contacto.DeseaRecibirWhatsapp
             };
         }
 
