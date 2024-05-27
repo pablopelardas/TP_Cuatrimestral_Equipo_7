@@ -43,9 +43,12 @@
   <ItemGroup>
     <Compile Include="AccesoDatos.cs" />
     <Compile Include="Entidades\ContactoEntidad.cs" />
+    <Compile Include="Entidades\OrdenEntidad.cs" />
     <Compile Include="Mappers\ContactoMapper.cs" />
+    <Compile Include="Mappers\OrdenMapper.cs" />
     <Compile Include="Repositorios\ContactoRepositorio.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositorios\OrdenRepositorio.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Dominio\Dominio.csproj">
