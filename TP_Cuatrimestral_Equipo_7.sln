@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34728.123
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TP_Cuatrimestral_Equipo_7", "TP_Cuatrimestral_Equipo_7\TP_Cuatrimestral_Equipo_7.csproj", "{7942A576-1EFB-4A6B-9F55-E63FAFD643AD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aplicacion", "TP_Cuatrimestral_Equipo_7\Aplicacion.csproj", "{7942A576-1EFB-4A6B-9F55-E63FAFD643AD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
