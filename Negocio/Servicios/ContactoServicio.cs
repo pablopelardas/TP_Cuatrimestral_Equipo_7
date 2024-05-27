@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Negocio
+namespace Negocio.Servicios
 {
     public class ContactoServicio
     {
@@ -18,6 +18,11 @@ namespace Negocio
         public List<Dominio.Modelos.ContactoModelo> Listar()
         {
             return contactosRepositorio.Listar();
+        }
+
+        public Dominio.Modelos.ContactoModelo ObtenerPorId(int id)
+        {
+            return contactosRepositorio.ObtenerPorId(id);
         }
 
         public void Agregar(Dominio.Modelos.ContactoModelo contacto)
@@ -34,6 +39,8 @@ namespace Negocio
         {
             contactosRepositorio.Eliminar(id);
         }
+
+        
 
     }
 }
