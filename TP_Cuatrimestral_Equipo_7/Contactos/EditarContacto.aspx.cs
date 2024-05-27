@@ -36,6 +36,7 @@ namespace TP_Cuatrimestral_Equipo_7.Contactos
                             txtFuente.Text = contacto.Fuente;
                             chkDeseaRecibirCorreos.Checked = contacto.DeseaRecibirCorreos;
                             chkDeseaRecibirWhatsapps.Checked = contacto.DeseaRecibirWhatsapp;
+                            tiny.Text = contacto.InformacionPersonal;
                         }
                     }
                 }
