@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="AccesoDatos.cs" />
     <Compile Include="Entidades\ContactoEntidad.cs" />
+    <Compile Include="Entidades\DetalleEntidad.cs" />
     <Compile Include="Entidades\OrdenEntidad.cs" />
     <Compile Include="Entidades\ProductoEntidad.cs" />
     <Compile Include="Mappers\ContactoMapper.cs" />
