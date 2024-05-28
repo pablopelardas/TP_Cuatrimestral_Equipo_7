@@ -8,20 +8,17 @@ namespace Datos.Mappers
 {
     public class OrdenMapper
     {
-        public static Dominio.Modelos.OrdenModelo EntidadAModelo(Entidades.OrdenEntidad ordenEntidad,/* List<Entidades.DetalleEntidad> listaDetalle, List<Entidades.ProductoEntidad> listaProductos*/)
+        public static Dominio.Modelos.OrdenModelo EntidadAModelo(Entidades.OrdenEntidad ordenEntidad)
         {
             return new Dominio.Modelos.OrdenModelo
             {
                 IdOrden = ordenEntidad.id_orden,
-                IdCliente = ordenEntidad.id_cliente,
                 Fecha = ordenEntidad.fecha,
                 TipoEvento = ordenEntidad.tipo_evento,
                 TipoEntrega = ordenEntidad.tipo_entrega,
-                Total = ordenEntidad.total,
-                Descuento = ordenEntidad.descuento,
-                Incremento = ordenEntidad.incremento,
+                DescuentoPorcentaje = ordenEntidad.descuento_porcentaje,
+                IncrementoPorcentaje = ordenEntidad.incremento_porcentaje,
                 Descripcion = ordenEntidad.descripcion,
-              //  Productos = listaProductos,
 
             };
         }
@@ -30,14 +27,13 @@ namespace Datos.Mappers
         {
             return new Entidades.OrdenEntidad
             {
-                id_cliente = ordenModelo.IdCliente,
+                id_cliente = ordenModelo.Cliente.Id,
                 id_orden = ordenModelo.IdOrden,
                 fecha = ordenModelo.Fecha,
                 tipo_evento = ordenModelo.TipoEvento,
                 tipo_entrega = ordenModelo.TipoEntrega,
-                total = ordenModelo.Total,
-                descuento = ordenModelo.Descuento,
-                incremento = ordenModelo.Incremento,
+                descuento_porcentaje = ordenModelo.DescuentoPorcentaje,
+                incremento_porcentaje = ordenModelo.IncrementoPorcentaje,
                 descripcion = ordenModelo.Descripcion,
             };
         }

@@ -9,34 +9,22 @@ namespace Dominio.Modelos
 {
     public class ProductoModelo
     {
-        public int Codigo {  get; set; }
-
+        public int IdProducto { get; set; }
         public string Nombre { get; set; }
-
         public string Descripcion { get; set; }
-
-        public string Categoria {  get; set; }
 
         public int Porciones { get; set; }
 
-        public int Horas { get; set; }
+        public decimal HorasTrabajo { get; set; }
 
-        public string Recetas { get; set; }
+        public string TipoPrecio { get; set; }
 
-        public string Suministros { get; set; }
+        public decimal ValorPrecio { get; set; }
 
-        public decimal Costo { get; set; }
+        public CategoriaModelo Categoria { get; set; }
 
-        public decimal CostoPorPorcion {  get; set; }
-
-        public decimal PrecioVenta { get; set; }
-
-        public decimal TarifaImpuesto { get; set; }
-
-        public decimal GananciaNeta { get; set; }
-
-        public List<string> Imagenes = new List<string>();
-
-        public ProductoModelo() { }
+        public ProductoModelo()
+        {
+        }
     }
 }

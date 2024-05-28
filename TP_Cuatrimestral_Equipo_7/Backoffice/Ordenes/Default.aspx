@@ -1,5 +1,18 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/LayoutNegocio.Master" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="TP_Cuatrimestral_Equipo_7.Backoffice.Contactos.Default" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/LayoutNegocio.Master" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes.Default" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+    <style>
+        .tbl-order-row{
+            display: flex;
+            justify-content: space-between;
+            text-decoration: none;
+        }
+        .tbl-order-cell {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            margin-left: 10px;
+        }
+    </style>
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="PageHeader" runat="server">
     <h4>Contactos</h4>
@@ -21,23 +34,19 @@
             </div>
         </div>
         <div class="tbl-body">
-            <% foreach (Dominio.Modelos.ContactoModelo contacto in contactos) { %>
-                <a class="tbl-row" href="DetalleContacto.aspx?id=<%: contacto.Id %>">
+            <% foreach (Dominio.Modelos.OrdenModelo orden in ordenes) { %>
+                <a class="tbl-row tbl-order-row" href="DetalleContacto.aspx?id=<%: orden.IdOrden %>">
                     <div class="tbl-cell">
                         <span>
-                            <% if (contacto.Rol == "Proveedor") { %>
-                                <i class="fa-solid fa-truck"></i>
-                            <% } else { %>
-                                <i class="fa-solid fa-user"></i>
-                            <% } %>
+                            <i class="fa-solid fa-tags"></i>
                         </span>
-                        <span><%: contacto.NombreApellido %></span>
-                    </div>
-                    <div class="tbl-cell tbl-cell--center">
-                        <span><%: contacto.Email %></span>
+                        <div class="tbl-order-cell">
+                            <span><%: $"#{orden.IdOrden} - {orden.Fecha.ToShortDateString()} @ {orden.Fecha.TimeOfDay}" %></span>
+                            <span><span class="contact-name"><%: orden.Cliente.NombreApellido %></span><span class="event-type">(<%: orden.TipoEvento %>)</span></span>
+                        </div>
                     </div>
                     <div class="tbl-cell tbl-cell--end">
-                        <span><%: contacto.Telefono %></span>
+                        <span>$<%: orden.Total %></span>
                     </div>
                 </a>
             <% } %>

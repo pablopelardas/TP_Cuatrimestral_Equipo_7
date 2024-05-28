@@ -28,12 +28,21 @@ namespace Datos.Repositorios
                     entidad.fecha = (DateTime)datos.Lector["fecha"];
                     entidad.tipo_evento = (string)datos.Lector["tipo_evento"];
                     entidad.tipo_entrega = (string)datos.Lector["tipo_entrega"];
-                    entidad.total = (decimal)datos.Lector["total"];
-                    entidad.descuento = (decimal)datos.Lector["descuentos"];
-                    entidad.incremento = (decimal)datos.Lector["incrementos"];
                     entidad.descripcion = (string)datos.Lector["descripcion"];
+                    entidad.descuento_porcentaje = datos.Lector["descuento_porcentaje"] == DBNull.Value ? 0 : (decimal)datos.Lector["descuento_porcentaje"];
+                    entidad.incremento_porcentaje = datos.Lector["incremento_porcentaje"] == DBNull.Value ? 0 : (decimal)datos.Lector["incremento_porcentaje"];
 
-                    ordenes.Add(Mappers.OrdenMapper.EntidadAModelo(entidad));
+                    OrdenModelo ordenModelo = Mappers.OrdenMapper.EntidadAModelo(entidad);
+
+                    ordenModelo.Subtotal = CalcularTotal(entidad.id_orden);
+
+                    ordenModelo.Productos = ListarProductosPorOrden(entidad.id_orden);
+
+                    Repositorios.ContactoRepositorio contactoRepositorio = new Repositorios.ContactoRepositorio();
+                    ordenModelo.Cliente = contactoRepositorio.ObtenerPorId(entidad.id_cliente);
+
+                    ordenes.Add(ordenModelo);
+
                 }
                 return ordenes;
             }
@@ -46,32 +55,59 @@ namespace Datos.Repositorios
                 datos.CerrarConexion();
             }
         }
-
-        public Dominio.Modelos.OrdenModelo ObtenerPorId(int id)
+        private decimal CalcularTotal(int id)
         {
             AccesoDatos datos = new AccesoDatos();
+            decimal total = 0;
             try
             {
+                datos.SetearConsulta("SELECT SUM(producto_precio * cantidad) as Total FROM DETALLE_ORDENES WHERE id_orden = @id");
                 datos.SetearParametro("@id", id);
-                datos.SetearConsulta(datos.Comando.CommandText = "SELECT * FROM [dbo].[Ordenes] WHERE id_orden = @id");
                 datos.EjecutarLectura();
                 datos.Lector.Read();
-                Entidades.OrdenEntidad entidad = new Entidades.OrdenEntidad();
-                entidad.id_orden = (int)datos.Lector["id_orden"];
-                entidad.id_cliente = (int)datos.Lector["id_cliente"];
-                entidad.fecha = (DateTime)datos.Lector["fecha"];
-                entidad.tipo_evento = (string)datos.Lector["tipo_evento"];
-                entidad.tipo_entrega = (string)datos.Lector["tipo_entrega"];
-                entidad.total = (decimal)datos.Lector["total"];
-                entidad.descuento = (decimal)datos.Lector["descuentos"];
-                entidad.incremento = (decimal)datos.Lector["incrementos"];
-                entidad.descripcion = (string)datos.Lector["descripcion"];
-
-                return Mappers.OrdenMapper.EntidadAModelo(entidad);
+                total = (decimal)datos.Lector[0];
+                return total;
             }
             catch (Exception ex)
             {
+                throw ex;
+            }
+            finally
+            {
+                datos.CerrarConexion();
+            }
+        }
+        public static List<ProductoModelo> ListarProductosPorOrden(int orden_id)
+        {
+            AccesoDatos datos = new AccesoDatos();
+            List<ProductoModelo> listaProductos = new List<ProductoModelo>();
+            try
+            {
+                datos.SetearConsulta("SELECT P.id_producto, p.nombre, p.descripcion, p.porciones, p.horas_trabajo, p.tipo_precio, p.valor_precio, p.id_categoria FROM PRODUCTOS AS P INNER JOIN DETALLE_ORDENES ON P.id_producto = DETALLE_ORDENES.id_producto WHERE DETALLE_ORDENES.id_orden = @orden_id");
+                datos.SetearParametro("@orden_id", orden_id);
+                datos.EjecutarLectura();
+                while (datos.Lector.Read())
+                {
+                    ProductoEntidad entidad = new ProductoEntidad();
+                    entidad.id_producto = (int)datos.Lector["id_producto"];
+                    entidad.nombre = (string)datos.Lector["nombre"];
+                    entidad.descripcion = (string)datos.Lector["descripcion"];
+                    entidad.porciones = (int)datos.Lector["porciones"];
+                    entidad.horas_trabajo = (decimal)datos.Lector["horas_trabajo"];
+                    entidad.tipo_precio = (string)datos.Lector["tipo_precio"];
+                    entidad.valor_precio = (decimal)datos.Lector["valor_precio"];
+                    entidad.id_categoria = (int)datos.Lector["id_categoria"];
 
+                    ProductoModelo producto = Mappers.ProductoMapper.EntidadAModelo(entidad);
+
+                    producto.Categoria = new CategoriaModelo { Id = entidad.id_categoria, Nombre = "test", Tipo = "Receta" };
+
+                    listaProductos.Add(producto);
+                }
+                return listaProductos;
+            }
+            catch (Exception ex)
+            {
                 throw ex;
             }
             finally
@@ -80,162 +116,19 @@ namespace Datos.Repositorios
             }
         }
 
-        public void Agregar(Dominio.Modelos.OrdenModelo orden)
+        public void Agregar(OrdenModelo orden)
         {
-            AccesoDatos datos = new AccesoDatos();
-            try
-            {
-                datos.SetearConsulta(datos.Comando.CommandText = "INSERT INTO Ordenes (id_cliente, fecha, tipo_evento, tipo_entrega, total, descuento, incremento, descripcion) values (@id_cliente, @fecha, @tipo_evento, @tipo_entrega, @total, @descuento, @incremento, @descripcion) SELECT CAST(scope_identity() AS int)");
-                datos.SetearParametro("@id_cliente", orden.IdCliente);
-                datos.SetearParametro("@fecha", orden.Fecha);
-                datos.SetearParametro("@tipo_evento", orden.TipoEvento);
-                datos.SetearParametro("@tipo_entrega", orden.TipoEntrega);
-                datos.SetearParametro("@total", orden.Total);
-                datos.SetearParametro("@descuento", orden.Descuento);
-                datos.SetearParametro("@incremento", orden.Incremento);
-                datos.SetearParametro("@descripcion", orden.Descripcion);
-
-                datos.EjecutarAccion();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.ToString());
-            }
-            finally
-            {
-                datos.CerrarConexion();
-            }
+            throw new NotImplementedException();
         }
 
-        public void Modificar(Dominio.Modelos.OrdenModelo orden)
+        public void Modificar(OrdenModelo orden)
         {
-            AccesoDatos datos = new AccesoDatos();
-            try
-            {
-                datos.SetearConsulta(datos.Comando.CommandText = "UPDATE Ordenes set id_cliente = @id_cliente, fecha = @fecha, tipo_evento = @tipo_evento, tipo_entrega = @tipo_entrega, total = @total, descuento = @descuento, incremento = @incremento, descripcion = @descripcion");
-                datos.SetearParametro("@id_cliente", orden.IdCliente);
-                datos.SetearParametro("@fecha", orden.Fecha);
-                datos.SetearParametro("@tipo_evento", orden.TipoEvento);
-                datos.SetearParametro("@tipo_entrega", orden.TipoEntrega);
-                datos.SetearParametro("@total", orden.Total);
-                datos.SetearParametro("@descuento", orden.Descuento);
-                datos.SetearParametro("@incremento", orden.Incremento);
-                datos.SetearParametro("@descripcion", orden.Descripcion);
-
-                datos.EjecutarAccion();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.ToString());
-            }
-            finally
-            {
-                datos.CerrarConexion();
-            }
+            throw new NotImplementedException();
         }
 
         public void Eliminar(int id)
         {
-            AccesoDatos datos = new AccesoDatos();
-            try
-            {
-                datos.SetearConsulta(datos.Comando.CommandText = "DELETE FROM Ordenes where id_orden = @id");
-                datos.SetearParametro("@id", id);
-
-                datos.EjecutarAccion();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.ToString());
-            }
-            finally
-            {
-                datos.CerrarConexion();
-            }
+            throw new NotImplementedException();
         }
-
-        public static List<Entidades.DetalleEntidad> BuscarDetallePorIdOrden(int id)
-        {
-            AccesoDatos datos = new AccesoDatos();
-            List<Entidades.DetalleEntidad> listaDetalle = new List<Entidades.DetalleEntidad>();
-            try
-            {
-                datos.SetearConsulta(datos.Comando.CommandText = "Select * FROM Detalles where id_orden = @id");
-                datos.SetearParametro("@id", id);
-                datos.EjecutarAccion();
-                ListarDetalle(listaDetalle, datos);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.ToString());
-            }
-            finally
-            {
-                datos.CerrarConexion();
-            }
-            return listaDetalle;
-        }
-
-        public static List<Entidades.DetalleEntidad> ListarDetalle(List<Entidades.DetalleEntidad> listaDetalle, AccesoDatos datos)
-        {
-            while (datos.Lector.Read())
-            {
-                Entidades.DetalleEntidad detalle = new Entidades.DetalleEntidad();
-
-                detalle.id_orden = (int)datos.Lector["id_orden"];
-                detalle.id_producto = (int)datos.Lector["id_producto"];
-                detalle.cantidad = (int)datos.Lector["cantidad"];
-                detalle.precio = (int)datos.Lector["precio"];
-
-                listaDetalle.Add(detalle);
-            }
-            return listaDetalle;
-        }
-
-        public static ProductoModelo BuscarProductoPorId(int id)
-        {
-            AccesoDatos datos = new AccesoDatos();
-            ProductoModelo producto = new ProductoModelo();
-            try
-            {
-                datos.SetearConsulta(datos.Comando.CommandText = "Select * FROM Productos where id = @id");
-                datos.SetearParametro("@id", id);
-                datos.EjecutarAccion();
-
-                producto.Codigo = (int)datos.Lector["codigo"];
-                producto.Nombre = (string)datos.Lector["nombre"];
-                producto.Descripcion = (string)datos.Lector["descripcion"];
-                producto.Porciones = (int)datos.Lector["porciones"];
-                producto.Horas = (int)datos.Lector["horas"];
-                producto.Recetas = (string)datos.Lector["recetas"];
-                producto.Suministros = (string)datos.Lector["suministros"];
-                producto.Costo = (decimal)datos.Lector["costo"];
-                producto.CostoPorPorcion = (decimal)datos.Lector["costo_porcion"];
-                producto.PrecioVenta = (decimal)datos.Lector["precio_venta"];
-                producto.TarifaImpuesto = (decimal)datos.Lector["tarifa_impuesto"];
-                producto.GananciaNeta = (decimal)datos.Lector["ganancia_neta"];
-                //producto.Imagenes = ListarImagenes(codigo);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.ToString());
-            }
-            finally
-            {
-                datos.CerrarConexion();
-            }
-            return producto;
-        }
-        public static List<ProductoModelo> ListarProductos(List<ProductoModelo> listaProductos, List<DetalleEntidad> listaDetalle)
-        {
-            AccesoDatos datos = new AccesoDatos();
-            foreach (DetalleEntidad detalle in listaDetalle)
-            {
-                listaProductos.Add(BuscarProductoPorId(detalle.id_producto));
-            }
-
-            return listaProductos;
-        }
-
     }
 }

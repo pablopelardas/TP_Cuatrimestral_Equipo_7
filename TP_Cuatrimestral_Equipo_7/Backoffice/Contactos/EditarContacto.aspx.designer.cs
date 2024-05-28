@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace TP_Cuatrimestral_Equipo_7.Contactos
+namespace TP_Cuatrimestral_Equipo_7.Backoffice.Contactos
 {
 
 

@@ -7,9 +7,9 @@ using System.Web.Services.Description;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-namespace TP_Cuatrimestral_Equipo_7.Backoffice.Contactos
+namespace TP_Cuatrimestral_Equipo_7.Contactos
 {
-    public partial class EditarContacto : System.Web.UI.Page
+    public partial class EditarOrden : System.Web.UI.Page
     {
         public Dominio.Modelos.ContactoModelo contacto;
         private Negocio.Servicios.ContactoServicio negocio;

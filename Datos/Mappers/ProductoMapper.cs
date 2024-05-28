@@ -12,20 +12,13 @@ namespace Datos.Mappers
         {
             return new Dominio.Modelos.ProductoModelo
             {
-                Codigo = productoEntidad.codigo,
+                IdProducto = productoEntidad.id_producto,
                 Nombre = productoEntidad.nombre,
                 Descripcion = productoEntidad.descripcion,
-                Categoria = productoEntidad.categoria,
                 Porciones = productoEntidad.porciones,
-                Horas = productoEntidad.horas,
-                Recetas = productoEntidad.recetas,
-                Suministros = productoEntidad.suministros,
-                Costo = productoEntidad.costo,
-                CostoPorPorcion = productoEntidad.costo_porcion,
-                PrecioVenta = productoEntidad.precio_venta,
-                TarifaImpuesto = productoEntidad.tarifa_impuesto,
-                GananciaNeta = productoEntidad.ganancia_neta,
-                //Imagenes =
+                HorasTrabajo = productoEntidad.horas_trabajo,
+                TipoPrecio = productoEntidad.tipo_precio,
+                ValorPrecio = productoEntidad.valor_precio,
             };
         }
 
@@ -33,19 +26,14 @@ namespace Datos.Mappers
         {
             return new Entidades.ProductoEntidad
             {
-                codigo = productoModelo.Codigo,
-                nombre = productoModelo.Nombre,
+                id_categoria = productoModelo.Categoria.Id,
                 descripcion = productoModelo.Descripcion,
-                categoria = productoModelo.Categoria,
+                horas_trabajo = productoModelo.HorasTrabajo,
+                id_producto = productoModelo.IdProducto,
+                nombre = productoModelo.Nombre,
                 porciones = productoModelo.Porciones,
-                horas = productoModelo.Horas,
-                recetas = productoModelo.Recetas,
-                suministros = productoModelo.Suministros,
-                costo = productoModelo.Costo,
-                costo_porcion = productoModelo.CostoPorPorcion,
-                precio_venta = productoModelo.PrecioVenta,
-                tarifa_impuesto = productoModelo.TarifaImpuesto,
-                ganancia_neta = productoModelo.GananciaNeta
+                tipo_precio = productoModelo.TipoPrecio,
+                valor_precio = productoModelo.ValorPrecio,
             };          
         }
     }

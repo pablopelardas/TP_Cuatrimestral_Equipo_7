@@ -61,9 +61,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Scripts\creacion__tablas__recetas-ingredientes-suministros-categorias.sql" />
-    <Content Include="Scripts\creacion__tabla__ordenes.sql" />
-    <Content Include="Scripts\creacion__tabla__contactos.sql" />
+    <Content Include="Scripts\sql_create.sql" />
+    <Content Include="Scripts\sql_feed.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

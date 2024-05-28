@@ -67,17 +67,42 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Backoffice\Ordenes\Default.aspx" />
+    <Content Include="Backoffice\Ordenes\DetalleOrden.aspx" />
+    <Content Include="Backoffice\Ordenes\EditarOrden.aspx" />
     <Content Include="Backoffice\Contactos\Default.aspx" />
     <Content Include="Backoffice\Contactos\EditarContacto.aspx" />
     <Content Include="Backoffice\Contactos\DetalleContacto.aspx" />
     <Content Include="Css\bootstrap.min.css" />
     <Content Include="Backoffice\Dashboard.aspx" />
     <Content Include="Css\styles.css" />
+    <Content Include="Default.aspx" />
     <Content Include="Global.asax" />
     <Content Include="Js\bootstrap.bundle.min.js" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Backoffice\Ordenes\Default.aspx.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Backoffice\Ordenes\Default.aspx.designer.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Backoffice\Ordenes\DetalleOrden.aspx.cs">
+      <DependentUpon>DetalleOrden.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Backoffice\Ordenes\DetalleOrden.aspx.designer.cs">
+      <DependentUpon>DetalleOrden.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Backoffice\Ordenes\EditarOrden.aspx.cs">
+      <DependentUpon>EditarOrden.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Backoffice\Ordenes\EditarOrden.aspx.designer.cs">
+      <DependentUpon>EditarOrden.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Backoffice\Contactos\Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -105,6 +130,13 @@
     </Compile>
     <Compile Include="Backoffice\Dashboard.aspx.designer.cs">
       <DependentUpon>Dashboard.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Default.aspx.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Default.aspx.designer.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
     </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
