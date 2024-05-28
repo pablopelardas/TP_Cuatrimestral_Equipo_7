@@ -132,13 +132,13 @@ namespace Datos.Repositorios
             }
         }
 
-        public void Eliminar(Dominio.Modelos.OrdenModelo orden)
+        public void Eliminar(int id)
         {
             AccesoDatos datos = new AccesoDatos();
             try
             {
-                datos.SetearConsulta(datos.Comando.CommandText = "DELETE FROM Ordenes where id_orden = @IdOrden");
-                datos.SetearParametro("@IdOrden", orden.IdOrden);
+                datos.SetearConsulta(datos.Comando.CommandText = "DELETE FROM Ordenes where id_orden = @id");
+                datos.SetearParametro("@IdOrden", id);
 
                 datos.EjecutarAccion();
             }
