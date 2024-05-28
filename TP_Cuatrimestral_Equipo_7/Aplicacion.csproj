@@ -67,34 +67,34 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Contactos\EditarContacto.aspx" />
-    <Content Include="Contactos\DetalleContacto.aspx" />
+    <Content Include="Backoffice\Contactos\EditarContacto.aspx" />
+    <Content Include="Backoffice\Contactos\DetalleContacto.aspx" />
     <Content Include="Css\bootstrap.min.css" />
-    <Content Include="Dashboard.aspx" />
+    <Content Include="Backoffice\Dashboard.aspx" />
     <Content Include="Global.asax" />
     <Content Include="Js\bootstrap.bundle.min.js" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Contactos\EditarContacto.aspx.cs">
+    <Compile Include="Backoffice\Contactos\EditarContacto.aspx.cs">
       <DependentUpon>EditarContacto.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Contactos\EditarContacto.aspx.designer.cs">
+    <Compile Include="Backoffice\Contactos\EditarContacto.aspx.designer.cs">
       <DependentUpon>EditarContacto.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Contactos\DetalleContacto.aspx.cs">
+    <Compile Include="Backoffice\Contactos\DetalleContacto.aspx.cs">
       <DependentUpon>DetalleContacto.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Contactos\DetalleContacto.aspx.designer.cs">
+    <Compile Include="Backoffice\Contactos\DetalleContacto.aspx.designer.cs">
       <DependentUpon>DetalleContacto.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Dashboard.aspx.cs">
+    <Compile Include="Backoffice\Dashboard.aspx.cs">
       <DependentUpon>Dashboard.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Dashboard.aspx.designer.cs">
+    <Compile Include="Backoffice\Dashboard.aspx.designer.cs">
       <DependentUpon>Dashboard.aspx</DependentUpon>
     </Compile>
     <Compile Include="Global.asax.cs">

@@ -12,7 +12,7 @@
     <asp:ContentPlaceHolder ID="head" runat="server">
     </asp:ContentPlaceHolder>
     <style>
-        ul {
+        ul.sidebar {
             list-style-type: none;
             margin: 0;
             padding: 0;
@@ -20,19 +20,19 @@
             overflow: auto;
         }
 
-        li a {
+        .sidebar li a {
             display: block;
             padding: 8px 16px;
             color: #CCD2D3;
             text-decoration: none;
         }
 
-            li a:hover {
+            .sidebar li a:hover {
                 background-color: #304355;
                 color: white;
             }
 
-        li.active {
+        .sidebar li.active {
             background-color: #405162;
             color: white;
         }
@@ -44,10 +44,10 @@
         <div class="container-fluid bg-black bg-opacity-50" >
             <div class="container bg-light">
                 <div class="row">
-                    <ul class="col-2" id="myList">
-                        <li class="active"><a href="/Dashboard.aspx">Dashboard</a></li>
+                    <ul class="col-2 sidebar" id="myList">
+                        <li class="active"><a href="/Backoffice/Dashboard.aspx">Dashboard</a></li>
                         <li><a href="#">Ordenes</a></li>
-                        <li><a href="/Contactos/DetalleContacto.aspx?id=1">Contactos</a></li>
+                        <li><a href="/Backoffice/Contactos/DetalleContacto.aspx?id=1">Contactos</a></li>
                         <li><a href="#">Pedidos</a></li>
                         <li><a href="#">Ingredientes</a></li>
                         <li><a href="#">Recetas</a></li>

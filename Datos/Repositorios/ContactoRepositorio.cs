@@ -25,6 +25,37 @@ namespace Datos.Repositorios
             entidad.informacion_personal = reader["informacion_personal"] == DBNull.Value ? null : (string)reader["informacion_personal"];
             return entidad;
         }
+
+        private void ParametrizarEntidad(Entidades.ContactoEntidad entidad, AccesoDatos datos)
+        {
+            datos.SetearParametro("@id_contacto", entidad.id_contacto);
+            datos.SetearParametro("@nombre_apellido", entidad.nombre_apellido);
+            datos.SetearParametro("@tipo", entidad.tipo);
+            datos.SetearParametro("@telefono", entidad.telefono);
+            datos.SetearParametro("@correo", entidad.correo);
+            datos.SetearParametro("@direccion", entidad.direccion);
+            datos.SetearParametro("@fuente", entidad.fuente);
+            // validar si es nulo el producto que provee
+            if (entidad.producto_que_provee == null)
+            {
+                datos.SetearParametro("@producto_que_provee", DBNull.Value);
+            }
+            else
+            {
+                datos.SetearParametro("@producto_que_provee", entidad.producto_que_provee);
+            }
+            datos.SetearParametro("@desea_recibir_correos", entidad.desea_recibir_correos);
+            datos.SetearParametro("@desea_recibir_whatsapp", entidad.desea_recibir_whatsapp);
+            // validar informacion personal
+            if (entidad.informacion_personal == null)
+            {
+                datos.SetearParametro("@informacion_personal", DBNull.Value);
+            }
+            else
+            {
+                datos.SetearParametro("@informacion_personal", entidad.informacion_personal);
+            }
+        }
         public List<Dominio.Modelos.ContactoModelo> Listar()
         {
             List<Dominio.Modelos.ContactoModelo > contactos = new List<Dominio.Modelos.ContactoModelo>();
@@ -77,7 +108,23 @@ namespace Datos.Repositorios
 
         public void Agregar(Dominio.Modelos.ContactoModelo contacto)
         {
-            throw new NotImplementedException();
+            AccesoDatos datos = new AccesoDatos();
+            try
+            {
+                Entidades.ContactoEntidad entidad = Mappers.ContactoMapper.ModeloAEntidad(contacto);
+                datos.SetearConsulta("INSERT INTO [dbo].[CONTACTOS] (nombre_apellido, tipo, telefono, correo, direccion, fuente, producto_que_provee, desea_recibir_correos, desea_recibir_whatsapp, informacion_personal) VALUES (@nombre_apellido, @tipo, @telefono, @correo, @direccion, @fuente, @producto_que_provee, @desea_recibir_correos, @desea_recibir_whatsapp, @informacion_personal)");
+                ParametrizarEntidad(entidad, datos);
+                datos.EjecutarAccion();
+            }
+            catch (Exception ex)
+            {
+                
+                throw ex;
+            }
+            finally
+            {
+                datos.CerrarConexion();
+            }
         }
 
         public void Modificar(Dominio.Modelos.ContactoModelo contacto)
@@ -88,38 +135,8 @@ namespace Datos.Repositorios
             {
                 Entidades.ContactoEntidad entidad = Mappers.ContactoMapper.ModeloAEntidad(contacto);
                 datos.SetearConsulta("UPDATE [dbo].[CONTACTOS] SET nombre_apellido = @nombre_apellido, tipo = @tipo, telefono = @telefono, correo = @correo, direccion = @direccion, fuente = @fuente, producto_que_provee = @producto_que_provee, desea_recibir_correos = @desea_recibir_correos, desea_recibir_whatsapp = @desea_recibir_whatsapp, informacion_personal = @informacion_personal WHERE id_contacto = @id_contacto");
-                datos.SetearParametro("@id_contacto", entidad.id_contacto);
-                datos.SetearParametro("@nombre_apellido", entidad.nombre_apellido);
-                datos.SetearParametro("@tipo", entidad.tipo);
-                datos.SetearParametro("@telefono", entidad.telefono);
-                datos.SetearParametro("@correo", entidad.correo);
-                datos.SetearParametro("@direccion", entidad.direccion);
-                datos.SetearParametro("@fuente", entidad.fuente);
-                // validar si es nulo el producto que provee
-                if (entidad.producto_que_provee == null)
-                {
-                    datos.SetearParametro("@producto_que_provee", DBNull.Value);
-                }
-                else
-                {
-                    datos.SetearParametro("@producto_que_provee", entidad.producto_que_provee);
-                }
-                datos.SetearParametro("@desea_recibir_correos", entidad.desea_recibir_correos);
-                datos.SetearParametro("@desea_recibir_whatsapp", entidad.desea_recibir_whatsapp);
-                // validar informacion personal
-            if (entidad.informacion_personal == null)
-                {
-                    datos.SetearParametro("@informacion_personal", DBNull.Value);
-                }
-                else
-                {
-                    datos.SetearParametro("@informacion_personal", entidad.informacion_personal);
-                }
-
+                ParametrizarEntidad(entidad, datos);
                 datos.EjecutarAccion();
-
-
-
             }
             catch (Exception ex)
             {
