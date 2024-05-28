@@ -14,10 +14,9 @@ namespace Datos.Entidades
         public DateTime fecha { get; set; }
         public string tipo_evento { get; set; }
         public string tipo_entrega { get; set; }
-        public decimal total { get; set; }
-        public decimal descuento { get; set; }
-        public decimal incremento { get; set; }
         public string descripcion { get; set; }
+        public decimal descuento_porcentaje { get; set; }
+        public decimal incremento_porcentaje { get; set; }
         public OrdenEntidad() { }
     }
 }

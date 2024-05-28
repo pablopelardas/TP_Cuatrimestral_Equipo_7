@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/LayoutNegocio.Master" AutoEventWireup="true" CodeBehind="DetalleContacto.aspx.cs" Inherits="TP_Cuatrimestral_Equipo_7.Backoffice.Contactos.DetalleContacto" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/LayoutNegocio.Master" AutoEventWireup="true" CodeBehind="DetalleOrden.aspx.cs" Inherits="TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes.DetalleOrden" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 
@@ -7,9 +7,7 @@
         <i class="fa-solid fa-arrow-left"></i>
         <h4>Detalles de contacto</h4>
     </a>
-    <%if (contacto != null) {  %>
-    <a href="EditarContacto.aspx?id=<%: contacto.Id %>" class="btn btn-primary">Editar contacto</a>
-    <%} %>
+    <%--<a href="EditarOrden.aspx?id=<%: contacto.Id %>" class="btn btn-primary">Editar contacto</a>--%>
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">

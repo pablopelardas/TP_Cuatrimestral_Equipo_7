@@ -5,9 +5,9 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-namespace TP_Cuatrimestral_Equipo_7.Backoffice.Contactos
+namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
 {
-    public partial class DetalleContacto : System.Web.UI.Page
+    public partial class DetalleOrden : System.Web.UI.Page
     {
         public Dominio.Modelos.ContactoModelo contacto;
         private Negocio.Servicios.ContactoServicio negocio;

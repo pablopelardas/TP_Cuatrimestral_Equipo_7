@@ -123,7 +123,7 @@
     display: flex;
     flex-direction: row;
     width: 100%;
-    height: 50px;
+    min-height: 50px;
     padding: 0;
     margin: 0;
     border-bottom: 1px solid #f5f5f5;
@@ -138,11 +138,20 @@
 .tbl-cell {
     display: flex;
     flex-direction: row;
-    width: 33.33%;
-    height: 100%;
     padding: 0;
     margin: 0;
     align-items: center;
+    padding-inline-start: 10px;
+    width: 100%;
+}
+
+.tbl-cell--start{
+    justify-content: flex-start;
+}
+.tbl-cell--end{
+    justify-content: flex-end;
+}
+.tbl-cell--center{
     justify-content: center;
 }
 

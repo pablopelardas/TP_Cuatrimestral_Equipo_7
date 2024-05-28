@@ -7,11 +7,11 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace TP_Cuatrimestral_Equipo_7.Backoffice.Contactos
+namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
 {
 
 
-    public partial class DetalleContacto
+    public partial class DetalleOrden
     {
 
         /// <summary>

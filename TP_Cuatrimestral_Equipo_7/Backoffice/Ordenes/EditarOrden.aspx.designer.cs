@@ -7,92 +7,101 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace TP_Cuatrimestral_Equipo_7.Backoffice.Contactos
+namespace TP_Cuatrimestral_Equipo_7.Contactos
 {
 
 
-    public partial class DetalleContacto
+    public partial class EditarOrden
     {
 
         /// <summary>
-        /// lblTipo control.
+        /// ddlTipo control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblTipo;
+        protected global::System.Web.UI.WebControls.DropDownList ddlTipo;
 
         /// <summary>
-        /// lblNombreApellido control.
+        /// txtNombreApellido control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblNombreApellido;
+        protected global::System.Web.UI.WebControls.TextBox txtNombreApellido;
 
         /// <summary>
-        /// lblCorreo control.
+        /// txtCorreo control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblCorreo;
+        protected global::System.Web.UI.WebControls.TextBox txtCorreo;
 
         /// <summary>
-        /// lblTelefono control.
+        /// txtTelefono control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblTelefono;
+        protected global::System.Web.UI.WebControls.TextBox txtTelefono;
 
         /// <summary>
-        /// lblFuente control.
+        /// txtFuente control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblFuente;
+        protected global::System.Web.UI.WebControls.TextBox txtFuente;
 
         /// <summary>
-        /// lblDireccion control.
+        /// txtDireccion control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblDireccion;
+        protected global::System.Web.UI.WebControls.TextBox txtDireccion;
 
         /// <summary>
-        /// lblDeseaRecibirCorreos control.
+        /// chkDeseaRecibirCorreos control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblDeseaRecibirCorreos;
+        protected global::System.Web.UI.WebControls.CheckBox chkDeseaRecibirCorreos;
 
         /// <summary>
-        /// lblDeseaRecibirWhatsapps control.
+        /// chkDeseaRecibirWhatsapps control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblDeseaRecibirWhatsapps;
+        protected global::System.Web.UI.WebControls.CheckBox chkDeseaRecibirWhatsapps;
 
         /// <summary>
-        /// litInformacionPersonal control.
+        /// tiny control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal litInformacionPersonal;
+        protected global::System.Web.UI.WebControls.TextBox tiny;
+
+        /// <summary>
+        /// btnGuardar control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnGuardar;
     }
 }

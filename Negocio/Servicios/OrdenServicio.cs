@@ -20,10 +20,10 @@ namespace Negocio.Servicios
             return ordenRepositorio.Listar();
         }
 
-        public Dominio.Modelos.OrdenModelo ObtenerPorId(int id)
-        {
-            return ordenRepositorio.ObtenerPorId(id);
-        }
+        //public Dominio.Modelos.OrdenModelo ObtenerPorId(int id)
+        //{
+        //    return ordenRepositorio.ObtenerPorId(id);
+        //}
 
         public void Agregar(Dominio.Modelos.OrdenModelo contacto)
         {
