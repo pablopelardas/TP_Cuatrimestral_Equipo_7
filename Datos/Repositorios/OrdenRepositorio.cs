@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Datos.Entidades;
+using Dominio.Modelos;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -190,16 +192,29 @@ namespace Datos.Repositorios
             return listaDetalle;
         }
 
-        public static List<Entidades.ProductoEntidad> BuscarProductosPorId(int id)
+        public static ProductoModelo BuscarProductoPorId(int id)
         {
             AccesoDatos datos = new AccesoDatos();
-            List<Entidades.ProductoEntidad> listaProductos = new List<Entidades.ProductoEntidad>();
+            ProductoModelo producto = new ProductoModelo();
             try
             {
                 datos.SetearConsulta(datos.Comando.CommandText = "Select * FROM Productos where id = @id");
                 datos.SetearParametro("@id", id);
                 datos.EjecutarAccion();
-                ListarProductos(listaProductos, datos);
+
+                producto.Codigo = (int)datos.Lector["codigo"];
+                producto.Nombre = (string)datos.Lector["nombre"];
+                producto.Descripcion = (string)datos.Lector["descripcion"];
+                producto.Porciones = (int)datos.Lector["porciones"];
+                producto.Horas = (int)datos.Lector["horas"];
+                producto.Recetas = (string)datos.Lector["recetas"];
+                producto.Suministros = (string)datos.Lector["suministros"];
+                producto.Costo = (decimal)datos.Lector["costo"];
+                producto.CostoPorPorcion = (decimal)datos.Lector["costo_porcion"];
+                producto.PrecioVenta = (decimal)datos.Lector["precio_venta"];
+                producto.TarifaImpuesto = (decimal)datos.Lector["tarifa_impuesto"];
+                producto.GananciaNeta = (decimal)datos.Lector["ganancia_neta"];
+                //producto.Imagenes = ListarImagenes(codigo);
             }
             catch (Exception ex)
             {
@@ -209,31 +224,16 @@ namespace Datos.Repositorios
             {
                 datos.CerrarConexion();
             }
-            return listaProductos;
+            return producto;
         }
-        public static List<Entidades.ProductoEntidad> ListarProductos(List<Entidades.ProductoEntidad> listaProductos, AccesoDatos datos)
+        public static List<ProductoModelo> ListarProductos(List<ProductoModelo> listaProductos, List<DetalleEntidad> listaDetalle)
         {
-            while (datos.Lector.Read())
+            AccesoDatos datos = new AccesoDatos();
+            foreach (DetalleEntidad detalle in listaDetalle)
             {
-                Entidades.ProductoEntidad producto = new Entidades.ProductoEntidad();
-
-                producto.codigo = (int)datos.Lector["codigo"];
-                producto.nombre = (string)datos.Lector["nombre"];
-                producto.descripcion = (string)datos.Lector["descripcion"];
-                producto.porciones = (int)datos.Lector["porciones"];
-                producto.horas = (int)datos.Lector["horas"];
-                producto.recetas = (string)datos.Lector["recetas"];
-                producto.suministros = (string)datos.Lector["suministros"];
-                producto.costo = (decimal)datos.Lector["costo"];
-                producto.costo_porcion = (decimal)datos.Lector["costo_porcion"];
-                producto.precio_venta = (decimal)datos.Lector["precio_venta"];
-                producto.tarifa_impuesto = (decimal)datos.Lector["tarifa_impuesto"];
-                producto.ganancia_neta = (decimal)datos.Lector["ganancia_neta"];
-                //producto.Imagenes = ListarImagenes(codigo);
-
-
-                listaProductos.Add(producto);
+                listaProductos.Add(BuscarProductoPorId(detalle.id_producto));
             }
+
             return listaProductos;
         }
 

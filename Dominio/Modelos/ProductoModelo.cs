@@ -36,5 +36,7 @@ namespace Dominio.Modelos
         public decimal GananciaNeta { get; set; }
 
         public List<string> Imagenes = new List<string>();
+
+        public ProductoModelo() { }
     }
 }

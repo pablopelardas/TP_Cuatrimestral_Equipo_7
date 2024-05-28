@@ -13,7 +13,7 @@ namespace Dominio.Modelos
         public DateTime Fecha { get; set; }
         public string TipoEvento { get; set; }
         public string TipoEntrega { get; set; }
-        //List<Producto> Productos { get; set } = new List<Producto>();
+        public List<ProductoModelo> Productos { get; set; } = new List<ProductoModelo>();
         public decimal Total { get; set; }
         public decimal Descuento { get; set; }
         public decimal Incremento { get; set; }

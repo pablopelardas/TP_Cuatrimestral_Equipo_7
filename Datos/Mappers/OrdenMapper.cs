@@ -8,7 +8,7 @@ namespace Datos.Mappers
 {
     public class OrdenMapper
     {
-        public static Dominio.Modelos.OrdenModelo EntidadAModelo(Entidades.OrdenEntidad ordenEntidad/*, List<Entidades.DetalleEntidad> listaDetalle*/, List<Entidades.ProductoEntidad> listaProductos)
+        public static Dominio.Modelos.OrdenModelo EntidadAModelo(Entidades.OrdenEntidad ordenEntidad,/* List<Entidades.DetalleEntidad> listaDetalle, List<Entidades.ProductoEntidad> listaProductos*/)
         {
             return new Dominio.Modelos.OrdenModelo
             {
@@ -21,7 +21,8 @@ namespace Datos.Mappers
                 Descuento = ordenEntidad.descuento,
                 Incremento = ordenEntidad.incremento,
                 Descripcion = ordenEntidad.descripcion,
-                //Productos = listaProductos
+              //  Productos = listaProductos,
+
             };
         }
 
