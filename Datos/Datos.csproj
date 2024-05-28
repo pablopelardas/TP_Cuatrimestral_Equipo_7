@@ -57,6 +57,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Scripts\creacion__tablas__recetas-ingredientes-suministros-categorias.sql" />
     <Content Include="Scripts\creacion__tabla__ordenes.sql" />
     <Content Include="Scripts\creacion__tabla__contactos.sql" />
   </ItemGroup>
