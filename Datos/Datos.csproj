@@ -62,7 +62,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Scripts\sql_create.sql" />
-    <Content Include="Scripts\sql_feed.sql" />
+    <Content Include="Scripts\sql_drop.sql" />
+    <Content Include="Scripts\sql_seed.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
