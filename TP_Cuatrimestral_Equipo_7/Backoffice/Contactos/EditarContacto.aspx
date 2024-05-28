@@ -2,6 +2,23 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <script src="https://cdn.tiny.cloud/1/valwbezytp23wuvlb68adt6hx9ggw67661q3p79cvj23ai0p/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
 </asp:Content>
+
+<asp:Content ID="Content3" ContentPlaceHolderID="PageHeader" runat="server">
+
+    <%if (id != null) { %>
+        <a href="DetalleContacto.aspx?id=<%: id %>" class="page-header--go-back">
+        <i class="fa-solid fa-arrow-left"></i>
+        <h4>Editor de contacto</h4>
+    </a>
+    <%}
+else { %>
+    <a href="/Backoffice/Contactos" class="page-header--go-back">
+        <i class="fa-solid fa-arrow-left"></i>
+        <h4>Editor de contacto</h4>
+    </a>
+    <%} %>
+</asp:Content>
+
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <%-- DIV Detalles de contacto  --%>
     <div>

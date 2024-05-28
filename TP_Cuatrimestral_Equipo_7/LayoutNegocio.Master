@@ -7,35 +7,14 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Pasteleria</title>
+    <script src="https://kit.fontawesome.com/38158695fa.js" crossorigin="anonymous"></script>
     <link href="Css/bootstrap.min.css" rel="stylesheet" />
+    <link href="Css/styles.css" rel="stylesheet" />
     
     <asp:ContentPlaceHolder ID="head" runat="server">
     </asp:ContentPlaceHolder>
     <style>
-        ul.sidebar {
-            list-style-type: none;
-            margin: 0;
-            padding: 0;
-            background-color: #293C4F;
-            overflow: auto;
-        }
 
-        .sidebar li a {
-            display: block;
-            padding: 8px 16px;
-            color: #CCD2D3;
-            text-decoration: none;
-        }
-
-            .sidebar li a:hover {
-                background-color: #304355;
-                color: white;
-            }
-
-        .sidebar li.active {
-            background-color: #405162;
-            color: white;
-        }
 
     </style>
 </head>
@@ -47,15 +26,19 @@
                     <ul class="col-2 sidebar" id="myList">
                         <li class="active"><a href="/Backoffice/Dashboard.aspx">Dashboard</a></li>
                         <li><a href="#">Ordenes</a></li>
-                        <li><a href="/Backoffice/Contactos/DetalleContacto.aspx?id=1">Contactos</a></li>
+                        <li><a href="/Backoffice/Contactos">Contactos</a></li>
                         <li><a href="#">Pedidos</a></li>
                         <li><a href="#">Ingredientes</a></li>
                         <li><a href="#">Recetas</a></li>
                         <li><a href="#">Productos</a></li>
                     </ul>
                     <div class="col-10 container main-content" style="min-height: 100vh">
-                        <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
-                        </asp:ContentPlaceHolder>
+                        <div class="page-header">
+                            <asp:ContentPlaceHolder ID="PageHeader" runat="server"></asp:ContentPlaceHolder>
+                        </div>
+                        <div class="page-content">
+                            <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server"></asp:ContentPlaceHolder>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -1,6 +1,15 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/LayoutNegocio.Master" AutoEventWireup="true" CodeBehind="DetalleContacto.aspx.cs" Inherits="TP_Cuatrimestral_Equipo_7.Contactos.DetalleContacto" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
+
+<asp:Content ID="Content3" ContentPlaceHolderID="PageHeader" runat="server">
+    <a href="/Backoffice/Contactos" class="page-header--go-back">
+        <i class="fa-solid fa-arrow-left"></i>
+        <h4>Detalles de contacto</h4>
+    </a>
+    <a href="EditarContacto.aspx?id=<%: contacto.Id %>" class="btn btn-primary">Editar contacto</a>
+</asp:Content>
+
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <%-- DIV Detalles de contacto  --%>
     <div>

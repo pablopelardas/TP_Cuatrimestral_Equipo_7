@@ -17,7 +17,7 @@ namespace TP_Cuatrimestral_Equipo_7.Contactos
             {
                 string id = Request.QueryString["id"];
                 negocio = new Negocio.Servicios.ContactoServicio();
-                if (id == null) Response.Redirect("/Dashboard.aspx", false);
+                if (id == null) Response.Redirect("/Backoffice/Contactos", false);
                 try
                 {
                     int idInt = Convert.ToInt32(Request.QueryString["id"]);
@@ -41,7 +41,7 @@ namespace TP_Cuatrimestral_Equipo_7.Contactos
                 }
                 catch (Exception ex)
                 {
-                    Response.Redirect("/Dashboard.aspx", false);
+                    Response.Redirect("/Backoffice/Contactos", false);
                 }
 
             }

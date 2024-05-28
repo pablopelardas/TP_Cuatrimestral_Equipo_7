@@ -13,7 +13,7 @@ namespace TP_Cuatrimestral_Equipo_7.Contactos
     {
         public Dominio.Modelos.ContactoModelo contacto;
         private Negocio.Servicios.ContactoServicio negocio;
-        private string id = null;
+        public string id = null;
         protected void Page_Load(object sender, EventArgs e)
         {
             negocio = new Negocio.Servicios.ContactoServicio();
