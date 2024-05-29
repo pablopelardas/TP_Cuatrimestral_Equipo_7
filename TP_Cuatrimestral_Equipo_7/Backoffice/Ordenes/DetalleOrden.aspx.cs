@@ -24,10 +24,7 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
                     if (idInt > 0)
                     {
                         orden = servicioOrden.ObtenerPorId(idInt);
-                        if (orden != null)
-                        {
-
-                        }
+                        if (orden == null) throw new Exception();
                     }
                 }
                 catch (Exception ex)

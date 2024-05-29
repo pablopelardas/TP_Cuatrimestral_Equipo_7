@@ -7,7 +7,9 @@
         <i class="fa-solid fa-arrow-left"></i>
         <h4>Detalles de la orden</h4>
     </a>
-    <a href="EditarOrden.aspx?id=<%: orden.IdOrden %>" class="btn btn-primary">Editar contacto</a>
+    <%if (orden != null) {  %>
+    <a href="EditarOrden.aspx?id=<%: orden.IdOrden %>" class="btn btn-primary">Editar orden</a>
+    <%} %>
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
@@ -67,33 +69,39 @@
         <div>
             <h3>Orden</h3>
             <div class="detalle-productos">
-                <% foreach (var producto in orden.Productos) { %>
+                <% foreach (var detalleProducto in orden.DetalleProductos) { %>
                     <div>
                         <div>
-                            <span>Producto: </span>
-                            <span><%: producto.Nombre %></span>
+                            <span><%: detalleProducto.Producto.Categoria.Nombre %></span>
+                            <span><%: detalleProducto.Producto.Nombre %></span>
+                            <span><%: detalleProducto.Producto.Porciones %></span>
                         </div>
                         <div>
-                            <span>Cantidad: </span>
-                            <span><%: producto. %></span>
-                        </div>
-                        <div>
-                            <span>Precio: </span>
-                            <span><%: producto.Precio %></span>
+                            <span>Cantidad <%: detalleProducto.Cantidad %></span>
+                            <span>Precio <%: detalleProducto.Producto.ValorPrecio %></span>
+                            <span>Subtotal: <%:detalleProducto.Subtotal %></span>
                         </div>
                     </div>
-                <%} %>
+                <%}; %>
+            </div>
+            <div>
+                <div>
+                    <span>Subtotal: </span>
+                    <span><%: orden.Subtotal %></span>
+                </div>
+                <div>
+                    <span>Descuento: </span>
+                    <span><%: orden.DescuentoPorcentaje %></span>
+                </div>
+                <div>
+                    <span>Incremento: </span>
+                    <span><%: orden.IncrementoPorcentaje %></span>
+                </div>
+                <div>
+                    <span>Total: </span>
+                    <span><%: orden.Total %></span>
+                </div>
             </div>
         </div>
-        <%-- DIV Ordenes  --%>
-        <div>
-            <div>
-                <h3>Historial de Ordenes</h3>
-                <button>Nueva orden</button>
-            </div>
-            <div>
-                No hay ordenes agregadas
-            </div>
-            </div>
     <%} %>
 </asp:Content>
