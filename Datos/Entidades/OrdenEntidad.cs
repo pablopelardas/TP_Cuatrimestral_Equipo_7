@@ -16,7 +16,7 @@ namespace Datos.Entidades
         public string tipo_entrega { get; set; }
         public string descripcion { get; set; }
         public decimal descuento_porcentaje { get; set; }
-        public decimal incremento_porcentaje { get; set; }
+        public decimal costo_envio { get; set; }
         public OrdenEntidad() { }
     }
 }

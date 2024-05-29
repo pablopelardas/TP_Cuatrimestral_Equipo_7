@@ -132,10 +132,10 @@ VALUES
 GO
 
 -- Inserción en ORDENES
-INSERT INTO "ORDENES" (id_cliente, fecha, tipo_evento, tipo_entrega, descripcion, descuento_porcentaje, incremento_porcentaje)
+INSERT INTO "ORDENES" (id_cliente, fecha, tipo_evento, tipo_entrega, descripcion, descuento_porcentaje, costo_envio)
 VALUES
 (1, '2023-05-01', 'Cumpleaños', 'Entrega a domicilio', 'Torta de cumpleaños personalizada', 10.00, NULL),
-(2, '2023-06-15', 'Boda', 'Recogida en tienda', 'Tarta de boda', NULL, 5.00);
+(2, '2023-06-15', 'Boda', 'Recogida en tienda', 'Tarta de boda', NULL, 250.00);
 GO
 
 

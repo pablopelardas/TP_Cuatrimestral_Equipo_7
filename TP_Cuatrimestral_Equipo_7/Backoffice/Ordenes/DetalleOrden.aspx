@@ -94,8 +94,8 @@
                     <span><%: orden.DescuentoPorcentaje %></span>
                 </div>
                 <div>
-                    <span>Incremento: </span>
-                    <span><%: orden.IncrementoPorcentaje %></span>
+                    <span>Costo envío / Extra: </span>
+                    <span><%: orden.CostoEnvio %></span>
                 </div>
                 <div>
                     <span>Total: </span>

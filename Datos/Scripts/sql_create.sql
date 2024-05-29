@@ -123,7 +123,7 @@ CREATE TABLE "ORDENES"(
     "tipo_entrega" VARCHAR(50) NOT NULL,
     "descripcion" VARCHAR(200),
     "descuento_porcentaje" DECIMAL,
-    "incremento_porcentaje" DECIMAL,
+    "costo_envio" DECIMAL,
 
     FOREIGN KEY ("id_cliente") REFERENCES "CONTACTOS"("id_contacto")
 )

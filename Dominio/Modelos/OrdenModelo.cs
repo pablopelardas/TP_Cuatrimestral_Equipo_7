@@ -14,14 +14,14 @@ namespace Dominio.Modelos
         public string TipoEntrega { get; set; }
         public decimal DescuentoPorcentaje { get; set; }
         public decimal Subtotal { get; set; }
-        public decimal IncrementoPorcentaje { get; set; }
+        public decimal CostoEnvio { get; set; }
         public string Descripcion { get; set; }
 
         public decimal Total
         {
             get
             {
-                return Subtotal - (Subtotal * DescuentoPorcentaje / 100) + (Subtotal * IncrementoPorcentaje / 100);
+                return Subtotal - (Subtotal * DescuentoPorcentaje / 100) + CostoEnvio;
             }
         }
 
