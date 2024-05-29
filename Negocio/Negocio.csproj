@@ -41,10 +41,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Servicios\IngredienteServicio.cs" />
     <Compile Include="Servicios\OrdenServicio.cs" />
     <Compile Include="Servicios\ContactoServicio.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Servicios\ProductoServicio.cs" />
+    <Compile Include="Servicios\UnidadMedidaServicio.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Datos\Datos.csproj">
