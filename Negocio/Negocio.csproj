@@ -44,6 +44,7 @@
     <Compile Include="Servicios\OrdenServicio.cs" />
     <Compile Include="Servicios\ContactoServicio.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Servicios\ProductoServicio.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Datos\Datos.csproj">
