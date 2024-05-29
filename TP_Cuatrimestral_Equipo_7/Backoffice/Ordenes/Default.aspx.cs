@@ -9,55 +9,89 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
 {
     public partial class Default : System.Web.UI.Page
     {
-        public List<Dominio.Modelos.ContactoModelo> contactos;
         public List<Dominio.Modelos.OrdenModelo> ordenes;
-        public int idContacto;
+        private int anioActual = DateTime.Now.Year;
+
         protected void Page_Load(object sender, EventArgs e)
         {
-            if ( !IsPostBack)
+
+            if (!IsPostBack)
             {
-                Negocio.Servicios.OrdenServicio servicio = new Negocio.Servicios.OrdenServicio();
-                ordenes = servicio.Listar();
+                for (int i = anioActual - 5; i <= anioActual + 5; i++)
+                {
+                    ddlAnio.Items.Add(new ListItem(i.ToString(), i.ToString()));
+                }
+                ddlAnio.SelectedValue = anioActual.ToString();
+                ListarOrdenes();
+
             }
         }
 
+        private void ListarOrdenes()
+        {
+            Negocio.Servicios.OrdenServicio servicio = new Negocio.Servicios.OrdenServicio();
+            ordenes = servicio.Listar();
+            //// enum
+            //if (ddlFiltro.SelectedValue != "0")
+            //{
+            //    switch (ddlFiltro.SelectedValue)
+            //    {
+            //        case "1":
+            //            // sin pagos
+            //            //ordenes = ordenes.Where(o => o.Pagos.Count == 0).ToList();
+            //            break;
+            //        case "2":
+            //            // pagos de reserva
+            //            //ordenes = ordenes.where(o => o.pagos.count > 0).tolist();
+            //            break;
+            //        case "3":
+            //            // parcialmente pagado
+            //            //ordenes = ordenes.where(o => o.pagos.sum(p => p.monto) < o.total).tolist();
+            //            break;
+            //        case "4":
+            //            // pagado
+            //            //ordenes = ordenes.where(o => o.pagos.sum(p => p.monto) == o.total).tolist();
+            //            break;
+            //        case "5":
+            //            // cancelado
+            //            //ordenes = ordenes.where(o => o.pagos.sum(p => p.monto) < o.total).tolist();
+            //            break;
+            //        case "6":
+            //            // completado (pagado y entregado)
+            //            //ordenes = ordenes.where(o => o.pagos.sum(p => p.monto) == o.total && o.fechaentrega != null).tolist();
+            //        default:
+            //            break;
+            //    }
+            //}
+
+            //// anio
+            //if (ddlAnio.SelectedValue != "0")
+            //{
+            //    int anio = int.Parse(ddlAnio.SelectedValue);
+            //    ordenes = ordenes.Where(o => o.Fecha.Year == anio).ToList();
+            //}
+
+            //// mes
+            //if (ddlMes.SelectedValue != "0")
+            //{
+            //    int mes = int.Parse(ddlMes.SelectedValue);
+            //    ordenes = ordenes.Where(o => o.Fecha.Month == mes).ToList();
+            //}
+        }
         protected void ddlFiltro_SelectedIndexChanged (object sender, EventArgs e)
         {
-            Negocio.Servicios.ContactoServicio servicio = new Negocio.Servicios.ContactoServicio();
-            contactos = servicio.Listar();
-            if (ddlFiltro.SelectedValue == "1")
-            {
-                contactos = contactos.Where(c => c.Rol == "Proveedor").ToList();
-            }
-            else if (ddlFiltro.SelectedValue == "2")
-            {
-                contactos = contactos.Where(c => c.Rol == "Cliente").ToList();
-            }
 
-            if (txtBuscar.Text != "")
-            {
-                contactos = contactos.Where(c => c.NombreApellido.Contains(txtBuscar.Text) || c.Email.Contains(txtBuscar.Text)).ToList();
-            }
-            
+            ListarOrdenes();
+        }
+    
+        protected void ddlAnio_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ListarOrdenes();
         }
 
-        protected void txtBuscar_TextChanged(object sender, EventArgs e)
+        protected void ddlMes_SelectedIndexChanged(object sender, EventArgs e)
         {
-            Negocio.Servicios.ContactoServicio servicio = new Negocio.Servicios.ContactoServicio();
-            contactos = servicio.Listar();
-            if (txtBuscar.Text != "")
-            {
-                contactos = contactos.Where(c => c.NombreApellido.Contains(txtBuscar.Text) || c.Email.Contains(txtBuscar.Text)).ToList();
-            }
-
-            if (ddlFiltro.SelectedValue == "Proveedor")
-            {
-                contactos = contactos.Where(c => c.Rol == "Proveedor").ToList();
-            }
-            else if (ddlFiltro.SelectedValue == "Cliente")
-            {
-                contactos = contactos.Where(c => c.Rol == "Cliente").ToList();
-            }
+            ListarOrdenes();
         }
     }
 }
