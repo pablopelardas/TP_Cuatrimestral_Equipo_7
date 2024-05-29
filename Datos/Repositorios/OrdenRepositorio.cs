@@ -21,7 +21,7 @@ namespace Datos.Repositorios
             entidad.tipo_entrega = (string)reader["tipo_entrega"];
             entidad.descripcion = (string)reader["descripcion"];
             entidad.descuento_porcentaje = reader["descuento_porcentaje"] == DBNull.Value ? 0 : (decimal)reader["descuento_porcentaje"];
-            entidad.costo_envio = reader["incremento_porcentaje"] == DBNull.Value ? 0 : (decimal)reader["costo_envio"];
+            entidad.costo_envio = reader["costo_envio"] == DBNull.Value ? 0 : (decimal)reader["costo_envio"];
             return entidad;
         }
 
@@ -34,7 +34,7 @@ namespace Datos.Repositorios
             datos.SetearParametro("@tipo_entrega", entidad.tipo_entrega);
             datos.SetearParametro("@descripcion", entidad.descripcion);
             datos.SetearParametro("@descuento_porcentaje", entidad.descuento_porcentaje);
-            datos.SetearParametro("@incremento_porcentaje", entidad.incremento_porcentaje);
+            datos.SetearParametro("@costo_envio", entidad.costo_envio);
         }
         public List<Dominio.Modelos.OrdenModelo> Listar()
         {
