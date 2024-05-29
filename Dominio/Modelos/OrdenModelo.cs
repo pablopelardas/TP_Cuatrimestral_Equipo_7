@@ -26,6 +26,7 @@ namespace Dominio.Modelos
         }
 
         public ContactoModelo Cliente { get; set; }
-        public List<ProductoModelo> Productos { get; set; } = new List<ProductoModelo>();
+
+        public List<ProductoDetalleOrdenModelo> DetalleProductos { get; set; } = new List<ProductoDetalleOrdenModelo>();
     }
 }
