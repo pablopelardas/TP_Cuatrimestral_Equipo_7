@@ -20,7 +20,7 @@ namespace Datos.Entidades
 
         public decimal valor_precio { get; set; }
 
-        public int id_categoria { get; set; }
+        public Entidades.CategoriaEntidad categoria { get; set; }
 
         public ProductoEntidad()
         {

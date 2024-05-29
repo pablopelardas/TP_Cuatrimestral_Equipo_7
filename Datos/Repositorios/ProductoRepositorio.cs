@@ -9,17 +9,17 @@ namespace Datos.Repositorios
 {
     public class ProductoRepositorio
     {
-        private Entidades.ProductoEntidad getEntidadFromReader(System.Data.SqlClient.SqlDataReader reader)
+        public static Entidades.ProductoEntidad getEntidadFromReader(System.Data.SqlClient.SqlDataReader reader, string prefix = "")
         {
             Entidades.ProductoEntidad entidad = new Entidades.ProductoEntidad();
-            entidad.id_producto = (int)reader["id_producto"];
-            entidad.nombre = (string)reader["nombre"];
-            entidad.descripcion = (string)reader["Description"];
-            entidad.porciones = (int)reader["porciones"];
-            entidad.horas_trabajo = (int)reader["horas_trabajo"];
-            entidad.tipo_precio = (string)reader["tipo_precio"];
-            entidad.valor_precio = (int)reader["valor_precio"];
-            entidad.id_categoria = (int)reader["id_categoria"];
+            entidad.id_producto = (int)reader[$"{prefix}id_producto"];
+            entidad.nombre = (string)reader[$"{prefix}nombre"];
+            entidad.descripcion = (string)reader[$"{prefix}descripcion"];
+            entidad.porciones = (int)reader[$"{prefix}porciones"];
+            entidad.horas_trabajo = (decimal)reader[$"{prefix}horas_trabajo"];
+            entidad.tipo_precio = (string)reader[$"{prefix}tipo_precio"];
+            entidad.valor_precio = (decimal)reader[$"{prefix}valor_precio"];
+            entidad.categoria = CategoriasRepositorio.getEntidadFromReader(reader, prefix + "categoria.");
             return entidad;
         }
 
@@ -32,7 +32,7 @@ namespace Datos.Repositorios
             datos.SetearParametro("@horas_trabajo", entidad.horas_trabajo);
             datos.SetearParametro("@tipo_precio", entidad.tipo_precio);
             datos.SetearParametro("@valor_precio", entidad.valor_precio);
-            datos.SetearParametro("@id_categoria", entidad.id_categoria);
+            datos.SetearParametro("@id_categoria", entidad.categoria.id_categoria);
         }
 
         public List<Dominio.Modelos.ProductoModelo> Listar()

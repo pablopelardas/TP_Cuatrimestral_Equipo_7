@@ -9,20 +9,23 @@ namespace Datos.Repositorios
     public class ContactoRepositorio
     {
 
-        private Entidades.ContactoEntidad getEntidadFromReader(System.Data.SqlClient.SqlDataReader reader)
+        public static Entidades.ContactoEntidad getEntidadFromReader(System.Data.SqlClient.SqlDataReader reader, string prefix = "")
         {
             Entidades.ContactoEntidad entidad = new Entidades.ContactoEntidad();
-            entidad.id_contacto = (int)reader["id_contacto"];
-            entidad.nombre_apellido = (string)reader["nombre_apellido"];
-            entidad.tipo = (string)reader["tipo"];
-            entidad.telefono = (string)reader["telefono"];
-            entidad.correo = (string)reader["correo"];
-            entidad.direccion = (string)reader["direccion"];
-            entidad.fuente = (string)reader["fuente"];
-            entidad.producto_que_provee = reader["producto_que_provee"] == DBNull.Value ? null : (string)reader["producto_que_provee"];
-            entidad.desea_recibir_correos = (bool)reader["desea_recibir_correos"];
-            entidad.desea_recibir_whatsapp = (bool)reader["desea_recibir_whatsapp"];
-            entidad.informacion_personal = reader["informacion_personal"] == DBNull.Value ? null : (string)reader["informacion_personal"];
+            // OBLIGATORIOS
+            entidad.id_contacto = (int)reader[$"{prefix}id_contacto"];
+            entidad.nombre_apellido = (string)reader[$"{prefix}nombre_apellido"];
+            entidad.tipo = (string)reader[$"{prefix}tipo"];
+            entidad.telefono = (string)reader[$"{prefix}telefono"];
+            entidad.correo = (string)reader[$"{prefix}correo"];
+            entidad.direccion = (string)reader[$"{prefix}direccion"];
+            entidad.fuente = (string)reader[$"{prefix}fuente"];
+            entidad.desea_recibir_correos = (bool)reader[$"{prefix}desea_recibir_correos"];
+            entidad.desea_recibir_whatsapp = (bool)reader[$"{prefix}desea_recibir_whatsapp"];
+
+            // OPCIONALES
+            entidad.producto_que_provee = reader[$"{prefix}producto_que_provee"] == DBNull.Value ? null : (string)reader[$"{prefix}producto_que_provee"];
+            entidad.informacion_personal = reader[$"{prefix}informacion_personal"] == DBNull.Value ? null : (string)reader[$"{prefix}informacion_personal"];
             return entidad;
         }
 

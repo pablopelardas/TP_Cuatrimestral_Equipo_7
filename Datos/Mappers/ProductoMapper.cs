@@ -19,6 +19,7 @@ namespace Datos.Mappers
                 HorasTrabajo = productoEntidad.horas_trabajo,
                 TipoPrecio = productoEntidad.tipo_precio,
                 ValorPrecio = productoEntidad.valor_precio,
+                Categoria = CategoriaMapper.EntidadAModelo(productoEntidad.categoria),
             };
         }
 
@@ -26,7 +27,7 @@ namespace Datos.Mappers
         {
             return new Entidades.ProductoEntidad
             {
-                id_categoria = productoModelo.Categoria.Id,
+                categoria = CategoriaMapper.ModeloAEntidad(productoModelo.Categoria),
                 descripcion = productoModelo.Descripcion,
                 horas_trabajo = productoModelo.HorasTrabajo,
                 id_producto = productoModelo.IdProducto,

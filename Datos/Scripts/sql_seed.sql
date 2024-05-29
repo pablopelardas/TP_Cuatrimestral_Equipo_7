@@ -131,11 +131,26 @@ VALUES
 (2, NULL, 2, 1);
 GO
 
--- Inserción en ORDENES
-INSERT INTO "ORDENES" (id_cliente, fecha, tipo_evento, tipo_entrega, descripcion, descuento_porcentaje, costo_envio)
+-- Inserción en ORDENES_ESTADO
+
+INSERT INTO "ORDENES_ESTADOS" (nombre)
 VALUES
-(1, '2023-05-01', 'Cumpleaños', 'Entrega a domicilio', 'Torta de cumpleaños personalizada', 10.00, NULL),
-(2, '2023-06-15', 'Boda', 'Recogida en tienda', 'Tarta de boda', NULL, 250.00);
+('PENDIENTE'),
+('ENTREGADO')
+
+
+INSERT INTO "ORDENES_PAGO_ESTADOS" (nombre)
+VALUES
+('SIN PAGOS'),
+('PARCIALMENTE PAGADO'),
+('TOTALMENTE PAGADO')
+
+
+-- Inserción en ORDENES
+INSERT INTO "ORDENES" (id_cliente, fecha, tipo_evento, tipo_entrega, descripcion, descuento_porcentaje, costo_envio, direccion_entrega, hora_entrega)
+VALUES
+(1, '2024-05-01', 'Cumpleaños', 'Entrega a domicilio', 'Torta de cumpleaños personalizada', 10.00, 250.00, 'Av Sinnombre 123, Sinnombre, Argentia','15:55' ),
+(2, '2024-06-15', 'Boda', 'Recogida en tienda', 'Tarta de boda', NULL, NULL, NULL, '16:00');
 GO
 
 
