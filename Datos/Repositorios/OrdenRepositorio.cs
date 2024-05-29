@@ -21,7 +21,7 @@ namespace Datos.Repositorios
             entidad.tipo_entrega = (string)reader["tipo_entrega"];
             entidad.descripcion = (string)reader["descripcion"];
             entidad.descuento_porcentaje = reader["descuento_porcentaje"] == DBNull.Value ? 0 : (decimal)reader["descuento_porcentaje"];
-            entidad.incremento_porcentaje = reader["incremento_porcentaje"] == DBNull.Value ? 0 : (decimal)reader["incremento_porcentaje"];
+            entidad.costo_envio = reader["incremento_porcentaje"] == DBNull.Value ? 0 : (decimal)reader["costo_envio"];
             return entidad;
         }
 
@@ -93,7 +93,12 @@ SELECT * FROM [dbo].[Ordenes]
             decimal total = 0;
             try
             {
-                datos.SetearConsulta("SELECT SUM(producto_precio * cantidad) as Total FROM DETALLE_ORDENES WHERE id_orden = @id");
+                string cmd = @"
+SELECT SUM(producto_precio * cantidad) as Total
+FROM DETALLE_ORDENES
+WHERE id_orden = @id
+                ";
+                datos.SetearConsulta(cmd);
                 datos.SetearParametro("@id", id);
                 datos.EjecutarLectura();
                 datos.Lector.Read();
@@ -109,45 +114,6 @@ SELECT * FROM [dbo].[Ordenes]
                 datos.CerrarConexion();
             }
         }
-        public static List<ProductoModelo> ListarProductosPorOrden(int orden_id)
-        {
-            AccesoDatos datos = new AccesoDatos();
-            List<ProductoModelo> listaProductos = new List<ProductoModelo>();
-            try
-            {
-                datos.SetearConsulta("SELECT P.id_producto, p.nombre, p.descripcion, p.porciones, p.horas_trabajo, p.tipo_precio, p.valor_precio, p.id_categoria FROM PRODUCTOS AS P INNER JOIN DETALLE_ORDENES ON P.id_producto = DETALLE_ORDENES.id_producto WHERE DETALLE_ORDENES.id_orden = @orden_id");
-                datos.SetearParametro("@orden_id", orden_id);
-                datos.EjecutarLectura();
-                while (datos.Lector.Read())
-                {
-                    ProductoEntidad entidad = new ProductoEntidad();
-                    entidad.id_producto = (int)datos.Lector["id_producto"];
-                    entidad.nombre = (string)datos.Lector["nombre"];
-                    entidad.descripcion = (string)datos.Lector["descripcion"];
-                    entidad.porciones = (int)datos.Lector["porciones"];
-                    entidad.horas_trabajo = (decimal)datos.Lector["horas_trabajo"];
-                    entidad.tipo_precio = (string)datos.Lector["tipo_precio"];
-                    entidad.valor_precio = (decimal)datos.Lector["valor_precio"];
-                    entidad.id_categoria = (int)datos.Lector["id_categoria"];
-
-                    ProductoModelo producto = Mappers.ProductoMapper.EntidadAModelo(entidad);
-
-                    producto.Categoria = new CategoriaModelo { Id = entidad.id_categoria, Nombre = "test", Tipo = "Receta" };
-
-                    listaProductos.Add(producto);
-                }
-                return listaProductos;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-            finally
-            {
-                datos.CerrarConexion();
-            }
-        }
-
 
         public void Agregar(OrdenModelo orden)
         {
