@@ -1,4 +1,6 @@
-﻿using System;
+﻿using AccesoDatos.Repositorios;
+using Dominio.Modelos;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,6 +12,10 @@ namespace Datos.Mappers
     {
         public static Dominio.Modelos.OrdenModelo EntidadAModelo(Entidades.OrdenEntidad ordenEntidad)
         {
+            Repositorios.ContactoRepositorio contactoRepositorio = new Repositorios.ContactoRepositorio();
+            Repositorios.OrdenRepositorio ordenRepositorio = new Repositorios.OrdenRepositorio();
+            //Repositorios.ProductoRepositorio productoRepositorio = new Repositorios.ProductoRepositorio();
+
             return new Dominio.Modelos.OrdenModelo
             {
                 IdOrden = ordenEntidad.id_orden,
@@ -19,6 +25,9 @@ namespace Datos.Mappers
                 DescuentoPorcentaje = ordenEntidad.descuento_porcentaje,
                 IncrementoPorcentaje = ordenEntidad.incremento_porcentaje,
                 Descripcion = ordenEntidad.descripcion,
+                Cliente = contactoRepositorio.ObtenerPorId(ordenEntidad.id_cliente),
+                Subtotal = ordenRepositorio.CalcularTotal(ordenEntidad.id_orden),
+                //Productos = productoRepositorio.ListarPorOrden(ordenEntidad.id_orden)
 
             };
         }

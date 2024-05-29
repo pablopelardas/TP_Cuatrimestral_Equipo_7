@@ -32,17 +32,7 @@ namespace Datos.Repositorios
                     entidad.descuento_porcentaje = datos.Lector["descuento_porcentaje"] == DBNull.Value ? 0 : (decimal)datos.Lector["descuento_porcentaje"];
                     entidad.incremento_porcentaje = datos.Lector["incremento_porcentaje"] == DBNull.Value ? 0 : (decimal)datos.Lector["incremento_porcentaje"];
 
-                    OrdenModelo ordenModelo = Mappers.OrdenMapper.EntidadAModelo(entidad);
-
-                    ordenModelo.Subtotal = CalcularTotal(entidad.id_orden);
-
-                    ordenModelo.Productos = ListarProductosPorOrden(entidad.id_orden);
-
-                    Repositorios.ContactoRepositorio contactoRepositorio = new Repositorios.ContactoRepositorio();
-                    ordenModelo.Cliente = contactoRepositorio.ObtenerPorId(entidad.id_cliente);
-
-                    ordenes.Add(ordenModelo);
-
+                    ordenes.Add(Mappers.OrdenMapper.EntidadAModelo(entidad));
                 }
                 return ordenes;
             }
@@ -55,7 +45,7 @@ namespace Datos.Repositorios
                 datos.CerrarConexion();
             }
         }
-        private decimal CalcularTotal(int id)
+        public decimal CalcularTotal(int id)
         {
             AccesoDatos datos = new AccesoDatos();
             decimal total = 0;

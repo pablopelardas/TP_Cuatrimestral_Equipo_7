@@ -143,7 +143,3 @@ CREATE TABLE "DETALLE_ORDENES"(
     CONSTRAINT "CK_Detalle_Ordenes_2" CHECK ("producto_porciones" > 0),
 )
 
-
-
---- inserts
-
