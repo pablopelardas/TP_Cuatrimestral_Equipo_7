@@ -14,7 +14,7 @@ namespace Datos.Mappers
         {
             Repositorios.ContactoRepositorio contactoRepositorio = new Repositorios.ContactoRepositorio();
             Repositorios.OrdenRepositorio ordenRepositorio = new Repositorios.OrdenRepositorio();
-            //Repositorios.ProductoRepositorio productoRepositorio = new Repositorios.ProductoRepositorio();
+            Repositorios.ProductoDetalleOrdenRepositorio productoDetalleOrdenRepositorio = new Repositorios.ProductoDetalleOrdenRepositorio();
 
             return new Dominio.Modelos.OrdenModelo
             {
@@ -25,10 +25,10 @@ namespace Datos.Mappers
                 DescuentoPorcentaje = ordenEntidad.descuento_porcentaje,
                 IncrementoPorcentaje = ordenEntidad.incremento_porcentaje,
                 Descripcion = ordenEntidad.descripcion,
+
                 Cliente = contactoRepositorio.ObtenerPorId(ordenEntidad.id_cliente),
                 Subtotal = ordenRepositorio.CalcularTotal(ordenEntidad.id_orden),
-                //Productos = productoRepositorio.ListarPorOrden(ordenEntidad.id_orden)
-
+                DetalleProductos = productoDetalleOrdenRepositorio.ObtenerDetallePorOrden(ordenEntidad.id_orden),
             };
         }
 

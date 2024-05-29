@@ -12,30 +12,53 @@
             justify-content: center;
             margin-left: 10px;
         }
+        .tbl-header .tbl-filter.tbl-header--right {
+            justify-content: flex-start;
+        }
     </style>
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="PageHeader" runat="server">
-    <h4>Contactos</h4>
-    <a href="EditarContacto.aspx" class="btn btn-primary">Nuevo contacto</a>
+    <h4>Ordenes</h4>
+    <a href="EditarOrden.aspx" class="btn btn-primary">Nueva orden</a>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <div class="container">
         <div class="tbl-header">
-            <div class="tbl-search">
-                <asp:TextBox ID="txtBuscar" runat="server" CssClass="form-control" placeholder="Buscar..." AutoPostBack="True" OnTextChanged="txtBuscar_TextChanged"></asp:TextBox>
+            <div class="tbl-filter tbl-header--right">
+            <span>Período</span>
+            <asp:DropDownList ID="ddlMes" runat="server" CssClass="form-control" AutoPostBack="True" OnSelectedIndexChanged="ddlMes_SelectedIndexChanged">
+                <asp:ListItem Value="1">Enero</asp:ListItem>
+                <asp:ListItem Value="2">Febrero</asp:ListItem>
+                <asp:ListItem Value="3">Marzo</asp:ListItem>
+                <asp:ListItem Value="4">Abril</asp:ListItem>
+                <asp:ListItem Value="5">Mayo</asp:ListItem>
+                <asp:ListItem Value="6">Junio</asp:ListItem>
+                <asp:ListItem Value="7">Julio</asp:ListItem>
+                <asp:ListItem Value="8">Agosto</asp:ListItem>
+                <asp:ListItem Value="9">Septiembre</asp:ListItem>
+                <asp:ListItem Value="10">Octubre</asp:ListItem>
+                <asp:ListItem Value="11">Noviembre</asp:ListItem>
+                <asp:ListItem Value="12">Diciembre</asp:ListItem>
+            </asp:DropDownList>
+            <asp:DropDownList ID="ddlAnio" runat="server" CssClass="form-control" AutoPostBack="True" OnSelectedIndexChanged="ddlAnio_SelectedIndexChanged">
+            </asp:DropDownList>
             </div>
             <div class="tbl-filter">
             <i class="fa-solid fa-filter"></i>
             <asp:DropDownList ID="ddlFiltro" runat="server" CssClass="form-control" AutoPostBack="True" OnSelectedIndexChanged="ddlFiltro_SelectedIndexChanged">
-                <asp:ListItem Value="0">Todos</asp:ListItem>
-                <asp:ListItem Value="1">Proveedores</asp:ListItem>
-                <asp:ListItem Value="2">Clientes</asp:ListItem>
+                <asp:ListItem Value="0">Todas</asp:ListItem>
+                <asp:ListItem Value="1">Sin pagos</asp:ListItem>
+                <asp:ListItem Value="2">Reservadas</asp:ListItem>
+                <asp:ListItem Value="3">Parcialmente Pagadas</asp:ListItem>
+                <asp:ListItem Value="4">Completamente Pagadas</asp:ListItem>
+                <asp:ListItem Value="5">Completadas</asp:ListItem>
+                <asp:ListItem Value="6">Canceladas</asp:ListItem>
             </asp:DropDownList>
             </div>
         </div>
         <div class="tbl-body">
             <% foreach (Dominio.Modelos.OrdenModelo orden in ordenes) { %>
-                <a class="tbl-row tbl-order-row" href="DetalleContacto.aspx?id=<%: orden.IdOrden %>">
+                <a class="tbl-row tbl-order-row" href="DetalleOrden.aspx?id=<%: orden.IdOrden %>">
                     <div class="tbl-cell">
                         <span>
                             <i class="fa-solid fa-tags"></i>

@@ -10,6 +10,32 @@ namespace Datos.Repositorios
 {
     public class OrdenRepositorio
     {
+
+        private OrdenEntidad getEntidadFromReader(System.Data.SqlClient.SqlDataReader reader)
+        {
+            OrdenEntidad entidad = new OrdenEntidad();
+            entidad.id_orden = (int)reader["id_orden"];
+            entidad.id_cliente = (int)reader["id_cliente"];
+            entidad.fecha = (DateTime)reader["fecha"];
+            entidad.tipo_evento = (string)reader["tipo_evento"];
+            entidad.tipo_entrega = (string)reader["tipo_entrega"];
+            entidad.descripcion = (string)reader["descripcion"];
+            entidad.descuento_porcentaje = reader["descuento_porcentaje"] == DBNull.Value ? 0 : (decimal)reader["descuento_porcentaje"];
+            entidad.incremento_porcentaje = reader["incremento_porcentaje"] == DBNull.Value ? 0 : (decimal)reader["incremento_porcentaje"];
+            return entidad;
+        }
+
+        private void ParametrizarEntidad(OrdenEntidad entidad, AccesoDatos datos)
+        {
+            datos.SetearParametro("@id_orden", entidad.id_orden);
+            datos.SetearParametro("@id_cliente", entidad.id_cliente);
+            datos.SetearParametro("@fecha", entidad.fecha);
+            datos.SetearParametro("@tipo_evento", entidad.tipo_evento);
+            datos.SetearParametro("@tipo_entrega", entidad.tipo_entrega);
+            datos.SetearParametro("@descripcion", entidad.descripcion);
+            datos.SetearParametro("@descuento_porcentaje", entidad.descuento_porcentaje);
+            datos.SetearParametro("@incremento_porcentaje", entidad.incremento_porcentaje);
+        }
         public List<Dominio.Modelos.OrdenModelo> Listar()
         {
             List<Dominio.Modelos.OrdenModelo> ordenes = new List<Dominio.Modelos.OrdenModelo>();
@@ -17,24 +43,40 @@ namespace Datos.Repositorios
 
             try
             {
-                datos.SetearConsulta("SELECT * FROM [dbo].[Ordenes]");
+                string cmd = @"
+SELECT * FROM [dbo].[Ordenes]
+                ";
+                datos.SetearConsulta(cmd);
                 datos.EjecutarLectura();
 
                 while (datos.Lector.Read())
                 {
-                    Entidades.OrdenEntidad entidad = new Entidades.OrdenEntidad();
-                    entidad.id_orden = (int)datos.Lector["id_orden"];
-                    entidad.id_cliente = (int)datos.Lector["id_cliente"];
-                    entidad.fecha = (DateTime)datos.Lector["fecha"];
-                    entidad.tipo_evento = (string)datos.Lector["tipo_evento"];
-                    entidad.tipo_entrega = (string)datos.Lector["tipo_entrega"];
-                    entidad.descripcion = (string)datos.Lector["descripcion"];
-                    entidad.descuento_porcentaje = datos.Lector["descuento_porcentaje"] == DBNull.Value ? 0 : (decimal)datos.Lector["descuento_porcentaje"];
-                    entidad.incremento_porcentaje = datos.Lector["incremento_porcentaje"] == DBNull.Value ? 0 : (decimal)datos.Lector["incremento_porcentaje"];
-
-                    ordenes.Add(Mappers.OrdenMapper.EntidadAModelo(entidad));
+                    ordenes.Add(Mappers.OrdenMapper.EntidadAModelo(getEntidadFromReader(datos.Lector)));
                 }
                 return ordenes;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.CerrarConexion();
+            }
+        }
+
+        public OrdenModelo ObtenerPorId(int id)
+        {
+            AccesoDatos datos = new AccesoDatos();
+            OrdenModelo orden = new OrdenModelo();
+            try
+            {
+                datos.SetearConsulta("SELECT * FROM [dbo].[Ordenes] WHERE id_orden = @id");
+                datos.SetearParametro("@id", id);
+                datos.EjecutarLectura();
+                datos.Lector.Read();
+                orden = Mappers.OrdenMapper.EntidadAModelo(getEntidadFromReader(datos.Lector));
+                return orden;
             }
             catch (Exception ex)
             {
@@ -106,6 +148,7 @@ namespace Datos.Repositorios
             }
         }
 
+
         public void Agregar(OrdenModelo orden)
         {
             throw new NotImplementedException();
@@ -120,5 +163,6 @@ namespace Datos.Repositorios
         {
             throw new NotImplementedException();
         }
+
     }
 }

@@ -9,34 +9,22 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
 {
     public partial class DetalleOrden : System.Web.UI.Page
     {
-        public Dominio.Modelos.ContactoModelo contacto;
-        private Negocio.Servicios.ContactoServicio negocio;
+        public Dominio.Modelos.OrdenModelo orden;
+        private Negocio.Servicios.OrdenServicio servicioOrden;
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
             {
                 string id = Request.QueryString["id"];
-                negocio = new Negocio.Servicios.ContactoServicio();
-                if (id == null) Response.Redirect("/Backoffice/Contactos", false);
+                servicioOrden = new Negocio.Servicios.OrdenServicio();
+                if (id == null) Response.Redirect("/Backoffice/Ordenes", false);
                 try
                 {
                     int idInt = Convert.ToInt32(Request.QueryString["id"]);
                     if (idInt > 0)
                     {
-                        contacto = negocio.ObtenerPorId(idInt);
-                        if (contacto != null)
-                        {
-                            lblTipo.Text = contacto.Rol;
-                            lblNombreApellido.Text = contacto.NombreApellido;
-                            lblCorreo.Text = contacto.Email;
-                            lblTelefono.Text = contacto.Telefono;
-                            lblFuente.Text = contacto.Fuente;
-                            lblDireccion.Text = contacto.Direccion;
-                            lblDeseaRecibirCorreos.Text = contacto.DeseaRecibirCorreos ? "Sí" : "No";
-                            lblDeseaRecibirWhatsapps.Text = contacto.DeseaRecibirWhatsapp ? "Sí" : "No";
-                            
-                            litInformacionPersonal.Text = contacto.InformacionPersonal;
-                        }
+                        orden = servicioOrden.ObtenerPorId(idInt);
+                        if (orden == null) throw new Exception();
                     }
                 }
                 catch (Exception ex)
