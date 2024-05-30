@@ -11,13 +11,16 @@ namespace Datos.Repositorios
 
         public static string GetSelectOrdenesEstados(string prefix = "")
         {
+            string prefixTable = prefix.Length > 0 ? prefix.Replace(".", "_") + '_' : "";
+            prefix = prefix.Length > 0 ? prefix + "." : "";
             return $@"
-ORDENES_ESTADOS.id_orden_estado as '{prefix}id_orden_estado',
-ORDENES_ESTADOS.nombre as '{prefix}nombre'
+{prefixTable}ORDENES_ESTADOS.id_orden_estado as '{prefix}id_orden_estado',
+{prefixTable}ORDENES_ESTADOS.nombre as '{prefix}nombre'
             ";
         }
         public static Entidades.OrdenEstadoEntidad GetEntidadFromReader(System.Data.SqlClient.SqlDataReader reader, string prefix = "")
         {
+            prefix = prefix.Length > 0 ? prefix + "." : "";
             Entidades.OrdenEstadoEntidad entidad = new Entidades.OrdenEstadoEntidad();
             entidad.id_orden_estado = (int)reader[$"{prefix}id_orden_estado"];
             entidad.nombre = (string)reader[$"{prefix}nombre"];
