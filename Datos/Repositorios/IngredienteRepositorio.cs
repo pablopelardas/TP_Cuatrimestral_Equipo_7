@@ -13,12 +13,12 @@ namespace Datos.Repositorios
         public static string GetSelectIngredientes(string prefix = "")
         {
             return $@"
-INGREDIENTES.id_ingrediente as $'{prefix}id_ingrediente',
-INGREDIENTES.nombre as $'{prefix}nombre',
+INGREDIENTES.id_ingrediente as '{prefix}id_ingrediente',
+INGREDIENTES.nombre as '{prefix}nombre',
 INGREDIENTES.cantidad as '{prefix}cantidad',
 INGREDIENTES.costo as '{prefix}costo',
 INGREDIENTES.proveedor as '{prefix}proveedor',
-{UnidadMedidaRepositorio.GetSelectUnidades(prefix + "UNIDEADES_MEDIDA.")}
+{UnidadMedidaRepositorio.GetSelectUnidades(prefix + "unidad.")}
 ";
         }
 
@@ -34,11 +34,11 @@ INNER JOIN UNIDADES_MEDIDA ON INGREDIENTES.id_unidad = UNIDADES_MEDIDA.id_unidad
 
             entidad.id_ingrediente = (int)reader[$"{prefix}id_ingrediente"];
             entidad.nombre = (string)reader[$"{prefix}nombre"];
-            entidad.cantidad = (float)reader[$"{prefix}cantidad"];
+            entidad.cantidad = (double)reader[$"{prefix}cantidad"];
             entidad.costo = (decimal)reader[$"{prefix}costo"];
             entidad.proveedor = (string)reader[$"{prefix}proveedor"];
 
-            entidad.unidad = UnidadMedidaRepositorio.GetEntidadFromReader(reader, prefix + "UNIDADES_MEDIDA");
+            entidad.unidad = UnidadMedidaRepositorio.GetEntidadFromReader(reader, prefix + "unidad.");
             return entidad;
         }
 
@@ -59,7 +59,7 @@ INNER JOIN UNIDADES_MEDIDA ON INGREDIENTES.id_unidad = UNIDADES_MEDIDA.id_unidad
             string cmd = $@"
 SELECT
 {GetSelectIngredientes()}
-FROM [dbo].[INGREDIENTES]
+FROM dbo.[INGREDIENTES]
 {GetJoinIngredientes()}
 ";
 

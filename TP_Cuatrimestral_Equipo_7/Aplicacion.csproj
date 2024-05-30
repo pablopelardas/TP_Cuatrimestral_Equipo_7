@@ -67,6 +67,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Backoffice\Ingredientes\Default.aspx" />
+    <Content Include="Backoffice\Ingredientes\DetalleIngrediente.aspx" />
+    <Content Include="Backoffice\Ingredientes\EditarIngrediente.aspx" />
     <Content Include="Backoffice\Ordenes\Default.aspx" />
     <Content Include="Backoffice\Ordenes\DetalleOrden.aspx" />
     <Content Include="Backoffice\Ordenes\EditarOrden.aspx" />
@@ -82,6 +85,27 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Backoffice\Ingredientes\Default.aspx.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Backoffice\Ingredientes\Default.aspx.designer.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Backoffice\Ingredientes\DetalleIngrediente.aspx.cs">
+      <DependentUpon>DetalleIngrediente.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Backoffice\Ingredientes\DetalleIngrediente.aspx.designer.cs">
+      <DependentUpon>DetalleIngrediente.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Backoffice\Ingredientes\EditarIngrediente.aspx.cs">
+      <DependentUpon>EditarIngrediente.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Backoffice\Ingredientes\EditarIngrediente.aspx.designer.cs">
+      <DependentUpon>EditarIngrediente.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Backoffice\Ordenes\Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
