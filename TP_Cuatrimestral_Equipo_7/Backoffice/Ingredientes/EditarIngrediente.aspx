@@ -33,8 +33,11 @@ else { %>
                 <asp:TextBox CssClass="form-control" ID="txtCantidad" runat="server"></asp:TextBox>
             </div>
             <div>
-                <label class="form-label">Unidad de Medida:</label>
-                <asp:TextBox CssClass="form-control" ID="txtUnidadMedida" runat="server"></asp:TextBox>
+                <label class="form-label">Unidad</label>
+                <asp:DropDownList ID="ddlUnidad" runat="server" CssClass="form-control">
+                    <asp:ListItem Text="Kilogramo" Value="1"></asp:ListItem>
+                    <asp:ListItem Text="Libras" Value="2"></asp:ListItem>
+                </asp:DropDownList>
             </div>
             <div>
                 <label class="form-label">Costo</label>

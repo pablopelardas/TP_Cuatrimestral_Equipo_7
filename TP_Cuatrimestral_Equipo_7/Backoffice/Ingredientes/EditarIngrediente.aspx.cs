@@ -34,10 +34,9 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ingredientes
                             ingrediente = negocio.ObtenerPorId(idInt);
                             if (ingrediente != null)
                             {
-                                //ddlTipo.SelectedValue = ingrediente.Rol == "Cliente" ? "1" : "2";
+                                ddlUnidad.SelectedValue = ingrediente.Unidad.Nombre == "Kilogramo" ? "1" : "2";
                                 txtNombre.Text = ingrediente.Nombre;
                                 txtCantidad.Text = ingrediente.Cantidad.ToString();
-                                txtUnidadMedida.Text = ingrediente.Unidad.Nombre;
                                 txtCosto.Text = ingrediente.Costo.ToString();
                                 txtProveedor.Text = ingrediente.Proveedor;
                             }
