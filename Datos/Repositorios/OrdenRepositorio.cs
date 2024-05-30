@@ -12,6 +12,9 @@ namespace Datos.Repositorios
 {
     public class OrdenRepositorio
     {
+        private static string CLIENTE_PREFIX = "cli";
+        private static string ESTADO_PREFIX = "est";
+        private static string ESTADO_PAGO_PREFIX = "estp";
 
         public static string GetSelectOrdenes(string prefix = "")
         {
@@ -28,9 +31,9 @@ namespace Datos.Repositorios
 {prefixTable}ORDENES.descuento_porcentaje as '{prefix}descuento_porcentaje',
 {prefixTable}ORDENES.costo_envio as '{prefix}costo_envio',
 {prefixTable}ORDENES.direccion_entrega as '{prefix}direccion_entrega',
-{ContactoRepositorio.GetSelectContactos(prefix + "cliente")},
-{OrdenEstadoRepositorio.GetSelectOrdenesEstados(prefix + "estado")},
-{OrdenEstadoPagoRepositorio.GetSelectOrdenesEstadosPago(prefix + "estado_pago")}
+{ContactoRepositorio.GetSelectContactos(prefix + CLIENTE_PREFIX)},
+{OrdenEstadoRepositorio.GetSelectOrdenesEstados(prefix + ESTADO_PREFIX)},
+{OrdenEstadoPagoRepositorio.GetSelectOrdenesEstadosPago(prefix + ESTADO_PAGO_PREFIX)}
 ";
         }
 
@@ -38,9 +41,9 @@ namespace Datos.Repositorios
         public static string GetJoinOrdenes(string prefix = "")
         {
             prefix = prefix.Length > 0 ? prefix.Replace(".", "_") + '_' : "";
-            string clienteAlias = prefix + "cliente_" + "CONTACTOS";
-            string estadoAlias = prefix + "estado_" + "ORDENES_ESTADOS";
-            string estadoPagoAlias = prefix + "estado_pago_" + "ORDENES_PAGO_ESTADOS";
+            string clienteAlias = prefix + CLIENTE_PREFIX + "_CONTACTOS";
+            string estadoAlias = prefix + ESTADO_PREFIX + "_ORDENES_ESTADOS";
+            string estadoPagoAlias = prefix + ESTADO_PAGO_PREFIX + "_ORDENES_PAGO_ESTADOS";
 
             return $@"
             INNER JOIN CONTACTOS AS {clienteAlias} ON {prefix}ORDENES.ID_CLIENTE = {clienteAlias}.ID_CONTACTO
@@ -70,9 +73,9 @@ namespace Datos.Repositorios
 
             // OTRAS ENTIDADES
             // orden.
-            entidad.cliente = ContactoRepositorio.GetEntidadFromReader(reader, prefix + "cliente");
-            entidad.estado = OrdenEstadoRepositorio.GetEntidadFromReader(reader, prefix + "estado");
-            entidad.estado_pago = OrdenEstadoPagoRepositorio.GetEntidadFromReader(reader, prefix + "estado_pago");
+            entidad.cliente = ContactoRepositorio.GetEntidadFromReader(reader, prefix + CLIENTE_PREFIX);
+            entidad.estado = OrdenEstadoRepositorio.GetEntidadFromReader(reader, prefix + ESTADO_PREFIX);
+            entidad.estado_pago = OrdenEstadoPagoRepositorio.GetEntidadFromReader(reader, prefix + ESTADO_PAGO_PREFIX);
 
             return entidad;
         }

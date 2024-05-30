@@ -9,27 +9,29 @@ namespace Datos.Repositorios
 {
     public class ProductoRepositorio
     {
+        private static string CATEGORIA_PREFIX = "cat";
         public static string GetSelectProductos(string prefix = "")
         {
             string prefixTable = prefix.Length > 0 ? prefix.Replace(".", "_") + '_' : "";
             prefix = prefix.Length > 0 ? prefix + "." : "";
             return $@"
-{prefixTable}_PRODUCTOS.id_producto as '{prefix}id_producto',
-{prefixTable}_PRODUCTOS.nombre as '{prefix}nombre',
-{prefixTable}_PRODUCTOS.descripcion as '{prefix}descripcion',
-{prefixTable}_PRODUCTOS.porciones as '{prefix}porciones',
-{prefixTable}_PRODUCTOS.horas_trabajo as '{prefix}horas_trabajo',
-{prefixTable}_PRODUCTOS.tipo_precio as '{prefix}tipo_precio',
-{prefixTable}_PRODUCTOS.valor_precio as '{prefix}valor_precio',
-{CategoriasRepositorio.GetSelectCategorias(prefix + "categoria")}
+{prefixTable}PRODUCTOS.id_producto as '{prefix}id_producto',
+{prefixTable}PRODUCTOS.nombre as '{prefix}nombre',
+{prefixTable}PRODUCTOS.descripcion as '{prefix}descripcion',
+{prefixTable}PRODUCTOS.porciones as '{prefix}porciones',
+{prefixTable}PRODUCTOS.horas_trabajo as '{prefix}horas_trabajo',
+{prefixTable}PRODUCTOS.tipo_precio as '{prefix}tipo_precio',
+{prefixTable}PRODUCTOS.valor_precio as '{prefix}valor_precio',
+{CategoriasRepositorio.GetSelectCategorias(prefix + CATEGORIA_PREFIX)}
 ";
         }
 
         public static string GetJoinProductos(string prefix = "")
         {
-
+            prefix = prefix.Length > 0 ? prefix.Replace(".", "_") + '_' : "";
+            string aliasCategorias = prefix + CATEGORIA_PREFIX + "_CATEGORIAS";
             return $@"
-INNER JOIN CATEGORIAS ON PRODUCTOS.ID_CATEGORIA = CATEGORIAS.ID_CATEGORIA
+INNER JOIN CATEGORIAS as {aliasCategorias} ON {prefix}PRODUCTOS.ID_CATEGORIA = {aliasCategorias}.ID_CATEGORIA
 ";
         }
 
@@ -45,7 +47,7 @@ INNER JOIN CATEGORIAS ON PRODUCTOS.ID_CATEGORIA = CATEGORIAS.ID_CATEGORIA
             entidad.tipo_precio = (string)reader[$"{prefix}tipo_precio"];
             entidad.valor_precio = (decimal)reader[$"{prefix}valor_precio"];
             // producto.categoria.
-            entidad.categoria = CategoriasRepositorio.GetEntidadFromReader(reader, prefix + "categoria");
+            entidad.categoria = CategoriasRepositorio.GetEntidadFromReader(reader, prefix + CATEGORIA_PREFIX);
             return entidad;
         }
 
