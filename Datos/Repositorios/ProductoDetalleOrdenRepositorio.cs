@@ -9,15 +9,34 @@ namespace Datos.Repositorios
 {
     internal class ProductoDetalleOrdenRepositorio
     {
+        public static string GetSelectDetalleProducto(string prefix = "")
+        {
+            return $@"
+    DETALLE_ORDENES.producto_costo AS '{prefix}producto_costo',
+    DETALLE_ORDENES.producto_porciones AS '{prefix}producto_porciones',
+    DETALLE_ORDENES.producto_precio AS '{prefix}producto_precio',
+    DETALLE_ORDENES.cantidad AS '{prefix}cantidad',
+    {ProductoRepositorio.GetSelectProductos("producto.")}
+";
+        }
 
-        public static Entidades.ProductoDetalleOrdenEntidad getEntidadFromReader(System.Data.SqlClient.SqlDataReader reader, string prefix = "")
+        public static string GetJoinDetalleProducto()
+        {
+            return $@"
+INNER JOIN PRODUCTOS ON DETALLE_ORDENES.ID_PRODUCTO = PRODUCTOS.ID_PRODUCTO
+{ProductoRepositorio.GetJoinProductos()}
+";
+        }
+
+        public static Entidades.ProductoDetalleOrdenEntidad GetEntidadFromReader(System.Data.SqlClient.SqlDataReader reader, string prefix = "")
         {
             Entidades.ProductoDetalleOrdenEntidad entidad = new Entidades.ProductoDetalleOrdenEntidad();
-            entidad.producto = ProductoRepositorio.getEntidadFromReader(reader, "producto.");
             entidad.cantidad = (int)reader[$"{prefix}cantidad"];
             entidad.producto_porciones = (int)reader[$"{prefix}producto_porciones"];
             entidad.producto_costo = (decimal)reader[$"{prefix}producto_costo"];
             entidad.producto_precio = (decimal)reader[$"{prefix}producto_precio"];
+
+            entidad.producto = ProductoRepositorio.GetEntidadFromReader(reader, "producto.");
             return entidad;
         }
 
@@ -27,26 +46,12 @@ namespace Datos.Repositorios
             AccesoDatos datos = new AccesoDatos();
             try
             {
-                string cmd = @"
+                string cmd = $@"
 SELECT 
-    DO.producto_costo,
-    DO.producto_porciones,
-    DO.producto_precio,
-    DO.cantidad,
-    P.id_producto AS 'producto.id_producto',
-    P.nombre AS 'producto.nombre',
-    P.descripcion AS 'producto.descripcion',
-    P.porciones AS 'producto.porciones',
-    P.horas_trabajo AS 'producto.horas_trabajo',
-    P.tipo_precio AS 'producto.tipo_precio',
-    P.valor_precio AS 'producto.valor_precio',
-    C.id_categoria AS 'producto.categoria.id_categoria',
-    C.nombre AS 'producto.categoria.nombre',
-    C.tipo AS 'producto.categoria.tipo'
-FROM DETALLE_ORDENES DO
-INNER JOIN PRODUCTOS P ON DO.ID_PRODUCTO = P.ID_PRODUCTO
-INNER JOIN CATEGORIAS C ON P.ID_CATEGORIA = C.ID_CATEGORIA
-WHERE DO.ID_ORDEN = @id
+{GetSelectDetalleProducto()}
+FROM DETALLE_ORDENES
+{GetJoinDetalleProducto()}
+WHERE DETALLE_ORDENES.ID_ORDEN = @id
                     ";
                 datos.SetearConsulta(cmd);
                 datos.SetearParametro("@id", id);
@@ -54,7 +59,7 @@ WHERE DO.ID_ORDEN = @id
                 while (datos.Lector.Read())
                 {
                     Entidades.ProductoDetalleOrdenEntidad entidad = new Entidades.ProductoDetalleOrdenEntidad();
-                      entidad.producto = ProductoRepositorio.getEntidadFromReader(datos.Lector, "producto.");
+                      entidad.producto = ProductoRepositorio.GetEntidadFromReader(datos.Lector, "producto.");
                       entidad.cantidad = (int)datos.Lector["cantidad"];
                       entidad.producto_porciones = (int)datos.Lector["producto_porciones"];
                       entidad.producto_costo = (decimal)datos.Lector["producto_costo"];

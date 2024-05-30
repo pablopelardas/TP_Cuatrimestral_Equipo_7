@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Net.NetworkInformation;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -12,40 +13,35 @@ namespace Datos.Repositorios
     public class OrdenRepositorio
     {
 
-        private string select = @"
-SELECT 
-   O.id_orden,
-   O.fecha,
-   O.tipo_evento,
-   O.tipo_entrega,
-   O.hora_entrega,
-   O.descripcion,
-   (SELECT SUM (DO.cantidad * DO.producto_precio) FROM DETALLE_ORDENES DO WHERE DO.id_orden = O.id_orden) AS subtotal,
-    O.descuento_porcentaje,
-    O.costo_envio,
-    O.direccion_entrega,
-    C.id_contacto as 'cliente.id_contacto',
-    C.nombre_apellido as 'cliente.nombre_apellido',
-    C.tipo as 'cliente.tipo',
-    C.correo as 'cliente.correo',
-    C.telefono as 'cliente.telefono',
-    C.fuente as 'cliente.fuente',
-    C.direccion as 'cliente.direccion',
-    C.producto_que_provee as 'cliente.producto_que_provee',
-    C.desea_recibir_correos as 'cliente.desea_recibir_correos',
-    C.desea_recibir_whatsapp as 'cliente.desea_recibir_whatsapp',
-    C.informacion_personal as 'cliente.informacion_personal',
-    OE.id_orden_estado as 'estado.id_orden_estado',
-    OE.nombre as 'estado.nombre',
-    OPE.id_orden_pago_estado as 'estado_pago.id_orden_pago_estado',
-    OPE.nombre as 'estado_pago.nombre'
-FROM ORDENES O
-INNER JOIN CONTACTOS C ON O.ID_CLIENTE = C.ID_CONTACTO
-INNER JOIN ORDENES_ESTADOS OE ON O.id_orden_estado = OE.id_orden_estado
-INNER JOIN ORDENES_PAGO_ESTADOS OPE ON O.id_orden_pago_estado = OPE.id_orden_pago_estado
-                ";
+        public static string GetSelectOrdenes(string prefix = "")
+        {
+            return $@"
+    ORDENES.id_orden as '{prefix}id_orden',
+    ORDENES.fecha as '{prefix}fecha',
+    ORDENES.tipo_evento as '{prefix}tipo_evento',
+    ORDENES.tipo_entrega as '{prefix}tipo_entrega',
+    ORDENES.hora_entrega as '{prefix}hora_entrega',
+    ORDENES.descripcion as '{prefix}descripcion',
+    (SELECT SUM (DO.cantidad * DO.producto_precio) FROM DETALLE_ORDENES DO WHERE DO.id_orden = ORDENES.id_orden) as '{prefix}subtotal',
+    ORDENES.descuento_porcentaje as '{prefix}descuento_porcentaje',
+    ORDENES.costo_envio as '{prefix}costo_envio',
+    ORDENES.direccion_entrega as '{prefix}direccion_entrega',
+    {ContactoRepositorio.GetSelectContactos(prefix + "cliente.")},
+    {OrdenEstadoRepositorio.GetSelectOrdenesEstados(prefix + "estado.")},
+    {OrdenEstadoPagoRepositorio.GetSelectOrdenesEstadosPago(prefix + "estado_pago.")}
+";
+        }
 
-        private OrdenEntidad getEntidadFromReader(System.Data.SqlClient.SqlDataReader reader, string prefix = "")
+        public static string GetJoinOrdenes(string prefix = "")
+        {
+            return $@"
+INNER JOIN CONTACTOS ON ORDENES.ID_CLIENTE = CONTACTOS.ID_CONTACTO
+INNER JOIN ORDENES_ESTADOS ON ORDENES.id_orden_estado = ORDENES_ESTADOS.id_orden_estado
+INNER JOIN ORDENES_PAGO_ESTADOS ON ORDENES.id_orden_pago_estado = ORDENES_PAGO_ESTADOS.id_orden_pago_estado
+";
+        }
+
+        private OrdenEntidad GetEntidadFromReader(System.Data.SqlClient.SqlDataReader reader, string prefix = "")
         {
             OrdenEntidad entidad = new OrdenEntidad();
             // OBLIGATORIOS
@@ -63,9 +59,10 @@ INNER JOIN ORDENES_PAGO_ESTADOS OPE ON O.id_orden_pago_estado = OPE.id_orden_pag
             entidad.direccion_entrega = reader[$"{prefix}direccion_entrega"] == DBNull.Value ? "" : (string)reader[$"{prefix}direccion_entrega"];
 
             // OTRAS ENTIDADES
-            entidad.cliente = ContactoRepositorio.getEntidadFromReader(reader, prefix + "cliente.");
-            entidad.estado = OrdenEstadoRepositorio.getEntidadFromReader(reader, prefix + "estado.");
-            entidad.estado_pago = OrdenEstadoPagoRepositorio.getEntidadFromReader(reader, prefix + "estado_pago.");
+            // orden.
+            entidad.cliente = ContactoRepositorio.GetEntidadFromReader(reader, prefix + "cliente.");
+            entidad.estado = OrdenEstadoRepositorio.GetEntidadFromReader(reader, prefix + "estado.");
+            entidad.estado_pago = OrdenEstadoPagoRepositorio.GetEntidadFromReader(reader, prefix + "estado_pago.");
 
             return entidad;
         }
@@ -93,13 +90,18 @@ INNER JOIN ORDENES_PAGO_ESTADOS OPE ON O.id_orden_pago_estado = OPE.id_orden_pag
 
             try
             {
-                string cmd = select;
+                string cmd = $@"
+SELECT
+{GetSelectOrdenes()}
+FROM ORDENES
+{GetJoinOrdenes()}
+";
                 datos.SetearConsulta(cmd);
                 datos.EjecutarLectura();
 
                 while (datos.Lector.Read())
                 {
-                    ordenes.Add(Mappers.OrdenMapper.EntidadAModelo(getEntidadFromReader(datos.Lector)));
+                    ordenes.Add(Mappers.OrdenMapper.EntidadAModelo(GetEntidadFromReader(datos.Lector)));
                 }
                 return ordenes;
             }
@@ -119,12 +121,18 @@ INNER JOIN ORDENES_PAGO_ESTADOS OPE ON O.id_orden_pago_estado = OPE.id_orden_pag
             OrdenModelo orden = new OrdenModelo();
             try
             {
-                string cmd = select + " WHERE O.id_orden = @id";
+                string cmd = $@"
+SELECT
+{GetSelectOrdenes()}
+FROM ORDENES
+{GetJoinOrdenes()}
+WHERE ORDENES.id_orden = @id
+";
                 datos.SetearConsulta(cmd);
                 datos.SetearParametro("@id", id);
                 datos.EjecutarLectura();
                 datos.Lector.Read();
-                orden = Mappers.OrdenMapper.EntidadAModelo(getEntidadFromReader(datos.Lector), true);
+                orden = Mappers.OrdenMapper.EntidadAModelo(GetEntidadFromReader(datos.Lector), true);
                 return orden;
             }
             catch (Exception ex)

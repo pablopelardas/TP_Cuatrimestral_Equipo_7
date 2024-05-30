@@ -8,8 +8,23 @@ namespace Datos.Repositorios
 {
     public class ContactoRepositorio
     {
-
-        public static Entidades.ContactoEntidad getEntidadFromReader(System.Data.SqlClient.SqlDataReader reader, string prefix = "")
+        public static string GetSelectContactos(string prefix = "")
+        {
+            return $@"
+CONTACTOS.id_contacto as '{prefix}id_contacto',
+CONTACTOS.nombre_apellido as '{prefix}nombre_apellido',
+CONTACTOS.tipo as '{prefix}tipo',
+CONTACTOS.correo as '{prefix}correo',
+CONTACTOS.telefono as '{prefix}telefono',
+CONTACTOS.fuente as '{prefix}fuente',
+CONTACTOS.direccion as '{prefix}direccion',
+CONTACTOS.producto_que_provee as '{prefix}producto_que_provee',
+CONTACTOS.desea_recibir_correos as '{prefix}desea_recibir_correos',
+CONTACTOS.desea_recibir_whatsapp as '{prefix}desea_recibir_whatsapp',
+CONTACTOS.informacion_personal as '{prefix}informacion_personal'
+";
+        }
+        public static Entidades.ContactoEntidad GetEntidadFromReader(System.Data.SqlClient.SqlDataReader reader, string prefix = "")
         {
             Entidades.ContactoEntidad entidad = new Entidades.ContactoEntidad();
             // OBLIGATORIOS
@@ -65,12 +80,17 @@ namespace Datos.Repositorios
             AccesoDatos datos = new AccesoDatos();
             try
             {
-                datos.SetearConsulta("SELECT * FROM [dbo].[CONTACTOS]");
+                string cmd = $@"
+SELECT
+    {GetSelectContactos()}
+FROM CONTACTOS
+";
+                datos.SetearConsulta(cmd);
                 datos.EjecutarLectura();
 
                 while (datos.Lector.Read())
                 {
-                    Entidades.ContactoEntidad entidad = getEntidadFromReader(datos.Lector);
+                    Entidades.ContactoEntidad entidad = GetEntidadFromReader(datos.Lector);
                     contactos.Add(Mappers.ContactoMapper.EntidadAModelo(entidad));
                 }
                 return contactos;
@@ -90,11 +110,17 @@ namespace Datos.Repositorios
             AccesoDatos datos = new AccesoDatos();
             try
             {
+                string cmd = $@"
+SELECT
+    {GetSelectContactos()}
+FROM CONTACTOS
+WHERE id_contacto = @id
+";
                 datos.SetearParametro("@id", id);
-                datos.SetearConsulta(datos.Comando.CommandText = "SELECT * FROM [dbo].[CONTACTOS] WHERE id_contacto = @id");
+                datos.SetearConsulta(cmd);
                 datos.EjecutarLectura();
                 datos.Lector.Read();
-                Entidades.ContactoEntidad entidad = getEntidadFromReader(datos.Lector);
+                Entidades.ContactoEntidad entidad = GetEntidadFromReader(datos.Lector);
 
                 return Mappers.ContactoMapper.EntidadAModelo(entidad);
             }

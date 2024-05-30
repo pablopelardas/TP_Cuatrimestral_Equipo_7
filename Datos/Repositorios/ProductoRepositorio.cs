@@ -9,7 +9,28 @@ namespace Datos.Repositorios
 {
     public class ProductoRepositorio
     {
-        public static Entidades.ProductoEntidad getEntidadFromReader(System.Data.SqlClient.SqlDataReader reader, string prefix = "")
+        public static string GetSelectProductos(string prefix = "")
+        {
+            return $@"
+PRODUCTOS.id_producto as '{prefix}id_producto',
+PRODUCTOS.nombre as '{prefix}nombre',
+PRODUCTOS.descripcion as '{prefix}descripcion',
+PRODUCTOS.porciones as '{prefix}porciones',
+PRODUCTOS.horas_trabajo as '{prefix}horas_trabajo',
+PRODUCTOS.tipo_precio as '{prefix}tipo_precio',
+PRODUCTOS.valor_precio as '{prefix}valor_precio',
+{CategoriasRepositorio.GetSelectCategorias(prefix + "categoria.")}
+";
+        }
+
+        public static string GetJoinProductos()
+        {
+            return $@"
+INNER JOIN CATEGORIAS ON PRODUCTOS.ID_CATEGORIA = CATEGORIAS.ID_CATEGORIA
+";
+        }
+
+        public static Entidades.ProductoEntidad GetEntidadFromReader(System.Data.SqlClient.SqlDataReader reader, string prefix = "")
         {
             Entidades.ProductoEntidad entidad = new Entidades.ProductoEntidad();
             entidad.id_producto = (int)reader[$"{prefix}id_producto"];
@@ -19,7 +40,8 @@ namespace Datos.Repositorios
             entidad.horas_trabajo = (decimal)reader[$"{prefix}horas_trabajo"];
             entidad.tipo_precio = (string)reader[$"{prefix}tipo_precio"];
             entidad.valor_precio = (decimal)reader[$"{prefix}valor_precio"];
-            entidad.categoria = CategoriasRepositorio.getEntidadFromReader(reader, prefix + "categoria.");
+            // producto.categoria.
+            entidad.categoria = CategoriasRepositorio.GetEntidadFromReader(reader, prefix + "categoria.");
             return entidad;
         }
 
@@ -41,12 +63,18 @@ namespace Datos.Repositorios
             AccesoDatos datos = new AccesoDatos();
             try
             {
-                datos.SetearConsulta("SELECT FROM [dbo].[PRODUCTOS]");
+                string cmd = $@"
+SELECT
+{GetSelectProductos()}
+FROM PRODUCTOS
+{GetJoinProductos()}
+";
+                datos.SetearConsulta(cmd);
                 datos.EjecutarLectura();
 
                 while (datos.Lector.Read())
                 {
-                    Entidades.ProductoEntidad entidad = getEntidadFromReader(datos.Lector);
+                    Entidades.ProductoEntidad entidad = GetEntidadFromReader(datos.Lector);
                     productos.Add(Mappers.ProductoMapper.EntidadAModelo(entidad));
                 }
                 return productos;
@@ -66,11 +94,18 @@ namespace Datos.Repositorios
             AccesoDatos datos = new AccesoDatos();
             try
             {
+                string cmd = $@"
+SELECT
+{GetSelectProductos()}
+FROM PRODUCTOS
+{GetJoinProductos()}
+WHERE id_producto = @id
+";
                 datos.SetearParametro("@id", id);
-                datos.SetearConsulta(datos.Comando.CommandText = "SELECT * FROM [dbo].[PRODUCTOS] WHERE id_producto = @id");
+                datos.SetearConsulta(cmd);
                 datos.EjecutarLectura();
                 datos.Lector.Read();
-                Entidades.ProductoEntidad entidad = getEntidadFromReader(datos.Lector);
+                Entidades.ProductoEntidad entidad = GetEntidadFromReader(datos.Lector);
 
                 return Mappers.ProductoMapper.EntidadAModelo(entidad);
 
