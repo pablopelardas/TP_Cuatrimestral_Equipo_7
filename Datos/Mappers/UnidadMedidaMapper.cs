@@ -24,7 +24,6 @@ namespace Datos.Mappers
         public static Entidades.UnidadMedidaEntidad ModeloAEntidad(UnidadMedidaModelo unidad)
         {
             Entidades.UnidadMedidaEntidad entidad = new Entidades.UnidadMedidaEntidad();
-            AccesoDatos datos = new AccesoDatos();
 
             entidad.id_unidad = unidad.Id;
             entidad.nombre = unidad.Nombre;

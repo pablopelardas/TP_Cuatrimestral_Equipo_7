@@ -18,9 +18,7 @@ namespace Datos.Mappers
             ingrediente.IdIngrediente = entidad.id_ingrediente;
             ingrediente.Nombre = entidad.nombre;
             ingrediente.Cantidad = entidad.cantidad;
-            ingrediente.Unidad.Id = entidad.id_unidad;
-            ingrediente.Unidad.Nombre = unidad.ObtenerPorId(entidad.id_unidad).Nombre;
-            ingrediente.Unidad.Abreviatura = unidad.ObtenerPorId(entidad.id_unidad).Abreviatura;
+            ingrediente.Unidad= unidad.ObtenerPorId(entidad.id_unidad);
             ingrediente.Costo = entidad.costo;
             ingrediente.Proveedor = entidad.proveedor;
 
@@ -30,7 +28,6 @@ namespace Datos.Mappers
         public static Entidades.IngredienteEntidad ModeloAEntidad(IngredienteModelo ingrediente)
         {
             Entidades.IngredienteEntidad entidad = new Entidades.IngredienteEntidad();
-            AccesoDatos datos = new AccesoDatos();
 
             entidad.id_ingrediente = ingrediente.IdIngrediente;
             entidad.nombre = ingrediente.Nombre;

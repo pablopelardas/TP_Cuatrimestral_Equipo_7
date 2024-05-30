@@ -10,12 +10,20 @@ namespace Datos.Repositorios
 {
     public class UnidadMedidaRepositorio
     {
-        private UnidadMedidaEntidad getEntidadFromReader(System.Data.SqlClient.SqlDataReader reader)
+        public static string GetSelectUnidades(string prefix = "")
+        {
+            return $@"
+UNIDADES_MEDIDA.id_unidad as '{prefix}id_unidad',
+UNIDADES_MEDIDA.nombre as '{prefix}nombre',
+UNIDADES_MEDIDA.abreviatura as '{prefix}abreviatura'
+";
+        }
+        public static UnidadMedidaEntidad GetEntidadFromReader(System.Data.SqlClient.SqlDataReader reader, string prefix = "")
         {
             UnidadMedidaEntidad entidad = new UnidadMedidaEntidad();
-            entidad.id_unidad = (int)reader["id_unidad"];
-            entidad.nombre = (string)reader["nombre"];
-            entidad.abreviatura = (string)reader["abreviatura"];
+            entidad.id_unidad = (int)reader[$"{prefix}id_unidad"];
+            entidad.nombre = (string)reader[$"{prefix}nombre"];
+            entidad.abreviatura = (string)reader[$"{prefix}abreviatura"];
             return entidad;
         }
 
@@ -30,15 +38,20 @@ namespace Datos.Repositorios
         {
             List<UnidadMedidaModelo> unidades = new List<UnidadMedidaModelo>();
             AccesoDatos datos = new AccesoDatos();
-
+            string cmd = $@"
+SELECT
+{GetSelectUnidades()}
+FROM UNIDEADES_MEDIDA
+";
             try
             {
-                datos.SetearConsulta("Select * from [dbo].[UNIDADES_MEDIDA]");
+
+                datos.SetearConsulta(cmd);
                 datos.EjecutarLectura();
 
                 while (datos.Lector.Read())
                 {
-                    unidades.Add(Mappers.UnidadMedidaMapper.EntidadAModelo(getEntidadFromReader(datos.Lector)));
+                    unidades.Add(Mappers.UnidadMedidaMapper.EntidadAModelo(GetEntidadFromReader(datos.Lector)));
                 }
                 return unidades;
             }
@@ -55,16 +68,19 @@ namespace Datos.Repositorios
         public UnidadMedidaModelo ObtenerPorId(int id)
         {
             AccesoDatos datos = new AccesoDatos();
-            UnidadMedidaModelo unidad = new UnidadMedidaModelo();
-
+            string cmd = $@"
+SELECT
+{GetSelectUnidades()}
+FROM [dbo].[UNIDADES_MEDIDA]
+WHERE id_unidad = @id
+";
             try
             {
-                datos.SetearConsulta("Select * from [dbo].[INGREDIENTES] where id_ingrediente = @id");
+                datos.SetearConsulta(cmd);
                 datos.SetearParametro("@id", id);
                 datos.EjecutarLectura();
                 datos.Lector.Read();
-                unidad = Mappers.UnidadMedidaMapper.EntidadAModelo(getEntidadFromReader(datos.Lector));
-                return unidad;
+                return Mappers.UnidadMedidaMapper.EntidadAModelo(GetEntidadFromReader(datos.Lector));
             }
             catch (Exception ex)
             {
@@ -79,11 +95,16 @@ namespace Datos.Repositorios
         public void Agregar(UnidadMedidaModelo unidad)
         {
             AccesoDatos datos = new AccesoDatos();
-
+            string cmd = $@"
+INSERT INTO [dbo].[UNIDADES_MEDIDA]
+(id_unidad, nombre, abreviatura)
+VALUES
+(@id_unidad, @nombre, @abreviatura)
+";
             try
             {
                 UnidadMedidaEntidad entidad = Mappers.UnidadMedidaMapper.ModeloAEntidad(unidad);
-                datos.SetearConsulta("INSERT INTO[dbo].[Unidades_Medida](id_unidad, nombre, abreviatura) VALUES(@id_unidad, @nombre, @abreviatura)");
+                datos.SetearConsulta(cmd);
                 ParametrizarEntidad(entidad, datos);
                 datos.EjecutarAccion();
             }
@@ -99,11 +120,17 @@ namespace Datos.Repositorios
         public void Modificar(UnidadMedidaModelo unidad)
         {
             AccesoDatos datos = new AccesoDatos();
-
+            string cmd = $@"
+UPDATE [dbo].[Unidades_Medida]
+SET
+id_unidad = @id_unidad,
+nombre = @nombre,
+abreviatura = @abreviatura
+WHERE id_unidad = @id_unidad";
             try
             {
                 UnidadMedidaEntidad entidad = Mappers.UnidadMedidaMapper.ModeloAEntidad(unidad);
-                datos.SetearConsulta("UPDATE [dbo].[Unidades_Medida] SET id_unidad = @id_unidad, nombre = @nombre, abreviatura = @abreviatura WHERE id_unidad = @id_unidad");
+                datos.SetearConsulta(cmd);
                 ParametrizarEntidad(entidad, datos);
                 datos.EjecutarAccion();
             }
@@ -119,10 +146,12 @@ namespace Datos.Repositorios
         public void Eliminar(int id)
         {
             AccesoDatos datos = new AccesoDatos();
-
+            string cmd = $@"
+DELETE FROM [dbo].[Unidades_Medida]
+WHERE id_unidad = @id_unidad";
             try
             {
-                datos.SetearConsulta("DELETE FROM [dbo].[Unidades_Medida] WHERE id_unidad = @id_unidad");
+                datos.SetearConsulta(cmd);
                 datos.SetearParametro("@id_unidad", id);
                 datos.EjecutarAccion();
             }

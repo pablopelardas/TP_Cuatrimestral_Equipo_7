@@ -10,15 +10,35 @@ namespace Datos.Repositorios
 {
     public class IngredienteRepositorio
     {
-        private IngredienteEntidad getEntidadFromReader(System.Data.SqlClient.SqlDataReader reader)
+        public static string GetSelectIngredientes(string prefix = "")
+        {
+            return $@"
+INGREDIENTES.id_ingrediente as $'{prefix}id_ingrediente',
+INGREDIENTES.nombre as $'{prefix}nombre',
+INGREDIENTES.cantidad as '{prefix}cantidad',
+INGREDIENTES.costo as '{prefix}costo',
+INGREDIENTES.proveedor as '{prefix}proveedor',
+{UnidadMedidaRepositorio.GetSelectUnidades(prefix + "UNIDEADES_MEDIDA.")}
+";
+        }
+
+        public static string GetJoinIngredientes()
+        {
+            return $@"
+INNER JOIN UNIDADES_MEDIDA ON INGREDIENTES.id_unidad = UNIDADES_MEDIDA.id_unidad
+";
+        }
+        public static IngredienteEntidad GetEntidadFromReader(System.Data.SqlClient.SqlDataReader reader, string prefix = "")
         {
             IngredienteEntidad entidad = new IngredienteEntidad();
-            entidad.id_ingrediente = (int)reader["id_ingrediente"];
-            entidad.nombre = (string)reader["nombre"];
-            entidad.cantidad = (float)reader["cantidad"];
-            entidad.id_unidad = (int)reader["id_unidad"];
-            entidad.costo = (decimal)reader["costo"];
-            entidad.proveedor = (string)reader["proveedor"];
+
+            entidad.id_ingrediente = (int)reader[$"{prefix}id_ingrediente"];
+            entidad.nombre = (string)reader[$"{prefix}nombre"];
+            entidad.cantidad = (float)reader[$"{prefix}cantidad"];
+            entidad.costo = (decimal)reader[$"{prefix}costo"];
+            entidad.proveedor = (string)reader[$"{prefix}proveedor"];
+
+            entidad.unidad = UnidadMedidaRepositorio.GetEntidadFromReader(reader, prefix + "UNIDADES_MEDIDA");
             return entidad;
         }
 
@@ -27,7 +47,7 @@ namespace Datos.Repositorios
             datos.SetearParametro("@id_ingrediente", entidad.id_ingrediente);
             datos.SetearParametro("@nombre", entidad.nombre);
             datos.SetearParametro("@cantidad", entidad.cantidad);
-            datos.SetearParametro("@id_unidad", entidad.id_unidad);
+            datos.SetearParametro("@id_unidad", entidad.unidad.id_unidad);
             datos.SetearParametro("@costo", entidad.costo);
             datos.SetearParametro("@proveedor", entidad.proveedor);
         }
@@ -36,15 +56,21 @@ namespace Datos.Repositorios
         {
             List<IngredienteModelo> ingredientes = new List<IngredienteModelo>();
             AccesoDatos datos = new AccesoDatos();
+            string cmd = $@"
+SELECT
+{GetSelectIngredientes()}
+FROM [dbo].[INGREDIENTES]
+{GetJoinIngredientes()}
+";
 
             try
             {
-                datos.SetearConsulta("Select * from [dbo].[INGREDIENTES]");
+                datos.SetearConsulta(cmd);
                 datos.EjecutarLectura();
 
                 while (datos.Lector.Read())
                 {
-                    ingredientes.Add(Mappers.IngredienteMapper.EntidadAModelo(getEntidadFromReader(datos.Lector)));
+                    ingredientes.Add(Mappers.IngredienteMapper.EntidadAModelo(GetEntidadFromReader(datos.Lector)));
                 }
                 return ingredientes;
             }
@@ -61,7 +87,6 @@ namespace Datos.Repositorios
         public IngredienteModelo ObtenerPorId(int id)
         {
             AccesoDatos datos = new AccesoDatos();
-            IngredienteModelo ingrediente = new IngredienteModelo();
 
             try
             {
@@ -69,8 +94,7 @@ namespace Datos.Repositorios
                 datos.SetearParametro("@id", id);
                 datos.EjecutarLectura();
                 datos.Lector.Read();
-                ingrediente = Mappers.IngredienteMapper.EntidadAModelo(getEntidadFromReader(datos.Lector));
-                return ingrediente;
+                return Mappers.IngredienteMapper.EntidadAModelo(GetEntidadFromReader(datos.Lector));
             }
             catch (Exception ex)
             {
@@ -85,11 +109,16 @@ namespace Datos.Repositorios
         public void Agregar(IngredienteModelo ingrediente)
         {
             AccesoDatos datos = new AccesoDatos();
-
+            string cmd = $@"
+INSERT INTO [dbo].[INGREDIENTES]
+(id_ingrediente, nombre, cantidad, id_unidad, costo, proveedor)
+VALUES
+(@id_ingrediente, @nombre, @cantidad, @id_unidad, @costo, @proveedor)
+";
             try
             {
                 IngredienteEntidad entidad = Mappers.IngredienteMapper.ModeloAEntidad(ingrediente);
-                datos.SetearConsulta("INSERT INTO[dbo].[Ingredientes](id_ingrediente, nombre, cantidad, id_unidad, costo, proveedor) VALUES(@id_ingrediente, @nombre, @cantidad, @id_unidad, @costo, @proveedor)");
+                datos.SetearConsulta(cmd);
                 ParametrizarEntidad(entidad, datos);
                 datos.EjecutarAccion();
             }
@@ -105,11 +134,21 @@ namespace Datos.Repositorios
         public void Modificar(IngredienteModelo ingrediente)
         {
             AccesoDatos datos = new AccesoDatos();
-
+            string cmd = $@"
+UPDATE [dbo].[INGREDIENTES]
+SET
+id_ingrediente = @id_ingrediente,
+nombre = @nombre,
+cantidad = @cantidad,
+id_unidad = @id_unidad,
+costo = @costo,
+proveedor = @proveedor
+WHERE id_ingrediente = @id_ingrediente
+";
             try
             {
                 IngredienteEntidad entidad = Mappers.IngredienteMapper.ModeloAEntidad(ingrediente);
-                datos.SetearConsulta("UPDATE [dbo].[Ingredientes] SET id_ingrediente = @id_ingrediente, nombre = @nombre, cantidad = @cantidad, id_unidad = @id_unidad, costo = @costo, proveedor = @proveedor WHERE id_ingrediente = @id_ingrediente");
+                datos.SetearConsulta(cmd);
                 ParametrizarEntidad(entidad, datos);
                 datos.EjecutarAccion();
             }
@@ -125,10 +164,12 @@ namespace Datos.Repositorios
         public void Eliminar(int id)
         {
             AccesoDatos datos = new AccesoDatos();
-
+            string cmd = $@"
+DELETE FROM [dbo].[INGREDIENTES]
+WHERE id_ingrediente = @id_ingrediente";
             try
             {
-                datos.SetearConsulta("DELETE FROM [dbo].[Ingredientes] WHERE id_ingrediente = @id_ingrediente");
+                datos.SetearConsulta(cmd);
                 datos.SetearParametro("@id_ingrediente", id);
                 datos.EjecutarAccion();
             }

@@ -11,9 +11,9 @@ namespace Datos.Entidades
         public int id_ingrediente { get; set; }
         public string nombre { get; set; }
         public float cantidad { get; set; }
-        public int id_unidad { get; set; }
         public decimal costo { get; set; }
         public string proveedor { get; set; }
+        public UnidadMedidaEntidad unidad { get; set; }
         public IngredienteEntidad() { }
     }
 }
