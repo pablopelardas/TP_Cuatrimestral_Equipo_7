@@ -10,22 +10,25 @@ namespace Datos.Repositorios
     {
         public static string GetSelectContactos(string prefix = "")
         {
+            string prefixTable = prefix.Length > 0 ? prefix.Replace(".", "_") + '_' : "";
+            prefix = prefix.Length > 0 ? prefix + "." : "";
             return $@"
-CONTACTOS.id_contacto as '{prefix}id_contacto',
-CONTACTOS.nombre_apellido as '{prefix}nombre_apellido',
-CONTACTOS.tipo as '{prefix}tipo',
-CONTACTOS.correo as '{prefix}correo',
-CONTACTOS.telefono as '{prefix}telefono',
-CONTACTOS.fuente as '{prefix}fuente',
-CONTACTOS.direccion as '{prefix}direccion',
-CONTACTOS.producto_que_provee as '{prefix}producto_que_provee',
-CONTACTOS.desea_recibir_correos as '{prefix}desea_recibir_correos',
-CONTACTOS.desea_recibir_whatsapp as '{prefix}desea_recibir_whatsapp',
-CONTACTOS.informacion_personal as '{prefix}informacion_personal'
+{prefixTable}CONTACTOS.id_contacto as '{prefix}id_contacto',
+{prefixTable}CONTACTOS.nombre_apellido as '{prefix}nombre_apellido',
+{prefixTable}CONTACTOS.tipo as '{prefix}tipo',
+{prefixTable}CONTACTOS.correo as '{prefix}correo',
+{prefixTable}CONTACTOS.telefono as '{prefix}telefono',
+{prefixTable}CONTACTOS.fuente as '{prefix}fuente',
+{prefixTable}CONTACTOS.direccion as '{prefix}direccion',
+{prefixTable}CONTACTOS.producto_que_provee as '{prefix}producto_que_provee',
+{prefixTable}CONTACTOS.desea_recibir_correos as '{prefix}desea_recibir_correos',
+{prefixTable}CONTACTOS.desea_recibir_whatsapp as '{prefix}desea_recibir_whatsapp',
+{prefixTable}CONTACTOS.informacion_personal as '{prefix}informacion_personal'
 ";
         }
         public static Entidades.ContactoEntidad GetEntidadFromReader(System.Data.SqlClient.SqlDataReader reader, string prefix = "")
         {
+            prefix = prefix.Length > 0 ? prefix + "." : "";
             Entidades.ContactoEntidad entidad = new Entidades.ContactoEntidad();
             // OBLIGATORIOS
             entidad.id_contacto = (int)reader[$"{prefix}id_contacto"];

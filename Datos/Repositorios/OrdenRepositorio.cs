@@ -15,34 +15,44 @@ namespace Datos.Repositorios
 
         public static string GetSelectOrdenes(string prefix = "")
         {
+            string prefixTable = prefix.Length > 0 ? prefix.Replace(".", "_") + '_' : "";
+            prefix = prefix.Length > 0 ? prefix + "." : "";
             return $@"
-    ORDENES.id_orden as '{prefix}id_orden',
-    ORDENES.fecha as '{prefix}fecha',
-    ORDENES.tipo_evento as '{prefix}tipo_evento',
-    ORDENES.tipo_entrega as '{prefix}tipo_entrega',
-    ORDENES.hora_entrega as '{prefix}hora_entrega',
-    ORDENES.descripcion as '{prefix}descripcion',
-    (SELECT SUM (DO.cantidad * DO.producto_precio) FROM DETALLE_ORDENES DO WHERE DO.id_orden = ORDENES.id_orden) as '{prefix}subtotal',
-    ORDENES.descuento_porcentaje as '{prefix}descuento_porcentaje',
-    ORDENES.costo_envio as '{prefix}costo_envio',
-    ORDENES.direccion_entrega as '{prefix}direccion_entrega',
-    {ContactoRepositorio.GetSelectContactos(prefix + "cliente.")},
-    {OrdenEstadoRepositorio.GetSelectOrdenesEstados(prefix + "estado.")},
-    {OrdenEstadoPagoRepositorio.GetSelectOrdenesEstadosPago(prefix + "estado_pago.")}
+{prefixTable}ORDENES.id_orden as '{prefix}id_orden',
+{prefixTable}ORDENES.fecha as '{prefix}fecha',
+{prefixTable}ORDENES.tipo_evento as '{prefix}tipo_evento',
+{prefixTable}ORDENES.tipo_entrega as '{prefix}tipo_entrega',
+{prefixTable}ORDENES.hora_entrega as '{prefix}hora_entrega',
+{prefixTable}ORDENES.descripcion as '{prefix}descripcion',
+(SELECT SUM (DO.cantidad * DO.producto_precio) FROM DETALLE_ORDENES DO WHERE DO.id_orden = ORDENES.id_orden) as '{prefix}subtotal',
+{prefixTable}ORDENES.descuento_porcentaje as '{prefix}descuento_porcentaje',
+{prefixTable}ORDENES.costo_envio as '{prefix}costo_envio',
+{prefixTable}ORDENES.direccion_entrega as '{prefix}direccion_entrega',
+{ContactoRepositorio.GetSelectContactos(prefix + "cliente")},
+{OrdenEstadoRepositorio.GetSelectOrdenesEstados(prefix + "estado")},
+{OrdenEstadoPagoRepositorio.GetSelectOrdenesEstadosPago(prefix + "estado_pago")}
 ";
         }
 
+
         public static string GetJoinOrdenes(string prefix = "")
         {
+            prefix = prefix.Length > 0 ? prefix.Replace(".", "_") + '_' : "";
+            string clienteAlias = prefix + "cliente_" + "CONTACTOS";
+            string estadoAlias = prefix + "estado_" + "ORDENES_ESTADOS";
+            string estadoPagoAlias = prefix + "estado_pago_" + "ORDENES_PAGO_ESTADOS";
+
             return $@"
-INNER JOIN CONTACTOS ON ORDENES.ID_CLIENTE = CONTACTOS.ID_CONTACTO
-INNER JOIN ORDENES_ESTADOS ON ORDENES.id_orden_estado = ORDENES_ESTADOS.id_orden_estado
-INNER JOIN ORDENES_PAGO_ESTADOS ON ORDENES.id_orden_pago_estado = ORDENES_PAGO_ESTADOS.id_orden_pago_estado
-";
+            INNER JOIN CONTACTOS AS {clienteAlias} ON {prefix}ORDENES.ID_CLIENTE = {clienteAlias}.ID_CONTACTO
+            INNER JOIN ORDENES_ESTADOS as {estadoAlias} ON {prefix}ORDENES.id_orden_estado = {estadoAlias}.id_orden_estado
+            INNER JOIN ORDENES_PAGO_ESTADOS as {estadoPagoAlias} ON {prefix}ORDENES.id_orden_pago_estado = {estadoPagoAlias}.id_orden_pago_estado
+            ";
         }
 
         private OrdenEntidad GetEntidadFromReader(System.Data.SqlClient.SqlDataReader reader, string prefix = "")
         {
+            prefix = prefix.Length > 0 ? prefix + "." : "";
+
             OrdenEntidad entidad = new OrdenEntidad();
             // OBLIGATORIOS
             entidad.id_orden = (int)reader[$"{prefix}id_orden"];
@@ -60,9 +70,9 @@ INNER JOIN ORDENES_PAGO_ESTADOS ON ORDENES.id_orden_pago_estado = ORDENES_PAGO_E
 
             // OTRAS ENTIDADES
             // orden.
-            entidad.cliente = ContactoRepositorio.GetEntidadFromReader(reader, prefix + "cliente.");
-            entidad.estado = OrdenEstadoRepositorio.GetEntidadFromReader(reader, prefix + "estado.");
-            entidad.estado_pago = OrdenEstadoPagoRepositorio.GetEntidadFromReader(reader, prefix + "estado_pago.");
+            entidad.cliente = ContactoRepositorio.GetEntidadFromReader(reader, prefix + "cliente");
+            entidad.estado = OrdenEstadoRepositorio.GetEntidadFromReader(reader, prefix + "estado");
+            entidad.estado_pago = OrdenEstadoPagoRepositorio.GetEntidadFromReader(reader, prefix + "estado_pago");
 
             return entidad;
         }
