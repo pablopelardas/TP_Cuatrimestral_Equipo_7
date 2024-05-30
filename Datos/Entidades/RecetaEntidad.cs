@@ -11,8 +11,9 @@ namespace Datos.Entidades
         public int id_receta { get; set; }
         public string nombre { get; set; }
         public string descripcion { get; set; }
-        public int id_categoria { get; set; }
         public decimal precio_personalizado { get; set; }
+        public Entidades.CategoriaEntidad categoria { get; set; }
+
         public RecetaEntidad() { }
     }
 }

@@ -45,6 +45,7 @@
     <Compile Include="Entidades\CategoriaEntidad.cs" />
     <Compile Include="Entidades\ContactoEntidad.cs" />
     <Compile Include="Entidades\DetalleEntidad.cs" />
+    <Compile Include="Entidades\IngredienteDetalleRecetaEntidad.cs" />
     <Compile Include="Entidades\IngredienteEntidad.cs" />
     <Compile Include="Entidades\OrdenEntidad.cs" />
     <Compile Include="Entidades\OrdenEstadoEntidad.cs" />
@@ -64,6 +65,7 @@
     <Compile Include="Mappers\UnidadMedidaMapper.cs" />
     <Compile Include="Repositorios\ContactoRepositorio.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositorios\IngredienteDetalleRecetaRepositorio.cs" />
     <Compile Include="Repositorios\IngredienteRepositorio.cs" />
     <Compile Include="Repositorios\OrdenEstadoPagoRepositorio.cs" />
     <Compile Include="Repositorios\OrdenEstadoRepositorio.cs" />
