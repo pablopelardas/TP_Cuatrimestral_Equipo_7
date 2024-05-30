@@ -9,49 +9,70 @@ namespace Datos.Repositorios
 {
     internal class ProductoDetalleOrdenRepositorio
     {
+        public static string GetSelectDetalleProducto(string prefix = "")
+        {
+            string prefixTable = prefix.Length > 0 ? prefix.Replace(".", "_") + '_' : "";
+            prefix = prefix.Length > 0 ? prefix + "." : "";
+            return $@"
+{prefixTable}DETALLE_ORDENES.producto_costo AS '{prefix}producto_costo',
+{prefixTable}DETALLE_ORDENES.producto_porciones AS '{prefix}producto_porciones',
+{prefixTable}DETALLE_ORDENES.producto_precio AS '{prefix}producto_precio',
+{prefixTable}DETALLE_ORDENES.cantidad AS '{prefix}cantidad',
+{ProductoRepositorio.GetSelectProductos("producto")}
+";
+        }
+
+        public static string GetJoinDetalleProducto(string prefix = "")
+        {
+            prefix = prefix.Length > 0 ? prefix.Replace(".", "_") + '_' : "";
+            string estadoPagoAlias = prefix + "estado_pago_" + "ORDENES_PAGO_ESTADOS";
+            string aliasProducto = prefix + "producto_" + "PRODUCTOS";
+
+            return $@"
+INNER JOIN PRODUCTOS AS {aliasProducto} ON {prefix}DETALLE_ORDENES.ID_PRODUCTO = {aliasProducto}.ID_PRODUCTO
+{ProductoRepositorio.GetJoinProductos(prefix + "producto")}
+            ";
+
+        }
+
+        public static Entidades.ProductoDetalleOrdenEntidad GetEntidadFromReader(System.Data.SqlClient.SqlDataReader reader, string prefix = "")
+        {
+            prefix = prefix.Length > 0 ? prefix + "." : "";
+            Entidades.ProductoDetalleOrdenEntidad entidad = new Entidades.ProductoDetalleOrdenEntidad();
+            entidad.cantidad = (int)reader[$"{prefix}cantidad"];
+            entidad.producto_porciones = (int)reader[$"{prefix}producto_porciones"];
+            entidad.producto_costo = (decimal)reader[$"{prefix}producto_costo"];
+            entidad.producto_precio = (decimal)reader[$"{prefix}producto_precio"];
+
+            entidad.producto = ProductoRepositorio.GetEntidadFromReader(reader, "producto");
+            return entidad;
+        }
+
         public List<ProductoDetalleOrdenModelo> ObtenerDetallePorOrden(int id)
         {
             List<ProductoDetalleOrdenModelo> productos = new List<ProductoDetalleOrdenModelo>();
             AccesoDatos datos = new AccesoDatos();
             try
             {
-                string cmd = @"
+                string cmd = $@"
 SELECT 
-    DO.producto_costo,
-    DO.producto_porciones,
-    DO.producto_precio,
-    DO.cantidad,
-    p.id_producto,
-    p.nombre as producto_nombre,
-    p.descripcion,
-    p.horas_trabajo,
-    p.tipo_precio,
-    c.*
-FROM DETALLE_ORDENES DO
-INNER JOIN PRODUCTOS P ON DO.ID_PRODUCTO = P.ID_PRODUCTO
-INNER JOIN CATEGORIAS C ON P.ID_CATEGORIA = C.ID_CATEGORIA
-WHERE DO.ID_ORDEN = @id
+{GetSelectDetalleProducto()}
+FROM DETALLE_ORDENES
+{GetJoinDetalleProducto()}
+WHERE DETALLE_ORDENES.ID_ORDEN = @id
                     ";
                 datos.SetearConsulta(cmd);
                 datos.SetearParametro("@id", id);
                 datos.EjecutarLectura();
                 while (datos.Lector.Read())
                 {
-                    Vistas.ProductoDetalleOrdenVista vista = new Vistas.ProductoDetalleOrdenVista();
-                    vista.producto_costo = (decimal)datos.Lector["producto_costo"];
-                    vista.producto_porciones = (int)datos.Lector["producto_porciones"];
-                    vista.producto_precio = (decimal)datos.Lector["producto_precio"];
-                    vista.id_producto = (int)datos.Lector["id_producto"];
-                    vista.producto_nombre = (string)datos.Lector["producto_nombre"];
-                    vista.descripcion = (string)datos.Lector["descripcion"];
-                    vista.horas_trabajo = (decimal)datos.Lector["horas_trabajo"];
-                    vista.tipo_precio = (string)datos.Lector["tipo_precio"];
-                    vista.id_categoria = (int)datos.Lector["id_categoria"];
-                    vista.tipo = (string)datos.Lector["tipo"];
-                    vista.nombre = (string)datos.Lector["nombre"];
-                    vista.cantidad = (int)datos.Lector["cantidad"];
-
-                    productos.Add(Mappers.ProductoDetalleOrdenMapper.VistaAModelo(vista));
+                    Entidades.ProductoDetalleOrdenEntidad entidad = new Entidades.ProductoDetalleOrdenEntidad();
+                      entidad.producto = ProductoRepositorio.GetEntidadFromReader(datos.Lector, "producto.");
+                      entidad.cantidad = (int)datos.Lector["cantidad"];
+                      entidad.producto_porciones = (int)datos.Lector["producto_porciones"];
+                      entidad.producto_costo = (decimal)datos.Lector["producto_costo"];
+                      entidad.producto_precio = (decimal)datos.Lector["producto_precio"];
+                    productos.Add(Mappers.ProductoDetalleOrdenMapper.EntidadAModelo(entidad));
                 }
                 return productos;
             }
