@@ -7,23 +7,23 @@ using System.Web.Services.Description;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-namespace TP_Cuatrimestral_Equipo_7.Contactos
+namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
 {
     public partial class EditarOrden : System.Web.UI.Page
     {
-        public Dominio.Modelos.ContactoModelo contacto;
-        private Negocio.Servicios.ContactoServicio negocio;
+        public Dominio.Modelos.OrdenModelo orden;
+        private Negocio.Servicios.OrdenServicio servicioOrden;
         public string id = null;
         protected void Page_Load(object sender, EventArgs e)
         {
-            negocio = new Negocio.Servicios.ContactoServicio();
+            servicioOrden = new Negocio.Servicios.OrdenServicio();
             id = Request.QueryString["id"];
             
             if (!IsPostBack)
             {
                 if (id == null)
                 {
-                    contacto = new Dominio.Modelos.ContactoModelo();
+                    orden = new Dominio.Modelos.OrdenModelo();
                 } else
                 {
                     try
@@ -31,18 +31,10 @@ namespace TP_Cuatrimestral_Equipo_7.Contactos
                         int idInt = Convert.ToInt32(Request.QueryString["id"]);
                         if (idInt > 0)
                         {
-                            contacto = negocio.ObtenerPorId(idInt);
-                            if (contacto != null)
+                            orden = servicioOrden.ObtenerPorId(idInt);
+                            if (orden != null)
                             {
-                                ddlTipo.SelectedValue = contacto.Rol == "Cliente" ? "1" : "2";
-                                txtNombreApellido.Text = contacto.NombreApellido;
-                                txtCorreo.Text = contacto.Email;
-                                txtTelefono.Text = contacto.Telefono;
-                                txtDireccion.Text = contacto.Direccion;
-                                txtFuente.Text = contacto.Fuente;
-                                chkDeseaRecibirCorreos.Checked = contacto.DeseaRecibirCorreos;
-                                chkDeseaRecibirWhatsapps.Checked = contacto.DeseaRecibirWhatsapp;
-                                tiny.Text = contacto.InformacionPersonal;
+                               
                             }
                         }
                     }
@@ -61,19 +53,11 @@ namespace TP_Cuatrimestral_Equipo_7.Contactos
             ScriptManager.RegisterStartupScript(this, GetType(), "text", "LoadTiny();", true);
         }
 
-        private ContactoModelo ObtenerModeloDesdeFormulario()
+        private OrdenModelo ObtenerModeloDesdeFormulario()
         {
-            return new ContactoModelo
+            return new OrdenModelo
             {
-                NombreApellido = txtNombreApellido.Text,
-                Email = txtCorreo.Text,
-                Telefono = txtTelefono.Text,
-                Direccion = txtDireccion.Text,
-                Rol = ddlTipo.SelectedValue == "1" ? "Cliente" : "Proveedor",
-                Fuente = txtFuente.Text,
-                DeseaRecibirCorreos = chkDeseaRecibirCorreos.Checked,
-                DeseaRecibirWhatsapp = chkDeseaRecibirWhatsapps.Checked,
-                InformacionPersonal = tiny.Text
+
             };
         }
 
@@ -81,13 +65,13 @@ namespace TP_Cuatrimestral_Equipo_7.Contactos
         {
             if (id != null)
             {
-                ContactoModelo Ob = ObtenerModeloDesdeFormulario();
-                Ob.Id = Convert.ToInt32(id);
-                negocio.Modificar(Ob);
+                OrdenModelo Ob = ObtenerModeloDesdeFormulario();
+                Ob.IdOrden = Convert.ToInt32(id);
+                servicioOrden.Modificar(Ob);
             }
             else
             {
-                negocio.Agregar(ObtenerModeloDesdeFormulario());
+                servicioOrden.Agregar(ObtenerModeloDesdeFormulario());
             }
             
         }

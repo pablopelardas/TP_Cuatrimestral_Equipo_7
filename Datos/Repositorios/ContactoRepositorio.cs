@@ -8,21 +8,39 @@ namespace Datos.Repositorios
 {
     public class ContactoRepositorio
     {
-
-        private Entidades.ContactoEntidad getEntidadFromReader(System.Data.SqlClient.SqlDataReader reader)
+        public static string GetSelectContactos(string prefix = "")
+        {
+            return $@"
+CONTACTOS.id_contacto as '{prefix}id_contacto',
+CONTACTOS.nombre_apellido as '{prefix}nombre_apellido',
+CONTACTOS.tipo as '{prefix}tipo',
+CONTACTOS.correo as '{prefix}correo',
+CONTACTOS.telefono as '{prefix}telefono',
+CONTACTOS.fuente as '{prefix}fuente',
+CONTACTOS.direccion as '{prefix}direccion',
+CONTACTOS.producto_que_provee as '{prefix}producto_que_provee',
+CONTACTOS.desea_recibir_correos as '{prefix}desea_recibir_correos',
+CONTACTOS.desea_recibir_whatsapp as '{prefix}desea_recibir_whatsapp',
+CONTACTOS.informacion_personal as '{prefix}informacion_personal'
+";
+        }
+        public static Entidades.ContactoEntidad GetEntidadFromReader(System.Data.SqlClient.SqlDataReader reader, string prefix = "")
         {
             Entidades.ContactoEntidad entidad = new Entidades.ContactoEntidad();
-            entidad.id_contacto = (int)reader["id_contacto"];
-            entidad.nombre_apellido = (string)reader["nombre_apellido"];
-            entidad.tipo = (string)reader["tipo"];
-            entidad.telefono = (string)reader["telefono"];
-            entidad.correo = (string)reader["correo"];
-            entidad.direccion = (string)reader["direccion"];
-            entidad.fuente = (string)reader["fuente"];
-            entidad.producto_que_provee = reader["producto_que_provee"] == DBNull.Value ? null : (string)reader["producto_que_provee"];
-            entidad.desea_recibir_correos = (bool)reader["desea_recibir_correos"];
-            entidad.desea_recibir_whatsapp = (bool)reader["desea_recibir_whatsapp"];
-            entidad.informacion_personal = reader["informacion_personal"] == DBNull.Value ? null : (string)reader["informacion_personal"];
+            // OBLIGATORIOS
+            entidad.id_contacto = (int)reader[$"{prefix}id_contacto"];
+            entidad.nombre_apellido = (string)reader[$"{prefix}nombre_apellido"];
+            entidad.tipo = (string)reader[$"{prefix}tipo"];
+            entidad.telefono = (string)reader[$"{prefix}telefono"];
+            entidad.correo = (string)reader[$"{prefix}correo"];
+            entidad.direccion = (string)reader[$"{prefix}direccion"];
+            entidad.fuente = (string)reader[$"{prefix}fuente"];
+            entidad.desea_recibir_correos = (bool)reader[$"{prefix}desea_recibir_correos"];
+            entidad.desea_recibir_whatsapp = (bool)reader[$"{prefix}desea_recibir_whatsapp"];
+
+            // OPCIONALES
+            entidad.producto_que_provee = reader[$"{prefix}producto_que_provee"] == DBNull.Value ? null : (string)reader[$"{prefix}producto_que_provee"];
+            entidad.informacion_personal = reader[$"{prefix}informacion_personal"] == DBNull.Value ? null : (string)reader[$"{prefix}informacion_personal"];
             return entidad;
         }
 
@@ -62,12 +80,17 @@ namespace Datos.Repositorios
             AccesoDatos datos = new AccesoDatos();
             try
             {
-                datos.SetearConsulta("SELECT * FROM [dbo].[CONTACTOS]");
+                string cmd = $@"
+SELECT
+    {GetSelectContactos()}
+FROM CONTACTOS
+";
+                datos.SetearConsulta(cmd);
                 datos.EjecutarLectura();
 
                 while (datos.Lector.Read())
                 {
-                    Entidades.ContactoEntidad entidad = getEntidadFromReader(datos.Lector);
+                    Entidades.ContactoEntidad entidad = GetEntidadFromReader(datos.Lector);
                     contactos.Add(Mappers.ContactoMapper.EntidadAModelo(entidad));
                 }
                 return contactos;
@@ -87,11 +110,17 @@ namespace Datos.Repositorios
             AccesoDatos datos = new AccesoDatos();
             try
             {
+                string cmd = $@"
+SELECT
+    {GetSelectContactos()}
+FROM CONTACTOS
+WHERE id_contacto = @id
+";
                 datos.SetearParametro("@id", id);
-                datos.SetearConsulta(datos.Comando.CommandText = "SELECT * FROM [dbo].[CONTACTOS] WHERE id_contacto = @id");
+                datos.SetearConsulta(cmd);
                 datos.EjecutarLectura();
                 datos.Lector.Read();
-                Entidades.ContactoEntidad entidad = getEntidadFromReader(datos.Lector);
+                Entidades.ContactoEntidad entidad = GetEntidadFromReader(datos.Lector);
 
                 return Mappers.ContactoMapper.EntidadAModelo(entidad);
             }

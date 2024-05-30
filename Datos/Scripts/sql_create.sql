@@ -115,6 +115,16 @@ CREATE TABLE "DETALLE_PRODUCTOS"(
     )
 )
 
+CREATE TABLE "ORDENES_ESTADOS"(
+	"id_orden_estado" INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
+	"nombre" VARCHAR(50) NOT NULL
+)
+
+CREATE TABLE "ORDENES_PAGO_ESTADOS"(
+	"id_orden_pago_estado" INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
+	"nombre" VARCHAR(50) NOT NULL
+)
+
 CREATE TABLE "ORDENES"(
     "id_orden" INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
     "id_cliente" INT NOT NULL,
@@ -124,8 +134,13 @@ CREATE TABLE "ORDENES"(
     "descripcion" VARCHAR(200),
     "descuento_porcentaje" DECIMAL,
     "costo_envio" DECIMAL,
+    "direccion_entrega" VARCHAR(200),
+    "hora_entrega" TIME NOT NULL,
+    "id_orden_estado" INT DEFAULT 1,
+    "id_orden_pago_estado" INT DEFAULT 1,
 
-    FOREIGN KEY ("id_cliente") REFERENCES "CONTACTOS"("id_contacto")
+    FOREIGN KEY ("id_cliente") REFERENCES "CONTACTOS"("id_contacto"),
+    FOREIGN KEY ("id_orden_estado") REFERENCES "ORDENES_ESTADOS"("id_orden_estado")
 )
 
 CREATE TABLE "DETALLE_ORDENES"(

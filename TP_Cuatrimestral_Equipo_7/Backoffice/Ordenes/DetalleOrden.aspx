@@ -45,11 +45,15 @@
         </div>
         <%-- DIV Tipo entrega  --%>
         <div>
-            <h3>Tipo de entrega</h3>
+            <h3>Datos de la entrega</h3>
             <div>
                 <div>
                     <span>Tipo de entrega: </span>
                     <span><%: orden.TipoEntrega %></span>
+                </div>
+                <div>
+                    <span>Hora de entrega: </span>
+                    <span><%: orden %></span>
                 </div>
                 <div>
                     <span>Correo: </span>
@@ -59,10 +63,7 @@
                     <span>Telefono: </span>
                     <span><%: orden.Cliente.Telefono %></span>
                 </div>
-                <div>
-                    <span>Direccion: </span>
-                    <span><%: orden.Cliente.Direccion %></span>
-                </div>
+                   
             </div>
         </div>
         <%-- DIV Orden  --%>

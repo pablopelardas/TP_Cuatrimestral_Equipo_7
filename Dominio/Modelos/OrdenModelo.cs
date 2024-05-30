@@ -12,6 +12,8 @@ namespace Dominio.Modelos
         public DateTime Fecha { get; set; }
         public string TipoEvento { get; set; }
         public string TipoEntrega { get; set; }
+        public string HoraEntrega { get; set; }
+        public string DireccionEntrega { get; set; }
         public decimal DescuentoPorcentaje { get; set; }
         public decimal Subtotal { get; set; }
         public decimal CostoEnvio { get; set; }
@@ -26,6 +28,10 @@ namespace Dominio.Modelos
         }
 
         public ContactoModelo Cliente { get; set; }
+        public OrdenEstadoModelo Estado { get; set; }
+        public OrdenEstadoPagoModelo EstadoPago { get; set; }
+
+
 
         public List<ProductoDetalleOrdenModelo> DetalleProductos { get; set; } = new List<ProductoDetalleOrdenModelo>();
     }
