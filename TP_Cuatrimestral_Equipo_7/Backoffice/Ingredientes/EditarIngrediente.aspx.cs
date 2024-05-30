@@ -11,19 +11,19 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ingredientes
 {
     public partial class EditarIngrediente : System.Web.UI.Page
     {
-        public Dominio.Modelos.ContactoModelo contacto;
-        private Negocio.Servicios.ContactoServicio negocio;
+        public Dominio.Modelos.IngredienteModelo ingrediente;
+        private Negocio.Servicios.IngredienteServicio negocio;
         public string id = null;
         protected void Page_Load(object sender, EventArgs e)
         {
-            negocio = new Negocio.Servicios.ContactoServicio();
+            negocio = new Negocio.Servicios.IngredienteServicio();
             id = Request.QueryString["id"];
             
             if (!IsPostBack)
             {
                 if (id == null)
                 {
-                    contacto = new Dominio.Modelos.ContactoModelo();
+                    ingrediente = new Dominio.Modelos.IngredienteModelo();
                 } else
                 {
                     try
@@ -31,18 +31,15 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ingredientes
                         int idInt = Convert.ToInt32(Request.QueryString["id"]);
                         if (idInt > 0)
                         {
-                            contacto = negocio.ObtenerPorId(idInt);
-                            if (contacto != null)
+                            ingrediente = negocio.ObtenerPorId(idInt);
+                            if (ingrediente != null)
                             {
-                                ddlTipo.SelectedValue = contacto.Rol == "Cliente" ? "1" : "2";
-                                txtNombreApellido.Text = contacto.NombreApellido;
-                                txtCorreo.Text = contacto.Email;
-                                txtTelefono.Text = contacto.Telefono;
-                                txtDireccion.Text = contacto.Direccion;
-                                txtFuente.Text = contacto.Fuente;
-                                chkDeseaRecibirCorreos.Checked = contacto.DeseaRecibirCorreos;
-                                chkDeseaRecibirWhatsapps.Checked = contacto.DeseaRecibirWhatsapp;
-                                tiny.Text = contacto.InformacionPersonal;
+                                //ddlTipo.SelectedValue = ingrediente.Rol == "Cliente" ? "1" : "2";
+                                txtNombre.Text = ingrediente.Nombre;
+                                txtCantidad.Text = ingrediente.Cantidad.ToString();
+                                txtUnidadMedida.Text = ingrediente.Unidad.Nombre;
+                                txtCosto.Text = ingrediente.Costo.ToString();
+                                txtProveedor.Text = ingrediente.Proveedor;
                             }
                         }
                     }
@@ -55,25 +52,16 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ingredientes
             }
 
         }
-    
-        protected void OnTinyLoad(object sender, EventArgs e)
-        {
-            ScriptManager.RegisterStartupScript(this, GetType(), "text", "LoadTiny();", true);
-        }
 
-        private ContactoModelo ObtenerModeloDesdeFormulario()
+        private IngredienteModelo ObtenerModeloDesdeFormulario()
         {
-            return new ContactoModelo
+            return new IngredienteModelo
             {
-                NombreApellido = txtNombreApellido.Text,
-                Email = txtCorreo.Text,
-                Telefono = txtTelefono.Text,
-                Direccion = txtDireccion.Text,
-                Rol = ddlTipo.SelectedValue == "1" ? "Cliente" : "Proveedor",
-                Fuente = txtFuente.Text,
-                DeseaRecibirCorreos = chkDeseaRecibirCorreos.Checked,
-                DeseaRecibirWhatsapp = chkDeseaRecibirWhatsapps.Checked,
-                InformacionPersonal = tiny.Text
+                Nombre = txtNombre.Text,
+                Cantidad = Convert.ToDouble(txtCantidad.Text),
+                //Unidad = txtUnidadMedida.Text,
+                Costo = Convert.ToDecimal(txtCosto.Text),
+                Proveedor = txtProveedor.Text
             };
         }
 
@@ -81,16 +69,14 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ingredientes
         {
             if (id != null)
             {
-                ContactoModelo Ob = ObtenerModeloDesdeFormulario();
-                Ob.Id = Convert.ToInt32(id);
+                IngredienteModelo Ob = ObtenerModeloDesdeFormulario();
+                Ob.IdIngrediente = Convert.ToInt32(id);
                 negocio.Modificar(Ob);
             }
             else
             {
                 negocio.Agregar(ObtenerModeloDesdeFormulario());
             }
-            
         }
-
     }
 }
