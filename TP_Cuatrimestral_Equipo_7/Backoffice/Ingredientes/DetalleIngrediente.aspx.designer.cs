@@ -15,84 +15,48 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ingredientes
     {
 
         /// <summary>
-        /// lblTipo control.
+        /// lblNombre control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblTipo;
+        protected global::System.Web.UI.WebControls.Label lblNombre;
 
         /// <summary>
-        /// lblNombreApellido control.
+        /// lblCantidad control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblNombreApellido;
+        protected global::System.Web.UI.WebControls.Label lblCantidad;
 
         /// <summary>
-        /// lblCorreo control.
+        /// lblUnidadAbreviatura control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblCorreo;
+        protected global::System.Web.UI.WebControls.Label lblUnidadAbreviatura;
 
         /// <summary>
-        /// lblTelefono control.
+        /// lblCosto control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblTelefono;
+        protected global::System.Web.UI.WebControls.Label lblCosto;
 
         /// <summary>
-        /// lblFuente control.
+        /// lblProveedor control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblFuente;
-
-        /// <summary>
-        /// lblDireccion control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblDireccion;
-
-        /// <summary>
-        /// lblDeseaRecibirCorreos control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblDeseaRecibirCorreos;
-
-        /// <summary>
-        /// lblDeseaRecibirWhatsapps control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblDeseaRecibirWhatsapps;
-
-        /// <summary>
-        /// litInformacionPersonal control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal litInformacionPersonal;
+        protected global::System.Web.UI.WebControls.Label lblProveedor;
     }
 }

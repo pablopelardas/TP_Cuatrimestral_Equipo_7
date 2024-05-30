@@ -9,39 +9,34 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ingredientes
 {
     public partial class DetalleIngrediente : System.Web.UI.Page
     {
-        public Dominio.Modelos.ContactoModelo contacto;
-        private Negocio.Servicios.ContactoServicio negocio;
+        public Dominio.Modelos.IngredienteModelo ingrediente;
+        private Negocio.Servicios.IngredienteServicio negocio;
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
             {
                 string id = Request.QueryString["id"];
-                negocio = new Negocio.Servicios.ContactoServicio();
-                if (id == null) Response.Redirect("/Backoffice/Contactos", false);
+                negocio = new Negocio.Servicios.IngredienteServicio();
+                if (id == null) Response.Redirect("/Backoffice/Ingredientes", false);
                 try
                 {
                     int idInt = Convert.ToInt32(Request.QueryString["id"]);
                     if (idInt > 0)
                     {
-                        contacto = negocio.ObtenerPorId(idInt);
-                        if (contacto != null)
+                        ingrediente = negocio.ObtenerPorId(idInt);
+                        if (ingrediente != null)
                         {
-                            lblTipo.Text = contacto.Rol;
-                            lblNombreApellido.Text = contacto.NombreApellido;
-                            lblCorreo.Text = contacto.Email;
-                            lblTelefono.Text = contacto.Telefono;
-                            lblFuente.Text = contacto.Fuente;
-                            lblDireccion.Text = contacto.Direccion;
-                            lblDeseaRecibirCorreos.Text = contacto.DeseaRecibirCorreos ? "Sí" : "No";
-                            lblDeseaRecibirWhatsapps.Text = contacto.DeseaRecibirWhatsapp ? "Sí" : "No";
-                            
-                            litInformacionPersonal.Text = contacto.InformacionPersonal;
+                            lblNombre.Text = ingrediente.Nombre;
+                            lblCantidad.Text = ingrediente.Cantidad.ToString();
+                            lblUnidadAbreviatura.Text = ingrediente.Unidad.Abreviatura;
+                            lblCosto.Text = ingrediente.Costo.ToString();
+                            lblProveedor.Text = ingrediente.Proveedor;
                         }
                     }
                 }
                 catch (Exception ex)
                 {
-                    Response.Redirect("/Backoffice/Contactos", false);
+                    Response.Redirect("/Backoffice/ingredientes", false);
                 }
 
             }

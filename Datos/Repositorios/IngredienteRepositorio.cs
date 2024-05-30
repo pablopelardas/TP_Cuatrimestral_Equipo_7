@@ -87,10 +87,16 @@ FROM dbo.[INGREDIENTES]
         public IngredienteModelo ObtenerPorId(int id)
         {
             AccesoDatos datos = new AccesoDatos();
-
+            string cmd = $@"
+Select
+{GetSelectIngredientes()}
+FROM [dbo].[INGREDIENTES]
+{GetJoinIngredientes()}
+WHERE id_ingrediente = @id
+";
             try
             {
-                datos.SetearConsulta("Select * from [dbo].[INGREDIENTES] where id_ingrediente = @id");
+                datos.SetearConsulta(cmd);
                 datos.SetearParametro("@id", id);
                 datos.EjecutarLectura();
                 datos.Lector.Read();

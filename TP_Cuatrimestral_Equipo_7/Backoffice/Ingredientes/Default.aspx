@@ -19,10 +19,10 @@
                         <span><%: ingrediente.Nombre %></span>
                     </div>
                     <div class="tbl-cell">
-                        <span><%: ingrediente.Cantidad %></span>
+                        <span><%: ingrediente.Proveedor %></span>
                     </div>
                     <div class="tbl-cell">
-                        <span><%: ingrediente.Unidad.Nombre %></span>
+                        <span><%: ingrediente.Cantidad + " " + ingrediente.Unidad.Abreviatura%></span>
                     </div>
                     <div class="tbl-cell">
                         <span><%: ingrediente.Costo %></span>
