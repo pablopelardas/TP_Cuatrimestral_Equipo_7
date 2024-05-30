@@ -25,7 +25,6 @@ namespace Datos.Repositorios
         public static string GetJoinDetalleProducto(string prefix = "")
         {
             prefix = prefix.Length > 0 ? prefix.Replace(".", "_") + '_' : "";
-            string estadoPagoAlias = prefix + "estado_pago_" + "ORDENES_PAGO_ESTADOS";
             string aliasProducto = prefix + "producto_" + "PRODUCTOS";
 
             return $@"
