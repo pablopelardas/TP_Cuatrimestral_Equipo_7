@@ -2,8 +2,8 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="PageHeader" runat="server">
-    <h4>Contactos</h4>
-    <a href="EditarContacto.aspx" class="btn btn-primary">Nuevo contacto</a>
+    <h4>Ingredientes</h4>
+    <a href="EditarIngrediente.aspx" class="btn btn-primary">Nuevo Ingrediente</a>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <div class="container">
