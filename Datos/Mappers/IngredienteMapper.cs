@@ -18,7 +18,7 @@ namespace Datos.Mappers
             ingrediente.IdIngrediente = entidad.id_ingrediente;
             ingrediente.Nombre = entidad.nombre;
             ingrediente.Cantidad = entidad.cantidad;
-            ingrediente.Unidad= unidad.ObtenerPorId(entidad.id_unidad);
+            ingrediente.Unidad= unidad.ObtenerPorId(entidad.unidad.id_unidad);
             ingrediente.Costo = entidad.costo;
             ingrediente.Proveedor = entidad.proveedor;
 
@@ -32,7 +32,7 @@ namespace Datos.Mappers
             entidad.id_ingrediente = ingrediente.IdIngrediente;
             entidad.nombre = ingrediente.Nombre;
             entidad.cantidad = ingrediente.Cantidad;
-            entidad.id_unidad = ingrediente.Unidad.Id;
+            entidad.unidad = UnidadMedidaMapper.ModeloAEntidad(ingrediente.Unidad);
             entidad.costo = ingrediente.Costo;
             entidad.proveedor = ingrediente.Proveedor;
 
