@@ -21,7 +21,7 @@ GO
      "producto_que_provee" VARCHAR(100),
      "desea_recibir_correos" BIT NOT NULL DEFAULT 0,
      "desea_recibir_whatsapp" BIT NOT NULL DEFAULT 0,
-	   "informacion_personal" VARCHAR(500),
+	 "informacion_personal" VARCHAR(MAX),
 
      CONSTRAINT "CK_Contacto_tipo" CHECK ("tipo" IN ('Cliente', 'Proveedor')),
  );

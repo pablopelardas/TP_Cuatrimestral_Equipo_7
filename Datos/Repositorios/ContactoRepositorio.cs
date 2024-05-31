@@ -8,7 +8,7 @@ namespace Datos.Repositorios
 {
     public class ContactoRepositorio
     {
-        public static string GetSelectContactos(string prefix = "")
+        public static string GetSelect(string prefix = "")
         {
             string prefixTable = prefix.Length > 0 ? prefix.Replace(".", "_") + '_' : "";
             prefix = prefix.Length > 0 ? prefix + "." : "";
@@ -85,7 +85,7 @@ namespace Datos.Repositorios
             {
                 string cmd = $@"
 SELECT
-    {GetSelectContactos()}
+    {GetSelect()}
 FROM CONTACTOS
 ";
                 datos.SetearConsulta(cmd);
@@ -115,7 +115,7 @@ FROM CONTACTOS
             {
                 string cmd = $@"
 SELECT
-    {GetSelectContactos()}
+    {GetSelect()}
 FROM CONTACTOS
 WHERE id_contacto = @id
 ";
