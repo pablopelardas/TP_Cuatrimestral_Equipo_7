@@ -10,16 +10,19 @@ namespace Datos.Repositorios
 {
     public class UnidadMedidaRepositorio
     {
-        public static string GetSelectUnidades(string prefix = "")
+        public static string GetSelect(string prefix = "")
         {
+            string prefixTable = prefix.Length > 0 ? prefix.Replace(".", "_") + "_" : "";
+            prefix = prefix.Length > 0 ? prefix + "." : "";
             return $@"
-UNIDADES_MEDIDA.id_unidad as '{prefix}id_unidad',
-UNIDADES_MEDIDA.nombre as '{prefix}nombre',
-UNIDADES_MEDIDA.abreviatura as '{prefix}abreviatura'
+{prefixTable}UNIDADES_MEDIDA.id_unidad as '{prefix}id_unidad',
+{prefixTable}UNIDADES_MEDIDA.nombre as '{prefix}nombre',
+{prefixTable}UNIDADES_MEDIDA.abreviatura as '{prefix}abreviatura'
 ";
         }
         public static UnidadMedidaEntidad GetEntidadFromReader(System.Data.SqlClient.SqlDataReader reader, string prefix = "")
         {
+            prefix = prefix.Length > 0 ? prefix + "." : "";
             UnidadMedidaEntidad entidad = new UnidadMedidaEntidad();
             entidad.id_unidad = (int)reader[$"{prefix}id_unidad"];
             entidad.nombre = (string)reader[$"{prefix}nombre"];
@@ -40,7 +43,7 @@ UNIDADES_MEDIDA.abreviatura as '{prefix}abreviatura'
             AccesoDatos datos = new AccesoDatos();
             string cmd = $@"
 SELECT
-{GetSelectUnidades()}
+{GetSelect()}
 FROM UNIDEADES_MEDIDA
 ";
             try
@@ -70,7 +73,7 @@ FROM UNIDEADES_MEDIDA
             AccesoDatos datos = new AccesoDatos();
             string cmd = $@"
 SELECT
-{GetSelectUnidades()}
+{GetSelect()}
 FROM [dbo].[UNIDADES_MEDIDA]
 WHERE id_unidad = @id
 ";

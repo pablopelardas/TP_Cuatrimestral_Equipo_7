@@ -10,22 +10,28 @@ namespace Datos.Repositorios
 {
     public class IngredienteRepositorio
     {
-        public static string GetSelectIngredientes(string prefix = "")
+        private static string UNIDAD_PREFIX = "uni";
+        public static string GetSelect(string prefix = "")
         {
+            string prefixTable = prefix.Length > 0 ? prefix.Replace(".", "_") + "_" : "";
+            prefix = prefix.Length > 0 ? prefix + "." : "";
+
             return $@"
-INGREDIENTES.id_ingrediente as '{prefix}id_ingrediente',
-INGREDIENTES.nombre as '{prefix}nombre',
-INGREDIENTES.cantidad as '{prefix}cantidad',
-INGREDIENTES.costo as '{prefix}costo',
-INGREDIENTES.proveedor as '{prefix}proveedor',
-{UnidadMedidaRepositorio.GetSelectUnidades(prefix + "unidad.")}
+{prefixTable}INGREDIENTES.id_ingrediente as '{prefix}id_ingrediente',
+{prefixTable}INGREDIENTES.nombre as '{prefix}nombre',
+{prefixTable}INGREDIENTES.cantidad as '{prefix}cantidad',
+{prefixTable}INGREDIENTES.costo as '{prefix}costo',
+{prefixTable}INGREDIENTES.proveedor as '{prefix}proveedor',
+{UnidadMedidaRepositorio.GetSelect(prefix + UNIDAD_PREFIX)}
 ";
         }
 
-        public static string GetJoinIngredientes()
+        public static string GetJoin(string prefix = "")
         {
+            prefix = prefix.Length > 0 ? prefix.Replace(".", "_") + '_' : "";
+            string aliasUnidades = prefix + UNIDAD_PREFIX + "_UNIDADES_MEDIDA";
             return $@"
-INNER JOIN UNIDADES_MEDIDA ON INGREDIENTES.id_unidad = UNIDADES_MEDIDA.id_unidad
+INNER JOIN UNIDADES_MEDIDA as {aliasUnidades} ON {prefix}INGREDIENTES.id_unidad = {aliasUnidades}.id_unidad
 ";
         }
         public static IngredienteEntidad GetEntidadFromReader(System.Data.SqlClient.SqlDataReader reader, string prefix = "")
@@ -38,7 +44,7 @@ INNER JOIN UNIDADES_MEDIDA ON INGREDIENTES.id_unidad = UNIDADES_MEDIDA.id_unidad
             entidad.costo = (decimal)reader[$"{prefix}costo"];
             entidad.proveedor = (string)reader[$"{prefix}proveedor"];
 
-            entidad.unidad = UnidadMedidaRepositorio.GetEntidadFromReader(reader, prefix + "unidad.");
+            entidad.unidad = UnidadMedidaRepositorio.GetEntidadFromReader(reader, prefix + UNIDAD_PREFIX);
             return entidad;
         }
 
@@ -58,11 +64,10 @@ INNER JOIN UNIDADES_MEDIDA ON INGREDIENTES.id_unidad = UNIDADES_MEDIDA.id_unidad
             AccesoDatos datos = new AccesoDatos();
             string cmd = $@"
 SELECT
-{GetSelectIngredientes()}
+{GetSelect()}
 FROM dbo.[INGREDIENTES]
-{GetJoinIngredientes()}
+{GetJoin()}
 ";
-
             try
             {
                 datos.SetearConsulta(cmd);
@@ -89,9 +94,9 @@ FROM dbo.[INGREDIENTES]
             AccesoDatos datos = new AccesoDatos();
             string cmd = $@"
 Select
-{GetSelectIngredientes()}
+{GetSelect()}
 FROM [dbo].[INGREDIENTES]
-{GetJoinIngredientes()}
+{GetJoin()}
 WHERE id_ingrediente = @id
 ";
             try
