@@ -16,7 +16,7 @@ namespace Datos.Repositorios
         private static string ESTADO_PREFIX = "est";
         private static string ESTADO_PAGO_PREFIX = "estp";
 
-        public static string GetSelectOrdenes(string prefix = "")
+        public static string GetSelect(string prefix = "")
         {
             string prefixTable = prefix.Length > 0 ? prefix.Replace(".", "_") + '_' : "";
             prefix = prefix.Length > 0 ? prefix + "." : "";
@@ -31,14 +31,14 @@ namespace Datos.Repositorios
 {prefixTable}ORDENES.descuento_porcentaje as '{prefix}descuento_porcentaje',
 {prefixTable}ORDENES.costo_envio as '{prefix}costo_envio',
 {prefixTable}ORDENES.direccion_entrega as '{prefix}direccion_entrega',
-{ContactoRepositorio.GetSelectContactos(prefix + CLIENTE_PREFIX)},
-{OrdenEstadoRepositorio.GetSelectOrdenesEstados(prefix + ESTADO_PREFIX)},
-{OrdenEstadoPagoRepositorio.GetSelectOrdenesEstadosPago(prefix + ESTADO_PAGO_PREFIX)}
+{ContactoRepositorio.GetSelect(prefix + CLIENTE_PREFIX)},
+{OrdenEstadoRepositorio.GetSelect(prefix + ESTADO_PREFIX)},
+{OrdenEstadoPagoRepositorio.GetSelect(prefix + ESTADO_PAGO_PREFIX)}
 ";
         }
 
 
-        public static string GetJoinOrdenes(string prefix = "")
+        public static string GetJoin(string prefix = "")
         {
             prefix = prefix.Length > 0 ? prefix.Replace(".", "_") + '_' : "";
             string clienteAlias = prefix + CLIENTE_PREFIX + "_CONTACTOS";
@@ -105,9 +105,9 @@ namespace Datos.Repositorios
             {
                 string cmd = $@"
 SELECT
-{GetSelectOrdenes()}
+{GetSelect()}
 FROM ORDENES
-{GetJoinOrdenes()}
+{GetJoin()}
 ";
                 datos.SetearConsulta(cmd);
                 datos.EjecutarLectura();
@@ -136,9 +136,9 @@ FROM ORDENES
             {
                 string cmd = $@"
 SELECT
-{GetSelectOrdenes()}
+{GetSelect()}
 FROM ORDENES
-{GetJoinOrdenes()}
+{GetJoin()}
 WHERE ORDENES.id_orden = @id
 ";
                 datos.SetearConsulta(cmd);

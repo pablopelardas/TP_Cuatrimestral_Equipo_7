@@ -10,7 +10,7 @@ namespace Datos.Repositorios
     internal class ProductoDetalleOrdenRepositorio
     {
         private static string PRODUCTO_PREFIX = "pro";
-        public static string GetSelectDetalleProducto(string prefix = "")
+        public static string GetSelect(string prefix = "")
         {
             string prefixTable = prefix.Length > 0 ? prefix.Replace(".", "_") + '_' : "";
             prefix = prefix.Length > 0 ? prefix + "." : "";
@@ -19,18 +19,18 @@ namespace Datos.Repositorios
 {prefixTable}DETALLE_ORDENES.producto_porciones AS '{prefix}producto_porciones',
 {prefixTable}DETALLE_ORDENES.producto_precio AS '{prefix}producto_precio',
 {prefixTable}DETALLE_ORDENES.cantidad AS '{prefix}cantidad',
-{ProductoRepositorio.GetSelectProductos(PRODUCTO_PREFIX)}
+{ProductoRepositorio.GetSelect(PRODUCTO_PREFIX)}
 ";
         }
 
-        public static string GetJoinDetalleProducto(string prefix = "")
+        public static string GetJoin(string prefix = "")
         {
             prefix = prefix.Length > 0 ? prefix.Replace(".", "_") + '_' : "";
             string aliasProducto = prefix + PRODUCTO_PREFIX + "_PRODUCTOS";
 
             return $@"
 INNER JOIN PRODUCTOS AS {aliasProducto} ON {prefix}DETALLE_ORDENES.ID_PRODUCTO = {aliasProducto}.ID_PRODUCTO
-{ProductoRepositorio.GetJoinProductos(prefix + PRODUCTO_PREFIX)}
+{ProductoRepositorio.GetJoin(prefix + PRODUCTO_PREFIX)}
             ";
 
         }
@@ -39,6 +39,7 @@ INNER JOIN PRODUCTOS AS {aliasProducto} ON {prefix}DETALLE_ORDENES.ID_PRODUCTO =
         {
             prefix = prefix.Length > 0 ? prefix + "." : "";
             Entidades.ProductoDetalleOrdenEntidad entidad = new Entidades.ProductoDetalleOrdenEntidad();
+
             entidad.cantidad = (int)reader[$"{prefix}cantidad"];
             entidad.producto_porciones = (int)reader[$"{prefix}producto_porciones"];
             entidad.producto_costo = (decimal)reader[$"{prefix}producto_costo"];
@@ -56,9 +57,9 @@ INNER JOIN PRODUCTOS AS {aliasProducto} ON {prefix}DETALLE_ORDENES.ID_PRODUCTO =
             {
                 string cmd = $@"
 SELECT 
-{GetSelectDetalleProducto()}
+{GetSelect()}
 FROM DETALLE_ORDENES
-{GetJoinDetalleProducto()}
+{GetJoin()}
 WHERE DETALLE_ORDENES.ID_ORDEN = @id
                     ";
                 datos.SetearConsulta(cmd);

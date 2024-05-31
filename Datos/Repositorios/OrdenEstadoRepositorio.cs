@@ -9,7 +9,7 @@ namespace Datos.Repositorios
     public class OrdenEstadoRepositorio
     {
 
-        public static string GetSelectOrdenesEstados(string prefix = "")
+        public static string GetSelect(string prefix = "")
         {
             string prefixTable = prefix.Length > 0 ? prefix.Replace(".", "_") + '_' : "";
             prefix = prefix.Length > 0 ? prefix + "." : "";

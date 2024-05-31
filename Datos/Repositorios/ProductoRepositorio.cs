@@ -10,7 +10,7 @@ namespace Datos.Repositorios
     public class ProductoRepositorio
     {
         private static string CATEGORIA_PREFIX = "cat";
-        public static string GetSelectProductos(string prefix = "")
+        public static string GetSelect(string prefix = "")
         {
             string prefixTable = prefix.Length > 0 ? prefix.Replace(".", "_") + '_' : "";
             prefix = prefix.Length > 0 ? prefix + "." : "";
@@ -26,7 +26,7 @@ namespace Datos.Repositorios
 ";
         }
 
-        public static string GetJoinProductos(string prefix = "")
+        public static string GetJoin(string prefix = "")
         {
             prefix = prefix.Length > 0 ? prefix.Replace(".", "_") + '_' : "";
             string aliasCategorias = prefix + CATEGORIA_PREFIX + "_CATEGORIAS";
@@ -71,9 +71,9 @@ INNER JOIN CATEGORIAS as {aliasCategorias} ON {prefix}PRODUCTOS.ID_CATEGORIA = {
             {
                 string cmd = $@"
 SELECT
-{GetSelectProductos()}
+{GetSelect()}
 FROM PRODUCTOS
-{GetJoinProductos()}
+{GetJoin()}
 ";
                 datos.SetearConsulta(cmd);
                 datos.EjecutarLectura();
@@ -102,9 +102,9 @@ FROM PRODUCTOS
             {
                 string cmd = $@"
 SELECT
-{GetSelectProductos()}
+{GetSelect()}
 FROM PRODUCTOS
-{GetJoinProductos()}
+{GetJoin()}
 WHERE id_producto = @id
 ";
                 datos.SetearParametro("@id", id);
