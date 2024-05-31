@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,26 +9,33 @@ namespace Datos.Repositorios
 {
     public class CategoriasRepositorio
     {
+        private Helpers.QueryHelper _queryHelper = new Helpers.QueryHelper();
 
-        public static string GetSelectCategorias(string prefix = "")
+        private string CategoriaSelect(string prefixTable, string prefixColumn)
         {
-            string prefixTable = prefix.Length > 0 ? prefix.Replace(".", "_") + '_' : "";
-            prefix = prefix.Length > 0 ? prefix + "." : "";
             return $@"
-{prefixTable}CATEGORIAS.id_categoria as '{prefix}id_categoria',
-{prefixTable}CATEGORIAS.nombre as '{prefix}nombre',
-{prefixTable}CATEGORIAS.tipo as '{prefix}tipo'
-";
+{prefixTable}CATEGORIAS.id_categoria as '{prefixColumn}id_categoria',
+{prefixTable}CATEGORIAS.nombre as '{prefixColumn}nombre',
+{prefixTable}CATEGORIAS.tipo as '{prefixColumn}tipo'";
         }
-        public static Entidades.CategoriaEntidad GetEntidadFromReader(System.Data.SqlClient.SqlDataReader reader, string prefix = "")
+
+        private Entidades.CategoriaEntidad CategoriaReader(System.Data.SqlClient.SqlDataReader reader, string prefixColumn = "")
         {
-            prefix = prefix.Length > 0 ? prefix + "." : "";
             Entidades.CategoriaEntidad entidad = new Entidades.CategoriaEntidad();
-            // producto.categoria.id_categoria
-            entidad.id_categoria = (int)reader[$"{prefix}id_categoria"];
-            entidad.nombre = (string)reader[$"{prefix}nombre"];
-            entidad.tipo = (string)reader[$"{prefix}tipo"];
+            entidad.id_categoria = (int)reader[$"{prefixColumn}id_categoria"];
+            entidad.nombre = (string)reader[$"{prefixColumn}nombre"];
+            entidad.tipo = (string)reader[$"{prefixColumn}tipo"];
             return entidad;
+        }
+
+        public string GetSelect(string prefix = "")
+        
+        {
+            return _queryHelper.BuildSelect(prefix, CategoriaSelect);
+        }
+        public Entidades.CategoriaEntidad GetEntity(System.Data.SqlClient.SqlDataReader reader, string prefix = "")
+        {
+            return _queryHelper.BuildEntityFromReader(reader, prefix, CategoriaReader);
         }
     }
 }

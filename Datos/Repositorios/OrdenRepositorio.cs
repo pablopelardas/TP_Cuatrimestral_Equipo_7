@@ -12,72 +12,87 @@ namespace Datos.Repositorios
 {
     public class OrdenRepositorio
     {
-        private static string CLIENTE_PREFIX = "cli";
-        private static string ESTADO_PREFIX = "est";
-        private static string ESTADO_PAGO_PREFIX = "estp";
+        private Helpers.QueryHelper _QueryHelper = new Helpers.QueryHelper();
 
-        public static string GetSelect(string prefix = "")
+        private string CLIENTE_PREFIX = "cli";
+        private string ESTADO_PREFIX = "est";
+        private string ESTADO_PAGO_PREFIX = "estp";
+
+        private ContactoRepositorio contactoRepositorio = new ContactoRepositorio();
+        private OrdenEstadoRepositorio ordenEstadoRepositorio = new OrdenEstadoRepositorio();
+        private OrdenEstadoPagoRepositorio ordenEstadoPagoRepositorio = new OrdenEstadoPagoRepositorio();
+
+        private string OrdenSelect(string prefixTable, string prefixColumn)
         {
-            string prefixTable = prefix.Length > 0 ? prefix.Replace(".", "_") + '_' : "";
-            prefix = prefix.Length > 0 ? prefix + "." : "";
             return $@"
-{prefixTable}ORDENES.id_orden as '{prefix}id_orden',
-{prefixTable}ORDENES.fecha as '{prefix}fecha',
-{prefixTable}ORDENES.tipo_evento as '{prefix}tipo_evento',
-{prefixTable}ORDENES.tipo_entrega as '{prefix}tipo_entrega',
-{prefixTable}ORDENES.hora_entrega as '{prefix}hora_entrega',
-{prefixTable}ORDENES.descripcion as '{prefix}descripcion',
-(SELECT SUM (DO.cantidad * DO.producto_precio) FROM DETALLE_ORDENES DO WHERE DO.id_orden = ORDENES.id_orden) as '{prefix}subtotal',
-{prefixTable}ORDENES.descuento_porcentaje as '{prefix}descuento_porcentaje',
-{prefixTable}ORDENES.costo_envio as '{prefix}costo_envio',
-{prefixTable}ORDENES.direccion_entrega as '{prefix}direccion_entrega',
-{ContactoRepositorio.GetSelect(prefix + CLIENTE_PREFIX)},
-{OrdenEstadoRepositorio.GetSelect(prefix + ESTADO_PREFIX)},
-{OrdenEstadoPagoRepositorio.GetSelect(prefix + ESTADO_PAGO_PREFIX)}
+{prefixTable}ORDENES.id_orden as '{prefixColumn}id_orden',
+{prefixTable}ORDENES.fecha as '{prefixColumn}fecha',
+{prefixTable}ORDENES.tipo_evento as '{prefixColumn}tipo_evento',
+{prefixTable}ORDENES.tipo_entrega as '{prefixColumn}tipo_entrega',
+{prefixTable}ORDENES.hora_entrega as '{prefixColumn}hora_entrega',
+{prefixTable}ORDENES.descripcion as '{prefixColumn}descripcion',
+(SELECT SUM (DO.cantidad * DO.producto_precio) FROM DETALLE_ORDENES DO WHERE DO.id_orden = ORDENES.id_orden) as '{prefixColumn}subtotal',
+{prefixTable}ORDENES.descuento_porcentaje as '{prefixColumn}descuento_porcentaje',
+{prefixTable}ORDENES.costo_envio as '{prefixColumn}costo_envio',
+{prefixTable}ORDENES.direccion_entrega as '{prefixColumn}direccion_entrega',
+{contactoRepositorio.GetSelect(prefixColumn + CLIENTE_PREFIX)},
+{ordenEstadoRepositorio.GetSelect(prefixColumn + ESTADO_PREFIX)},
+{ordenEstadoPagoRepositorio.GetSelect(prefixColumn + ESTADO_PAGO_PREFIX)}
 ";
         }
 
-
-        public static string GetJoin(string prefix = "")
+        private string OrdenJoin(string prefixTable)
         {
-            prefix = prefix.Length > 0 ? prefix.Replace(".", "_") + '_' : "";
-            string clienteAlias = prefix + CLIENTE_PREFIX + "_CONTACTOS";
-            string estadoAlias = prefix + ESTADO_PREFIX + "_ORDENES_ESTADOS";
-            string estadoPagoAlias = prefix + ESTADO_PAGO_PREFIX + "_ORDENES_PAGO_ESTADOS";
+            string clienteAlias = CLIENTE_PREFIX + "_CONTACTOS";
+            string estadoAlias = ESTADO_PREFIX + "_ORDENES_ESTADOS";
+            string estadoPagoAlias = ESTADO_PAGO_PREFIX + "_ORDENES_PAGO_ESTADOS";
 
             return $@"
-            INNER JOIN CONTACTOS AS {clienteAlias} ON {prefix}ORDENES.ID_CLIENTE = {clienteAlias}.ID_CONTACTO
-            INNER JOIN ORDENES_ESTADOS as {estadoAlias} ON {prefix}ORDENES.id_orden_estado = {estadoAlias}.id_orden_estado
-            INNER JOIN ORDENES_PAGO_ESTADOS as {estadoPagoAlias} ON {prefix}ORDENES.id_orden_pago_estado = {estadoPagoAlias}.id_orden_pago_estado
-            ";
+INNER JOIN CONTACTOS AS {clienteAlias} ON {prefixTable}ORDENES.ID_CLIENTE = {clienteAlias}.ID_CONTACTO
+INNER JOIN ORDENES_ESTADOS as {estadoAlias} ON {prefixTable}ORDENES.id_orden_estado = {estadoAlias}.id_orden_estado
+INNER JOIN ORDENES_PAGO_ESTADOS as {estadoPagoAlias} ON {prefixTable}ORDENES.id_orden_pago_estado = {estadoPagoAlias}.id_orden_pago_estado
+";
         }
 
-        private OrdenEntidad GetEntidadFromReader(System.Data.SqlClient.SqlDataReader reader, string prefix = "")
+        private Entidades.OrdenEntidad OrdenReader(SqlDataReader reader, string prefixColumn = "")
         {
-            prefix = prefix.Length > 0 ? prefix + "." : "";
-
             OrdenEntidad entidad = new OrdenEntidad();
             // OBLIGATORIOS
-            entidad.id_orden = (int)reader[$"{prefix}id_orden"];
-            entidad.fecha = (DateTime)reader[$"{prefix}fecha"];
-            entidad.tipo_evento = (string)reader[$"{prefix}tipo_evento"];
-            entidad.tipo_entrega = (string)reader[$"{prefix}tipo_entrega"];
-            entidad.descripcion = (string)reader[$"{prefix}descripcion"];
-            entidad.hora_entrega = reader[$"{prefix}hora_entrega"].ToString();
-            entidad.subtotal = (decimal)reader[$"{prefix}subtotal"];
+            entidad.id_orden = (int)reader[$"{prefixColumn}id_orden"];
+            entidad.fecha = (DateTime)reader[$"{prefixColumn}fecha"];
+            entidad.tipo_evento = (string)reader[$"{prefixColumn}tipo_evento"];
+            entidad.tipo_entrega = (string)reader[$"{prefixColumn}tipo_entrega"];
+            entidad.descripcion = (string)reader[$"{prefixColumn}descripcion"];
+            entidad.hora_entrega = reader[$"{prefixColumn}hora_entrega"].ToString();
+            entidad.subtotal = (decimal)reader[$"{prefixColumn}subtotal"];
 
             // OPCIONALES
-            entidad.descuento_porcentaje = reader[$"{prefix}descuento_porcentaje"] == DBNull.Value ? 0 : (decimal)reader[$"{prefix}descuento_porcentaje"];
-            entidad.costo_envio = reader[$"{prefix}costo_envio"] == DBNull.Value ? 0 : (decimal)reader[$"{prefix}costo_envio"];
-            entidad.direccion_entrega = reader[$"{prefix}direccion_entrega"] == DBNull.Value ? "" : (string)reader[$"{prefix}direccion_entrega"];
+            entidad.descuento_porcentaje = reader[$"{prefixColumn}descuento_porcentaje"] == DBNull.Value ? 0 : (decimal)reader[$"{prefixColumn}descuento_porcentaje"];
+            entidad.costo_envio = reader[$"{prefixColumn}costo_envio"] == DBNull.Value ? 0 : (decimal)reader[$"{prefixColumn}costo_envio"];
+            entidad.direccion_entrega = reader[$"{prefixColumn}direccion_entrega"] == DBNull.Value ? "" : (string)reader[$"{prefixColumn}direccion_entrega"];
 
             // OTRAS ENTIDADES
             // orden.
-            entidad.cliente = ContactoRepositorio.GetEntidadFromReader(reader, prefix + CLIENTE_PREFIX);
-            entidad.estado = OrdenEstadoRepositorio.GetEntidadFromReader(reader, prefix + ESTADO_PREFIX);
-            entidad.estado_pago = OrdenEstadoPagoRepositorio.GetEntidadFromReader(reader, prefix + ESTADO_PAGO_PREFIX);
+            entidad.cliente = contactoRepositorio.GetEntity(reader, prefixColumn + CLIENTE_PREFIX);
+            entidad.estado = ordenEstadoRepositorio.GetEntity(reader, prefixColumn + ESTADO_PREFIX);
+            entidad.estado_pago = ordenEstadoPagoRepositorio.GetEntity(reader, prefixColumn + ESTADO_PAGO_PREFIX);
 
             return entidad;
+        }
+
+            public string GetSelect(string prefix = "")
+        {
+            return _QueryHelper.BuildSelect(prefix, OrdenSelect);
+        }
+
+        public string GetJoin(string prefix = "")
+        {
+            return _QueryHelper.BuildJoin(prefix, OrdenJoin);
+        }
+
+        private OrdenEntidad GetEntity(System.Data.SqlClient.SqlDataReader reader, string prefix = "")
+        {
+            return _QueryHelper.BuildEntityFromReader(reader, prefix, OrdenReader);
         }
 
         private void ParametrizarEntidad(OrdenEntidad entidad, AccesoDatos datos)
@@ -114,7 +129,7 @@ FROM ORDENES
 
                 while (datos.Lector.Read())
                 {
-                    ordenes.Add(Mappers.OrdenMapper.EntidadAModelo(GetEntidadFromReader(datos.Lector)));
+                    ordenes.Add(Mappers.OrdenMapper.EntidadAModelo(GetEntity(datos.Lector)));
                 }
                 return ordenes;
             }
@@ -145,7 +160,7 @@ WHERE ORDENES.id_orden = @id
                 datos.SetearParametro("@id", id);
                 datos.EjecutarLectura();
                 datos.Lector.Read();
-                orden = Mappers.OrdenMapper.EntidadAModelo(GetEntidadFromReader(datos.Lector), true);
+                orden = Mappers.OrdenMapper.EntidadAModelo(GetEntity(datos.Lector), true);
                 return orden;
             }
             catch (Exception ex)

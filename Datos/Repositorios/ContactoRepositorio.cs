@@ -8,43 +8,52 @@ namespace Datos.Repositorios
 {
     public class ContactoRepositorio
     {
-        public static string GetSelect(string prefix = "")
+        private Helpers.QueryHelper _QueryHelper = new Helpers.QueryHelper();
+
+        private string ContactoSelect(string prefixTable, string prefixColumn)
         {
-            string prefixTable = prefix.Length > 0 ? prefix.Replace(".", "_") + '_' : "";
-            prefix = prefix.Length > 0 ? prefix + "." : "";
             return $@"
-{prefixTable}CONTACTOS.id_contacto as '{prefix}id_contacto',
-{prefixTable}CONTACTOS.nombre_apellido as '{prefix}nombre_apellido',
-{prefixTable}CONTACTOS.tipo as '{prefix}tipo',
-{prefixTable}CONTACTOS.correo as '{prefix}correo',
-{prefixTable}CONTACTOS.telefono as '{prefix}telefono',
-{prefixTable}CONTACTOS.fuente as '{prefix}fuente',
-{prefixTable}CONTACTOS.direccion as '{prefix}direccion',
-{prefixTable}CONTACTOS.producto_que_provee as '{prefix}producto_que_provee',
-{prefixTable}CONTACTOS.desea_recibir_correos as '{prefix}desea_recibir_correos',
-{prefixTable}CONTACTOS.desea_recibir_whatsapp as '{prefix}desea_recibir_whatsapp',
-{prefixTable}CONTACTOS.informacion_personal as '{prefix}informacion_personal'
-";
+{prefixTable}CONTACTOS.id_contacto as '{prefixColumn}id_contacto',
+{prefixTable}CONTACTOS.nombre_apellido as '{prefixColumn}nombre_apellido',
+{prefixTable}CONTACTOS.tipo as '{prefixColumn}tipo',
+{prefixTable}CONTACTOS.correo as '{prefixColumn}correo',
+{prefixTable}CONTACTOS.telefono as '{prefixColumn}telefono',
+{prefixTable}CONTACTOS.fuente as '{prefixColumn}fuente',
+{prefixTable}CONTACTOS.direccion as '{prefixColumn}direccion',
+{prefixTable}CONTACTOS.producto_que_provee as '{prefixColumn}producto_que_provee',
+{prefixTable}CONTACTOS.desea_recibir_correos as '{prefixColumn}desea_recibir_correos',
+{prefixTable}CONTACTOS.desea_recibir_whatsapp as '{prefixColumn}desea_recibir_whatsapp',
+{prefixTable}CONTACTOS.informacion_personal as '{prefixColumn}informacion_personal'";
         }
-        public static Entidades.ContactoEntidad GetEntidadFromReader(System.Data.SqlClient.SqlDataReader reader, string prefix = "")
+
+        private Entidades.ContactoEntidad ContactoReader (System.Data.SqlClient.SqlDataReader reader, string prefixColumn = "")
         {
-            prefix = prefix.Length > 0 ? prefix + "." : "";
             Entidades.ContactoEntidad entidad = new Entidades.ContactoEntidad();
             // OBLIGATORIOS
-            entidad.id_contacto = (int)reader[$"{prefix}id_contacto"];
-            entidad.nombre_apellido = (string)reader[$"{prefix}nombre_apellido"];
-            entidad.tipo = (string)reader[$"{prefix}tipo"];
-            entidad.telefono = (string)reader[$"{prefix}telefono"];
-            entidad.correo = (string)reader[$"{prefix}correo"];
-            entidad.direccion = (string)reader[$"{prefix}direccion"];
-            entidad.fuente = (string)reader[$"{prefix}fuente"];
-            entidad.desea_recibir_correos = (bool)reader[$"{prefix}desea_recibir_correos"];
-            entidad.desea_recibir_whatsapp = (bool)reader[$"{prefix}desea_recibir_whatsapp"];
+            entidad.id_contacto = (int)reader[$"{prefixColumn}id_contacto"];
+            entidad.nombre_apellido = (string)reader[$"{prefixColumn}nombre_apellido"];
+            entidad.tipo = (string)reader[$"{prefixColumn}tipo"];
+            entidad.telefono = (string)reader[$"{prefixColumn}telefono"];
+            entidad.correo = (string)reader[$"{prefixColumn}correo"];
+            entidad.direccion = (string)reader[$"{prefixColumn}direccion"];
+            entidad.fuente = (string)reader[$"{prefixColumn}fuente"];
+            entidad.desea_recibir_correos = (bool)reader[$"{prefixColumn}desea_recibir_correos"];
+            entidad.desea_recibir_whatsapp = (bool)reader[$"{prefixColumn}desea_recibir_whatsapp"];
 
             // OPCIONALES
-            entidad.producto_que_provee = reader[$"{prefix}producto_que_provee"] == DBNull.Value ? null : (string)reader[$"{prefix}producto_que_provee"];
-            entidad.informacion_personal = reader[$"{prefix}informacion_personal"] == DBNull.Value ? null : (string)reader[$"{prefix}informacion_personal"];
+            entidad.producto_que_provee = reader[$"{prefixColumn}producto_que_provee"] == DBNull.Value ? null : (string)reader[$"{prefixColumn}producto_que_provee"];
+            entidad.informacion_personal = reader[$"{prefixColumn}informacion_personal"] == DBNull.Value ? null : (string)reader[$"{prefixColumn}informacion_personal"];
             return entidad;
+        }
+
+        public string GetSelect(string prefix = "")
+        {
+            return _QueryHelper.BuildSelect(prefix, ContactoSelect);
+        }
+
+        public Entidades.ContactoEntidad GetEntity(System.Data.SqlClient.SqlDataReader reader, string prefix = "")
+        {
+            return _QueryHelper.BuildEntityFromReader(reader, prefix, ContactoReader);
         }
 
         private void ParametrizarEntidad(Entidades.ContactoEntidad entidad, AccesoDatos datos)
@@ -93,7 +102,7 @@ FROM CONTACTOS
 
                 while (datos.Lector.Read())
                 {
-                    Entidades.ContactoEntidad entidad = GetEntidadFromReader(datos.Lector);
+                    Entidades.ContactoEntidad entidad = GetEntity(datos.Lector);
                     contactos.Add(Mappers.ContactoMapper.EntidadAModelo(entidad));
                 }
                 return contactos;
@@ -123,7 +132,7 @@ WHERE id_contacto = @id
                 datos.SetearConsulta(cmd);
                 datos.EjecutarLectura();
                 datos.Lector.Read();
-                Entidades.ContactoEntidad entidad = GetEntidadFromReader(datos.Lector);
+                Entidades.ContactoEntidad entidad = GetEntity(datos.Lector);
 
                 return Mappers.ContactoMapper.EntidadAModelo(entidad);
             }

@@ -8,22 +8,30 @@ namespace Datos.Repositorios
 {
     public class OrdenEstadoPagoRepositorio
     {
-        public static string GetSelect(string prefix = "")
+        private Helpers.QueryHelper _QueryHelper = new Helpers.QueryHelper();
+
+        private string OrdenEstadoPagoSelect(string prefixTable, string prefixColumn)
         {
-            string prefixTable = prefix.Length > 0 ? prefix.Replace(".", "_") + '_' : "";
-            prefix = prefix.Length > 0 ? prefix + "." : "";
             return $@"
-{prefixTable}ORDENES_PAGO_ESTADOS.id_orden_pago_estado as '{prefix}id_orden_pago_estado',
-{prefixTable}ORDENES_PAGO_ESTADOS.nombre as '{prefix}nombre'
-            ";
+{prefixTable}ORDENES_PAGO_ESTADOS.id_orden_pago_estado as '{prefixColumn}id_orden_pago_estado',
+{prefixTable}ORDENES_PAGO_ESTADOS.nombre as '{prefixColumn}nombre'";
         }
-        public static Entidades.OrdenEstadoPagoEntidad GetEntidadFromReader(System.Data.SqlClient.SqlDataReader reader, string prefix = "")
+
+        private Entidades.OrdenEstadoPagoEntidad OrdenEstadoPagoReader (System.Data.SqlClient.SqlDataReader reader, string prefixColumn = "")
         {
-            prefix = prefix.Length > 0 ? prefix + "." : "";
             Entidades.OrdenEstadoPagoEntidad entidad = new Entidades.OrdenEstadoPagoEntidad();
-            entidad.id_orden_pago_estado = (int)reader[$"{prefix}id_orden_pago_estado"];
-            entidad.nombre = (string)reader[$"{prefix}nombre"];
+            entidad.id_orden_pago_estado = (int)reader[$"{prefixColumn}id_orden_pago_estado"];
+            entidad.nombre = (string)reader[$"{prefixColumn}nombre"];
             return entidad;
+        }
+
+        public string GetSelect(string prefix = "")
+        {
+            return _QueryHelper.BuildSelect(prefix, OrdenEstadoPagoSelect);
+        }
+        public Entidades.OrdenEstadoPagoEntidad GetEntity(System.Data.SqlClient.SqlDataReader reader, string prefix = "")
+        {
+            return _QueryHelper.BuildEntityFromReader(reader, prefix, OrdenEstadoPagoReader);
         }
 
     }

@@ -26,6 +26,8 @@ namespace Datos.Mappers
                 Descripcion = ordenEntidad.descripcion,
                 Subtotal = ordenEntidad.subtotal,
                 Cliente = ContactoMapper.EntidadAModelo(ordenEntidad.cliente),
+                //Estado = OrdenEstadoMapper.EntidadAModelo(ordenEntidad.estado),
+                //EstadoPago = OrdenEstadoPagoMapper.EntidadAModelo(ordenEntidad.estado_pago),
             };
 
             // ATRIBUTOS DE OTRAS ENTIDADES

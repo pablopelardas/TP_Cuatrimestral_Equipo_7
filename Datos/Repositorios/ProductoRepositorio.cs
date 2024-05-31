@@ -9,46 +9,60 @@ namespace Datos.Repositorios
 {
     public class ProductoRepositorio
     {
-        private static string CATEGORIA_PREFIX = "cat";
-        public static string GetSelect(string prefix = "")
+        private Helpers.QueryHelper _QueryHelper = new Helpers.QueryHelper();
+        private string CATEGORIA_PREFIX = "cat";
+
+        private CategoriasRepositorio categoriasRepositorio = new CategoriasRepositorio();
+
+        private string ProductoSelect(string prefixTable = "", string prefixColumn = "")
         {
-            string prefixTable = prefix.Length > 0 ? prefix.Replace(".", "_") + '_' : "";
-            prefix = prefix.Length > 0 ? prefix + "." : "";
             return $@"
-{prefixTable}PRODUCTOS.id_producto as '{prefix}id_producto',
-{prefixTable}PRODUCTOS.nombre as '{prefix}nombre',
-{prefixTable}PRODUCTOS.descripcion as '{prefix}descripcion',
-{prefixTable}PRODUCTOS.porciones as '{prefix}porciones',
-{prefixTable}PRODUCTOS.horas_trabajo as '{prefix}horas_trabajo',
-{prefixTable}PRODUCTOS.tipo_precio as '{prefix}tipo_precio',
-{prefixTable}PRODUCTOS.valor_precio as '{prefix}valor_precio',
-{CategoriasRepositorio.GetSelectCategorias(prefix + CATEGORIA_PREFIX)}
+{prefixTable}PRODUCTOS.id_producto as '{prefixColumn}id_producto',
+{prefixTable}PRODUCTOS.nombre as '{prefixColumn}nombre',
+{prefixTable}PRODUCTOS.descripcion as '{prefixColumn}descripcion',
+{prefixTable}PRODUCTOS.porciones as '{prefixColumn}porciones',
+{prefixTable}PRODUCTOS.horas_trabajo as '{prefixColumn}horas_trabajo',
+{prefixTable}PRODUCTOS.tipo_precio as '{prefixColumn}tipo_precio',
+{prefixTable}PRODUCTOS.valor_precio as '{prefixColumn}valor_precio',
+{categoriasRepositorio.GetSelect(prefixColumn + CATEGORIA_PREFIX)}
 ";
         }
 
-        public static string GetJoin(string prefix = "")
+        private string ProductoJoin(string prefixTable = "")
         {
-            prefix = prefix.Length > 0 ? prefix.Replace(".", "_") + '_' : "";
-            string aliasCategorias = prefix + CATEGORIA_PREFIX + "_CATEGORIAS";
+            string aliasCategorias = prefixTable + CATEGORIA_PREFIX + "_CATEGORIAS";
             return $@"
-INNER JOIN CATEGORIAS as {aliasCategorias} ON {prefix}PRODUCTOS.ID_CATEGORIA = {aliasCategorias}.ID_CATEGORIA
+INNER JOIN CATEGORIAS as {aliasCategorias} ON {prefixTable}PRODUCTOS.ID_CATEGORIA = {aliasCategorias}.ID_CATEGORIA
 ";
         }
 
-        public static Entidades.ProductoEntidad GetEntidadFromReader(System.Data.SqlClient.SqlDataReader reader, string prefix = "")
+        private Entidades.ProductoEntidad ProductoReader(System.Data.SqlClient.SqlDataReader reader, string prefixColumn = "")
         {
-            prefix = prefix.Length > 0 ? prefix + "." : "";
             Entidades.ProductoEntidad entidad = new Entidades.ProductoEntidad();
-            entidad.id_producto = (int)reader[$"{prefix}id_producto"];
-            entidad.nombre = (string)reader[$"{prefix}nombre"];
-            entidad.descripcion = (string)reader[$"{prefix}descripcion"];
-            entidad.porciones = (int)reader[$"{prefix}porciones"];
-            entidad.horas_trabajo = (decimal)reader[$"{prefix}horas_trabajo"];
-            entidad.tipo_precio = (string)reader[$"{prefix}tipo_precio"];
-            entidad.valor_precio = (decimal)reader[$"{prefix}valor_precio"];
+            entidad.id_producto = (int)reader[$"{prefixColumn}id_producto"];
+            entidad.nombre = (string)reader[$"{prefixColumn}nombre"];
+            entidad.descripcion = (string)reader[$"{prefixColumn}descripcion"];
+            entidad.porciones = (int)reader[$"{prefixColumn}porciones"];
+            entidad.horas_trabajo = (decimal)reader[$"{prefixColumn}horas_trabajo"];
+            entidad.tipo_precio = (string)reader[$"{prefixColumn}tipo_precio"];
+            entidad.valor_precio = (decimal)reader[$"{prefixColumn}valor_precio"];
             // producto.categoria.
-            entidad.categoria = CategoriasRepositorio.GetEntidadFromReader(reader, prefix + CATEGORIA_PREFIX);
+            entidad.categoria = categoriasRepositorio.GetEntity(reader, prefixColumn + CATEGORIA_PREFIX);
             return entidad;
+        }
+        public string GetSelect(string prefix = "")
+        {
+            return _QueryHelper.BuildSelect(prefix, ProductoSelect);
+        }
+
+        public string GetJoin(string prefix = "")
+        {
+            return _QueryHelper.BuildJoin(prefix, ProductoJoin);
+        }
+
+        public Entidades.ProductoEntidad GetEntity(System.Data.SqlClient.SqlDataReader reader, string prefix = "")
+        {
+            return _QueryHelper.BuildEntityFromReader(reader, prefix, ProductoReader);
         }
 
         private void ParametrizarEntidad(Entidades.ProductoEntidad entidad, AccesoDatos datos)
@@ -80,7 +94,7 @@ FROM PRODUCTOS
 
                 while (datos.Lector.Read())
                 {
-                    Entidades.ProductoEntidad entidad = GetEntidadFromReader(datos.Lector);
+                    Entidades.ProductoEntidad entidad = GetEntity(datos.Lector);
                     productos.Add(Mappers.ProductoMapper.EntidadAModelo(entidad));
                 }
                 return productos;
@@ -111,7 +125,7 @@ WHERE id_producto = @id
                 datos.SetearConsulta(cmd);
                 datos.EjecutarLectura();
                 datos.Lector.Read();
-                Entidades.ProductoEntidad entidad = GetEntidadFromReader(datos.Lector);
+                Entidades.ProductoEntidad entidad = GetEntity(datos.Lector);
 
                 return Mappers.ProductoMapper.EntidadAModelo(entidad);
 
