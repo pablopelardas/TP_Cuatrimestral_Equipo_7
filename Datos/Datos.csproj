@@ -52,6 +52,8 @@
     <Compile Include="Entidades\ProductoEntidad.cs" />
     <Compile Include="Mappers\CategoriaMapper.cs" />
     <Compile Include="Mappers\ContactoMapper.cs" />
+    <Compile Include="Mappers\OrdenEstadoMapper.cs" />
+    <Compile Include="Mappers\OrdenEstadoPagoMapper.cs" />
     <Compile Include="Mappers\OrdenMapper.cs" />
     <Compile Include="Mappers\ProductoDetalleOrdenMapper.cs" />
     <Compile Include="Mappers\ProductoMapper.cs" />
@@ -63,6 +65,7 @@
     <Compile Include="Repositorios\OrdenRepositorio.cs" />
     <Compile Include="Repositorios\ProductoDetalleOrdenRepositorio.cs" />
     <Compile Include="Repositorios\ProductoRepositorio.cs" />
+    <Compile Include="Helpers\QueryHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Dominio\Dominio.csproj">

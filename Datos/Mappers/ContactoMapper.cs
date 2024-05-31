@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Datos.Mappers
 {
-    public class ContactoMapper
+    internal class ContactoMapper
     {
-        public static Dominio.Modelos.ContactoModelo EntidadAModelo(Entidades.ContactoEntidad contactoEntidad)
+        internal static Dominio.Modelos.ContactoModelo EntidadAModelo(Entidades.ContactoEntidad contactoEntidad)
         {
             return new Dominio.Modelos.ContactoModelo
             {
@@ -26,7 +26,7 @@ namespace Datos.Mappers
             };
         }
 
-        public static Entidades.ContactoEntidad ModeloAEntidad(Dominio.Modelos.ContactoModelo contacto)
+        internal static Entidades.ContactoEntidad ModeloAEntidad(Dominio.Modelos.ContactoModelo contacto)
         {
             return new Entidades.ContactoEntidad
             {

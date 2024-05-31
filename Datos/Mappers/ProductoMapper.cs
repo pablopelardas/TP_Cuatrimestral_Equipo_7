@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Datos.Mappers
 {
-    public class ProductoMapper
+    internal class ProductoMapper
     {
-        public static Dominio.Modelos.ProductoModelo EntidadAModelo(Entidades.ProductoEntidad productoEntidad)
+        internal static Dominio.Modelos.ProductoModelo EntidadAModelo(Entidades.ProductoEntidad productoEntidad)
         {
             return new Dominio.Modelos.ProductoModelo
             {
@@ -23,7 +23,7 @@ namespace Datos.Mappers
             };
         }
 
-        public static Entidades.ProductoEntidad ModeloAEntidad(Dominio.Modelos.ProductoModelo productoModelo)
+        internal static Entidades.ProductoEntidad ModeloAEntidad(Dominio.Modelos.ProductoModelo productoModelo)
         {
             return new Entidades.ProductoEntidad
             {
