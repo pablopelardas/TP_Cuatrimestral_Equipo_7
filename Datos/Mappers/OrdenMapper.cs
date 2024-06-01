@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace Datos.Mappers
 {
-    public class OrdenMapper
+    internal class OrdenMapper
     {
-        public static Dominio.Modelos.OrdenModelo EntidadAModelo(Entidades.OrdenEntidad ordenEntidad, bool incluyeDetalle = false)
+        internal static Dominio.Modelos.OrdenModelo EntidadAModelo(Entidades.OrdenEntidad ordenEntidad, bool incluyeDetalle = false)
         {
             Repositorios.ProductoDetalleOrdenRepositorio productoDetalleOrdenRepositorio = new Repositorios.ProductoDetalleOrdenRepositorio();
 
@@ -26,6 +26,8 @@ namespace Datos.Mappers
                 Descripcion = ordenEntidad.descripcion,
                 Subtotal = ordenEntidad.subtotal,
                 Cliente = ContactoMapper.EntidadAModelo(ordenEntidad.cliente),
+                //Estado = OrdenEstadoMapper.EntidadAModelo(ordenEntidad.estado),
+                //EstadoPago = OrdenEstadoPagoMapper.EntidadAModelo(ordenEntidad.estado_pago),
             };
 
             // ATRIBUTOS DE OTRAS ENTIDADES
@@ -39,7 +41,7 @@ namespace Datos.Mappers
             
         }
 
-        public static Entidades.OrdenEntidad ModeloAEntidad(Dominio.Modelos.OrdenModelo ordenModelo)
+        internal static Entidades.OrdenEntidad ModeloAEntidad(Dominio.Modelos.OrdenModelo ordenModelo)
         {
             return new Entidades.OrdenEntidad
             {

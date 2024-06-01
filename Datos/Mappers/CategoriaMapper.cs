@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Datos.Mappers
 {
-    public class CategoriaMapper
+    internal class CategoriaMapper
     {
-        public static Dominio.Modelos.CategoriaModelo EntidadAModelo(Datos.Entidades.CategoriaEntidad entidad)
+        internal static Dominio.Modelos.CategoriaModelo EntidadAModelo(Datos.Entidades.CategoriaEntidad entidad)
         {
             return new Dominio.Modelos.CategoriaModelo
             {
@@ -18,7 +18,7 @@ namespace Datos.Mappers
             };
         }
 
-        public static Datos.Entidades.CategoriaEntidad ModeloAEntidad(Dominio.Modelos.CategoriaModelo modelo)
+        internal static Datos.Entidades.CategoriaEntidad ModeloAEntidad(Dominio.Modelos.CategoriaModelo modelo)
         {
             return new Datos.Entidades.CategoriaEntidad
             {

@@ -8,23 +8,29 @@ namespace Datos.Repositorios
 {
     public class OrdenEstadoRepositorio
     {
+        private Helpers.QueryHelper _QueryHelper = new Helpers.QueryHelper();
 
-        public static string GetSelect(string prefix = "")
+        private string OrdenEstadoSelect(string prefixTable, string prefix)
         {
-            string prefixTable = prefix.Length > 0 ? prefix.Replace(".", "_") + '_' : "";
-            prefix = prefix.Length > 0 ? prefix + "." : "";
             return $@"
 {prefixTable}ORDENES_ESTADOS.id_orden_estado as '{prefix}id_orden_estado',
-{prefixTable}ORDENES_ESTADOS.nombre as '{prefix}nombre'
-            ";
+{prefixTable}ORDENES_ESTADOS.nombre as '{prefix}nombre'";
         }
-        public static Entidades.OrdenEstadoEntidad GetEntidadFromReader(System.Data.SqlClient.SqlDataReader reader, string prefix = "")
+
+        private Entidades.OrdenEstadoEntidad OrdenEstadoReader (System.Data.SqlClient.SqlDataReader reader, string prefix = "")
         {
-            prefix = prefix.Length > 0 ? prefix + "." : "";
             Entidades.OrdenEstadoEntidad entidad = new Entidades.OrdenEstadoEntidad();
             entidad.id_orden_estado = (int)reader[$"{prefix}id_orden_estado"];
             entidad.nombre = (string)reader[$"{prefix}nombre"];
             return entidad;
+        }
+        public string GetSelect(string prefix = "")
+        {
+            return _QueryHelper.BuildSelect(prefix, OrdenEstadoSelect);
+        }
+        public Entidades.OrdenEstadoEntidad GetEntity(System.Data.SqlClient.SqlDataReader reader, string prefix = "")
+        {
+            return _QueryHelper.BuildEntityFromReader(reader, prefix, OrdenEstadoReader);
         }
     }
 }
