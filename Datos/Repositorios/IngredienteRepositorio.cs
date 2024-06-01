@@ -1,4 +1,5 @@
 ﻿using Datos.Entidades;
+using Datos.Helpers;
 using Dominio.Modelos;
 using System;
 using System.Collections.Generic;
@@ -10,42 +11,58 @@ namespace Datos.Repositorios
 {
     public class IngredienteRepositorio
     {
-        private static string UNIDAD_PREFIX = "uni";
-        public static string GetSelect(string prefix = "")
-        {
-            string prefixTable = prefix.Length > 0 ? prefix.Replace(".", "_") + "_" : "";
-            prefix = prefix.Length > 0 ? prefix + "." : "";
+        private Helpers.QueryHelper _queryHelper = new Helpers.QueryHelper();
 
+        private static string UNIDAD_PREFIX = "uni";
+        
+        private UnidadMedidaRepositorio unidadMedidaRepositorio = new UnidadMedidaRepositorio();
+        public string IngredienteSelect(string prefixTable = "", string prefixColumn = "")
+        {
             return $@"
-{prefixTable}INGREDIENTES.id_ingrediente as '{prefix}id_ingrediente',
-{prefixTable}INGREDIENTES.nombre as '{prefix}nombre',
-{prefixTable}INGREDIENTES.cantidad as '{prefix}cantidad',
-{prefixTable}INGREDIENTES.costo as '{prefix}costo',
-{prefixTable}INGREDIENTES.proveedor as '{prefix}proveedor',
-{UnidadMedidaRepositorio.GetSelect(prefix + UNIDAD_PREFIX)}
+{prefixTable}INGREDIENTES.id_ingrediente as '{prefixColumn}id_ingrediente',
+{prefixTable}INGREDIENTES.nombre as '{prefixColumn}nombre',
+{prefixTable}INGREDIENTES.cantidad as '{prefixColumn}cantidad',
+{prefixTable}INGREDIENTES.costo as '{prefixColumn}costo',
+{prefixTable}INGREDIENTES.proveedor as '{prefixColumn}proveedor',
+{unidadMedidaRepositorio.GetSelect(prefixColumn + UNIDAD_PREFIX)}
 ";
         }
 
-        public static string GetJoin(string prefix = "")
+        public static string IngredienteJoin(string prefix = "")
         {
-            prefix = prefix.Length > 0 ? prefix.Replace(".", "_") + '_' : "";
             string aliasUnidades = prefix + UNIDAD_PREFIX + "_UNIDADES_MEDIDA";
             return $@"
 INNER JOIN UNIDADES_MEDIDA as {aliasUnidades} ON {prefix}INGREDIENTES.id_unidad = {aliasUnidades}.id_unidad
 ";
         }
-        public static IngredienteEntidad GetEntidadFromReader(System.Data.SqlClient.SqlDataReader reader, string prefix = "")
+
+        public IngredienteEntidad IngredienteReader(System.Data.SqlClient.SqlDataReader reader, string prefixColumn = "")
         {
             IngredienteEntidad entidad = new IngredienteEntidad();
 
-            entidad.id_ingrediente = (int)reader[$"{prefix}id_ingrediente"];
-            entidad.nombre = (string)reader[$"{prefix}nombre"];
-            entidad.cantidad = (double)reader[$"{prefix}cantidad"];
-            entidad.costo = (decimal)reader[$"{prefix}costo"];
-            entidad.proveedor = (string)reader[$"{prefix}proveedor"];
+            entidad.id_ingrediente = (int)reader[$"{prefixColumn}id_ingrediente"];
+            entidad.nombre = (string)reader[$"{prefixColumn}nombre"];
+            entidad.cantidad = (double)reader[$"{prefixColumn}cantidad"];
+            entidad.costo = (decimal)reader[$"{prefixColumn}costo"];
+            entidad.proveedor = (string)reader[$"{prefixColumn}proveedor"];
 
-            entidad.unidad = UnidadMedidaRepositorio.GetEntidadFromReader(reader, prefix + UNIDAD_PREFIX);
+            entidad.unidad = unidadMedidaRepositorio.GetEntity(reader, prefixColumn + UNIDAD_PREFIX);
             return entidad;
+        }
+
+        public string GetSelect(string prefix = "")
+        {
+            return _queryHelper.BuildSelect(prefix, IngredienteSelect);
+        }
+
+        public string GetJoin(string prefix = "")
+        {
+            return _queryHelper.BuildJoin(prefix, IngredienteJoin);
+        }
+
+        public Entidades.IngredienteEntidad GetEntity(System.Data.SqlClient.SqlDataReader reader, string prefix = "")
+        {
+            return _queryHelper.BuildEntityFromReader(reader, prefix, IngredienteReader);
         }
 
         private void ParametrizarEntidad(IngredienteEntidad entidad, AccesoDatos datos)
@@ -75,7 +92,7 @@ FROM dbo.[INGREDIENTES]
 
                 while (datos.Lector.Read())
                 {
-                    ingredientes.Add(Mappers.IngredienteMapper.EntidadAModelo(GetEntidadFromReader(datos.Lector)));
+                    ingredientes.Add(Mappers.IngredienteMapper.EntidadAModelo(GetEntity(datos.Lector)));
                 }
                 return ingredientes;
             }
@@ -105,7 +122,7 @@ WHERE id_ingrediente = @id
                 datos.SetearParametro("@id", id);
                 datos.EjecutarLectura();
                 datos.Lector.Read();
-                return Mappers.IngredienteMapper.EntidadAModelo(GetEntidadFromReader(datos.Lector));
+                return Mappers.IngredienteMapper.EntidadAModelo(GetEntity(datos.Lector));
             }
             catch (Exception ex)
             {

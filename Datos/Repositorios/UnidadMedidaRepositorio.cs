@@ -10,24 +10,33 @@ namespace Datos.Repositorios
 {
     public class UnidadMedidaRepositorio
     {
-        public static string GetSelect(string prefix = "")
+        private Helpers.QueryHelper _queryHelper = new Helpers.QueryHelper();
+
+        public string UnidadMedidaSelect(string prefixTable, string prefixColumn)
         {
-            string prefixTable = prefix.Length > 0 ? prefix.Replace(".", "_") + "_" : "";
-            prefix = prefix.Length > 0 ? prefix + "." : "";
             return $@"
-{prefixTable}UNIDADES_MEDIDA.id_unidad as '{prefix}id_unidad',
-{prefixTable}UNIDADES_MEDIDA.nombre as '{prefix}nombre',
-{prefixTable}UNIDADES_MEDIDA.abreviatura as '{prefix}abreviatura'
+{prefixTable}UNIDADES_MEDIDA.id_unidad as '{prefixColumn}id_unidad',
+{prefixTable}UNIDADES_MEDIDA.nombre as '{prefixColumn}nombre',
+{prefixTable}UNIDADES_MEDIDA.abreviatura as '{prefixColumn}abreviatura'
 ";
         }
-        public static UnidadMedidaEntidad GetEntidadFromReader(System.Data.SqlClient.SqlDataReader reader, string prefix = "")
+        public UnidadMedidaEntidad UnidadMedidaReader(System.Data.SqlClient.SqlDataReader reader, string prefixColumn = "")
         {
-            prefix = prefix.Length > 0 ? prefix + "." : "";
             UnidadMedidaEntidad entidad = new UnidadMedidaEntidad();
-            entidad.id_unidad = (int)reader[$"{prefix}id_unidad"];
-            entidad.nombre = (string)reader[$"{prefix}nombre"];
-            entidad.abreviatura = (string)reader[$"{prefix}abreviatura"];
+            entidad.id_unidad = (int)reader[$"{prefixColumn}id_unidad"];
+            entidad.nombre = (string)reader[$"{prefixColumn}nombre"];
+            entidad.abreviatura = (string)reader[$"{prefixColumn}abreviatura"];
             return entidad;
+        }
+
+        public string GetSelect(string prefix = "")
+
+        {
+            return _queryHelper.BuildSelect(prefix, UnidadMedidaSelect);
+        }
+        public Entidades.UnidadMedidaEntidad GetEntity(System.Data.SqlClient.SqlDataReader reader, string prefix = "")
+        {
+            return _queryHelper.BuildEntityFromReader(reader, prefix, UnidadMedidaReader);
         }
 
         private void ParametrizarEntidad(UnidadMedidaEntidad entidad, AccesoDatos datos)
@@ -54,7 +63,7 @@ FROM UNIDEADES_MEDIDA
 
                 while (datos.Lector.Read())
                 {
-                    unidades.Add(Mappers.UnidadMedidaMapper.EntidadAModelo(GetEntidadFromReader(datos.Lector)));
+                    unidades.Add(Mappers.UnidadMedidaMapper.EntidadAModelo(GetEntity(datos.Lector)));
                 }
                 return unidades;
             }
@@ -83,7 +92,7 @@ WHERE id_unidad = @id
                 datos.SetearParametro("@id", id);
                 datos.EjecutarLectura();
                 datos.Lector.Read();
-                return Mappers.UnidadMedidaMapper.EntidadAModelo(GetEntidadFromReader(datos.Lector));
+                return Mappers.UnidadMedidaMapper.EntidadAModelo(GetEntity(datos.Lector));
             }
             catch (Exception ex)
             {
