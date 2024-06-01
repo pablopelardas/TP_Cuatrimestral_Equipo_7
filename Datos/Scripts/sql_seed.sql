@@ -149,8 +149,8 @@ VALUES
 -- Inserción en ORDENES
 INSERT INTO "ORDENES" (id_cliente, fecha, tipo_evento, tipo_entrega, descripcion, descuento_porcentaje, costo_envio, direccion_entrega, hora_entrega)
 VALUES
-(1, '2024-05-01', 'Cumpleaños', 'Entrega a domicilio', 'Torta de cumpleaños personalizada', 10.00, 250.00, 'Av Sinnombre 123, Sinnombre, Argentia','15:55' ),
-(2, '2024-06-15', 'Boda', 'Recogida en tienda', 'Tarta de boda', NULL, NULL, NULL, '16:00');
+(1, '2024-05-01', 'Cumpleaños', 'R', 'Torta de cumpleaños personalizada', 10.00, 250.00, 'Av Sinnombre 123, Sinnombre, Argentia','15:55' ),
+(2, '2024-06-15', 'Boda', 'D', 'Tarta de boda', NULL, NULL, NULL, '16:00');
 GO
 
 

@@ -1,5 +1,30 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/LayoutNegocio.Master" AutoEventWireup="true" CodeBehind="DetalleOrden.aspx.cs" Inherits="TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes.DetalleOrden" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+    <style>
+        .status-pill{
+            display: inline-block;
+            padding: 5px 10px;
+            margin-right: 10px;
+            border-radius: 20px;
+            color: #333;
+        }
+
+        .status-pill--warning{
+            background-color: #f0ad4e5e;
+        }
+
+        .status-pill--success{
+            background-color: #5cb85c5e;
+        }
+
+        .status-pill--danger{
+            background-color: #d9534f5e;
+        }
+
+        .status-pill--default{
+            background-color: #5bc0de5e;
+        }
+    </style>
 </asp:Content>
 
 <asp:Content ID="Content3" ContentPlaceHolderID="PageHeader" runat="server">
@@ -37,9 +62,9 @@
                     <span><%: orden.Fecha %></span>
                 </div>
                 <div>
-                    <span>Estado: </span>
-                    <%--<span><%: orden.Estado %></span>--%>
-                    <span>Pendiente de pago</span>
+                    <span>Estados: </span>
+                    <span class="<%: orden.Estado.PillClass %>" ><%: orden.Estado.Nombre %></span>
+                    <span class="<%: orden.EstadoPago.PillClass %>"><%: orden.EstadoPago.Nombre %></span>
                 </div>
             </div>
         </div>

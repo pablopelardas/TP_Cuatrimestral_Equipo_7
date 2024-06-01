@@ -25,9 +25,10 @@ namespace Datos.Mappers
                 CostoEnvio = ordenEntidad.costo_envio,
                 Descripcion = ordenEntidad.descripcion,
                 Subtotal = ordenEntidad.subtotal,
+                HoraEntrega = ordenEntidad.hora_entrega,
                 Cliente = ContactoMapper.EntidadAModelo(ordenEntidad.cliente),
-                //Estado = OrdenEstadoMapper.EntidadAModelo(ordenEntidad.estado),
-                //EstadoPago = OrdenEstadoPagoMapper.EntidadAModelo(ordenEntidad.estado_pago),
+                Estado = OrdenEstadoMapper.EntidadAModelo(ordenEntidad.estado),
+                EstadoPago = OrdenEstadoPagoMapper.EntidadAModelo(ordenEntidad.estado_pago),
             };
 
             // ATRIBUTOS DE OTRAS ENTIDADES
@@ -46,7 +47,6 @@ namespace Datos.Mappers
             return new Entidades.OrdenEntidad
             {
                 // ATRIBUTOS DE MODELO
-                cliente = ContactoMapper.ModeloAEntidad(ordenModelo.Cliente),
                 id_orden = ordenModelo.IdOrden,
                 fecha = ordenModelo.Fecha,
                 tipo_evento = ordenModelo.TipoEvento,
@@ -54,6 +54,11 @@ namespace Datos.Mappers
                 descuento_porcentaje = ordenModelo.DescuentoPorcentaje,
                 costo_envio = ordenModelo.CostoEnvio,
                 descripcion = ordenModelo.Descripcion,
+                subtotal = ordenModelo.Subtotal,
+                hora_entrega = ordenModelo.HoraEntrega,
+                cliente = ContactoMapper.ModeloAEntidad(ordenModelo.Cliente),
+                estado = OrdenEstadoMapper.ModeloAEntidad(ordenModelo.Estado),
+                estado_pago = OrdenEstadoPagoMapper.ModeloAEntidad(ordenModelo.EstadoPago),
             };
         }
     }
