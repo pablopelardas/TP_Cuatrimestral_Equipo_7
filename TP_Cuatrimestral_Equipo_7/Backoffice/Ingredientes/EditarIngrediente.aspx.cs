@@ -92,7 +92,9 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ingredientes
         {
             if (id != null)
             {
-                negocioIngrediente.Modificar(ObtenerModeloDesdeFormulario());
+                IngredienteModelo ingrediente = ObtenerModeloDesdeFormulario();
+                ingrediente.IdIngrediente = Convert.ToInt32(id);
+                negocioIngrediente.Modificar(ingrediente);
             }
             else
             {

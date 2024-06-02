@@ -42,12 +42,12 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Components
         private void CargarCalendario()
         {
             List<EventoModelo> eventos = eventoServicio.ListarEventos();
+            if (ListaDeEventos == null)
+            {
+                ListaDeEventos = new Hashtable();
+            }
             foreach (EventoModelo evento in eventos)
             {
-                    if (ListaDeEventos == null)
-                    {
-                        ListaDeEventos = new Hashtable();
-                    }
                     if (ListaDeEventos[evento.Fecha.ToShortDateString()] == null)
                     {
                         ListaDeEventos[evento.Fecha.ToShortDateString()] = new List<EventoModelo>();   
