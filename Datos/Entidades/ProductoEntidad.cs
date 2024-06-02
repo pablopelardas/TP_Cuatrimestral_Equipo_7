@@ -22,6 +22,7 @@ namespace Datos.Entidades
 
         public Entidades.CategoriaEntidad categoria { get; set; }
 
+
         public ProductoEntidad()
         {
         }

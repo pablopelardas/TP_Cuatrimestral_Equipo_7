@@ -26,9 +26,9 @@ namespace Datos
         {
             // CONN PABLO M
 
-            //conexion = new SqlConnection("server = .\\SQLEXPRESS; database = CATALOGO_P3_DB; integrated security = true");
+            conexion = new SqlConnection("server = .\\SQLEXPRESS; database = tp-cuatrimestral-grupo-7; integrated security = true");
             // CONN PABLO P
-            conexion = new SqlConnection("Data Source=localhost,15000;Initial Catalog=tp-cuatrimestral-grupo-7;User Id=sa;Password=Pablo2846!;TrustServerCertificate=True");
+            //conexion = new SqlConnection("Data Source=localhost,15000;Initial Catalog=tp-cuatrimestral-grupo-7;User Id=sa;Password=Pablo2846!;TrustServerCertificate=True");
             comando = new SqlCommand();
         }
 

@@ -67,6 +67,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Backoffice\Ingredientes\Default.aspx" />
+    <Content Include="Backoffice\Ingredientes\DetalleIngrediente.aspx" />
+    <Content Include="Backoffice\Ingredientes\EditarIngrediente.aspx" />
     <Content Include="Backoffice\Components\Calendario.ascx" />
     <Content Include="Backoffice\Ordenes\Default.aspx" />
     <Content Include="Backoffice\Ordenes\DetalleOrden.aspx" />
@@ -83,6 +86,27 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Backoffice\Ingredientes\Default.aspx.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Backoffice\Ingredientes\Default.aspx.designer.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Backoffice\Ingredientes\DetalleIngrediente.aspx.cs">
+      <DependentUpon>DetalleIngrediente.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Backoffice\Ingredientes\DetalleIngrediente.aspx.designer.cs">
+      <DependentUpon>DetalleIngrediente.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Backoffice\Ingredientes\EditarIngrediente.aspx.cs">
+      <DependentUpon>EditarIngrediente.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Backoffice\Ingredientes\EditarIngrediente.aspx.designer.cs">
+      <DependentUpon>EditarIngrediente.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Backoffice\Components\Calendario.ascx.cs">
       <DependentUpon>Calendario.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -173,10 +197,6 @@
     <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Datos\Datos.csproj">
-      <Project>{b8e989c3-8cd8-4710-a9f1-48fecd8103c6}</Project>
-      <Name>Datos</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Dominio\Dominio.csproj">
       <Project>{3145291c-415b-4ee0-9fec-58db28be0d20}</Project>
       <Name>Dominio</Name>

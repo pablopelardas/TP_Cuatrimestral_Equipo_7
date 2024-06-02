@@ -28,7 +28,7 @@
                         <li><a href="/Backoffice/Ordenes">Ordenes</a></li>
                         <li><a href="/Backoffice/Contactos">Contactos</a></li>
                         <li><a href="#">Pedidos</a></li>
-                        <li><a href="#">Ingredientes</a></li>
+                        <li><a href="/Backoffice/Ingredientes">Ingredientes</a></li>
                         <li><a href="#">Recetas</a></li>
                         <li><a href="#">Productos</a></li>
                     </ul>
