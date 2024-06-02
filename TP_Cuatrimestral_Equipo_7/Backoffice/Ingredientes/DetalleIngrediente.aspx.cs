@@ -36,7 +36,7 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ingredientes
                 }
                 catch (Exception ex)
                 {
-                    Response.Redirect("/Backoffice/ingredientes", false);
+                    Response.Redirect("/Backoffice/Ingredientes", false);
                 }
 
             }

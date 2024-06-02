@@ -35,8 +35,6 @@ else { %>
             <div>
                 <label class="form-label">Unidad</label>
                 <asp:DropDownList ID="ddlUnidad" runat="server" CssClass="form-control">
-                    <asp:ListItem Text="Kilogramo" Value="1"></asp:ListItem>
-                    <asp:ListItem Text="Libras" Value="2"></asp:ListItem>
                 </asp:DropDownList>
             </div>
             <div>
@@ -52,23 +50,4 @@ else { %>
     </div>
 
     <asp:Button ID="btnGuardar" runat="server" Text="Guardar" CssClass="btn btn-primary" OnClick="btnGuardar_Click" />
-
-    <script type="text/javascript" language="javascript">
-        function LoadTiny() {
-        tinymce.init({
-            selector: 'textarea#tiny',
-            height: 500,
-            plugins: [
-                'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
-                'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
-                'insertdatetime', 'media', 'table', 'help', 'wordcount'
-            ],
-            toolbar: 'undo redo | blocks | ' +
-                'bold italic backcolor | alignleft aligncenter ' +
-                'alignright alignjustify | bullist numlist outdent indent | ' +
-                'removeformat',
-            content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:16px }'
-        });
-      }
-    </script>
 </asp:Content>

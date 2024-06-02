@@ -53,7 +53,7 @@ namespace Datos.Repositorios
             string cmd = $@"
 SELECT
 {GetSelect()}
-FROM UNIDEADES_MEDIDA
+FROM UNIDADES_MEDIDA
 ";
             try
             {
@@ -133,7 +133,7 @@ VALUES
         {
             AccesoDatos datos = new AccesoDatos();
             string cmd = $@"
-UPDATE [dbo].[Unidades_Medida]
+UPDATE [dbo].[UNIDADES_MEDIDA]
 SET
 id_unidad = @id_unidad,
 nombre = @nombre,
@@ -159,7 +159,7 @@ WHERE id_unidad = @id_unidad";
         {
             AccesoDatos datos = new AccesoDatos();
             string cmd = $@"
-DELETE FROM [dbo].[Unidades_Medida]
+DELETE FROM [dbo].[UNIDADES_MEDIDA]
 WHERE id_unidad = @id_unidad";
             try
             {

@@ -139,9 +139,9 @@ WHERE id_ingrediente = @id
             AccesoDatos datos = new AccesoDatos();
             string cmd = $@"
 INSERT INTO [dbo].[INGREDIENTES]
-(id_ingrediente, nombre, cantidad, id_unidad, costo, proveedor)
+(nombre, cantidad, id_unidad, costo, proveedor)
 VALUES
-(@id_ingrediente, @nombre, @cantidad, @id_unidad, @costo, @proveedor)
+(@nombre, @cantidad, @id_unidad, @costo, @proveedor)
 ";
             try
             {
@@ -165,7 +165,6 @@ VALUES
             string cmd = $@"
 UPDATE [dbo].[INGREDIENTES]
 SET
-id_ingrediente = @id_ingrediente,
 nombre = @nombre,
 cantidad = @cantidad,
 id_unidad = @id_unidad,
