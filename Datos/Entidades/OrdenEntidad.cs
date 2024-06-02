@@ -10,8 +10,6 @@ namespace Datos.Entidades
     public class OrdenEntidad
     {
         public int id_orden { get; set; }
-        public DateTime fecha { get; set; }
-        public string tipo_evento { get; set; }
         public string tipo_entrega { get; set; }
         public string descripcion { get; set; }
         public decimal descuento_porcentaje { get; set; }
@@ -24,7 +22,6 @@ namespace Datos.Entidades
         public Entidades.ContactoEntidad cliente { get; set; }
         public Entidades.OrdenEstadoEntidad estado { get; set; }
         public Entidades.OrdenEstadoPagoEntidad estado_pago { get; set; }
-
         public OrdenEntidad() { }
     }
 }

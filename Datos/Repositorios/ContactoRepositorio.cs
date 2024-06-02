@@ -23,7 +23,8 @@ namespace Datos.Repositorios
 {prefixTable}CONTACTOS.producto_que_provee as '{prefixColumn}producto_que_provee',
 {prefixTable}CONTACTOS.desea_recibir_correos as '{prefixColumn}desea_recibir_correos',
 {prefixTable}CONTACTOS.desea_recibir_whatsapp as '{prefixColumn}desea_recibir_whatsapp',
-{prefixTable}CONTACTOS.informacion_personal as '{prefixColumn}informacion_personal'";
+{prefixTable}CONTACTOS.informacion_personal as '{prefixColumn}informacion_personal'
+";
         }
 
         private Entidades.ContactoEntidad ContactoReader (System.Data.SqlClient.SqlDataReader reader, string prefixColumn = "")

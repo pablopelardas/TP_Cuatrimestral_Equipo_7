@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Datos
 {
-    public class AccesoDatos
+    public class AccesoDatos : IDisposable
     {
         private SqlConnection conexion;
         private SqlCommand comando;
@@ -99,6 +99,16 @@ namespace Datos
             if (lector != null)
                 lector.Close();
             conexion.Close();
+        }
+
+        public void Dispose()
+        {
+            if (lector != null)
+                lector.Close();
+            conexion.Close();
+            conexion = null;
+            comando = null;
+            lector = null;
         }
     }
 }

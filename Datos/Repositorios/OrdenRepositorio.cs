@@ -17,6 +17,7 @@ namespace Datos.Repositorios
         private string CLIENTE_PREFIX = "cli";
         private string ESTADO_PREFIX = "est";
         private string ESTADO_PAGO_PREFIX = "estp";
+        private string EVENTO_PREFIX = "eve";
 
         private ContactoRepositorio contactoRepositorio = new ContactoRepositorio();
         private OrdenEstadoRepositorio ordenEstadoRepositorio = new OrdenEstadoRepositorio();
@@ -26,12 +27,10 @@ namespace Datos.Repositorios
         {
             return $@"
 {prefixTable}ORDENES.id_orden as '{prefixColumn}id_orden',
-{prefixTable}ORDENES.fecha as '{prefixColumn}fecha',
-{prefixTable}ORDENES.tipo_evento as '{prefixColumn}tipo_evento',
 {prefixTable}ORDENES.tipo_entrega as '{prefixColumn}tipo_entrega',
 {prefixTable}ORDENES.hora_entrega as '{prefixColumn}hora_entrega',
 {prefixTable}ORDENES.descripcion as '{prefixColumn}descripcion',
-(SELECT SUM (DO.cantidad * DO.producto_precio) FROM DETALLE_ORDENES DO WHERE DO.id_orden = ORDENES.id_orden) as '{prefixColumn}subtotal',
+(SELECT SUM (DO.cantidad * DO.producto_precio) FROM DETALLE_ORDENES DO WHERE DO.id_orden = {prefixTable}ORDENES.id_orden) as '{prefixColumn}subtotal',
 {prefixTable}ORDENES.descuento_porcentaje as '{prefixColumn}descuento_porcentaje',
 {prefixTable}ORDENES.costo_envio as '{prefixColumn}costo_envio',
 {prefixTable}ORDENES.direccion_entrega as '{prefixColumn}direccion_entrega',
@@ -43,9 +42,10 @@ namespace Datos.Repositorios
 
         private string OrdenJoin(string prefixTable)
         {
-            string clienteAlias = CLIENTE_PREFIX + "_CONTACTOS";
-            string estadoAlias = ESTADO_PREFIX + "_ORDENES_ESTADOS";
-            string estadoPagoAlias = ESTADO_PAGO_PREFIX + "_ORDENES_PAGO_ESTADOS";
+            string clienteAlias = prefixTable + CLIENTE_PREFIX + "_CONTACTOS";
+            string estadoAlias = prefixTable + ESTADO_PREFIX + "_ORDENES_ESTADOS";
+            string estadoPagoAlias = prefixTable + ESTADO_PAGO_PREFIX + "_ORDENES_PAGO_ESTADOS";
+            string eventoAlias = prefixTable + EVENTO_PREFIX + "_EVENTOS";
 
             return $@"
 INNER JOIN CONTACTOS AS {clienteAlias} ON {prefixTable}ORDENES.ID_CLIENTE = {clienteAlias}.ID_CONTACTO
@@ -59,8 +59,6 @@ INNER JOIN ORDENES_PAGO_ESTADOS as {estadoPagoAlias} ON {prefixTable}ORDENES.id_
             OrdenEntidad entidad = new OrdenEntidad();
             // OBLIGATORIOS
             entidad.id_orden = (int)reader[$"{prefixColumn}id_orden"];
-            entidad.fecha = (DateTime)reader[$"{prefixColumn}fecha"];
-            entidad.tipo_evento = (string)reader[$"{prefixColumn}tipo_evento"];
             entidad.tipo_entrega = (string)reader[$"{prefixColumn}tipo_entrega"];
             entidad.descripcion = (string)reader[$"{prefixColumn}descripcion"];
             entidad.hora_entrega = reader[$"{prefixColumn}hora_entrega"].ToString();
@@ -90,7 +88,7 @@ INNER JOIN ORDENES_PAGO_ESTADOS as {estadoPagoAlias} ON {prefixTable}ORDENES.id_
             return _QueryHelper.BuildJoin(prefix, OrdenJoin);
         }
 
-        private OrdenEntidad GetEntity(System.Data.SqlClient.SqlDataReader reader, string prefix = "")
+        public OrdenEntidad GetEntity(System.Data.SqlClient.SqlDataReader reader, string prefix = "")
         {
             return _QueryHelper.BuildEntityFromReader(reader, prefix, OrdenReader);
         }
@@ -98,8 +96,6 @@ INNER JOIN ORDENES_PAGO_ESTADOS as {estadoPagoAlias} ON {prefixTable}ORDENES.id_
         private void ParametrizarEntidad(OrdenEntidad entidad, AccesoDatos datos)
         {
             datos.SetearParametro("@id_orden", entidad.id_orden);
-            datos.SetearParametro("@fecha", entidad.fecha);
-            datos.SetearParametro("@tipo_evento", entidad.tipo_evento);
             datos.SetearParametro("@tipo_entrega", entidad.tipo_entrega);
             datos.SetearParametro("@descripcion", entidad.descripcion);
             datos.SetearParametro("@hora_entrega", entidad.hora_entrega);

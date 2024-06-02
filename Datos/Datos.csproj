@@ -45,27 +45,33 @@
     <Compile Include="Entidades\CategoriaEntidad.cs" />
     <Compile Include="Entidades\ContactoEntidad.cs" />
     <Compile Include="Entidades\DetalleEntidad.cs" />
+    <Compile Include="Entidades\EventoEntidad.cs" />
     <Compile Include="Entidades\OrdenEntidad.cs" />
     <Compile Include="Entidades\OrdenEstadoEntidad.cs" />
     <Compile Include="Entidades\OrdenEstadoPagoEntidad.cs" />
     <Compile Include="Entidades\ProductoDetalleOrdenEntidad.cs" />
     <Compile Include="Entidades\ProductoEntidad.cs" />
+    <Compile Include="Entidades\TipoEventoEntidad.cs" />
     <Compile Include="Mappers\CategoriaMapper.cs" />
     <Compile Include="Mappers\ContactoMapper.cs" />
+    <Compile Include="Mappers\EventoMapper.cs" />
     <Compile Include="Mappers\OrdenEstadoMapper.cs" />
     <Compile Include="Mappers\OrdenEstadoPagoMapper.cs" />
     <Compile Include="Mappers\OrdenMapper.cs" />
     <Compile Include="Mappers\ProductoDetalleOrdenMapper.cs" />
     <Compile Include="Mappers\ProductoMapper.cs" />
+    <Compile Include="Mappers\TipoEventoMapper.cs" />
     <Compile Include="Repositorios\CategoriasRepositorio.cs" />
     <Compile Include="Repositorios\ContactoRepositorio.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositorios\EventoRepositorio.cs" />
     <Compile Include="Repositorios\OrdenEstadoPagoRepositorio.cs" />
     <Compile Include="Repositorios\OrdenEstadoRepositorio.cs" />
     <Compile Include="Repositorios\OrdenRepositorio.cs" />
     <Compile Include="Repositorios\ProductoDetalleOrdenRepositorio.cs" />
     <Compile Include="Repositorios\ProductoRepositorio.cs" />
     <Compile Include="Helpers\QueryHelper.cs" />
+    <Compile Include="Repositorios\TipoEventoRepositorio.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Dominio\Dominio.csproj">

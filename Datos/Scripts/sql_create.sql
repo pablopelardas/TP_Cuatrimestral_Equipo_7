@@ -128,8 +128,6 @@ CREATE TABLE "ORDENES_PAGO_ESTADOS"(
 CREATE TABLE "ORDENES"(
     "id_orden" INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
     "id_cliente" INT NOT NULL,
-    "fecha" DATE NOT NULL,
-    "tipo_evento" VARCHAR(50),
     "tipo_entrega" VARCHAR(50) NOT NULL,
     "descripcion" VARCHAR(200),
     "descuento_porcentaje" DECIMAL,
@@ -140,7 +138,8 @@ CREATE TABLE "ORDENES"(
     "id_orden_pago_estado" INT DEFAULT 1,
 
     FOREIGN KEY ("id_cliente") REFERENCES "CONTACTOS"("id_contacto"),
-    FOREIGN KEY ("id_orden_estado") REFERENCES "ORDENES_ESTADOS"("id_orden_estado")
+    FOREIGN KEY ("id_orden_estado") REFERENCES "ORDENES_ESTADOS"("id_orden_estado"),
+    FOREIGN KEY ("id_orden_pago_estado") REFERENCES "ORDENES_PAGO_ESTADOS"("id_orden_pago_estado"),
 )
 
 CREATE TABLE "DETALLE_ORDENES"(
@@ -156,5 +155,22 @@ CREATE TABLE "DETALLE_ORDENES"(
     FOREIGN KEY ("id_producto") REFERENCES "PRODUCTOS"("id_producto"),
     CONSTRAINT "CK_Detalle_Ordenes" CHECK ("cantidad" > 0),
     CONSTRAINT "CK_Detalle_Ordenes_2" CHECK ("producto_porciones" > 0),
+)
+
+CREATE TABLE TIPOS_EVENTOS(
+	"id_tipo_evento" INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
+	"nombre" VARCHAR(50) NOT NULL
+)
+
+CREATE TABLE EVENTOS(
+	"id_evento" INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
+	"fecha" DATE NOT NULL,
+	"id_cliente" INT NOT NULL,
+	"id_orden" INT NOT NULL,
+    "id_tipo_evento" INT NOT NULL,
+
+	FOREIGN KEY ("id_cliente") REFERENCES "CONTACTOS"("id_contacto"),
+	FOREIGN KEY ("id_orden") REFERENCES "ORDENES"("id_orden"),
+    FOREIGN KEY ("id_tipo_evento") REFERENCES "TIPOS_EVENTOS"("id_tipo_evento")
 )
 

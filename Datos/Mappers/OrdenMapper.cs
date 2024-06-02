@@ -13,13 +13,12 @@ namespace Datos.Mappers
         internal static Dominio.Modelos.OrdenModelo EntidadAModelo(Entidades.OrdenEntidad ordenEntidad, bool incluyeDetalle = false)
         {
             Repositorios.ProductoDetalleOrdenRepositorio productoDetalleOrdenRepositorio = new Repositorios.ProductoDetalleOrdenRepositorio();
+            Repositorios.EventoRepositorio eventoRepositorio = new Repositorios.EventoRepositorio();
 
             Dominio.Modelos.OrdenModelo ordenModelo = new Dominio.Modelos.OrdenModelo
             {
                 // ATRIBUTOS DE ENTIDAD
                 IdOrden = ordenEntidad.id_orden,
-                Fecha = ordenEntidad.fecha,
-                TipoEvento = ordenEntidad.tipo_evento,
                 TipoEntrega = ordenEntidad.tipo_entrega,
                 DescuentoPorcentaje = ordenEntidad.descuento_porcentaje,
                 CostoEnvio = ordenEntidad.costo_envio,
@@ -35,6 +34,7 @@ namespace Datos.Mappers
             if (incluyeDetalle)
             {
                 ordenModelo.DetalleProductos = productoDetalleOrdenRepositorio.ObtenerDetallePorOrden(ordenEntidad.id_orden);
+                ordenModelo.Evento = eventoRepositorio.ObtenerPorOrden(ordenEntidad.id_orden);
             }
 
             return ordenModelo;
@@ -48,8 +48,6 @@ namespace Datos.Mappers
             {
                 // ATRIBUTOS DE MODELO
                 id_orden = ordenModelo.IdOrden,
-                fecha = ordenModelo.Fecha,
-                tipo_evento = ordenModelo.TipoEvento,
                 tipo_entrega = ordenModelo.TipoEntrega,
                 descuento_porcentaje = ordenModelo.DescuentoPorcentaje,
                 costo_envio = ordenModelo.CostoEnvio,

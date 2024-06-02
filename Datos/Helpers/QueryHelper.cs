@@ -27,6 +27,5 @@ namespace Datos.Helpers
             return callback.Invoke(reader, prefix);
         }
 
-
     }
 }
