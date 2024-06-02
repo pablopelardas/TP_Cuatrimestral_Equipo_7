@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Servicios\EventoServicio.cs" />
     <Compile Include="Servicios\OrdenServicio.cs" />
     <Compile Include="Servicios\ContactoServicio.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
