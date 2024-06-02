@@ -64,8 +64,8 @@
                             <i class="fa-solid fa-tags"></i>
                         </span>
                         <div class="tbl-order-cell">
-                            <span><%: $"#{orden.IdOrden} - {orden.Fecha.ToShortDateString()} @ {orden.Fecha.TimeOfDay}" %></span>
-                            <span><span class="contact-name"><%: orden.Cliente.NombreApellido %></span><span class="event-type">(<%: orden.TipoEvento %>)</span></span>
+                            <span><%: $"#{orden.IdOrden}"%></span>
+                            <span><span class="contact-name"><%: orden.Cliente.NombreApellido %></span></span>
                         </div>
                     </div>
                     <div class="tbl-cell tbl-cell--end">

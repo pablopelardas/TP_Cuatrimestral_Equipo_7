@@ -33,14 +33,14 @@ else { %>
             <div>
                 <label class="form-label">Tipo</label>
                 <asp:DropDownList ID="ddlTipo" runat="server" CssClass="form-control">
-                    <asp:ListItem Text="Cumpleaños" Value="Cumpleaños"></asp:ListItem>
+<%--                    <asp:ListItem Text="Cumpleaños" Value="Cumpleaños"></asp:ListItem>
                     <asp:ListItem Text="Bautimo" Value="Bautimo"></asp:ListItem>
                     <asp:ListItem Text="Casamiento" Value="Casamiento"></asp:ListItem>
                     <asp:ListItem Text="Aniversario" Value="Aniversario"></asp:ListItem>
                     <asp:ListItem Text="Baby Shower" Value="Baby Shower"></asp:ListItem>
                     <asp:ListItem Text="Religioso" Value="Religioso"></asp:ListItem>
                     <asp:ListItem Text="Corporativo" Value="Corporativo"></asp:ListItem>
-                    <asp:ListItem Text="Otro" Value="Otro"></asp:ListItem>
+                    <asp:ListItem Text="Otro" Value="Otro"></asp:ListItem>--%>
                 </asp:DropDownList>
             </div>
             <div>

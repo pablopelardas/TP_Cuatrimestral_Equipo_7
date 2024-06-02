@@ -67,6 +67,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Backoffice\Components\Calendario.ascx" />
     <Content Include="Backoffice\Ordenes\Default.aspx" />
     <Content Include="Backoffice\Ordenes\DetalleOrden.aspx" />
     <Content Include="Backoffice\Ordenes\EditarOrden.aspx" />
@@ -82,6 +83,13 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Backoffice\Components\Calendario.ascx.cs">
+      <DependentUpon>Calendario.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Backoffice\Components\Calendario.ascx.designer.cs">
+      <DependentUpon>Calendario.ascx</DependentUpon>
+    </Compile>
     <Compile Include="Backoffice\Ordenes\Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

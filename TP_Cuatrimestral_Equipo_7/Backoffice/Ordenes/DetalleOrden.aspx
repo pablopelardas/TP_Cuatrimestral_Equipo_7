@@ -28,7 +28,7 @@
 </asp:Content>
 
 <asp:Content ID="Content3" ContentPlaceHolderID="PageHeader" runat="server">
-    <a href="/Backoffice/Ordenes" class="page-header--go-back">
+    <a href="<%: redirect_to %>" class="page-header--go-back">
         <i class="fa-solid fa-arrow-left"></i>
         <h4>Detalles de la orden</h4>
     </a>
@@ -49,7 +49,7 @@
                 </div>
                 <div>
                     <span>Evento: </span>
-                    <span><%: orden.TipoEvento %></span>
+                    <span><%: orden.Evento.TipoEvento.Nombre %></span>
                 </div>
                 <div>
                     <span>Cliente: </span>
@@ -59,7 +59,7 @@
                 </div>
                 <div>
                     <span>Fecha: </span>
-                    <span><%: orden.Fecha %></span>
+                    <span><%: orden.Evento.Fecha %></span>
                 </div>
                 <div>
                     <span>Estados: </span>

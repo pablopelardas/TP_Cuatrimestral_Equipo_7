@@ -11,13 +11,18 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
     {
         public Dominio.Modelos.OrdenModelo orden;
         private Negocio.Servicios.OrdenServicio servicioOrden;
+        public string redirect_to = "/Backoffice/Ordenes";
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (Request.QueryString["redirect_back"] != null)
+            {
+                redirect_to = Request.QueryString["redirect_back"];
+            }
             if (!IsPostBack)
             {
                 string id = Request.QueryString["id"];
                 servicioOrden = new Negocio.Servicios.OrdenServicio();
-                if (id == null) Response.Redirect("/Backoffice/Ordenes", false);
+                if (id == null) Response.Redirect(redirect_to, false);
                 try
                 {
                     int idInt = Convert.ToInt32(Request.QueryString["id"]);
@@ -29,7 +34,7 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
                 }
                 catch (Exception ex)
                 {
-                    Response.Redirect("/Backoffice/Contactos", false);
+                    Response.Redirect(redirect_to, false);
                 }
 
             }

@@ -7,20 +7,29 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace TP_Cuatrimestral_Equipo_7
+namespace TP_Cuatrimestral_Equipo_7.Backoffice.Components
 {
 
 
-    public partial class Dashboard
+    public partial class WebUserControl1
     {
 
         /// <summary>
-        /// Calendario1 control.
+        /// cldFecha control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::TP_Cuatrimestral_Equipo_7.Backoffice.Components.WebUserControl1 Calendario1;
+        protected global::System.Web.UI.WebControls.Calendar cldFecha;
+
+        /// <summary>
+        /// LabelAction control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label LabelAction;
     }
 }
