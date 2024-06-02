@@ -19,18 +19,19 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ingredientes
         public string id = null;
         protected void Page_Load(object sender, EventArgs e)
         {
-            negocioIngrediente = new Negocio.Servicios.IngredienteServicio();
             negocioUnidad = new Negocio.Servicios.UnidadMedidaServicio();
+            negocioIngrediente = new Negocio.Servicios.IngredienteServicio();
             id = Request.QueryString["id"];
-            
+
             if (!IsPostBack)
             {
+                cargarUnidadesMedida();
+                BindDDL();
                 if (id == null)
                 {
                     ingrediente = new Dominio.Modelos.IngredienteModelo();
-                    unidadesMedida = new List<UnidadMedidaModelo>();
-                    BindDDL(unidadesMedida);
-                } else
+                }
+                else
                 {
                     try
                     {
@@ -38,7 +39,6 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ingredientes
                         if (idInt > 0)
                         {
                             ingrediente = negocioIngrediente.ObtenerPorId(idInt);
-                            BindDDL(unidadesMedida);
                             if (ingrediente != null)
                             {
                                 txtNombre.Text = ingrediente.Nombre;
@@ -46,7 +46,7 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ingredientes
                                 txtCosto.Text = ingrediente.Costo.ToString();
                                 txtProveedor.Text = ingrediente.Proveedor;
 
-                                ddlUnidad.SelectedIndex = ingrediente.Unidad.Id - 1;
+                                ddlUnidad.SelectedValue = unidadesMedida.Find(x => x.Id == ingrediente.Unidad.Id).Id.ToString();
                             }
                         }
                     }
@@ -55,14 +55,20 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ingredientes
                         Response.Redirect("/Backoffice/Ingredientes", false);
                     }
                 }
-
             }
-
+            if (Session["UnidadesMedida"] != null)
+            {
+                unidadesMedida = (List<UnidadMedidaModelo>)Session["UnidadesMedida"];
+            }
         }
 
-        private void BindDDL(List<UnidadMedidaModelo> unidadMedidaModelo)
+        private void cargarUnidadesMedida()
         {
             unidadesMedida = negocioUnidad.Listar();
+            Session["UnidadesMedida"] = unidadesMedida;
+        }
+        private void BindDDL()
+        {
             ddlUnidad.DataSource = unidadesMedida;
             ddlUnidad.DataTextField = "Nombre";
             ddlUnidad.DataValueField = "Id";
@@ -75,10 +81,10 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ingredientes
             {
                 Nombre = txtNombre.Text,
                 Cantidad = Convert.ToDouble(txtCantidad.Text),
-                
+
                 Costo = Convert.ToDecimal(txtCosto.Text),
                 Proveedor = txtProveedor.Text,
-                Unidad = negocioUnidad.ObtenerPorId(ddlUnidad.SelectedIndex + 1)
+                Unidad = unidadesMedida.Find(x => x.Id.ToString() == ddlUnidad.SelectedValue)
             };
         }
 
@@ -86,8 +92,7 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ingredientes
         {
             if (id != null)
             {
-                IngredienteModelo Ob = ObtenerModeloDesdeFormulario();
-                negocioIngrediente.Modificar(Ob);
+                negocioIngrediente.Modificar(ObtenerModeloDesdeFormulario());
             }
             else
             {
