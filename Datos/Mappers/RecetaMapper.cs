@@ -1,4 +1,5 @@
 ﻿using Datos;
+using Datos.Entidades;
 using System;
 using System.Collections.Generic;
 using System.Linq;

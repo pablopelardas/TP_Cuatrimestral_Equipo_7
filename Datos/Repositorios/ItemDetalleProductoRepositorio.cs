@@ -1,5 +1,6 @@
 ﻿using Datos.Entidades;
 using Datos.Helpers;
+using Dominio.Modelos;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -60,6 +61,37 @@ namespace Datos.Repositorios
         public ItemDetalleProductoEntidad GetEntity(SqlDataReader reader, string prefix = "")
         {
             return _QueryHelper.BuildEntityFromReader(reader, prefix, ItemDetalleProductoReader);
+        }
+
+        public List<ItemDetalleProductoModelo> ObtenerDetalleProducto(int id)
+        {
+            List<ItemDetalleProductoModelo> items = new List<ItemDetalleProductoModelo>();
+            AccesoDatos datos = new AccesoDatos();
+            try
+            {
+                string cmd = $@"
+SELECT
+{GetSelect()}
+FROM DETALLE_PRODUCTO
+{GetJoin()}
+WHERE DETALLE_PRODUCTOS.id_producto = @id
+";
+                datos.SetearConsulta(cmd);
+                datos.SetearParametro("@id", id);
+                datos.EjecutarLectura();
+                while (datos.Lector.Read())
+                    items.Add(Mappers.ItemDetalleProductoMapper.EntidadAModelo(GetEntity(datos.Lector)));
+
+                return items;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.CerrarConexion();
+            }
         }
     }
 }

@@ -71,7 +71,9 @@ WHERE DETALLE_RECETAS.ID_RECETA = @id
                 datos.SetearConsulta(cmd);
                 datos.SetearParametro("@id", id);
                 datos.EjecutarLectura();
-                while (datos.Lector.Read()) ingredientes.Add(Mappers.IngredienteDetalleRecetaMapper.EntidadAModelo(GetEntity(datos.Lector)));
+                while (datos.Lector.Read()) 
+                    ingredientes.Add(Mappers.IngredienteDetalleRecetaMapper.EntidadAModelo(GetEntity(datos.Lector)));
+
                 return ingredientes;
             }
             catch (Exception ex)
