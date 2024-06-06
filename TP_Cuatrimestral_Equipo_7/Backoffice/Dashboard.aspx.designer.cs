@@ -21,6 +21,6 @@ namespace TP_Cuatrimestral_Equipo_7
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::TP_Cuatrimestral_Equipo_7.Backoffice.Components.WebUserControl1 Calendario1;
+        protected global::TP_Cuatrimestral_Equipo_7.Backoffice.Components.Calendario Calendario1;
     }
 }

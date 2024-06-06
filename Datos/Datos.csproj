@@ -54,8 +54,8 @@
     <Compile Include="Entidades\OrdenEstadoPagoEntidad.cs" />
     <Compile Include="Entidades\ProductoDetalleOrdenEntidad.cs" />
     <Compile Include="Entidades\ProductoEntidad.cs" />
-    <Compile Include="Helpers\QueryHelper.cs" />
     <Compile Include="Entidades\TipoEventoEntidad.cs" />
+    <Compile Include="Helpers\QueryHelper.cs" />
     <Compile Include="Mappers\CategoriaMapper.cs" />
     <Compile Include="Entidades\RecetaEntidad.cs" />
     <Compile Include="Entidades\SuministroEntidad.cs" />
@@ -89,7 +89,6 @@
     <Compile Include="Repositorios\RecetaRepositorio.cs" />
     <Compile Include="Repositorios\SuministroRepositorio.cs" />
     <Compile Include="Repositorios\UnidadMedidaRepositorio.cs" />
-    <Compile Include="Helpers\QueryHelper.cs" />
     <Compile Include="Repositorios\TipoEventoRepositorio.cs" />
   </ItemGroup>
   <ItemGroup>
