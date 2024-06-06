@@ -13,7 +13,6 @@ namespace Datos.Entidades
         public string descripcion { get; set; }
         public decimal precio_personalizado { get; set; }
         public Entidades.CategoriaEntidad categoria { get; set; }
-
         public RecetaEntidad() { }
     }
 }
