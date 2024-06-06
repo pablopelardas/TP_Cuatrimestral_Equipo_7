@@ -3,12 +3,12 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 
-<asp:Content ID="Content3" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+<asp:Content ID="Content3" ContentPlaceHolderID="PageHeader" runat="server">
     <h4>Productos</h4>
     <a href="EditarProducto.aspx" class="btn btn-primary">Nuevo Producto</a>
 </asp:Content>
 
-<asp:Content ID="Content2" ContentPlaceHolderID="PageHeader" runat="server">
+<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <div class="container">
         <div class="tbl-header">
             <div class="tbl-search">

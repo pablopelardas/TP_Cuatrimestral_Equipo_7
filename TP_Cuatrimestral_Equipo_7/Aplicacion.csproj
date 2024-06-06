@@ -77,6 +77,9 @@
     <Content Include="Backoffice\Contactos\Default.aspx" />
     <Content Include="Backoffice\Contactos\EditarContacto.aspx" />
     <Content Include="Backoffice\Contactos\DetalleContacto.aspx" />
+    <Content Include="Backoffice\Productos\Default.aspx" />
+    <Content Include="Backoffice\Productos\DetalleProducto.aspx" />
+    <Content Include="Backoffice\Productos\EditarProducto.aspx" />
     <Content Include="Css\bootstrap.min.css" />
     <Content Include="Backoffice\Dashboard.aspx" />
     <Content Include="Css\styles.css" />
@@ -162,6 +165,27 @@
     </Compile>
     <Compile Include="Backoffice\Dashboard.aspx.designer.cs">
       <DependentUpon>Dashboard.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Backoffice\Productos\Default.aspx.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Backoffice\Productos\Default.aspx.designer.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Backoffice\Productos\DetalleProducto.aspx.cs">
+      <DependentUpon>DetalleProducto.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Backoffice\Productos\DetalleProducto.aspx.designer.cs">
+      <DependentUpon>DetalleProducto.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Backoffice\Productos\EditarProducto.aspx.cs">
+      <DependentUpon>EditarProducto.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Backoffice\Productos\EditarProducto.aspx.designer.cs">
+      <DependentUpon>EditarProducto.aspx</DependentUpon>
     </Compile>
     <Compile Include="Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>

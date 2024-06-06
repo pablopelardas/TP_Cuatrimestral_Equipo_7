@@ -15,7 +15,7 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Productos
     {
 
         /// <summary>
-        /// txtNombre control.
+        /// Control txtNombre.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
@@ -24,7 +24,7 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Productos
         protected global::System.Web.UI.WebControls.TextBox txtNombre;
 
         /// <summary>
-        /// txtDescripcion control.
+        /// Control txtDescripcion.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
@@ -33,7 +33,7 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Productos
         protected global::System.Web.UI.WebControls.TextBox txtDescripcion;
 
         /// <summary>
-        /// txtPorciones control.
+        /// Control txtPorciones.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
@@ -42,7 +42,7 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Productos
         protected global::System.Web.UI.WebControls.TextBox txtPorciones;
 
         /// <summary>
-        /// txtHorasTrabajo.
+        /// Control txtHorasTrabajo.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
@@ -51,7 +51,7 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Productos
         protected global::System.Web.UI.WebControls.TextBox txtHorasTrabajo;
 
         /// <summary>
-        /// txtTipoPrecio control.
+        /// Control txtTipoPrecio.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
@@ -60,7 +60,7 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Productos
         protected global::System.Web.UI.WebControls.TextBox txtTipoPrecio;
 
         /// <summary>
-        /// txtValorPrecio control.
+        /// Control txtValorPrecio.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
@@ -69,7 +69,7 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Productos
         protected global::System.Web.UI.WebControls.TextBox txtValorPrecio;
 
         /// <summary>
-        /// ddlCategoria control.
+        /// Control ddlCategoria.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
@@ -78,7 +78,7 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Productos
         protected global::System.Web.UI.WebControls.DropDownList ddlCategoria;
 
         /// <summary>
-        /// btnGuardar control.
+        /// Control btnGuardar.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.

@@ -30,7 +30,7 @@
                         <li><a href="#">Pedidos</a></li>
                         <li><a href="/Backoffice/Ingredientes">Ingredientes</a></li>
                         <li><a href="#">Recetas</a></li>
-                        <li><a href="#">Productos</a></li>
+                        <li><a href="/Backoffice/Productos">Productos</a></li>
                     </ul>
                     <div class="col-10 container main-content" style="min-height: 100vh">
                         <div class="page-header">

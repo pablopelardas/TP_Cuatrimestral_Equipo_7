@@ -2,7 +2,7 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 
-<asp:Content ID="Content3" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+<asp:Content ID="Content3" ContentPlaceHolderID="PageHeader" runat="server">
     <a href="/Backoffice/Producto" class="page-header--go-back">
         <i class="fa-solid fa-arrow-left"></i>
         <h4>Detalles producto</h4>
@@ -13,7 +13,7 @@
     <%} %>
 </asp:Content>
 
-<asp:Content ID="Content2" ContentPlaceHolderID="PageHeader" runat="server">
+<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
      <div>
      <h3>Detalles producto</h3>
      <div>

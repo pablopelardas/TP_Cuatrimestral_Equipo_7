@@ -47,7 +47,7 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Productos
                         }
                     }
                     catch (Exception ex)
-                    {
+                    {                       
                         throw ex;
                     }
                 }
@@ -64,7 +64,7 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Productos
                 HorasTrabajo = Convert.ToDecimal(txtHorasTrabajo.Text),
                 TipoPrecio = txtTipoPrecio.Text,
                 ValorPrecio = Convert.ToDecimal(txtValorPrecio.Text),
-                Categoria = ddlCategoria = "Categoria" ? "uno" : "dos"
+                //Categoria = ddlCategoria = "Categoria" ? "uno" : "dos"
             };
         }
 
