@@ -9,11 +9,11 @@ namespace Datos.Entidades
     public class SuministroEntidad
     {
         public int id_suministro { get; set; }
-        public int id_categoria { get; set; }
         public string nombre { get; set; }
         public string proveedor { get; set; }
-        public float cantidad { get; set; }
+        public double cantidad { get; set; }
         public decimal costo { get; set; }
+        public CategoriaEntidad categoria { get; set; }
         public SuministroEntidad() { }
     }
 }
