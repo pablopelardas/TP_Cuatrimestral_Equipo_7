@@ -1,4 +1,5 @@
-﻿using Dominio.Modelos;
+﻿using Datos.Helpers;
+using Dominio.Modelos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,60 +10,69 @@ namespace Datos.Repositorios
 {
     internal class IngredienteDetalleRecetaRepositorio
     {
-        private ProductoRepositorio productoRepositorio = new ProductoRepositorio();
+        private QueryHelper _QueryHelper = new QueryHelper();
+        private string INGREDIENTE_PREFIX = "ing";
         private IngredienteRepositorio ingredienteRepositorio = new IngredienteRepositorio();
-        public string GetSelectIngredienteDetalleReceta(string prefix = "")
+
+        public string IngredienteDetalleRecetaSelect(string prefixTable, string prefixColumn)
         {
             return $@"
-    DETALLE_RECETAS.cantidad AS '{prefix}cantidad',
-    {ingredienteRepositorio.GetSelect("ingrediente.")}
+    {prefixTable}DETALLE_RECETA.cantidad AS '{prefixColumn}cantidad',
+    {ingredienteRepositorio.GetSelect(prefixColumn + INGREDIENTE_PREFIX)}
 ";
         }
 
-        public string GetJoinIngredienteDetalleReceta()
+        public string IngredienteDetalleRecetaJoin(string prefixTable)
         {
+            string aliasProducto = prefixTable + INGREDIENTE_PREFIX + "_INGREDIENTES";
             return $@"
-INNER JOIN PRODUCTOS ON DETALLE_RECETAS.ID_INGREDIENTE = INGREDIENTE.ID_INGREDIENTE
-{ingredienteRepositorio.GetJoin()}
+INNER JOIN INGREDIENTES as {aliasProducto} ON {prefixTable}ID_INGREDIENTE = {aliasProducto}.ID_INGREDIENTE
+{ingredienteRepositorio.GetJoin(prefixTable + INGREDIENTE_PREFIX)}
 ";
         }
 
-        public Entidades.ProductoDetalleOrdenEntidad GetEntidadFromReader(System.Data.SqlClient.SqlDataReader reader, string prefix = "")
+        public Entidades.IngredienteDetalleRecetaEntidad IngredienteDetalleRecetaReader(System.Data.SqlClient.SqlDataReader reader, string prefix = "")
         {
-            Entidades.ProductoDetalleOrdenEntidad entidad = new Entidades.ProductoDetalleOrdenEntidad();
+            Entidades.IngredienteDetalleRecetaEntidad entidad = new Entidades.IngredienteDetalleRecetaEntidad();
             entidad.cantidad = (int)reader[$"{prefix}cantidad"];
-            entidad.producto_porciones = (int)reader[$"{prefix}producto_porciones"];
-            entidad.producto_costo = (decimal)reader[$"{prefix}producto_costo"];
-            entidad.producto_precio = (decimal)reader[$"{prefix}producto_precio"];
 
-            entidad.producto = productoRepositorio.GetEntity(reader, "producto.");
+            entidad.ingrediente = ingredienteRepositorio.GetEntity(reader, "producto.");
             return entidad;
         }
 
-        public List<ProductoDetalleOrdenModelo> ObtenerDetallePorReceta(int id)
+        public string GetSelect(string prefix = "")
         {
-            List<ProductoDetalleOrdenModelo> productos = new List<ProductoDetalleOrdenModelo>();
+            return _QueryHelper.BuildSelect(prefix, IngredienteDetalleRecetaSelect);
+        }
+
+        public string GetJoin(string prefix = "")
+        {
+            return _QueryHelper.BuildJoin(prefix, IngredienteDetalleRecetaJoin);
+        }
+
+        public Entidades.IngredienteDetalleRecetaEntidad GetEntity(System.Data.SqlClient.SqlDataReader reader, string prefix = "")
+        {
+            return _QueryHelper.BuildEntityFromReader(reader, prefix, IngredienteDetalleRecetaReader);
+        }
+
+        public List<IngredienteDetalleRecetaModelo> ObtenerDetallePorReceta(int id)
+        {
+            List<IngredienteDetalleRecetaModelo> ingredientes = new List<IngredienteDetalleRecetaModelo>();
             AccesoDatos datos = new AccesoDatos();
             try
             {
                 string cmd = $@"
 SELECT 
-{GetSelectIngredienteDetalleReceta()}
+{GetSelect()}
 FROM DETALLE_RECETAS
-{GetJoinIngredienteDetalleReceta()}
+{GetJoin()}
 WHERE DETALLE_RECETAS.ID_RECETA = @id
                     ";
                 datos.SetearConsulta(cmd);
                 datos.SetearParametro("@id", id);
                 datos.EjecutarLectura();
-                while (datos.Lector.Read())
-                {
-                    Entidades.IngredienteDetalleRecetaEntidad entidad = new Entidades.IngredienteDetalleRecetaEntidad();
-                    entidad.ingrediente = ingredienteRepositorio.GetEntity(datos.Lector, "ingrediente.");
-                    entidad.cantidad = (int)datos.Lector["cantidad"];
-                    //productos.Add(Mappers.ProductoDetalleOrdenMapper.EntidadAModelo(entidad));
-                }
-                return productos;
+                while (datos.Lector.Read()) ingredientes.Add(Mappers.IngredienteDetalleRecetaMapper.EntidadAModelo(GetEntity(datos.Lector)));
+                return ingredientes;
             }
             catch (Exception ex)
             {
