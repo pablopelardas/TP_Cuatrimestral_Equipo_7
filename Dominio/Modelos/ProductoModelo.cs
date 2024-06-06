@@ -23,6 +23,8 @@ namespace Dominio.Modelos
 
         public CategoriaModelo Categoria { get; set; }
 
+        public List<ItemDetalleProductoModelo> Items { get; set; }
+
         public ProductoModelo()
         {
         }

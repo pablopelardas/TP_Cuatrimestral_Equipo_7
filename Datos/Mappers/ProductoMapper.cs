@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Datos.Entidades;
+using Datos.Repositorios;
+using Dominio.Modelos;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,19 +11,23 @@ namespace Datos.Mappers
 {
     internal class ProductoMapper
     {
-        internal static Dominio.Modelos.ProductoModelo EntidadAModelo(Entidades.ProductoEntidad productoEntidad)
+        internal static Dominio.Modelos.ProductoModelo EntidadAModelo(Entidades.ProductoEntidad productoEntidad, bool incluyeDetalle = false)
         {
-            return new Dominio.Modelos.ProductoModelo
-            {
-                IdProducto = productoEntidad.id_producto,
-                Nombre = productoEntidad.nombre,
-                Descripcion = productoEntidad.descripcion,
-                Porciones = productoEntidad.porciones,
-                HorasTrabajo = productoEntidad.horas_trabajo,
-                TipoPrecio = productoEntidad.tipo_precio,
-                ValorPrecio = productoEntidad.valor_precio,
-                Categoria = CategoriaMapper.EntidadAModelo(productoEntidad.categoria),
-            };
+            ProductoModelo producto = new ProductoModelo();
+            ItemDetalleProductoRepositorio itemDetalleProductoRepositorio = new ItemDetalleProductoRepositorio();
+
+            producto.IdProducto = productoEntidad.id_producto;
+            producto.Nombre = productoEntidad.nombre;
+            producto.Descripcion = productoEntidad.descripcion;
+            producto.Porciones = productoEntidad.porciones;
+            producto.HorasTrabajo = productoEntidad.horas_trabajo;
+            producto.TipoPrecio = productoEntidad.tipo_precio;
+            producto.ValorPrecio = productoEntidad.valor_precio;
+            producto.Categoria = CategoriaMapper.EntidadAModelo(productoEntidad.categoria);
+            if (incluyeDetalle)
+                producto.Items = itemDetalleProductoRepositorio.ObtenerDetalleProducto(productoEntidad.id_producto);
+
+            return producto;
         }
 
         internal static Entidades.ProductoEntidad ModeloAEntidad(Dominio.Modelos.ProductoModelo productoModelo)
