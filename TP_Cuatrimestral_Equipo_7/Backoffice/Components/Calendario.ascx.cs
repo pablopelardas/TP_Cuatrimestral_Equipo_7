@@ -14,19 +14,26 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Components
     public partial class Calendario : System.Web.UI.UserControl
     {
         Hashtable ListaDeEventos;
+
         private Negocio.Servicios.EventoServicio eventoServicio = new Negocio.Servicios.EventoServicio();
+
         private string FechaSeleccionada;
         private string CLDFECHASELECCIONADA = "cldFechaSeleccionada";
         private string CLDLISTADEEVENTOS = "CldListaDeEventos";
 
-        public delegate void OnDayClick(object sender, EventArgs e);
-
-        private OnDayClick onDayClick = null;
+        public Action<object,EventArgs> OnDayClick { get; set; }
 
         public DateTime FechaCalendario
         {
             get
             {
+                if (cldFecha.SelectedDate.ToShortDateString() == "1/1/0001" || cldFecha.SelectedDate == null)
+                {
+                    cldFecha.VisibleDate = DateTime.Now;
+                    cldFecha.SelectedDate = DateTime.Now;
+                    return DateTime.Now;
+                }
+                cldFecha.VisibleDate = cldFecha.SelectedDate;
                 return cldFecha.SelectedDate;
             }
             set
@@ -36,18 +43,16 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Components
             }
         }
        
-        public void AddDayClick(OnDayClick onDayClick)
+        public void InicializarCalendario(Action<object, EventArgs> onDayClick)
         {
-            this.onDayClick = onDayClick;
-        }
-        protected void Page_Load(object sender, EventArgs e)
-        {
-
             if (!IsPostBack)
             {
-                CargarCalendario();
                 Session[CLDFECHASELECCIONADA] = null;
+                CargarCalendario();
             }
+
+
+            cldFecha.SelectionChanged += new EventHandler(cldFechaClicked);
 
             if (Session[CLDLISTADEEVENTOS] != null)
             {
@@ -60,18 +65,7 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Components
             }
 
 
-            cldFecha.FirstDayOfWeek = FirstDayOfWeek.Monday;
-            cldFecha.NextPrevFormat = NextPrevFormat.ShortMonth;
-            cldFecha.TitleFormat = TitleFormat.Month;
-            cldFecha.ShowGridLines = true;
-            cldFecha.DayStyle.Height = new Unit(50);
-            // width auto
-            cldFecha.DayStyle.Width = new Unit(100);
-            cldFecha.DayStyle.HorizontalAlign = HorizontalAlign.Center;
-            cldFecha.DayStyle.VerticalAlign = VerticalAlign.Middle;
-            cldFecha.OtherMonthDayStyle.BackColor = System.Drawing.Color.AliceBlue;
-            cldFecha.SelectionChanged += new EventHandler(cldFechaClicked);
-
+            OnDayClick = onDayClick != null ? onDayClick : null;
         }
 
         private void CargarCalendario()
@@ -91,9 +85,19 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Components
                     listaDeEventos.Add(evento);
             }
             Session[CLDLISTADEEVENTOS] = ListaDeEventos;
+
+
+            cldFecha.FirstDayOfWeek = FirstDayOfWeek.Monday;
+            cldFecha.NextPrevFormat = NextPrevFormat.ShortMonth;
+            cldFecha.TitleFormat = TitleFormat.MonthYear;
+            cldFecha.DayStyle.Height = new Unit(50);
+            cldFecha.DayStyle.Width = new Unit(100);
+            cldFecha.OtherMonthDayStyle.BackColor = System.Drawing.Color.AliceBlue;
+
         }
         protected void OpenModal()
         {
+            cldFecha.SelectedDates.Clear();
             if (ListaDeEventos != null && ListaDeEventos[FechaSeleccionada] != null)
             {
                 var _ListaEventos = (List<EventoModelo>)ListaDeEventos[FechaSeleccionada];
@@ -116,12 +120,11 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Components
         {
             FechaSeleccionada = cldFecha.SelectedDate.ToShortDateString();
             Session[CLDFECHASELECCIONADA] = FechaSeleccionada;
-            if (onDayClick != null)
+            if (OnDayClick != null)
             {
-                onDayClick(sender, e);
+                OnDayClick(sender, e);
                 return;
             }
-            cldFecha.SelectedDates.Clear();
             OpenModal();
         }
 

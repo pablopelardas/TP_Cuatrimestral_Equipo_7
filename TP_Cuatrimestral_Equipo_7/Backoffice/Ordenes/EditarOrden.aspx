@@ -1,5 +1,11 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/LayoutNegocio.Master" AutoEventWireup="true" CodeBehind="EditarOrden.aspx.cs" Inherits="TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes.EditarOrden"  ValidateRequest="false"%>
+
+<%@ Register Src="~/Backoffice/Components/ComboBoxAutoComplete.ascx" TagPrefix="uc" TagName="ComboBoxAutoComplete" %>
+
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+    <link href="/Css/chosen.css" rel="stylesheet" />
+    <script src="/Js/jquery-3.7.1.min.js"></script>
+    <script src="/Js/chosen.jquery.js" type="text/javascript"></script>
     <script src="https://cdn.tiny.cloud/1/valwbezytp23wuvlb68adt6hx9ggw67661q3p79cvj23ai0p/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
 </asp:Content>
 
@@ -30,43 +36,17 @@ else { %>
                     <span><%: orden.IdOrden %></span>
             </div>
             <% }  %>
-            <div>
-                <label class="form-label">Tipo</label>
-                <asp:DropDownList ID="ddlTipo" runat="server" CssClass="form-control">
-<%--                    <asp:ListItem Text="Cumpleaños" Value="Cumpleaños"></asp:ListItem>
-                    <asp:ListItem Text="Bautimo" Value="Bautimo"></asp:ListItem>
-                    <asp:ListItem Text="Casamiento" Value="Casamiento"></asp:ListItem>
-                    <asp:ListItem Text="Aniversario" Value="Aniversario"></asp:ListItem>
-                    <asp:ListItem Text="Baby Shower" Value="Baby Shower"></asp:ListItem>
-                    <asp:ListItem Text="Religioso" Value="Religioso"></asp:ListItem>
-                    <asp:ListItem Text="Corporativo" Value="Corporativo"></asp:ListItem>
-                    <asp:ListItem Text="Otro" Value="Otro"></asp:ListItem>--%>
-                </asp:DropDownList>
+            <div class="my-2 d-flex gap-3">
+                <label class="form-label">Tipo: </label>
+                <asp:PlaceHolder ID="phComboBoxTipo" runat="server"></asp:PlaceHolder>
+            </div>
+            <div class="my-2 d-flex gap-3">
+                <label class="form-label">Cliente: </label>
+                <asp:PlaceHolder ID="phComboBoxCliente" runat="server"></asp:PlaceHolder>
             </div>
             <div>
-                <label class="form-label">Cliente</label>
-                <asp:TextBox CssClass="form-control" ID="txtCliente" runat="server"></asp:TextBox>
-                <%-- buscador clientes --%>
-            </div>
-            <div>
-                <label class="form-label">Fecha</label>
-                <%-- datepicker --%>
-                <div style="max-width:500px">
-                   <asp:Calendar ID="cldFecha" runat="server" BackColor="#FFFFCC" BorderColor="#FFCC66"
-                        BorderWidth="1px" DayNameFormat="Shortest" Font-Names="Verdana" Font-Size="8pt"
-                        ForeColor="#663399" ShowGridLines="True" OnDayRender="cldFecha_DayRender" OnSelectionChanged="cldFecha_SelectionChanged"
-                        OnVisibleMonthChanged="cldFecha_VisibleMonthChanged">
-                        <SelectedDayStyle BackColor="#CCCCFF" Font-Bold="True" />
-                        <SelectorStyle BackColor="#FFCC66" />
-                        <TodayDayStyle BackColor="#FFCC66" ForeColor="White" />
-                        <OtherMonthDayStyle ForeColor="#CC9966" />
-                        <NextPrevStyle Font-Size="9pt" ForeColor="#FFFFCC" />
-                        <DayHeaderStyle BackColor="#FFCC66" Font-Bold="True" Height="1px" />
-                        <TitleStyle BackColor="#990000" Font-Bold="True" Font-Size="9pt" ForeColor="#FFFFCC" />
-                    </asp:Calendar>
-                    <asp:Label ID="LabelAction" runat="server"></asp:Label><br />
-                </div>
-                <%--<asp:TextBox CssClass="form-control" ID="txtFecha" runat="server"></asp:TextBox>--%>
+                <label class="form-label">Fecha: <%: FechaSeleccionada != null ? FechaSeleccionada : ""%></label>
+                <asp:PlaceHolder ID="phCalendario" runat="server"></asp:PlaceHolder>
             </div>
             
         </div>
@@ -156,20 +136,23 @@ else { %>
 
     <script type="text/javascript" language="javascript">
         function LoadTiny() {
-        tinymce.init({
-            selector: 'textarea#tiny',
-            height: 500,
-            plugins: [
-                'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
-                'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
-                'insertdatetime', 'media', 'table', 'help', 'wordcount'
-            ],
-            toolbar: 'undo redo | blocks | ' +
-                'bold italic backcolor | alignleft aligncenter ' +
-                'alignright alignjustify | bullist numlist outdent indent | ' +
-                'removeformat',
-            content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:16px }'
-        });
-      }
+            tinymce.init({
+                selector: 'textarea#tiny',
+                height: 500,
+                plugins: [
+                    'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
+                    'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
+                    'insertdatetime', 'media', 'table', 'help', 'wordcount'
+                ],
+                toolbar: 'undo redo | blocks | ' +
+                    'bold italic backcolor | alignleft aligncenter ' +
+                    'alignright alignjustify | bullist numlist outdent indent | ' +
+                    'removeformat',
+                content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:16px }'
+            });
+        }
+
+        $(".chzn-select").chosen(); $(".chzn-select-deselect").chosen({ allow_single_deselect: true });
     </script>
 </asp:Content>
+

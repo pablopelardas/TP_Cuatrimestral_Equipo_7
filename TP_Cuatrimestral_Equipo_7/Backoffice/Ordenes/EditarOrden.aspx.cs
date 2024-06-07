@@ -13,15 +13,29 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
 {
     public partial class EditarOrden : System.Web.UI.Page
     {
-        Hashtable HolidayList;
         public Dominio.Modelos.OrdenModelo orden;
+        public string FechaSeleccionada;
+        public string id = null;
+        Hashtable HolidayList;
+        
         private Negocio.Servicios.OrdenServicio servicioOrden;
         private Negocio.Servicios.EventoServicio servicioEvento;
-        public string id = null;
+        private Negocio.Servicios.ContactoServicio servicioContacto;
+
+        private Components.Calendario calendario;
+        private Components.ComboBoxAutoComplete cboTipo;
+        private Components.ComboBoxAutoComplete cboCliente;
+
         protected void Page_Load(object sender, EventArgs e)
         {
             servicioOrden = new Negocio.Servicios.OrdenServicio();
             servicioEvento = new Negocio.Servicios.EventoServicio();
+            servicioContacto = new Negocio.Servicios.ContactoServicio();
+
+            CargarCalendario();
+            CargarComboBoxTipo();
+            CargarComboBoxCliente();
+
             id = Request.QueryString["id"];
            
 
@@ -45,25 +59,56 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
                 }
             }
 
-
-
-
-            if (!IsPostBack)
-            {
-                ddlTipo.DataSource = servicioEvento.ListarTipoDeEventos().Select(x => x.Nombre).ToList();
-                ddlTipo.DataBind();
-            }
             if (!IsPostBack && id != null)
             {
                 CargarDatos();
             }
 
-
-
-
-
         }
-    
+        private void _initComboBoxTipo(DropDownList comboBox)
+        {
+            comboBox.DataSource = 
+                new List<TipoEventoModelo> { new TipoEventoModelo { IdTipoEvento = 0, Nombre = "Seleccione un tipo de evento" } }.Concat(servicioEvento.ListarTipoDeEventos());
+            comboBox.DataTextField = "Nombre";
+            comboBox.DataValueField = "IdTipoEvento";
+            comboBox.DataBind();
+        }
+
+        private void _initComboBoxCliente(DropDownList comboBox)
+        {
+            comboBox.DataSource = 
+                new List<ContactoModelo> { new ContactoModelo { Id = 0, NombreApellido = "Seleccione un cliente" } }.Concat(servicioContacto.Listar().Where(contacto => contacto.Rol == "Cliente"));
+            comboBox.DataTextField = "NombreApellido";
+            comboBox.DataValueField = "Id";
+            comboBox.DataBind();
+        }
+        private void CargarComboBoxTipo()
+        {
+            cboTipo = (Components.ComboBoxAutoComplete)LoadControl("~/Backoffice/Components/ComboBoxAutoComplete.ascx");
+            cboTipo.ComboID = "cboTipo";
+            phComboBoxTipo.Controls.Add(cboTipo);
+            cboTipo.InicializarComboBox(_initComboBoxTipo);
+        }
+
+        private void CargarComboBoxCliente()
+        {
+            cboCliente = (Components.ComboBoxAutoComplete)LoadControl("~/Backoffice/Components/ComboBoxAutoComplete.ascx");
+            cboCliente.ComboID = "cboCliente";
+            phComboBoxCliente.Controls.Add(cboCliente);
+            cboCliente.InicializarComboBox(_initComboBoxCliente);
+        }
+        private void OnDayClick(object sender, EventArgs e)
+        {
+            FechaSeleccionada = calendario.FechaCalendario.ToShortDateString();
+        }
+        private void CargarCalendario()
+        {
+            calendario = (Backoffice.Components.Calendario)LoadControl("~/Backoffice/Components/Calendario.ascx");
+            phCalendario.Controls.Add(calendario);
+            calendario.InicializarCalendario(OnDayClick);
+            FechaSeleccionada = calendario.FechaCalendario.ToShortDateString();
+        }
+
         protected void OnTinyLoad(object sender, EventArgs e)
         {
             ScriptManager.RegisterStartupScript(this, GetType(), "text", "LoadTiny();", true);
@@ -71,19 +116,24 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
 
         private void CargarDatos()
         {
-            cldFecha.SelectedDate = orden.Evento.Fecha;
-            txtCliente.Text = orden.Cliente.NombreApellido;
+            if (orden == null)
+            {
+                return;
+            }
 
+            FechaSeleccionada = orden.Evento.Fecha.ToShortDateString();
             rbtnTipoEntrega.SelectedValue = orden.TipoEntrega;
             txtHora.Text = orden.HoraEntrega.ToString();
             txtDireccion.Text = orden.DireccionEntrega;
-
             txtDescuento.Text = orden.DescuentoPorcentaje.ToString();
             txtCostoEnvio.Text = orden.CostoEnvio.ToString();
 
-            ddlTipo.SelectedValue = orden.Evento.TipoEvento.Nombre;
+            // COMPONENTES
+            cboTipo.SelectedValue = orden.Evento.TipoEvento.IdTipoEvento.ToString();
+            cboCliente.SelectedValue = orden.Cliente.Id.ToString();
+            calendario.FechaCalendario = orden.Evento.Fecha;
 
-
+            // EDITOR
             tiny.Text = orden.Descripcion;
 
         }

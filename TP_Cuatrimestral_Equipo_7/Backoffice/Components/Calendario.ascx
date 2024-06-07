@@ -1,4 +1,14 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="Calendario.ascx.cs" Inherits="TP_Cuatrimestral_Equipo_7.Backoffice.Components.Calendario" %>
+
+<script type="text/javascript">
+    function ShowPopup(title, body) {
+        console.log('SHOW POPUP')
+        setTimeout(() => {
+            document.querySelector("#modalTrigger").click();
+        }, 1);
+    }
+</script>
+
 <asp:Calendar CssClass="calendario" ID="cldFecha" runat="server" BackColor="#FFFFFF" BorderColor="#A0D2DB"
     BorderWidth="1px" DayNameFormat="Full" Font-Names="Verdana" Font-Size="8pt" 
     ForeColor="#403233" ShowGridLines="True" OnDayRender="cldFecha_DayRender"
@@ -12,9 +22,7 @@
     <DayStyle CssClass="day"/>
 </asp:Calendar>
 
-<button style="display:none" type="button" id="modalTrigger" data-bs-toggle="modal" data-bs-target="#dayOrders">
-  Launch static backdrop modal
-</button>
+<button style="display:none" type="button" id="modalTrigger" data-bs-toggle="modal" data-bs-target="#dayOrders"></button>
 
 <!-- Modal -->
 <div class="modal fade" id="dayOrders" tabindex="-1" aria-labelledby="dayOrdersTitle" aria-hidden="true">

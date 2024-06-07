@@ -56,7 +56,6 @@
             });
         </script>
     </asp:PlaceHolder>
-    <script src="/Js/jquery-3.7.1.min.js"></script>
     <script src="/Js/bootstrap.bundle.min.js"></script>
     <asp:ContentPlaceHolder ID="scripts" runat="server"></asp:ContentPlaceHolder>
 </body>

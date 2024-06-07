@@ -15,40 +15,31 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
     {
 
         /// <summary>
-        /// ddlTipo control.
+        /// phComboBoxTipo control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlTipo;
+        protected global::System.Web.UI.WebControls.PlaceHolder phComboBoxTipo;
 
         /// <summary>
-        /// txtCliente control.
+        /// phComboBoxCliente control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtCliente;
+        protected global::System.Web.UI.WebControls.PlaceHolder phComboBoxCliente;
 
         /// <summary>
-        /// cldFecha control.
+        /// phCalendario control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Calendar cldFecha;
-
-        /// <summary>
-        /// LabelAction control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label LabelAction;
+        protected global::System.Web.UI.WebControls.PlaceHolder phCalendario;
 
         /// <summary>
         /// rbtnTipoEntrega control.

@@ -67,6 +67,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Backoffice\Components\ComboBoxAutoComplete.ascx" />
     <Content Include="Backoffice\Ingredientes\Default.aspx" />
     <Content Include="Backoffice\Ingredientes\DetalleIngrediente.aspx" />
     <Content Include="Backoffice\Ingredientes\EditarIngrediente.aspx" />
@@ -82,15 +83,23 @@
     <Content Include="Backoffice\Productos\EditarProducto.aspx" />
     <Content Include="Css\bootstrap.min.css" />
     <Content Include="Backoffice\Dashboard.aspx" />
+    <Content Include="Css\chosen.css" />
     <Content Include="Css\styles.css" />
     <Content Include="Default.aspx" />
     <Content Include="Global.asax" />
     <Content Include="Js\bootstrap.bundle.min.js" />
-    <Content Include="Js\Calendario.js" />
+    <Content Include="Js\chosen.jquery.js" />
     <Content Include="Js\jquery-3.7.1.min.js" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Backoffice\Components\ComboBoxAutoComplete.ascx.cs">
+      <DependentUpon>ComboBoxAutoComplete.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Backoffice\Components\ComboBoxAutoComplete.ascx.designer.cs">
+      <DependentUpon>ComboBoxAutoComplete.ascx</DependentUpon>
+    </Compile>
     <Compile Include="Backoffice\Ingredientes\Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -219,7 +228,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
     <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
