@@ -2,6 +2,8 @@
 using Dominio.Modelos;
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -31,12 +33,12 @@ INNER JOIN INGREDIENTES as {aliasProducto} ON {prefixTable}ID_INGREDIENTE = {ali
 ";
         }
 
-        public Entidades.IngredienteDetalleRecetaEntidad IngredienteDetalleRecetaReader(System.Data.SqlClient.SqlDataReader reader, string prefix = "")
+        public Entidades.IngredienteDetalleRecetaEntidad IngredienteDetalleRecetaReader(DataRow row, string prefix = "")
         {
             Entidades.IngredienteDetalleRecetaEntidad entidad = new Entidades.IngredienteDetalleRecetaEntidad();
-            entidad.cantidad = (int)reader[$"{prefix}cantidad"];
+            entidad.cantidad = (int)row[$"{prefix}cantidad"];
 
-            entidad.ingrediente = ingredienteRepositorio.GetEntity(reader, "producto.");
+            entidad.ingrediente = ingredienteRepositorio.GetEntity(row, "producto.");
             return entidad;
         }
 
@@ -50,9 +52,9 @@ INNER JOIN INGREDIENTES as {aliasProducto} ON {prefixTable}ID_INGREDIENTE = {ali
             return _QueryHelper.BuildJoin(prefix, IngredienteDetalleRecetaJoin);
         }
 
-        public Entidades.IngredienteDetalleRecetaEntidad GetEntity(System.Data.SqlClient.SqlDataReader reader, string prefix = "")
+        public Entidades.IngredienteDetalleRecetaEntidad GetEntity(DataRow row, string prefix = "")
         {
-            return _QueryHelper.BuildEntityFromReader(reader, prefix, IngredienteDetalleRecetaReader);
+            return _QueryHelper.BuildEntityFromReader(row, prefix, IngredienteDetalleRecetaReader);
         }
 
         public List<IngredienteDetalleRecetaModelo> ObtenerDetallePorReceta(int id)
@@ -61,28 +63,26 @@ INNER JOIN INGREDIENTES as {aliasProducto} ON {prefixTable}ID_INGREDIENTE = {ali
             AccesoDatos datos = new AccesoDatos();
             try
             {
-                string cmd = $@"
+                SqlCommand cmd = new SqlCommand($@"
 SELECT 
 {GetSelect()}
 FROM DETALLE_RECETAS
 {GetJoin()}
 WHERE DETALLE_RECETAS.ID_RECETA = @id
-                    ";
-                datos.SetearConsulta(cmd);
-                datos.SetearParametro("@id", id);
-                datos.EjecutarLectura();
-                while (datos.Lector.Read()) 
-                    ingredientes.Add(Mappers.IngredienteDetalleRecetaMapper.EntidadAModelo(GetEntity(datos.Lector)));
+                    ");
+
+                cmd.Parameters.AddWithValue("@id", id);
+                DataTable response = datos.ExecuteQuery(cmd);
+
+                foreach (DataRow row in response.Rows)
+                    ingredientes.Add(Mappers.IngredienteDetalleRecetaMapper.EntidadAModelo(GetEntity(row)));
 
                 return ingredientes;
+
             }
             catch (Exception ex)
             {
                 throw ex;
-            }
-            finally
-            {
-                datos.CerrarConexion();
             }
         }
 

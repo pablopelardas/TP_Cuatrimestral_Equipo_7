@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
@@ -19,12 +20,12 @@ namespace Datos.Repositorios
 {prefixTable}CATEGORIAS.tipo as '{prefixColumn}tipo'";
         }
 
-        private Entidades.CategoriaEntidad CategoriaReader(System.Data.SqlClient.SqlDataReader reader, string prefixColumn = "")
+        private Entidades.CategoriaEntidad CategoriaReader(DataRow row, string prefixColumn = "")
         {
             Entidades.CategoriaEntidad entidad = new Entidades.CategoriaEntidad();
-            entidad.id_categoria = (int)reader[$"{prefixColumn}id_categoria"];
-            entidad.nombre = (string)reader[$"{prefixColumn}nombre"];
-            entidad.tipo = (string)reader[$"{prefixColumn}tipo"];
+            entidad.id_categoria = (int)row[$"{prefixColumn}id_categoria"];
+            entidad.nombre = (string)row[$"{prefixColumn}nombre"];
+            entidad.tipo = (string)row[$"{prefixColumn}tipo"];
             return entidad;
         }
 
@@ -33,9 +34,9 @@ namespace Datos.Repositorios
         {
             return _queryHelper.BuildSelect(prefix, CategoriaSelect);
         }
-        public Entidades.CategoriaEntidad GetEntity(System.Data.SqlClient.SqlDataReader reader, string prefix = "")
+        public Entidades.CategoriaEntidad GetEntity(DataRow row, string prefix = "")
         {
-            return _queryHelper.BuildEntityFromReader(reader, prefix, CategoriaReader);
+            return _queryHelper.BuildEntityFromReader(row, prefix, CategoriaReader);
         }
     }
 }

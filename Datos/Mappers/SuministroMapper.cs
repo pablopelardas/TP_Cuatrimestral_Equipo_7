@@ -8,7 +8,7 @@ namespace Datos.Mappers
 {
     internal class SuministroMapper
     {
-        internal static Dominio.Modelos.SuministroModelo EntidadAModelo(Entidades.SuministroEntidad suministroEntidad, bool incluyeDetalle)
+        internal static Dominio.Modelos.SuministroModelo EntidadAModelo(Entidades.SuministroEntidad suministroEntidad, bool incluyeDetalle = false)
         {
             Dominio.Modelos.SuministroModelo suministro = new Dominio.Modelos.SuministroModelo();
 

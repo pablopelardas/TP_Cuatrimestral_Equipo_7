@@ -2,6 +2,7 @@
 using Dominio.Modelos;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
@@ -36,16 +37,16 @@ LEFT JOIN CATEGORIAS AS {categoriaAlias} ON {prefixTable}RECETA.id_categoria = {
 ";
         }
 
-        private Entidades.SuministroEntidad SuministroReader(SqlDataReader reader, string prefixColum = "")
+        private Entidades.SuministroEntidad SuministroReader(DataRow row, string prefixColum = "")
         {
             SuministroEntidad entidad = new SuministroEntidad();
 
-            entidad.id_suministro = (int)reader[$"{prefixColum}id_suminstro"];
-            entidad.nombre = (string)reader[$"{prefixColum}nombre"];
-            entidad.proveedor = (string)reader[$"{prefixColum}proveedor"];
-            entidad.costo = (decimal)reader[$"{prefixColum}costo"];
-            entidad.cantidad = (double)reader[$"{prefixColum}cantidad"];
-            entidad.categoria = categoriasRepositorio.GetEntity(reader, prefixColum + CATEGORIA_PREFIX);
+            entidad.id_suministro = (int)row[$"{prefixColum}id_suminstro"];
+            entidad.nombre = (string)row[$"{prefixColum}nombre"];
+            entidad.proveedor = (string)row[$"{prefixColum}proveedor"];
+            entidad.costo = (decimal)row[$"{prefixColum}costo"];
+            entidad.cantidad = (double)row[$"{prefixColum}cantidad"];
+            entidad.categoria = categoriasRepositorio.GetEntity(row, prefixColum + CATEGORIA_PREFIX);
 
             return entidad;
         }
@@ -60,9 +61,9 @@ LEFT JOIN CATEGORIAS AS {categoriaAlias} ON {prefixTable}RECETA.id_categoria = {
             return _QueryHelper.BuildJoin(prefix, SuministroJoin);
         }
 
-        public SuministroEntidad GetEntity(SqlDataReader reader, string prefix = "")
+        public SuministroEntidad GetEntity(DataRow row, string prefix = "")
         {
-            return _QueryHelper.BuildEntityFromReader(reader, prefix, SuministroReader);
+            return _QueryHelper.BuildEntityFromReader(row, prefix, SuministroReader);
         }
 
         private void ParametrizarEntidad(SuministroEntidad entidad, AccesoDatos datos)
@@ -82,16 +83,20 @@ LEFT JOIN CATEGORIAS AS {categoriaAlias} ON {prefixTable}RECETA.id_categoria = {
 
             try
             {
-                string cmd = $@"
+                SqlCommand cmd = new SqlCommand($@"
 SELECT
 {GetSelect()}
 FROM SUMINISTROS
 {GetJoin()}
-";
-                datos.SetearConsulta(cmd);
-                datos.EjecutarLectura();
+");
 
-                while (datos.Lector.Read()) suministros.Add(Mappers.SuministroMapper.EntidadAModelo(GetEntity(datos.Lector), false));
+                DataTable response = datos.ExecuteQuery(cmd);
+                if (response.Rows.Count == 0) return suministros;
+                
+                foreach (DataRow row in response.Rows)
+                {
+                    suministros.Add(Mappers.SuministroMapper.EntidadAModelo(GetEntity(row)));
+                }
 
                 return suministros;
             }
@@ -112,28 +117,26 @@ FROM SUMINISTROS
 
             try
             {
-                string cmd = $@"
+                SqlCommand cmd = new SqlCommand($@"
 SELECT
 {GetSelect()}
 FROM SUMINISTROS
 {GetJoin()}
 WHERE SUMINISTROS.id_suministro = @id
-";
-                datos.SetearConsulta(cmd);
-                datos.SetearParametro("@id", id);
-                datos.EjecutarLectura();
-                datos.Lector.Read();
-                suministro = Mappers.SuministroMapper.EntidadAModelo(GetEntity(datos.Lector), true);
+");
+                cmd.Parameters.AddWithValue("@id", id);
+
+                DataTable response = datos.ExecuteQuery(cmd);
+                if (response.Rows.Count == 0) return null;
+
+                DataRow row = response.Rows[0];
+                suministro = Mappers.SuministroMapper.EntidadAModelo(GetEntity(row));
 
                 return suministro;
             }
             catch (Exception ex)
             {
                 throw ex;
-            }
-            finally
-            {
-                datos.CerrarConexion();
             }
         }
     }

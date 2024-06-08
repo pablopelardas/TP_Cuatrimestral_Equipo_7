@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,7 +22,7 @@ namespace Datos.Helpers
             string prefixTable = prefix.Length > 0 ? prefix.Replace(".", "_") + '_' : "";
             return action?.Invoke(prefixTable);
         }
-        public T BuildEntityFromReader<T>(System.Data.SqlClient.SqlDataReader reader, string prefix = "", Func<System.Data.SqlClient.SqlDataReader, string, T> callback = null)
+        public T BuildEntityFromReader<T>(DataRow reader, string prefix = "", Func<DataRow, string, T> callback = null)
         {
             prefix = prefix.Length > 0 ? prefix + "." : "";
             return callback.Invoke(reader, prefix);

@@ -2,6 +2,7 @@
 using Dominio.Modelos;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
@@ -35,15 +36,15 @@ LEFT JOIN CATEGORIAS AS {categoriaAlias} ON {prefixTable}RECETA.id_categoria = {
 ";
         }
 
-        private Entidades.RecetaEntidad RecetaReader(SqlDataReader reader, string prefixColum = "")
+        private Entidades.RecetaEntidad RecetaReader(DataRow row, string prefixColum = "")
         {
             RecetaEntidad entidad = new RecetaEntidad();
 
-            entidad.id_receta = (int)reader[$"{prefixColum}id_receta"];
-            entidad.nombre = (string)reader[$"{prefixColum}nombre"];
-            entidad.descripcion = (string)reader[$"{prefixColum}descripcion"];
-            entidad.precio_personalizado = (decimal)reader[$"{prefixColum}precio_personalizado"];
-            entidad.categoria = categoriasRepositorio.GetEntity(reader, prefixColum + CATEGORIA_PREFIX);
+            entidad.id_receta = (int)row[$"{prefixColum}id_receta"];
+            entidad.nombre = (string)row[$"{prefixColum}nombre"];
+            entidad.descripcion = (string)row[$"{prefixColum}descripcion"];
+            entidad.precio_personalizado = (decimal)row[$"{prefixColum}precio_personalizado"];
+            entidad.categoria = categoriasRepositorio.GetEntity(row, prefixColum + CATEGORIA_PREFIX);
 
             return entidad;
         }
@@ -58,9 +59,9 @@ LEFT JOIN CATEGORIAS AS {categoriaAlias} ON {prefixTable}RECETA.id_categoria = {
             return _QueryHelper.BuildJoin(prefix, RecetaJoin);
         }
 
-        public RecetaEntidad GetEntity(SqlDataReader reader, string prefix = "")
+        public RecetaEntidad GetEntity(DataRow row, string prefix = "")
         {
-            return _QueryHelper.BuildEntityFromReader(reader, prefix, RecetaReader);
+            return _QueryHelper.BuildEntityFromReader(row, prefix, RecetaReader);
         }
 
         private void ParametrizarEntidad(RecetaEntidad entidad, AccesoDatos datos)
@@ -79,26 +80,25 @@ LEFT JOIN CATEGORIAS AS {categoriaAlias} ON {prefixTable}RECETA.id_categoria = {
 
             try
             {
-                string cmd = $@"
+                SqlCommand cmd = new SqlCommand($@"
 SELECT
 {GetSelect()}
 FROM RECETAS
 {GetJoin()}
-";
-                datos.SetearConsulta(cmd);
-                datos.EjecutarLectura();
+");
 
-                while (datos.Lector.Read()) recetas.Add(Mappers.RecetaMapper.EntidadAModelo(GetEntity(datos.Lector), false));
-                
+                DataTable response = datos.ExecuteQuery(cmd);
+                if (response != null) {
+                    foreach (DataRow row in response.Rows)
+                    {
+                        recetas.Add(Mappers.RecetaMapper.EntidadAModelo(GetEntity(row)));
+                    }
+                }
                 return recetas;
             }
             catch (Exception ex)
             {
                 throw ex;
-            }
-            finally
-            {
-                datos.CerrarConexion();
             }
         }
 
@@ -109,28 +109,28 @@ FROM RECETAS
 
             try
             {
-                string cmd = $@"
+                SqlCommand cmd = new SqlCommand($@"
 SELECT
 {GetSelect()}
 FROM RECETAS
 {GetJoin()}
 WHERE RECETAS.id_receta = @id
-";
-                datos.SetearConsulta(cmd);
-                datos.SetearParametro("@id", id);
-                datos.EjecutarLectura();
-                datos.Lector.Read();
-                receta= Mappers.RecetaMapper.EntidadAModelo(GetEntity(datos.Lector), true);
-                
+");
+
+                cmd.Parameters.AddWithValue("@id", id);
+                DataTable response = datos.ExecuteQuery(cmd);
+                if (response.Rows.Count == 0)
+                {
+                    return null;
+                }
+                DataRow row = response.Rows[0];
+                receta = Mappers.RecetaMapper.EntidadAModelo(GetEntity(row));
                 return receta;
+
             }
             catch (Exception ex)
             {
                 throw ex;
-            }
-            finally
-            {
-                datos.CerrarConexion();
             }
         }
 

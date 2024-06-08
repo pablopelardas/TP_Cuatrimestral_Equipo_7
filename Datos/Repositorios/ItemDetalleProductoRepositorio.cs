@@ -3,6 +3,7 @@ using Datos.Helpers;
 using Dominio.Modelos;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
@@ -38,13 +39,13 @@ namespace Datos.Repositorios
     LEFT JOIN SUMINISTROS AS {suministroAlias} ON {prefixTable}DETALLE_PRODUCTOS.id_suministro = {recetaAlias}.id_suministro
 ";
         }
-        private ItemDetalleProductoEntidad ItemDetalleProductoReader(SqlDataReader reader, string prefixColumn = "")
+        private ItemDetalleProductoEntidad ItemDetalleProductoReader(DataRow row, string prefixColumn = "")
         {
             ItemDetalleProductoEntidad entidad = new ItemDetalleProductoEntidad();
 
-            entidad.cantidad = (int)reader[$"{prefixColumn}cantidad"];
-            entidad.receta = reader[$"{prefixColumn + RECETA_PREFIX}.id_receta"] == DBNull.Value ? null : recetaRepositorio.GetEntity(reader, prefixColumn + RECETA_PREFIX);
-            entidad.suministro = reader[$"{prefixColumn + SUMINISTRO_PREFIX}.id_suministro"] == DBNull.Value ? null : suministroRepositorio.GetEntity(reader, prefixColumn + SUMINISTRO_PREFIX);
+            entidad.cantidad = (int)row[$"{prefixColumn}cantidad"];
+            entidad.receta = row[$"{prefixColumn + RECETA_PREFIX}.id_receta"] == DBNull.Value ? null : recetaRepositorio.GetEntity(row, prefixColumn + RECETA_PREFIX);
+            entidad.suministro = row[$"{prefixColumn + SUMINISTRO_PREFIX}.id_suministro"] == DBNull.Value ? null : suministroRepositorio.GetEntity(row, prefixColumn + SUMINISTRO_PREFIX);
 
             return entidad;
         }
@@ -58,9 +59,9 @@ namespace Datos.Repositorios
             return _QueryHelper.BuildJoin(prefix, ItemDetalleProductoJoin);
         }
 
-        public ItemDetalleProductoEntidad GetEntity(SqlDataReader reader, string prefix = "")
+        public ItemDetalleProductoEntidad GetEntity(DataRow row, string prefix = "")
         {
-            return _QueryHelper.BuildEntityFromReader(reader, prefix, ItemDetalleProductoReader);
+            return _QueryHelper.BuildEntityFromReader(row, prefix, ItemDetalleProductoReader);
         }
 
         public List<ItemDetalleProductoModelo> ObtenerDetalleProducto(int id)
@@ -69,28 +70,26 @@ namespace Datos.Repositorios
             AccesoDatos datos = new AccesoDatos();
             try
             {
-                string cmd = $@"
+                SqlCommand cmd = new SqlCommand($@"
 SELECT
 {GetSelect()}
 FROM DETALLE_PRODUCTO
 {GetJoin()}
 WHERE DETALLE_PRODUCTOS.id_producto = @id
-";
-                datos.SetearConsulta(cmd);
-                datos.SetearParametro("@id", id);
-                datos.EjecutarLectura();
-                while (datos.Lector.Read())
-                    items.Add(Mappers.ItemDetalleProductoMapper.EntidadAModelo(GetEntity(datos.Lector)));
+");
+                cmd.Parameters.AddWithValue("@id", id);
 
+                DataTable response = datos.ExecuteQuery(cmd);
+                if (response != null)
+                {
+                    foreach (DataRow row in response.Rows)
+                        items.Add(Mappers.ItemDetalleProductoMapper.EntidadAModelo(GetEntity(row)));
+                }
                 return items;
             }
             catch (Exception ex)
             {
                 throw ex;
-            }
-            finally
-            {
-                datos.CerrarConexion();
             }
         }
     }

@@ -1,6 +1,8 @@
 ﻿using Dominio.Modelos;
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -36,18 +38,18 @@ INNER JOIN CATEGORIAS as {aliasCategorias} ON {prefixTable}PRODUCTOS.ID_CATEGORI
 ";
         }
 
-        private Entidades.ProductoEntidad ProductoReader(System.Data.SqlClient.SqlDataReader reader, string prefixColumn = "")
+        private Entidades.ProductoEntidad ProductoReader(DataRow row, string prefixColumn = "")
         {
             Entidades.ProductoEntidad entidad = new Entidades.ProductoEntidad();
-            entidad.id_producto = (int)reader[$"{prefixColumn}id_producto"];
-            entidad.nombre = (string)reader[$"{prefixColumn}nombre"];
-            entidad.descripcion = (string)reader[$"{prefixColumn}descripcion"];
-            entidad.porciones = (int)reader[$"{prefixColumn}porciones"];
-            entidad.horas_trabajo = (decimal)reader[$"{prefixColumn}horas_trabajo"];
-            entidad.tipo_precio = (string)reader[$"{prefixColumn}tipo_precio"];
-            entidad.valor_precio = (decimal)reader[$"{prefixColumn}valor_precio"];
+            entidad.id_producto = (int)row[$"{prefixColumn}id_producto"];
+            entidad.nombre = (string)row[$"{prefixColumn}nombre"];
+            entidad.descripcion = (string)row[$"{prefixColumn}descripcion"];
+            entidad.porciones = (int)row[$"{prefixColumn}porciones"];
+            entidad.horas_trabajo = (decimal)row[$"{prefixColumn}horas_trabajo"];
+            entidad.tipo_precio = (string)row[$"{prefixColumn}tipo_precio"];
+            entidad.valor_precio = (decimal)row[$"{prefixColumn}valor_precio"];
             // producto.categoria.
-            entidad.categoria = categoriasRepositorio.GetEntity(reader, prefixColumn + CATEGORIA_PREFIX);
+            entidad.categoria = categoriasRepositorio.GetEntity(row, prefixColumn + CATEGORIA_PREFIX);
             return entidad;
         }
         public string GetSelect(string prefix = "")
@@ -60,9 +62,9 @@ INNER JOIN CATEGORIAS as {aliasCategorias} ON {prefixTable}PRODUCTOS.ID_CATEGORI
             return _QueryHelper.BuildJoin(prefix, ProductoJoin);
         }
 
-        public Entidades.ProductoEntidad GetEntity(System.Data.SqlClient.SqlDataReader reader, string prefix = "")
+        public Entidades.ProductoEntidad GetEntity(DataRow row, string prefix = "")
         {
-            return _QueryHelper.BuildEntityFromReader(reader, prefix, ProductoReader);
+            return _QueryHelper.BuildEntityFromReader(row, prefix, ProductoReader);
         }
 
         private void ParametrizarEntidad(Entidades.ProductoEntidad entidad, AccesoDatos datos)
@@ -83,29 +85,22 @@ INNER JOIN CATEGORIAS as {aliasCategorias} ON {prefixTable}PRODUCTOS.ID_CATEGORI
             AccesoDatos datos = new AccesoDatos();
             try
             {
-                string cmd = $@"
+                SqlCommand cmd = new SqlCommand($@"
 SELECT
 {GetSelect()}
 FROM PRODUCTOS
 {GetJoin()}
-";
-                datos.SetearConsulta(cmd);
-                datos.EjecutarLectura();
-
-                while (datos.Lector.Read())
+");
+                DataTable response = datos.ExecuteQuery(cmd);
+                foreach (DataRow row in response.Rows)
                 {
-                    Entidades.ProductoEntidad entidad = GetEntity(datos.Lector);
-                    productos.Add(Mappers.ProductoMapper.EntidadAModelo(entidad));
+                    productos.Add(Mappers.ProductoMapper.EntidadAModelo(GetEntity(row)));
                 }
                 return productos;
             }
             catch (Exception ex)
             {
                 throw ex;
-            }
-            finally
-            {
-                datos.CerrarConexion();
             }
         }
 
@@ -114,30 +109,27 @@ FROM PRODUCTOS
             AccesoDatos datos = new AccesoDatos();
             try
             {
-                string cmd = $@"
+                SqlCommand cmd = new SqlCommand($@"
 SELECT
 {GetSelect()}
 FROM PRODUCTOS
 {GetJoin()}
 WHERE id_producto = @id
-";
-                datos.SetearParametro("@id", id);
-                datos.SetearConsulta(cmd);
-                datos.EjecutarLectura();
-                datos.Lector.Read();
-                Entidades.ProductoEntidad entidad = GetEntity(datos.Lector);
+");
 
-                return Mappers.ProductoMapper.EntidadAModelo(entidad);
-
+                cmd.Parameters.AddWithValue("@id", id);
+                DataTable response = datos.ExecuteQuery(cmd);
+                if (response.Rows.Count == 0)
+                {
+                    return null;
+                }
+                DataRow row = response.Rows[0];
+                return Mappers.ProductoMapper.EntidadAModelo(GetEntity(row));
             }
             catch (Exception ex)
             {
 
                 throw ex;
-            }
-            finally
-            {
-                datos.CerrarConexion();
             }
         }
 

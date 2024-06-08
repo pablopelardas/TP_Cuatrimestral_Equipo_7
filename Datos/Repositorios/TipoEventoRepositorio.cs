@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,11 +19,11 @@ namespace Datos.Repositorios
 {prefixTable}TIPOS_EVENTOS.nombre as '{prefixColumn}nombre'";
         }
 
-        private Entidades.TipoEventoEntidad TipoEventoReader(System.Data.SqlClient.SqlDataReader reader, string prefixColumn = "")
+        private Entidades.TipoEventoEntidad TipoEventoReader(DataRow row, string prefixColumn = "")
         {
             Entidades.TipoEventoEntidad entidad = new Entidades.TipoEventoEntidad();
-            entidad.id_tipo_evento = (int)reader[$"{prefixColumn}id_tipo_evento"];
-            entidad.nombre = (string)reader[$"{prefixColumn}nombre"];
+            entidad.id_tipo_evento = (int)row[$"{prefixColumn}id_tipo_evento"];
+            entidad.nombre = (string)row[$"{prefixColumn}nombre"];
             return entidad;
         }
 
@@ -29,36 +31,33 @@ namespace Datos.Repositorios
         {
             return _QueryHelper.BuildSelect(prefix, TipoEventoSelect);
         }
-        public Entidades.TipoEventoEntidad GetEntity(System.Data.SqlClient.SqlDataReader reader, string prefix = "")
+        public Entidades.TipoEventoEntidad GetEntity(DataRow row, string prefix = "")
         {
-            return _QueryHelper.BuildEntityFromReader(reader, prefix, TipoEventoReader);
+            return _QueryHelper.BuildEntityFromReader(row, prefix, TipoEventoReader);
         }
 
         public List<Dominio.Modelos.TipoEventoModelo> Listar()
         {
-            string query = $@"
+            AccesoDatos datos = new AccesoDatos();
+            SqlCommand query = new SqlCommand($@"
 SELECT
 {GetSelect()}
-FROM TIPOS_EVENTOS";
-            AccesoDatos datos = new AccesoDatos();
+FROM TIPOS_EVENTOS");
             try
             {
-                datos.SetearConsulta(query);
-                datos.EjecutarLectura();
                 List<Dominio.Modelos.TipoEventoModelo> lista = new List<Dominio.Modelos.TipoEventoModelo>();
-                while (datos.Lector.Read())
+                DataTable response = datos.ExecuteQuery(query);
+
+                foreach (DataRow row in response.Rows)
                 {
-                    lista.Add(Mappers.TipoEventoMapper.EntidadAModelo(GetEntity(datos.Lector)));
+                    lista.Add(Mappers.TipoEventoMapper.EntidadAModelo(GetEntity(row)));
                 }
                 return lista;
+
             }
             catch (Exception ex)
             {
                 throw ex;
-            }
-            finally
-            {
-                datos.CerrarConexion();
             }
         }
     }

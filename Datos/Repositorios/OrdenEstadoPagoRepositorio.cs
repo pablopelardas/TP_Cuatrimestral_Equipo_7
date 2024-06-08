@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,11 +18,11 @@ namespace Datos.Repositorios
 {prefixTable}ORDENES_PAGO_ESTADOS.nombre as '{prefixColumn}nombre'";
         }
 
-        private Entidades.OrdenEstadoPagoEntidad OrdenEstadoPagoReader (System.Data.SqlClient.SqlDataReader reader, string prefixColumn = "")
+        private Entidades.OrdenEstadoPagoEntidad OrdenEstadoPagoReader (DataRow row, string prefixColumn = "")
         {
             Entidades.OrdenEstadoPagoEntidad entidad = new Entidades.OrdenEstadoPagoEntidad();
-            entidad.id_orden_pago_estado = (int)reader[$"{prefixColumn}id_orden_pago_estado"];
-            entidad.nombre = (string)reader[$"{prefixColumn}nombre"];
+            entidad.id_orden_pago_estado = (int)row[$"{prefixColumn}id_orden_pago_estado"];
+            entidad.nombre = (string)row[$"{prefixColumn}nombre"];
             return entidad;
         }
 
@@ -29,9 +30,9 @@ namespace Datos.Repositorios
         {
             return _QueryHelper.BuildSelect(prefix, OrdenEstadoPagoSelect);
         }
-        public Entidades.OrdenEstadoPagoEntidad GetEntity(System.Data.SqlClient.SqlDataReader reader, string prefix = "")
+        public Entidades.OrdenEstadoPagoEntidad GetEntity(DataRow row, string prefix = "")
         {
-            return _QueryHelper.BuildEntityFromReader(reader, prefix, OrdenEstadoPagoReader);
+            return _QueryHelper.BuildEntityFromReader(row, prefix, OrdenEstadoPagoReader);
         }
 
     }

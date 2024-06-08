@@ -1,6 +1,8 @@
-﻿using Dominio.Modelos;
+﻿using Datos.Entidades;
+using Dominio.Modelos;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
@@ -43,15 +45,15 @@ INNER JOIN CONTACTOS as {aliasContacto} ON {prefixTable}EVENTOS.ID_CLIENTE = {al
 ";
         }
 
-        private Entidades.EventoEntidad EventoReader(System.Data.SqlClient.SqlDataReader reader, string prefixColumn = "")
+        private Entidades.EventoEntidad EventoReader(DataRow row, string prefixColumn = "")
         {
             Entidades.EventoEntidad entidad = new Entidades.EventoEntidad();
-            entidad.id_evento = (int)reader[$"{prefixColumn}id_evento"];
-            entidad.fecha = (DateTime)reader[$"{prefixColumn}fecha"];
+            entidad.id_evento = (int)row[$"{prefixColumn}id_evento"];
+            entidad.fecha = (DateTime)row[$"{prefixColumn}fecha"];
             // evento.tipo_evento.
-            entidad.tipo_evento = tipoEventoRepositorio.GetEntity(reader, prefixColumn + TIPO_EVENTO_PREFIX);
-            entidad.orden = ordenRepositorio.GetEntity(reader, prefixColumn + ORDEN_PREFIX);
-            entidad.cliente = contactoRepositorio.GetEntity(reader, prefixColumn + CONTACTO_PREFIX);
+            entidad.tipo_evento = tipoEventoRepositorio.GetEntity(row, prefixColumn + TIPO_EVENTO_PREFIX);
+            entidad.orden = ordenRepositorio.GetEntity(row, prefixColumn + ORDEN_PREFIX);
+            entidad.cliente = contactoRepositorio.GetEntity(row, prefixColumn + CONTACTO_PREFIX);
             return entidad;
         }
 
@@ -65,9 +67,9 @@ INNER JOIN CONTACTOS as {aliasContacto} ON {prefixTable}EVENTOS.ID_CLIENTE = {al
             return _QueryHelper.BuildJoin(prefix, EventoJoin);
         }
 
-        public Entidades.EventoEntidad GetEntity(System.Data.SqlClient.SqlDataReader reader, string prefix = "")
+        public Entidades.EventoEntidad GetEntity(DataRow row, string prefix = "")
         {
-            return _QueryHelper.BuildEntityFromReader(reader, prefix, EventoReader);
+            return _QueryHelper.BuildEntityFromReader(row, prefix, EventoReader);
         }
 
         public List<Dominio.Modelos.EventoModelo> Listar()
@@ -76,15 +78,17 @@ INNER JOIN CONTACTOS as {aliasContacto} ON {prefixTable}EVENTOS.ID_CLIENTE = {al
             List<Dominio.Modelos.EventoModelo> eventos = new List<Dominio.Modelos.EventoModelo>();
             try
             {
-                string cmd = $@"
+                SqlCommand cmd = new SqlCommand($@"
 SELECT
 {GetSelect()}
 FROM EVENTOS
 {GetJoin()}
-";
-                datos.SetearConsulta(cmd);
-                datos.EjecutarLectura();
-                while (datos.Lector.Read()) eventos.Add(Mappers.EventoMapper.EntidadAModelo(GetEntity(datos.Lector)));
+");
+                DataTable response = datos.ExecuteQuery(cmd);
+                foreach (DataRow row in response.Rows)
+                {
+                    eventos.Add(Mappers.EventoMapper.EntidadAModelo(GetEntity(row)));
+                }
                 return eventos;
 
             }
@@ -105,17 +109,19 @@ FROM EVENTOS
             List<Dominio.Modelos.EventoModelo> eventos = new List<Dominio.Modelos.EventoModelo>();
             try
             {
-                string cmd = $@"
+                SqlCommand cmd = new SqlCommand($@"
 SELECT
 {GetSelect()}
 FROM EVENTOS
 {GetJoin()}
 WHERE {CONTACTO_PREFIX + "_CONTACTOS"}.ID_CONTACTO = @idUsuario
-";
-                datos.SetearConsulta(cmd);
-                datos.SetearParametro("@idUsuario", idUsuario);
-                datos.EjecutarLectura();
-                while (datos.Lector.Read()) eventos.Add(Mappers.EventoMapper.EntidadAModelo(GetEntity(datos.Lector)));
+");
+                cmd.Parameters.AddWithValue("@idUsuario", idUsuario);
+                DataTable response = datos.ExecuteQuery(cmd);
+                foreach (DataRow row in response.Rows)
+                {
+                    eventos.Add(Mappers.EventoMapper.EntidadAModelo(GetEntity(row)));
+                }
                 return eventos;
 
             }
@@ -136,18 +142,21 @@ WHERE {CONTACTO_PREFIX + "_CONTACTOS"}.ID_CONTACTO = @idUsuario
             List<Dominio.Modelos.EventoModelo> eventos = new List<Dominio.Modelos.EventoModelo>();
             try
             {
-                string cmd = $@"
+                SqlCommand cmd = new SqlCommand($@"
 SELECT
 {GetSelect()}
 FROM EVENTOS
 {GetJoin()}
 WHERE {ORDEN_PREFIX + "_ORDENES"}.ID_ORDEN = @idOrden
-";
-                datos.SetearConsulta(cmd);
-                datos.SetearParametro("@idOrden", idOrden);
-                datos.EjecutarLectura();
-                datos.Lector.Read();
-                return Mappers.EventoMapper.EntidadAModelo(GetEntity(datos.Lector));
+");
+                cmd.Parameters.AddWithValue("@idOrden", idOrden);
+                DataTable response = datos.ExecuteQuery(cmd);
+                if (response.Rows.Count == 0)
+                {
+                    return null;
+                }
+                DataRow row = response.Rows[0];
+                return Mappers.EventoMapper.EntidadAModelo(GetEntity(row));
 
             }
             catch (Exception ex)
@@ -155,83 +164,25 @@ WHERE {ORDEN_PREFIX + "_ORDENES"}.ID_ORDEN = @idOrden
 
                 throw ex;
             }
-            finally
-            {
-                datos.CerrarConexion();
-            }
         }
 
-        public void GuardarEventoDeOrden(EventoModelo eventoModelo, SqlCommand dbCtx = null)
+        public SqlCommand GuardarEventoDeOrdenCommand(EventoEntidad eventoModelo)
         {
-
-            if (dbCtx == null)
-            {
-                AccesoDatos datos = new AccesoDatos();
-                try
-                {
-                    string cmd = $@"
+            SqlCommand cmd = new SqlCommand($@"
 INSERT INTO EVENTOS (fecha, id_cliente, id_orden, id_tipo_evento)
-VALUES (@ev_fecha, @ev_id_cliente, @ev_id_orden, @ev_id_tipo_evento)
-";
-                    datos.SetearConsulta(cmd);
-                    datos.SetearParametro("@ev_fecha", eventoModelo.Fecha);
-                    datos.SetearParametro("@ev_id_cliente", eventoModelo.Cliente.Id);
-                    datos.SetearParametro("@ev_id_orden", eventoModelo.Orden.IdOrden);
-                    datos.SetearParametro("@ev_id_tipo_evento",eventoModelo.TipoEvento.IdTipoEvento);
-                    datos.EjecutarAccion();
-
-                }
-                catch (Exception ex)
-                {
-                    throw ex;
-                }
-                finally
-                {
-                    datos.CerrarConexion();
-                }
-            }
-            else
-            {
-                string cmd = $@"
-INSERT INTO EVENTOS (fecha, id_cliente, id_orden, id_tipo_evento)
-VALUES (@ev_fecha, @ev_id_cliente, @ev_id_orden, @ev_id_tipo_evento)
-";
-                dbCtx.CommandText = cmd;
-                dbCtx.Parameters.AddWithValue("@ev_fecha", eventoModelo.Fecha);
-                dbCtx.Parameters.AddWithValue("@ev_id_cliente", eventoModelo.Cliente.Id);
-                dbCtx.Parameters.AddWithValue("@ev_id_orden", eventoModelo.Orden.IdOrden);
-                dbCtx.Parameters.AddWithValue("@ev_id_tipo_evento", eventoModelo.TipoEvento.IdTipoEvento);
-                dbCtx.ExecuteNonQuery();
-            }
+VALUES (@fecha, @id_cliente, @id_orden, @id_tipo_evento)
+");
+            cmd.Parameters.AddWithValue("@fecha", eventoModelo.fecha);
+            cmd.Parameters.AddWithValue("@id_cliente", eventoModelo.cliente.id_contacto);
+            cmd.Parameters.AddWithValue("@id_orden", eventoModelo.orden.id_orden);
+            cmd.Parameters.AddWithValue("@id_tipo_evento", eventoModelo.tipo_evento.id_tipo_evento);
+            return cmd;
         }
 
-        public void EliminarEventoDeOrden(int idOrden, SqlCommand dbCtx = null)
+        public SqlCommand EliminarEventoDeOrdenCommand(int idOrden)
         {
-            if (dbCtx == null)
-            {
-                AccesoDatos datos = new AccesoDatos();
-                try
-                {
-                    string cmd = $@"DELETE FROM EVENTOS WHERE id_orden = {idOrden}";
-                    datos.SetearConsulta(cmd);
-                    datos.EjecutarAccion();
-                }
-                catch (Exception ex)
-                {
-                    throw ex;
-                }
-                finally
-                {
-                    datos.CerrarConexion();
-                }
-            }
-            else
-            {
-                string cmd = $@"DELETE FROM EVENTOS WHERE id_orden = {idOrden}";
-                dbCtx.CommandText = cmd;
-                dbCtx.ExecuteNonQuery();
-            }
+            SqlCommand cmd = new SqlCommand($@"DELETE FROM EVENTOS WHERE id_orden = {idOrden}");
+            return cmd;
         }
-       
     }
 }

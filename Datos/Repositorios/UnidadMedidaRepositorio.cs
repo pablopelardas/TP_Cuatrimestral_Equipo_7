@@ -2,6 +2,8 @@
 using Dominio.Modelos;
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,12 +22,12 @@ namespace Datos.Repositorios
 {prefixTable}UNIDADES_MEDIDA.abreviatura as '{prefixColumn}abreviatura'
 ";
         }
-        public UnidadMedidaEntidad UnidadMedidaReader(System.Data.SqlClient.SqlDataReader reader, string prefixColumn = "")
+        public UnidadMedidaEntidad UnidadMedidaReader(DataRow row, string prefixColumn = "")
         {
             UnidadMedidaEntidad entidad = new UnidadMedidaEntidad();
-            entidad.id_unidad = (int)reader[$"{prefixColumn}id_unidad"];
-            entidad.nombre = (string)reader[$"{prefixColumn}nombre"];
-            entidad.abreviatura = (string)reader[$"{prefixColumn}abreviatura"];
+            entidad.id_unidad = (int)row[$"{prefixColumn}id_unidad"];
+            entidad.nombre = (string)row[$"{prefixColumn}nombre"];
+            entidad.abreviatura = (string)row[$"{prefixColumn}abreviatura"];
             return entidad;
         }
 
@@ -34,9 +36,9 @@ namespace Datos.Repositorios
         {
             return _queryHelper.BuildSelect(prefix, UnidadMedidaSelect);
         }
-        public Entidades.UnidadMedidaEntidad GetEntity(System.Data.SqlClient.SqlDataReader reader, string prefix = "")
+        public Entidades.UnidadMedidaEntidad GetEntity(DataRow row, string prefix = "")
         {
-            return _queryHelper.BuildEntityFromReader(reader, prefix, UnidadMedidaReader);
+            return _queryHelper.BuildEntityFromReader(row, prefix, UnidadMedidaReader);
         }
 
         private void ParametrizarEntidad(UnidadMedidaEntidad entidad, AccesoDatos datos)
@@ -50,20 +52,21 @@ namespace Datos.Repositorios
         {
             List<UnidadMedidaModelo> unidades = new List<UnidadMedidaModelo>();
             AccesoDatos datos = new AccesoDatos();
-            string cmd = $@"
+            SqlCommand cmd = new SqlCommand($@"
 SELECT
 {GetSelect()}
 FROM UNIDADES_MEDIDA
-";
+");
             try
             {
 
-                datos.SetearConsulta(cmd);
-                datos.EjecutarLectura();
-
-                while (datos.Lector.Read())
+                DataTable response = datos.ExecuteQuery(cmd);
+                if (response == null) {
+                    return unidades;
+                }
+                foreach (DataRow row in response.Rows)
                 {
-                    unidades.Add(Mappers.UnidadMedidaMapper.EntidadAModelo(GetEntity(datos.Lector)));
+                    unidades.Add(Mappers.UnidadMedidaMapper.EntidadAModelo(GetEntity(row)));
                 }
                 return unidades;
             }
@@ -71,109 +74,101 @@ FROM UNIDADES_MEDIDA
             {
                 throw ex;
             }
-            finally
-            {
-                datos.CerrarConexion();
-            }
         }
 
         public UnidadMedidaModelo ObtenerPorId(int id)
         {
             AccesoDatos datos = new AccesoDatos();
-            string cmd = $@"
+            SqlCommand cmd = new SqlCommand($@"
 SELECT
 {GetSelect()}
 FROM [dbo].[UNIDADES_MEDIDA]
 WHERE id_unidad = @id
-";
+");
             try
             {
-                datos.SetearConsulta(cmd);
-                datos.SetearParametro("@id", id);
-                datos.EjecutarLectura();
-                datos.Lector.Read();
-                return Mappers.UnidadMedidaMapper.EntidadAModelo(GetEntity(datos.Lector));
+                cmd.Parameters.AddWithValue("@id", id);
+
+                DataTable response = datos.ExecuteQuery(cmd);
+
+                if (response.Rows.Count == 0)
+                {
+                    return null;
+                }
+
+                DataRow row = response.Rows[0];
+                return Mappers.UnidadMedidaMapper.EntidadAModelo(GetEntity(row));
+
             }
             catch (Exception ex)
             {
                 throw ex;
-            }
-            finally
-            {
-                datos.CerrarConexion();
             }
         }
 
         public void Agregar(UnidadMedidaModelo unidad)
         {
             AccesoDatos datos = new AccesoDatos();
-            string cmd = $@"
+            SqlCommand cmd = new SqlCommand($@"
 INSERT INTO [dbo].[UNIDADES_MEDIDA]
 (id_unidad, nombre, abreviatura)
 VALUES
 (@id_unidad, @nombre, @abreviatura)
-";
+");
             try
             {
                 UnidadMedidaEntidad entidad = Mappers.UnidadMedidaMapper.ModeloAEntidad(unidad);
-                datos.SetearConsulta(cmd);
-                ParametrizarEntidad(entidad, datos);
-                datos.EjecutarAccion();
+
+                cmd.Parameters.AddWithValue("@id_unidad", entidad.id_unidad);
+                cmd.Parameters.AddWithValue("@nombre", entidad.nombre);
+                cmd.Parameters.AddWithValue("@abreviatura", entidad.abreviatura);
+
+                datos.ExecuteNonQuery(cmd);
             }
             catch (Exception ex)
             {
                 throw ex;
-            }
-            finally
-            {
-                datos.CerrarConexion();
             }
         }
         public void Modificar(UnidadMedidaModelo unidad)
         {
             AccesoDatos datos = new AccesoDatos();
-            string cmd = $@"
+            SqlCommand cmd = new SqlCommand($@"
 UPDATE [dbo].[UNIDADES_MEDIDA]
 SET
 id_unidad = @id_unidad,
 nombre = @nombre,
 abreviatura = @abreviatura
-WHERE id_unidad = @id_unidad";
+WHERE id_unidad = @id_unidad");
             try
             {
                 UnidadMedidaEntidad entidad = Mappers.UnidadMedidaMapper.ModeloAEntidad(unidad);
-                datos.SetearConsulta(cmd);
-                ParametrizarEntidad(entidad, datos);
-                datos.EjecutarAccion();
+
+                cmd.Parameters.AddWithValue("@id_unidad", entidad.id_unidad);
+                cmd.Parameters.AddWithValue("@nombre", entidad.nombre);
+                cmd.Parameters.AddWithValue("@abreviatura", entidad.abreviatura);
+
+                datos.ExecuteNonQuery(cmd);
             }
             catch (Exception ex)
             {
                 throw ex;
-            }
-            finally
-            {
-                datos.CerrarConexion();
             }
         }
         public void Eliminar(int id)
         {
             AccesoDatos datos = new AccesoDatos();
-            string cmd = $@"
+            SqlCommand cmd = new SqlCommand($@"
 DELETE FROM [dbo].[UNIDADES_MEDIDA]
-WHERE id_unidad = @id_unidad";
+WHERE id_unidad = @id_unidad");
             try
             {
-                datos.SetearConsulta(cmd);
-                datos.SetearParametro("@id_unidad", id);
-                datos.EjecutarAccion();
+                cmd.Parameters.AddWithValue("@id_unidad", id);
+                datos.ExecuteNonQuery(cmd);
             }
             catch (Exception ex)
             {
                 throw ex;
-            }
-            finally
-            {
-                datos.CerrarConexion();
             }
         }
     }

@@ -3,6 +3,7 @@ using Datos.Helpers;
 using Dominio.Modelos;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
@@ -36,16 +37,16 @@ INNER JOIN PRODUCTOS AS {aliasProducto} ON {prefixTable}DETALLE_ORDENES.ID_PRODU
             ";
         }
 
-        private ProductoDetalleOrdenEntidad ProductoDetalleOrdenReader(System.Data.SqlClient.SqlDataReader reader, string prefix = "")
+        private ProductoDetalleOrdenEntidad ProductoDetalleOrdenReader(DataRow row, string prefix = "")
         {
             return new ProductoDetalleOrdenEntidad
             {
-                cantidad = (int)reader[$"{prefix}cantidad"],
-                producto_porciones = (int)reader[$"{prefix}producto_porciones"],
-                producto_costo = (decimal)reader[$"{prefix}producto_costo"],
-                producto_precio = (decimal)reader[$"{prefix}producto_precio"],
+                cantidad = (int)row[$"{prefix}cantidad"],
+                producto_porciones = (int)row[$"{prefix}producto_porciones"],
+                producto_costo = (decimal)row[$"{prefix}producto_costo"],
+                producto_precio = (decimal)row[$"{prefix}producto_precio"],
 
-                producto = productoRepositorio.GetEntity(reader, prefix + PRODUCTO_PREFIX)
+                producto = productoRepositorio.GetEntity(row, prefix + PRODUCTO_PREFIX)
             };
         }
 
@@ -59,9 +60,9 @@ INNER JOIN PRODUCTOS AS {aliasProducto} ON {prefixTable}DETALLE_ORDENES.ID_PRODU
             return _QueryHelper.BuildJoin(prefix, ProductoDetalleOrdenJoin);
         }
 
-        public Entidades.ProductoDetalleOrdenEntidad GetEntity(System.Data.SqlClient.SqlDataReader reader, string prefix = "")
+        public Entidades.ProductoDetalleOrdenEntidad GetEntity(DataRow row, string prefix = "")
         {
-            return _QueryHelper.BuildEntityFromReader(reader, prefix, ProductoDetalleOrdenReader);
+            return _QueryHelper.BuildEntityFromReader(row, prefix, ProductoDetalleOrdenReader);
         }
 
         public List<ProductoDetalleOrdenModelo> ObtenerDetallePorOrden(int id)
@@ -70,96 +71,53 @@ INNER JOIN PRODUCTOS AS {aliasProducto} ON {prefixTable}DETALLE_ORDENES.ID_PRODU
             AccesoDatos datos = new AccesoDatos();
             try
             {
-                string cmd = $@"
+                SqlCommand cmd = new SqlCommand($@"
 SELECT 
 {GetSelect()}
 FROM DETALLE_ORDENES
 {GetJoin()}
 WHERE DETALLE_ORDENES.ID_ORDEN = @id
-                    ";
-                datos.SetearConsulta(cmd);
-                datos.SetearParametro("@id", id);
-                datos.EjecutarLectura();
-                while (datos.Lector.Read()) productos.Add(Mappers.ProductoDetalleOrdenMapper.EntidadAModelo(GetEntity(datos.Lector)));
+                    ");
+                cmd.Parameters.AddWithValue("@id", id);
+
+                DataTable response = datos.ExecuteQuery(cmd);
+                foreach (DataRow row in response.Rows)
+                {
+                    productos.Add(Mappers.ProductoDetalleOrdenMapper.EntidadAModelo(GetEntity(row)));
+                }
                 return productos;
             }
             catch (Exception ex)
             {
                 throw ex;
             }
-            finally
-            {
-                datos.CerrarConexion();
-            }
         }
-        public void EliminarDetalle(int IdOrden, SqlCommand dbCtx = null)
+
+        public SqlCommand GuardarDetalleCommand(ProductoDetalleOrdenEntidad detalle, int idOrden)
         {
-            if (dbCtx == null)
-            {
-                AccesoDatos datos = new AccesoDatos();
-                try
-                {
-                    string cmd = $@"DELETE FROM DETALLE_ORDENES WHERE id_orden = {IdOrden}";
-                    datos.SetearConsulta(cmd);
-                    datos.EjecutarAccion();
-                }
-                catch (Exception ex)
-                {
-                    throw ex;
-                }
-                finally
-                {
-                    datos.CerrarConexion();
-                }
-            }
-            else
-            {
-                string cmd = $@"DELETE FROM DETALLE_ORDENES WHERE id_orden = {IdOrden}";
-                dbCtx.CommandText = cmd;
-                dbCtx.ExecuteNonQuery();
-            }
+            SqlCommand cmd = new SqlCommand($@"
+INSERT INTO DETALLE_ORDENES (id_orden, id_producto, cantidad, producto_costo, producto_porciones, producto_precio)
+VALUES (@id_orden, @id_producto, @cantidad, @producto_costo, @producto_porciones, @producto_precio)
+");
+            cmd.Parameters.AddWithValue("@id_orden", idOrden);
+            cmd.Parameters.AddWithValue("@id_producto", detalle.producto.id_producto);
+            cmd.Parameters.AddWithValue("@cantidad", detalle.cantidad);
+            cmd.Parameters.AddWithValue("@producto_costo", detalle.producto_costo);
+            cmd.Parameters.AddWithValue("@producto_porciones", detalle.producto_porciones);
+            cmd.Parameters.AddWithValue("@producto_precio", detalle.producto_precio);
+            return cmd;
         }
 
-        public void AgregarListaDetalle(int IdOrden, List<ProductoDetalleOrdenEntidad> detalles, SqlCommand dbCtx = null)
+        public SqlCommand EliminarDetalleCommand(int idOrden)
         {
-            if (dbCtx == null)
-            {
-                AccesoDatos datos = new AccesoDatos();
-                try
-                {
-                    foreach (ProductoDetalleOrdenEntidad detalle in detalles)
-                    {
-                        string cmd = $@"
-INSERT INTO DETALLE_ORDENES (id_orden, id_producto, cantidad, producto_costo, producto_porciones, producto_precio)
-VALUES ({IdOrden}, {detalle.producto.id_producto}, {detalle.cantidad}, {detalle.producto_costo}, {detalle.producto_porciones}, {detalle.producto_precio})
-                    ";
-                        datos.SetearConsulta(cmd);
-
-                        datos.EjecutarAccion();
-                    }
-                }
-                catch (Exception ex)
-                {
-                    throw ex;
-                }
-                finally
-                {
-                    datos.CerrarConexion();
-                }
-            }
-            else
-            {
-                foreach (ProductoDetalleOrdenEntidad detalle in detalles)
-                {
-                    string cmd = $@"
-INSERT INTO DETALLE_ORDENES (id_orden, id_producto, cantidad, producto_costo, producto_porciones, producto_precio)
-VALUES ({IdOrden}, {detalle.producto.id_producto}, {detalle.cantidad}, {detalle.producto_costo.ToString().Replace(',', '.')}, {detalle.producto_porciones}, {detalle.producto_precio.ToString().Replace(',', '.')})
-                    ";
-                    dbCtx.CommandText = cmd;
-
-                    dbCtx.ExecuteNonQuery();
-                }
-            }
+            SqlCommand cmd = new SqlCommand($@"
+DELETE FROM DETALLE_ORDENES
+WHERE ID_ORDEN = @id_orden
+");
+            cmd.Parameters.AddWithValue("@id_orden", idOrden);
+            return cmd;
         }
+
+
     }
 }

@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -27,23 +29,23 @@ namespace Datos.Repositorios
 ";
         }
 
-        private Entidades.ContactoEntidad ContactoReader (System.Data.SqlClient.SqlDataReader reader, string prefixColumn = "")
+        private Entidades.ContactoEntidad ContactoReader (DataRow Row, string prefixColumn = "")
         {
             Entidades.ContactoEntidad entidad = new Entidades.ContactoEntidad();
             // OBLIGATORIOS
-            entidad.id_contacto = (int)reader[$"{prefixColumn}id_contacto"];
-            entidad.nombre_apellido = (string)reader[$"{prefixColumn}nombre_apellido"];
-            entidad.tipo = (string)reader[$"{prefixColumn}tipo"];
-            entidad.telefono = (string)reader[$"{prefixColumn}telefono"];
-            entidad.correo = (string)reader[$"{prefixColumn}correo"];
-            entidad.direccion = (string)reader[$"{prefixColumn}direccion"];
-            entidad.fuente = (string)reader[$"{prefixColumn}fuente"];
-            entidad.desea_recibir_correos = (bool)reader[$"{prefixColumn}desea_recibir_correos"];
-            entidad.desea_recibir_whatsapp = (bool)reader[$"{prefixColumn}desea_recibir_whatsapp"];
+            entidad.id_contacto = (int)Row[$"{prefixColumn}id_contacto"];
+            entidad.nombre_apellido = (string)Row[$"{prefixColumn}nombre_apellido"];
+            entidad.tipo = (string)Row[$"{prefixColumn}tipo"];
+            entidad.telefono = (string)Row[$"{prefixColumn}telefono"];
+            entidad.correo = (string)Row[$"{prefixColumn}correo"];
+            entidad.direccion = (string)Row[$"{prefixColumn}direccion"];
+            entidad.fuente = (string)Row[$"{prefixColumn}fuente"];
+            entidad.desea_recibir_correos = (bool)Row[$"{prefixColumn}desea_recibir_correos"];
+            entidad.desea_recibir_whatsapp = (bool)Row[$"{prefixColumn}desea_recibir_whatsapp"];
 
             // OPCIONALES
-            entidad.producto_que_provee = reader[$"{prefixColumn}producto_que_provee"] == DBNull.Value ? null : (string)reader[$"{prefixColumn}producto_que_provee"];
-            entidad.informacion_personal = reader[$"{prefixColumn}informacion_personal"] == DBNull.Value ? null : (string)reader[$"{prefixColumn}informacion_personal"];
+            entidad.producto_que_provee = Row[$"{prefixColumn}producto_que_provee"] == DBNull.Value ? null : (string)Row[$"{prefixColumn}producto_que_provee"];
+            entidad.informacion_personal = Row[$"{prefixColumn}informacion_personal"] == DBNull.Value ? null : (string)Row[$"{prefixColumn}informacion_personal"];
             return entidad;
         }
 
@@ -52,9 +54,9 @@ namespace Datos.Repositorios
             return _QueryHelper.BuildSelect(prefix, ContactoSelect);
         }
 
-        public Entidades.ContactoEntidad GetEntity(System.Data.SqlClient.SqlDataReader reader, string prefix = "")
+        public Entidades.ContactoEntidad GetEntity(DataRow row, string prefix = "")
         {
-            return _QueryHelper.BuildEntityFromReader(reader, prefix, ContactoReader);
+            return _QueryHelper.BuildEntityFromReader(row, prefix, ContactoReader);
         }
 
         private void ParametrizarEntidad(Entidades.ContactoEntidad entidad, AccesoDatos datos)
@@ -93,19 +95,19 @@ namespace Datos.Repositorios
             AccesoDatos datos = new AccesoDatos();
             try
             {
-                string cmd = $@"
+                SqlCommand cmd = new SqlCommand($@"
 SELECT
     {GetSelect()}
 FROM CONTACTOS
-";
-                datos.SetearConsulta(cmd);
-                datos.EjecutarLectura();
+");
+                DataTable response = datos.ExecuteQuery(cmd);
 
-                while (datos.Lector.Read())
+                foreach (DataRow row in response.Rows)
                 {
-                    Entidades.ContactoEntidad entidad = GetEntity(datos.Lector);
+                    Entidades.ContactoEntidad entidad = GetEntity(row);
                     contactos.Add(Mappers.ContactoMapper.EntidadAModelo(entidad));
                 }
+
                 return contactos;
             }
             catch (Exception ex)
@@ -123,18 +125,16 @@ FROM CONTACTOS
             AccesoDatos datos = new AccesoDatos();
             try
             {
-                string cmd = $@"
+                SqlCommand cmd = new SqlCommand($@"
 SELECT
     {GetSelect()}
 FROM CONTACTOS
 WHERE id_contacto = @id
-";
-                datos.SetearParametro("@id", id);
-                datos.SetearConsulta(cmd);
-                datos.EjecutarLectura();
-                datos.Lector.Read();
-                Entidades.ContactoEntidad entidad = GetEntity(datos.Lector);
-
+");
+                cmd.Parameters.AddWithValue("@id", id);
+                DataTable response = datos.ExecuteQuery(cmd);
+                if (response.Rows.Count == 0) return null;
+                Entidades.ContactoEntidad entidad = GetEntity(response.Rows[0]);
                 return Mappers.ContactoMapper.EntidadAModelo(entidad);
             }
             catch (Exception ex)
