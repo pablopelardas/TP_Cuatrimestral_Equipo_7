@@ -11,6 +11,7 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Components
     {
 
         public string ComboID { get; set; }
+
         public object SelectedValue
         {
             get
@@ -31,14 +32,24 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Components
             {
                 ComboID = "cboAutoComplete" + Guid.NewGuid().ToString().Replace("-", "");
             }
-            cboAutoComplete = new DropDownList();
-            cboAutoComplete.Attributes.Add("id", ComboID);
-            cboAutoComplete.Attributes.Add("class", "chzn-select");
-            phComboBox.Controls.Add(cboAutoComplete);
+
             if (!IsPostBack)
             {
+                cboAutoComplete = new DropDownList();
+                cboAutoComplete.Attributes.Add("id", ComboID);
+                cboAutoComplete.Attributes.Add("class", "chzn-select");
                 initComboBox(cboAutoComplete);
+                Session[ComboID] = cboAutoComplete;
             }
+            else
+            {
+                if (Session[ComboID] != null)
+                {
+                    cboAutoComplete = (DropDownList)Session[ComboID];
+                }
+            }
+            phComboBox.Controls.Add(cboAutoComplete);
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "InitChosen();", true);
         }
     }
 }

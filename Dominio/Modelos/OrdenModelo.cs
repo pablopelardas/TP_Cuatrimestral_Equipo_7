@@ -13,9 +13,16 @@ namespace Dominio.Modelos
         public string HoraEntrega { get; set; }
         public string DireccionEntrega { get; set; }
         public decimal DescuentoPorcentaje { get; set; }
-        public decimal Subtotal { get; set; }
         public decimal CostoEnvio { get; set; }
         public string Descripcion { get; set; }
+
+        public decimal Subtotal
+        {
+            get
+            {
+                return DetalleProductos.Sum(x => x.Subtotal);
+            }
+        }
 
         public decimal Total
         {

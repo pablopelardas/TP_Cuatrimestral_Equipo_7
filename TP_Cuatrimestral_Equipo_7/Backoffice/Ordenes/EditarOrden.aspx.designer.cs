@@ -69,31 +69,13 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
         protected global::System.Web.UI.WebControls.TextBox txtDireccion;
 
         /// <summary>
-        /// btnAgregarProducto control.
+        /// phDetalleOrden control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnAgregarProducto;
-
-        /// <summary>
-        /// btnEditarProducto control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton btnEditarProducto;
-
-        /// <summary>
-        /// btnEliminarProducto control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton btnEliminarProducto;
+        protected global::System.Web.UI.WebControls.PlaceHolder phDetalleOrden;
 
         /// <summary>
         /// txtDescuento control.
@@ -112,6 +94,15 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtCostoEnvio;
+
+        /// <summary>
+        /// btnAplicarDescuento control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnAplicarDescuento;
 
         /// <summary>
         /// tiny control.

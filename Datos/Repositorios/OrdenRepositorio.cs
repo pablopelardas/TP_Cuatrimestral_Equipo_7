@@ -62,7 +62,6 @@ INNER JOIN ORDENES_PAGO_ESTADOS as {estadoPagoAlias} ON {prefixTable}ORDENES.id_
             entidad.tipo_entrega = (string)reader[$"{prefixColumn}tipo_entrega"];
             entidad.descripcion = (string)reader[$"{prefixColumn}descripcion"];
             entidad.hora_entrega = reader[$"{prefixColumn}hora_entrega"].ToString();
-            entidad.subtotal = (decimal)reader[$"{prefixColumn}subtotal"];
 
             // OPCIONALES
             entidad.descuento_porcentaje = reader[$"{prefixColumn}descuento_porcentaje"] == DBNull.Value ? 0 : (decimal)reader[$"{prefixColumn}descuento_porcentaje"];
@@ -91,21 +90,6 @@ INNER JOIN ORDENES_PAGO_ESTADOS as {estadoPagoAlias} ON {prefixTable}ORDENES.id_
         public OrdenEntidad GetEntity(System.Data.SqlClient.SqlDataReader reader, string prefix = "")
         {
             return _QueryHelper.BuildEntityFromReader(reader, prefix, OrdenReader);
-        }
-
-        private void ParametrizarEntidad(OrdenEntidad entidad, AccesoDatos datos)
-        {
-            datos.SetearParametro("@id_orden", entidad.id_orden);
-            datos.SetearParametro("@tipo_entrega", entidad.tipo_entrega);
-            datos.SetearParametro("@descripcion", entidad.descripcion);
-            datos.SetearParametro("@hora_entrega", entidad.hora_entrega);
-            datos.SetearParametro("@subtotal", entidad.subtotal);
-
-            datos.SetearParametro("@descuento_porcentaje", entidad.descuento_porcentaje);
-            datos.SetearParametro("@costo_envio", entidad.costo_envio);
-            datos.SetearParametro("@direccion_entrega", entidad.direccion_entrega);
-
-            datos.SetearParametro("@id_cliente", entidad.cliente.id_contacto);
         }
         public List<Dominio.Modelos.OrdenModelo> Listar()
         {
@@ -168,15 +152,95 @@ WHERE ORDENES.id_orden = @id
                 datos.CerrarConexion();
             }
         }
-        public void Agregar(OrdenModelo orden)
+
+        public void GuardarOrdenTx(OrdenModelo orden)
         {
-            throw new NotImplementedException();
+            Entidades.OrdenEntidad entidad = Mappers.OrdenMapper.ModeloAEntidad(orden);
+            List<Entidades.ProductoDetalleOrdenEntidad> listaDetalle = orden.DetalleProductos.Select(x => Mappers.ProductoDetalleOrdenMapper.ModeloAEntidad(x)).ToList();
+            ProductoDetalleOrdenRepositorio productoDetalleOrdenRepositorio = new ProductoDetalleOrdenRepositorio();
+
+            using (SqlConnection conexion = new SqlConnection("Data Source=localhost,15000;Initial Catalog=tp-cuatrimestral-grupo-7;User Id=sa;Password=Pablo2846!;TrustServerCertificate=True"))
+            {
+                conexion.Open();
+                using (SqlCommand comando = conexion.CreateCommand())
+                {
+                    using (SqlTransaction transaccion = conexion.BeginTransaction())
+                    {
+                        comando.Transaction = transaccion;
+                        try
+                        {
+                            string cmd = orden.IdOrden == 0
+                                ? $@"
+INSERT INTO ORDENES (tipo_entrega, hora_entrega, descripcion, descuento_porcentaje, costo_envio, direccion_entrega, id_cliente)
+VALUES (@tipo_entrega, @hora_entrega, @descripcion, @descuento_porcentaje, @costo_envio, @direccion_entrega, @id_cliente)
+SELECT CAST(SCOPE_IDENTITY() AS INT) "
+                                : $@"
+UPDATE ORDENES
+SET
+    tipo_entrega = @tipo_entrega,
+    hora_entrega = @hora_entrega,
+    descripcion = @descripcion,
+    descuento_porcentaje = @descuento_porcentaje,
+    costo_envio = @costo_envio,
+    direccion_entrega = @direccion_entrega,
+    id_cliente = @id_cliente
+WHERE id_orden = @id_orden
+";
+                            comando.CommandText = cmd;
+                            
+                            // set parameter
+
+                            comando.Parameters.AddWithValue("@tipo_entrega", entidad.tipo_entrega);
+                            comando.Parameters.AddWithValue("@hora_entrega", entidad.hora_entrega);
+                            comando.Parameters.AddWithValue("@descripcion", entidad.descripcion);
+                            comando.Parameters.AddWithValue("@descuento_porcentaje", entidad.descuento_porcentaje);
+                            comando.Parameters.AddWithValue("@costo_envio", entidad.costo_envio);
+                            comando.Parameters.AddWithValue("@direccion_entrega", entidad.direccion_entrega);
+                            comando.Parameters.AddWithValue("@id_cliente", entidad.cliente.id_contacto);
+                            int ordenID;
+                            if (orden.IdOrden != 0)
+                            {
+                                comando.Parameters.AddWithValue("@id_orden", entidad.id_orden);
+                                ordenID = entidad.id_orden;
+                                comando.ExecuteNonQuery();
+                            }
+                            else
+                            {
+                                ordenID = (int)comando.ExecuteScalar();
+                            }
+
+                            // Guardar detalle
+                            productoDetalleOrdenRepositorio.EliminarDetalle(ordenID, comando);
+                            productoDetalleOrdenRepositorio.AgregarListaDetalle(ordenID, listaDetalle, comando);
+                            // Guardar evento
+                            if (orden.Evento != null)
+                            {
+                                EventoModelo evento = new EventoModelo
+                                {
+                                    Cliente = orden.Cliente,
+                                    Orden = orden,
+                                    Fecha = orden.Evento.Fecha,
+                                    TipoEvento = orden.Evento.TipoEvento
+                                };
+
+                                EventoRepositorio eventoRepositorio = new EventoRepositorio();
+                                eventoRepositorio.EliminarEventoDeOrden(ordenID, comando);
+                                eventoRepositorio.GuardarEventoDeOrden(evento, comando);
+                            }
+                            transaccion.Commit();
+                        }
+                        catch (Exception ex)
+                        {
+                            transaccion.Rollback();
+                            throw ex;
+                        }
+                    }
+                }
+            }
+
         }
 
-        public void Modificar(OrdenModelo orden)
-        {
-            throw new NotImplementedException();
-        }
+
 
         public void Eliminar(int id)
         {

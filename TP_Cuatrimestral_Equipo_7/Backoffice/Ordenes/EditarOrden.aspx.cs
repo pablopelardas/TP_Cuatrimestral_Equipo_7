@@ -16,54 +16,75 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
         public Dominio.Modelos.OrdenModelo orden;
         public string FechaSeleccionada;
         public string id = null;
-        Hashtable HolidayList;
+        private string OrdenActual = "editorOrden_OrdenActual";
+
         
         private Negocio.Servicios.OrdenServicio servicioOrden;
         private Negocio.Servicios.EventoServicio servicioEvento;
         private Negocio.Servicios.ContactoServicio servicioContacto;
+        private Negocio.Servicios.ProductoServicio servicioProducto;
 
         private Components.Calendario calendario;
         private Components.ComboBoxAutoComplete cboTipo;
         private Components.ComboBoxAutoComplete cboCliente;
+        private Components.DetailList detailList;
+
+        private Components.ComboBoxAutoComplete cboProducto;
+        private TextBox txtCantidad;
 
         protected void Page_Load(object sender, EventArgs e)
         {
             servicioOrden = new Negocio.Servicios.OrdenServicio();
             servicioEvento = new Negocio.Servicios.EventoServicio();
             servicioContacto = new Negocio.Servicios.ContactoServicio();
-
-            CargarCalendario();
-            CargarComboBoxTipo();
-            CargarComboBoxCliente();
+            servicioProducto = new Negocio.Servicios.ProductoServicio();
 
             id = Request.QueryString["id"];
-           
 
-            if (id == null)
+            if (Session[OrdenActual] != null)
             {
-                orden = new Dominio.Modelos.OrdenModelo();
+                orden = (OrdenModelo)Session[OrdenActual];
+            }
+
+            if (!IsPostBack)
+            {
+                if (id == null)
+                {
+                    orden = new Dominio.Modelos.OrdenModelo();
+                }
+                else
+                {
+                    try
+                    {
+                        int idInt = Convert.ToInt32(Request.QueryString["id"]);
+                        if (idInt > 0)
+                        {
+                            orden = servicioOrden.ObtenerPorId(idInt);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        throw ex;
+                    }
+                }
+                Session[OrdenActual] = orden;
+                CargarComponentes();
+                if (orden.IdOrden != 0) CargarDatos();
             }
             else
             {
-                try
-                {
-                    int idInt = Convert.ToInt32(Request.QueryString["id"]);
-                    if (idInt > 0)
-                    {
-                        orden = servicioOrden.ObtenerPorId(idInt);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    throw ex;
-                }
+                CargarComponentes();
             }
 
-            if (!IsPostBack && id != null)
-            {
-                CargarDatos();
-            }
 
+        }
+
+        private void CargarComponentes()
+        {
+            CargarCalendario();
+            CargarComboBoxTipo();
+            CargarComboBoxCliente();
+            CargarDetailList();
         }
         private void _initComboBoxTipo(DropDownList comboBox)
         {
@@ -82,6 +103,42 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
             comboBox.DataValueField = "Id";
             comboBox.DataBind();
         }
+
+        private void _initComboBoxProducto(DropDownList comboBox)
+        {
+            comboBox.DataSource = 
+                new List<ProductoModelo> { new ProductoModelo { IdProducto = 0, Nombre = "Seleccione un producto" } }.Concat(servicioProducto.Listar());
+            comboBox.DataTextField = "Nombre";
+            comboBox.DataValueField = "IdProducto";
+            comboBox.DataBind();
+        }
+
+        private void _initDetailList(GridView gvData)
+        {
+            if (!IsPostBack)
+            {
+                gvData.AutoGenerateColumns = false;
+                gvData.CssClass = "table table-striped table-bordered table-hover";
+                gvData.HeaderStyle.CssClass = "thead-dark";
+                gvData.RowStyle.CssClass = "tbody-light";
+                gvData.FooterStyle.CssClass = "tfoot-dark";
+                gvData.AlternatingRowStyle.CssClass = "tbody-light";
+                gvData.EmptyDataText = "No hay productos en la orden";
+                gvData.Columns.Add(new BoundField { DataField = "Producto.IdProducto", HeaderText = "ID", SortExpression = "IdProducto" });
+                gvData.Columns.Add(new BoundField { DataField = "Producto.Nombre", HeaderText = "Nombre", SortExpression = "Nombre" });
+                gvData.Columns.Add(new BoundField { DataField = "Cantidad", HeaderText = "Cantidad", SortExpression = "Cantidad" });
+                gvData.Columns.Add(new BoundField { DataField = "PrecioUnitarioActual", HeaderText = "Precio", SortExpression = "Precio" });
+                gvData.Columns.Add(new BoundField { DataField = "Subtotal", HeaderText = "Subtotal", SortExpression = "Subtotal" });
+            }
+
+
+            if (orden.DetalleProductos != null )
+            {
+                gvData.DataSource = orden.DetalleProductos;
+                gvData.DataBind();
+            }
+        }
+
         private void CargarComboBoxTipo()
         {
             cboTipo = (Components.ComboBoxAutoComplete)LoadControl("~/Backoffice/Components/ComboBoxAutoComplete.ascx");
@@ -107,6 +164,71 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
             phCalendario.Controls.Add(calendario);
             calendario.InicializarCalendario(OnDayClick);
             FechaSeleccionada = calendario.FechaCalendario.ToShortDateString();
+        }
+
+        private void OnAceptarAgregarProducto(object sender, EventArgs e)
+        {
+            // Agregar producto a la orden
+            string IdProducto = (string)cboProducto.SelectedValue;
+            string Cantidad = txtCantidad.Text;
+
+            if (orden.DetalleProductos == null)
+            {
+                orden.DetalleProductos = new List<ProductoDetalleOrdenModelo>();
+            }
+            ProductoModelo producto = servicioProducto.ObtenerPorId(Convert.ToInt32(IdProducto));
+
+            ProductoDetalleOrdenModelo detalle = new ProductoDetalleOrdenModelo
+            {
+                Producto = producto,
+                Cantidad = Convert.ToInt32(Cantidad),
+                PrecioUnitarioActual = producto.Precio,
+                CostoUnitarioActual = producto.Costo,
+                Porciones = producto.Porciones
+            };
+
+            orden.DetalleProductos.Add(detalle);
+            detailList.CargarListaDetalle();
+        }
+
+        private void CargarDetailList()
+        {
+
+           detailList = (Components.DetailList)LoadControl("~/Backoffice/Components/DetailList.ascx");
+           phDetalleOrden.Controls.Add(detailList);
+
+           // Construir Header con boton de agregar producto
+
+           LiteralControl headerTitle = new LiteralControl("<h3>Detalle de Orden</h3>");
+
+           Button btnAgregarProducto = new Button();
+           btnAgregarProducto.Text = "Agregar Producto";
+           btnAgregarProducto.CssClass = "btn btn-primary";
+           btnAgregarProducto.Click += new EventHandler(btnAgregarProducto_Click);
+
+           Panel headerPanel = new Panel();
+            headerPanel.CssClass = "d-flex justify-content-between";
+            headerPanel.Controls.Add(headerTitle);
+           headerPanel.Controls.Add(btnAgregarProducto);
+
+           detailList.InicializarListaDetalle(_initDetailList, headerPanel);
+
+           // Construir Modal
+           cboProducto = (Components.ComboBoxAutoComplete)LoadControl("~/Backoffice/Components/ComboBoxAutoComplete.ascx");
+           cboProducto.ComboID = "cboProducto";
+           cboProducto.InicializarComboBox(_initComboBoxProducto);
+
+           Panel modalBody = new Panel();
+           
+
+            txtCantidad = new TextBox();
+            txtCantidad.CssClass = "form-control";
+
+            modalBody.Controls.Add(cboProducto);
+            modalBody.Controls.Add(txtCantidad);
+
+           detailList.CargarModal("Agregar Producto", modalBody, OnAceptarAgregarProducto);
+
         }
 
         protected void OnTinyLoad(object sender, EventArgs e)
@@ -137,13 +259,77 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
             tiny.Text = orden.Descripcion;
 
         }
+
+        protected void TotalChanged(object sender, EventArgs e)
+        {
+            decimal descuento = 0;
+            decimal costoEnvio = 0;
+            decimal.TryParse(txtDescuento.Text, NumberStyles.Any, CultureInfo.InvariantCulture, out descuento);
+            decimal.TryParse(txtCostoEnvio.Text, NumberStyles.Any, CultureInfo.InvariantCulture, out costoEnvio);
+
+            orden.DescuentoPorcentaje = descuento;
+            orden.CostoEnvio = costoEnvio;
+
+        }
         private OrdenModelo ObtenerModeloDesdeFormulario()
         {
-            return new OrdenModelo
-            {
-                
+            OrdenModelo _newOrden = new OrdenModelo();
 
-            };
+            if (orden.DetalleProductos != null)
+            {
+                _newOrden.DetalleProductos = orden.DetalleProductos;
+            } else
+            {
+                throw new Exception("Debe agregar al menos un producto a la orden");
+            }
+
+            if ((string)cboCliente.SelectedValue == "0")
+            {
+                throw new Exception("Debe seleccionar un cliente");
+            }
+            else
+            {
+                _newOrden.Cliente = new ContactoModelo { Id = Convert.ToInt32(cboCliente.SelectedValue) };
+            }
+
+            if ((string)cboTipo.SelectedValue == "0")
+            {
+                throw new Exception("Debe seleccionar un tipo de evento");
+            }
+            else
+            {
+                _newOrden.Evento = new EventoModelo
+                {
+                    Fecha = calendario.FechaCalendario,
+                    TipoEvento = new TipoEventoModelo { IdTipoEvento = Convert.ToInt32(cboTipo.SelectedValue) }
+                };
+            }
+            _newOrden.TipoEntrega = rbtnTipoEntrega.SelectedValue;
+            _newOrden.HoraEntrega = txtHora.Text;
+            _newOrden.DireccionEntrega = txtDireccion.Text;
+
+            decimal _descuento = 0;
+            decimal _costoEnvio = 0;
+
+            decimal.TryParse(txtDescuento.Text, NumberStyles.Any, CultureInfo.InvariantCulture, out _descuento);
+            decimal.TryParse(txtCostoEnvio.Text, NumberStyles.Any, CultureInfo.InvariantCulture, out _costoEnvio);
+
+            if (_descuento < 0 || _descuento > 100)
+            {
+                throw new Exception("El descuento debe ser un valor entre 0 y 100");
+            }
+
+            if (_costoEnvio < 0)
+            {
+                throw new Exception("El costo de envio debe ser un valor positivo");
+            }
+
+            _newOrden.DescuentoPorcentaje = _descuento;
+            _newOrden.CostoEnvio = _costoEnvio;
+
+            _newOrden.Descripcion = tiny.Text;
+            
+            return _newOrden;
         }
 
         protected void rbtnTipoEntrega_SelectedIndexChanged(object sender, EventArgs e)
@@ -154,17 +340,12 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
 
         protected void btnGuardar_Click(object sender, EventArgs e)
         {
+            OrdenModelo Ob = ObtenerModeloDesdeFormulario();
             if (id != null)
             {
-                OrdenModelo Ob = ObtenerModeloDesdeFormulario();
                 Ob.IdOrden = Convert.ToInt32(id);
-                servicioOrden.Modificar(Ob);
             }
-            else
-            {
-                servicioOrden.Agregar(ObtenerModeloDesdeFormulario());
-            }
-            
+            servicioOrden.GuardarOrden(Ob);
         }
 
         protected void btnCancelar_Click(object sender, EventArgs e)
@@ -179,7 +360,7 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
 
         protected void btnAgregarProducto_Click(object sender, EventArgs e)
         {
-            //Agregar producto a la orden
+            detailList.MostrarModal();
         }
 
         protected void btnEditarProducto_Click(object sender, EventArgs e)

@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/LayoutNegocio.Master" AutoEventWireup="true" CodeBehind="EditarOrden.aspx.cs" Inherits="TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes.EditarOrden"  ValidateRequest="false"%>
+﻿<%@ Page Title="" MaintainScrollPositionOnPostback="true" Language="C#" MasterPageFile="~/LayoutNegocio.Master" AutoEventWireup="true" CodeBehind="EditarOrden.aspx.cs" Inherits="TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes.EditarOrden"  ValidateRequest="false"%>
 
 <%@ Register Src="~/Backoffice/Components/ComboBoxAutoComplete.ascx" TagPrefix="uc" TagName="ComboBoxAutoComplete" %>
 
@@ -7,6 +7,8 @@
     <script src="/Js/jquery-3.7.1.min.js"></script>
     <script src="/Js/chosen.jquery.js" type="text/javascript"></script>
     <script src="https://cdn.tiny.cloud/1/valwbezytp23wuvlb68adt6hx9ggw67661q3p79cvj23ai0p/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
+
+    <script type = "text/javascript" src = "https://unpkg.com/default-passive-events" ></script>
 </asp:Content>
 
 <asp:Content ID="Content3" ContentPlaceHolderID="PageHeader" runat="server">
@@ -25,6 +27,8 @@ else { %>
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+
+
     <%-- DIV Detalles del evento  --%>
     <div>
         <h3>Detalles del evento</h3>
@@ -75,31 +79,8 @@ else { %>
     </div>
     <%-- DIV DETALLE ORDEN --%>
     <div class="detalle-orden">
-        <div class="do-header">
-             <h3>Detalle</h3>
-             <asp:Button ID="btnAgregarProducto" runat="server" OnClick="btnAgregarProducto_Click" />
-        </div>
         <div class="do-lista">
-            <%foreach (Dominio.Modelos.ProductoDetalleOrdenModelo detalle in orden.DetalleProductos)
-                {  %>
-            <div class="do-item">
-                <div class="do-item-left">
-                    <span class="do-item-left__categoria"><%: detalle.Producto.Categoria.Nombre %></span>
-                    <span class="do-item-left__nombre"><%: detalle.Producto.Nombre %></span>
-                    <span class="do-item-left__cantidad"><%: detalle.Cantidad %></span>
-                    <span class="do-item-left__precio-unitario">$ <%: detalle.PrecioUnitarioActual %></span>
-                </div>
-                <div class="do-item-right">
-                    <div>
-                        <asp:LinkButton ID="btnEditarProducto" runat="server" OnClick="btnEditarProducto_Click"><i class="fa-solid fa-pencil"></i></asp:LinkButton>
-                        <asp:LinkButton ID="btnEliminarProducto" runat="server" OnClick="btnEliminarProducto_Click"><i class="fa-solid fa-trash"></i></asp:LinkButton>
-                    </div>
-                    <div>
-                        <span class="do-item-right__precio-total">$ <%: detalle.Subtotal%></span>
-                    </div>
-                </div>
-            </div>
-                <% } %>
+            <asp:PlaceHolder ID="phDetalleOrden" runat="server"></asp:PlaceHolder>
         </div>
         <div class="do-detalle">
             <div>
@@ -108,11 +89,14 @@ else { %>
             </div>
             <div>
                 <span>Descuento (%): </span>
-                <asp:TextBox ID="txtDescuento" runat="server" CssClass="form-control"></asp:TextBox>
+                <asp:TextBox ID="txtDescuento" runat="server" CssClass="form-control" OnTextChanged="TotalChanged"></asp:TextBox>
             </div>
             <div>
                 <span>Costo envío / extra: </span>
-                <asp:TextBox ID="txtCostoEnvio" runat="server" CssClass="form-control"></asp:TextBox>
+                <asp:TextBox ID="txtCostoEnvio" runat="server" CssClass="form-control" OnTextChanged="TotalChanged"></asp:TextBox>
+            </div>
+            <div>
+                <asp:Button ID="btnAplicarDescuento" runat="server" Text="Aplicar" CssClass="btn btn-primary" />
             </div>
             <div>
                 <span>Total: </span>
@@ -131,7 +115,6 @@ else { %>
     
     <asp:Button ID="btnCancelar" runat="server" Text="Cancelar" CssClass="btn btn-secondary" OnClick="btnCancelar_Click" />
     <asp:Button ID="btnGuardar" runat="server" Text="Guardar" CssClass="btn btn-primary" OnClick="btnGuardar_Click" />
-
 
 
     <script type="text/javascript" language="javascript">

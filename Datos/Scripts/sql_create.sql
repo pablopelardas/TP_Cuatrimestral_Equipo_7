@@ -129,7 +129,7 @@ CREATE TABLE "ORDENES"(
     "id_orden" INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
     "id_cliente" INT NOT NULL,
     "tipo_entrega" VARCHAR(50) NOT NULL,
-    "descripcion" VARCHAR(200),
+    "descripcion" VARCHAR(MAX),
     "descuento_porcentaje" DECIMAL,
     "costo_envio" DECIMAL,
     "direccion_entrega" VARCHAR(200),

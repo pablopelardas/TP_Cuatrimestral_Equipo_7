@@ -17,8 +17,6 @@ namespace Datos.Entidades
         public string hora_entrega { get; set; }
         public string direccion_entrega { get; set; }
 
-        public decimal subtotal { get; set; }
-
         public Entidades.ContactoEntidad cliente { get; set; }
         public Entidades.OrdenEstadoEntidad estado { get; set; }
         public Entidades.OrdenEstadoPagoEntidad estado_pago { get; set; }

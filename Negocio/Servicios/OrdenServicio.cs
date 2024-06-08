@@ -25,14 +25,9 @@ namespace Negocio.Servicios
             return ordenRepositorio.ObtenerPorId(id);
         }
 
-        public void Agregar(Dominio.Modelos.OrdenModelo contacto)
+        public void GuardarOrden(Dominio.Modelos.OrdenModelo orden)
         {
-            ordenRepositorio.Agregar(contacto);
-        }
-
-        public void Modificar(Dominio.Modelos.OrdenModelo contacto)
-        {
-            ordenRepositorio.Modificar(contacto);
+            ordenRepositorio.GuardarOrdenTx(orden);
         }
 
         public void Eliminar(int id)

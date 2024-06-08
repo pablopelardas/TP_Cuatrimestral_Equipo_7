@@ -8,5 +8,8 @@
 <asp:PlaceHolder ID="phComboBox" runat="server"></asp:PlaceHolder>
 
 <script type="text/javascript" language="javascript">
-    $(".chzn-select").chosen(); $(".chzn-select-deselect").chosen({ allow_single_deselect: true });
+    function InitChosen() {
+        $(".chzn-select").chosen();
+        $(".chzn-select-deselect").chosen({ allow_single_deselect: true });
+    }
 </script>

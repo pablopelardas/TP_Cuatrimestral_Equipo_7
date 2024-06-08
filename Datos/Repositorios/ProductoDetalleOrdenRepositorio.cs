@@ -3,13 +3,14 @@ using Datos.Helpers;
 using Dominio.Modelos;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Datos.Repositorios
 {
-    internal class ProductoDetalleOrdenRepositorio
+    public class ProductoDetalleOrdenRepositorio
     {
         private QueryHelper _QueryHelper = new QueryHelper();
         private string PRODUCTO_PREFIX = "pro";
@@ -91,6 +92,74 @@ WHERE DETALLE_ORDENES.ID_ORDEN = @id
                 datos.CerrarConexion();
             }
         }
+        public void EliminarDetalle(int IdOrden, SqlCommand dbCtx = null)
+        {
+            if (dbCtx == null)
+            {
+                AccesoDatos datos = new AccesoDatos();
+                try
+                {
+                    string cmd = $@"DELETE FROM DETALLE_ORDENES WHERE id_orden = {IdOrden}";
+                    datos.SetearConsulta(cmd);
+                    datos.EjecutarAccion();
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+                finally
+                {
+                    datos.CerrarConexion();
+                }
+            }
+            else
+            {
+                string cmd = $@"DELETE FROM DETALLE_ORDENES WHERE id_orden = {IdOrden}";
+                dbCtx.CommandText = cmd;
+                dbCtx.ExecuteNonQuery();
+            }
+        }
 
+        public void AgregarListaDetalle(int IdOrden, List<ProductoDetalleOrdenEntidad> detalles, SqlCommand dbCtx = null)
+        {
+            if (dbCtx == null)
+            {
+                AccesoDatos datos = new AccesoDatos();
+                try
+                {
+                    foreach (ProductoDetalleOrdenEntidad detalle in detalles)
+                    {
+                        string cmd = $@"
+INSERT INTO DETALLE_ORDENES (id_orden, id_producto, cantidad, producto_costo, producto_porciones, producto_precio)
+VALUES ({IdOrden}, {detalle.producto.id_producto}, {detalle.cantidad}, {detalle.producto_costo}, {detalle.producto_porciones}, {detalle.producto_precio})
+                    ";
+                        datos.SetearConsulta(cmd);
+
+                        datos.EjecutarAccion();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+                finally
+                {
+                    datos.CerrarConexion();
+                }
+            }
+            else
+            {
+                foreach (ProductoDetalleOrdenEntidad detalle in detalles)
+                {
+                    string cmd = $@"
+INSERT INTO DETALLE_ORDENES (id_orden, id_producto, cantidad, producto_costo, producto_porciones, producto_precio)
+VALUES ({IdOrden}, {detalle.producto.id_producto}, {detalle.cantidad}, {detalle.producto_costo.ToString().Replace(',', '.')}, {detalle.producto_porciones}, {detalle.producto_precio.ToString().Replace(',', '.')})
+                    ";
+                    dbCtx.CommandText = cmd;
+
+                    dbCtx.ExecuteNonQuery();
+                }
+            }
+        }
     }
 }

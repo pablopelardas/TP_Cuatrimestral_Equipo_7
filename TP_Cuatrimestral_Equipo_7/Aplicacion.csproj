@@ -68,6 +68,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Backoffice\Components\ComboBoxAutoComplete.ascx" />
+    <Content Include="Backoffice\Components\DetailList.ascx" />
     <Content Include="Backoffice\Ingredientes\Default.aspx" />
     <Content Include="Backoffice\Ingredientes\DetalleIngrediente.aspx" />
     <Content Include="Backoffice\Ingredientes\EditarIngrediente.aspx" />
@@ -99,6 +100,13 @@
     </Compile>
     <Compile Include="Backoffice\Components\ComboBoxAutoComplete.ascx.designer.cs">
       <DependentUpon>ComboBoxAutoComplete.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Backoffice\Components\DetailList.ascx.cs">
+      <DependentUpon>DetailList.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Backoffice\Components\DetailList.ascx.designer.cs">
+      <DependentUpon>DetailList.ascx</DependentUpon>
     </Compile>
     <Compile Include="Backoffice\Ingredientes\Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>

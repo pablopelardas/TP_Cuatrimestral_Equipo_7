@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Dominio.Modelos;
+using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -156,6 +158,78 @@ WHERE {ORDEN_PREFIX + "_ORDENES"}.ID_ORDEN = @idOrden
             finally
             {
                 datos.CerrarConexion();
+            }
+        }
+
+        public void GuardarEventoDeOrden(EventoModelo eventoModelo, SqlCommand dbCtx = null)
+        {
+
+            if (dbCtx == null)
+            {
+                AccesoDatos datos = new AccesoDatos();
+                try
+                {
+                    string cmd = $@"
+INSERT INTO EVENTOS (fecha, id_cliente, id_orden, id_tipo_evento)
+VALUES (@ev_fecha, @ev_id_cliente, @ev_id_orden, @ev_id_tipo_evento)
+";
+                    datos.SetearConsulta(cmd);
+                    datos.SetearParametro("@ev_fecha", eventoModelo.Fecha);
+                    datos.SetearParametro("@ev_id_cliente", eventoModelo.Cliente.Id);
+                    datos.SetearParametro("@ev_id_orden", eventoModelo.Orden.IdOrden);
+                    datos.SetearParametro("@ev_id_tipo_evento",eventoModelo.TipoEvento.IdTipoEvento);
+                    datos.EjecutarAccion();
+
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+                finally
+                {
+                    datos.CerrarConexion();
+                }
+            }
+            else
+            {
+                string cmd = $@"
+INSERT INTO EVENTOS (fecha, id_cliente, id_orden, id_tipo_evento)
+VALUES (@ev_fecha, @ev_id_cliente, @ev_id_orden, @ev_id_tipo_evento)
+";
+                dbCtx.CommandText = cmd;
+                dbCtx.Parameters.AddWithValue("@ev_fecha", eventoModelo.Fecha);
+                dbCtx.Parameters.AddWithValue("@ev_id_cliente", eventoModelo.Cliente.Id);
+                dbCtx.Parameters.AddWithValue("@ev_id_orden", eventoModelo.Orden.IdOrden);
+                dbCtx.Parameters.AddWithValue("@ev_id_tipo_evento", eventoModelo.TipoEvento.IdTipoEvento);
+                dbCtx.ExecuteNonQuery();
+            }
+        }
+
+        public void EliminarEventoDeOrden(int idOrden, SqlCommand dbCtx = null)
+        {
+            if (dbCtx == null)
+            {
+                AccesoDatos datos = new AccesoDatos();
+                try
+                {
+                    string cmd = $@"DELETE FROM EVENTOS WHERE id_orden = {idOrden}";
+                    datos.SetearConsulta(cmd);
+                    datos.EjecutarAccion();
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+                finally
+                {
+                    datos.CerrarConexion();
+                }
+            }
+            else
+            {
+                string cmd = $@"DELETE FROM EVENTOS WHERE id_orden = {idOrden}";
+                dbCtx.CommandText = cmd;
+                dbCtx.ExecuteNonQuery();
             }
         }
        

@@ -23,7 +23,6 @@ namespace Datos.Mappers
                 DescuentoPorcentaje = ordenEntidad.descuento_porcentaje,
                 CostoEnvio = ordenEntidad.costo_envio,
                 Descripcion = ordenEntidad.descripcion,
-                Subtotal = ordenEntidad.subtotal,
                 HoraEntrega = ordenEntidad.hora_entrega,
                 Cliente = ContactoMapper.EntidadAModelo(ordenEntidad.cliente),
                 Estado = OrdenEstadoMapper.EntidadAModelo(ordenEntidad.estado),
@@ -44,7 +43,7 @@ namespace Datos.Mappers
 
         internal static Entidades.OrdenEntidad ModeloAEntidad(Dominio.Modelos.OrdenModelo ordenModelo)
         {
-            return new Entidades.OrdenEntidad
+            Entidades.OrdenEntidad entidad = new Entidades.OrdenEntidad
             {
                 // ATRIBUTOS DE MODELO
                 id_orden = ordenModelo.IdOrden,
@@ -52,12 +51,23 @@ namespace Datos.Mappers
                 descuento_porcentaje = ordenModelo.DescuentoPorcentaje,
                 costo_envio = ordenModelo.CostoEnvio,
                 descripcion = ordenModelo.Descripcion,
-                subtotal = ordenModelo.Subtotal,
                 hora_entrega = ordenModelo.HoraEntrega,
-                cliente = ContactoMapper.ModeloAEntidad(ordenModelo.Cliente),
-                estado = OrdenEstadoMapper.ModeloAEntidad(ordenModelo.Estado),
-                estado_pago = OrdenEstadoPagoMapper.ModeloAEntidad(ordenModelo.EstadoPago),
+                direccion_entrega = ordenModelo.DireccionEntrega
             };
+            if (ordenModelo.Cliente != null)
+            {
+                entidad.cliente = ContactoMapper.ModeloAEntidad(ordenModelo.Cliente);
+            } 
+            if (ordenModelo.Estado != null)
+            {
+                entidad.estado = OrdenEstadoMapper.ModeloAEntidad(ordenModelo.Estado);
+            }
+            if (ordenModelo.EstadoPago != null)
+            {
+                entidad.estado_pago = OrdenEstadoPagoMapper.ModeloAEntidad(ordenModelo.EstadoPago);
+            }
+
+            return entidad;
         }
     }
 }

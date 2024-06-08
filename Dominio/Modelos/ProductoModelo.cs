@@ -25,6 +25,24 @@ namespace Dominio.Modelos
 
         public List<ItemDetalleProductoModelo> Items { get; set; }
 
+        public decimal Precio
+        {
+            get
+            {
+                // TODO: Implementar lógica de cálculo de precio de producto en base a los items
+                return 200;
+            }
+        }
+
+        public decimal Costo
+        {
+            // TODO: Implementar lógica de cálculo de costo de producto en base a los items
+            get
+            {
+                return 100;
+            }
+        }
+
         public ProductoModelo()
         {
         }
