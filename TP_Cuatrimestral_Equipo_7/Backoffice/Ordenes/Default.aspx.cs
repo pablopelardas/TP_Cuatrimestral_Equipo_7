@@ -19,9 +19,9 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
             {
                 for (int i = anioActual - 5; i <= anioActual + 5; i++)
                 {
-                    ddlAnio.Items.Add(new ListItem(i.ToString(), i.ToString()));
+                    //ddlAnio.Items.Add(new ListItem(i.ToString(), i.ToString()));
                 }
-                ddlAnio.SelectedValue = anioActual.ToString();
+                //ddlAnio.SelectedValue = anioActual.ToString();
                 ListarOrdenes();
 
             }
