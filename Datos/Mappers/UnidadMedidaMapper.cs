@@ -10,26 +10,24 @@ namespace Datos.Mappers
 {
     public class UnidadMedidaMapper
     {
-        public static UnidadMedidaModelo EntidadAModelo(Entidades.UnidadMedidaEntidad entidad)
+        public static UnidadMedidaModelo EntidadAModelo(UNIDADES_MEDIDA entidad)
         {
-            UnidadMedidaModelo unidad = new UnidadMedidaModelo();
-
-            unidad.Id = entidad.id_unidad;
-            unidad.Nombre = entidad.nombre;
-            unidad.Abreviatura = entidad.abreviatura;
-
-            return unidad;
+            return new UnidadMedidaModelo
+            {
+                Id = entidad.id_unidad,
+                Nombre = entidad.nombre,
+                Abreviatura = entidad.abreviatura
+            };
         }
 
-        public static Entidades.UnidadMedidaEntidad ModeloAEntidad(UnidadMedidaModelo unidad)
+        public static UNIDADES_MEDIDA ModeloAEntidad(UnidadMedidaModelo unidad)
         {
-            Entidades.UnidadMedidaEntidad entidad = new Entidades.UnidadMedidaEntidad();
-
-            entidad.id_unidad = unidad.Id;
-            entidad.nombre = unidad.Nombre;
-            entidad.abreviatura = unidad.Abreviatura;
-            
-            return entidad;
+            return new UNIDADES_MEDIDA
+            {
+                id_unidad = unidad.Id,
+                nombre = unidad.Nombre,
+                abreviatura = unidad.Abreviatura
+            };
         }
     }
 }

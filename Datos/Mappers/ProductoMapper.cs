@@ -1,5 +1,4 @@
-﻿using Datos.Entidades;
-using Datos.Repositorios;
+﻿using Datos.Repositorios;
 using Dominio.Modelos;
 using System;
 using System.Collections.Generic;
@@ -11,30 +10,32 @@ namespace Datos.Mappers
 {
     internal class ProductoMapper
     {
-        internal static Dominio.Modelos.ProductoModelo EntidadAModelo(Entidades.ProductoEntidad productoEntidad, bool incluyeDetalle = false)
+        internal static Dominio.Modelos.ProductoModelo EntidadAModelo(PRODUCTOS productoEntidad)
         {
-            ProductoModelo producto = new ProductoModelo();
-            ItemDetalleProductoRepositorio itemDetalleProductoRepositorio = new ItemDetalleProductoRepositorio();
+            ProductoModelo producto = new ProductoModelo
+            {
+                Descripcion = productoEntidad.descripcion,
+                HorasTrabajo = productoEntidad.horas_trabajo,
+                IdProducto = productoEntidad.id_producto,
+                Nombre = productoEntidad.nombre,
+                Porciones = productoEntidad.porciones,
+                TipoPrecio = productoEntidad.tipo_precio,
+                ValorPrecio = productoEntidad.valor_precio,
+            };  
 
-            producto.IdProducto = productoEntidad.id_producto;
-            producto.Nombre = productoEntidad.nombre;
-            producto.Descripcion = productoEntidad.descripcion;
-            producto.Porciones = productoEntidad.porciones;
-            producto.HorasTrabajo = productoEntidad.horas_trabajo;
-            producto.TipoPrecio = productoEntidad.tipo_precio;
-            producto.ValorPrecio = productoEntidad.valor_precio;
-            producto.Categoria = CategoriaMapper.EntidadAModelo(productoEntidad.categoria);
-            if (incluyeDetalle)
-                producto.Items = itemDetalleProductoRepositorio.ObtenerDetalleProducto(productoEntidad.id_producto);
+            if (productoEntidad.CATEGORIAS != null)
+            {
+                producto.Categoria = CategoriaMapper.EntidadAModelo(productoEntidad.CATEGORIAS);
+            }
 
             return producto;
         }
 
-        internal static Entidades.ProductoEntidad ModeloAEntidad(Dominio.Modelos.ProductoModelo productoModelo)
+        internal static PRODUCTOS ModeloAEntidad(Dominio.Modelos.ProductoModelo productoModelo)
         {
-            return new Entidades.ProductoEntidad
+            return new PRODUCTOS
             {
-                categoria = CategoriaMapper.ModeloAEntidad(productoModelo.Categoria),
+                CATEGORIAS = CategoriaMapper.ModeloAEntidad(productoModelo.Categoria),
                 descripcion = productoModelo.Descripcion,
                 horas_trabajo = productoModelo.HorasTrabajo,
                 id_producto = productoModelo.IdProducto,
@@ -43,6 +44,18 @@ namespace Datos.Mappers
                 tipo_precio = productoModelo.TipoPrecio,
                 valor_precio = productoModelo.ValorPrecio,
             };          
+        }
+
+        internal static void ActualizarEntidad(ref PRODUCTOS productoEntidad, Dominio.Modelos.ProductoModelo productoModelo)
+        {
+            productoEntidad.descripcion = productoModelo.Descripcion;
+            productoEntidad.horas_trabajo = productoModelo.HorasTrabajo;
+            productoEntidad.nombre = productoModelo.Nombre;
+            productoEntidad.porciones = productoModelo.Porciones;
+            productoEntidad.tipo_precio = productoModelo.TipoPrecio;
+            productoEntidad.valor_precio = productoModelo.ValorPrecio;
+            productoEntidad.id_producto = productoModelo.IdProducto;
+            productoEntidad.CATEGORIAS = CategoriaMapper.ModeloAEntidad(productoModelo.Categoria);
         }
     }
 }

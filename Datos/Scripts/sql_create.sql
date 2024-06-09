@@ -55,6 +55,8 @@ CREATE TABLE "RECETAS"(
     "descripcion" VARCHAR(200) NOT NULL,
     "id_categoria" INT NOT NULL,
     "precio_personalizado" MONEY,
+
+    FOREIGN KEY ("id_categoria") REFERENCES "CATEGORIAS"("id_categoria")
 )
 
 CREATE TABLE "DETALLE_RECETAS"(
@@ -103,7 +105,7 @@ CREATE TABLE "DETALLE_PRODUCTOS"(
     "id_producto" INT NOT NULL,
     "id_suministro" INT,
     "id_receta" INT,
-    "cantidad" FLOAT NOT NULL,
+    "cantidad" INT NOT NULL,
 
     FOREIGN KEY ("id_producto") REFERENCES "PRODUCTOS"("id_producto"),
     FOREIGN KEY ("id_suministro") REFERENCES "SUMINISTROS"("id_suministro"),

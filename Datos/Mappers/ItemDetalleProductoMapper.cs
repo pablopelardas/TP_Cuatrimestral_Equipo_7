@@ -7,41 +7,58 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Runtime.CompilerServices;
-using Datos.Entidades;
 
 namespace Datos.Mappers
 {
     internal class ItemDetalleProductoMapper
     {
-        public static ItemDetalleProductoModelo EntidadAModelo(ItemDetalleProductoEntidad entidad)
+        public static ItemDetalleProductoModelo EntidadAModelo(DETALLE_PRODUCTOS entidad)
         {
-            ItemDetalleProductoModelo itemModelo = new ItemDetalleProductoModelo();
+            ItemDetalleProductoModelo detalle = new ItemDetalleProductoModelo();
 
-            itemModelo.Cantidad = entidad.cantidad;
+            if (entidad.SUMINISTROS != null)
+            {
+                detalle.Suministro = SuministroMapper.EntidadAModelo(entidad.SUMINISTROS);
+            }
 
-            if(entidad.receta != null)
-                itemModelo.Receta = RecetaMapper.EntidadAModelo(entidad.receta, true);
+            if (entidad.RECETAS != null)
+            {
+                detalle.Receta = RecetaMapper.EntidadAModelo(entidad.RECETAS);
+            }
+
+            if (entidad.cantidad != 0)
+            {
+                detalle.Cantidad = (int)entidad.cantidad;
+            }
 
 
-            if(entidad.suministro != null)
-                itemModelo.Suministro = SuministroMapper.EntidadAModelo(entidad.suministro, true);
-            
-            return itemModelo;
+            return detalle;
+
         }
 
 
 
-        public static ItemDetalleProductoEntidad ModeloAEntidad(ItemDetalleProductoModelo item)
+        public static DETALLE_PRODUCTOS ModeloAEntidad(ItemDetalleProductoModelo item)
         {
-            ItemDetalleProductoEntidad entidad = new ItemDetalleProductoEntidad();
+            DETALLE_PRODUCTOS entidad = new DETALLE_PRODUCTOS();
 
-            entidad.cantidad = item.Cantidad;
+            if (item.Suministro != null)
+            {
+                entidad.SUMINISTROS = SuministroMapper.ModeloAEntidad(item.Suministro);
+            }
+
             if (item.Receta != null)
-                entidad.receta = RecetaMapper.ModeloAEntidad(item.Receta);
-            if (item.Suministro != null) 
-                entidad.suministro = SuministroMapper.ModeloAEntidad(item.Suministro);
+            {
+                entidad.RECETAS = RecetaMapper.ModeloAEntidad(item.Receta);
+            }
+
+            if (item.Cantidad != 0)
+            {
+                entidad.cantidad = item.Cantidad;
+            }
 
             return entidad;
+            
         }
     }
 }

@@ -8,7 +8,7 @@ namespace Datos.Mappers
 {
     internal class ContactoMapper
     {
-        internal static Dominio.Modelos.ContactoModelo EntidadAModelo(Entidades.ContactoEntidad contactoEntidad)
+        internal static Dominio.Modelos.ContactoModelo EntidadAModelo(CONTACTOS contactoEntidad)
         {
             return new Dominio.Modelos.ContactoModelo
             {
@@ -26,9 +26,9 @@ namespace Datos.Mappers
             };
         }
 
-        internal static Entidades.ContactoEntidad ModeloAEntidad(Dominio.Modelos.ContactoModelo contacto)
+        internal static CONTACTOS ModeloAEntidad(Dominio.Modelos.ContactoModelo contacto)
         {
-            return new Entidades.ContactoEntidad
+            return new CONTACTOS
             {
                 id_contacto = contacto.Id,
                 nombre_apellido = contacto.NombreApellido,
@@ -42,6 +42,21 @@ namespace Datos.Mappers
                 desea_recibir_whatsapp = contacto.DeseaRecibirWhatsapp,
                 informacion_personal = contacto.InformacionPersonal
             };
+        }
+
+        internal static void ActualizarEntidad(ref CONTACTOS contactoEntidad, Dominio.Modelos.ContactoModelo contacto)
+        {
+            contactoEntidad.id_contacto = contacto.Id;
+            contactoEntidad.nombre_apellido = contacto.NombreApellido;
+            contactoEntidad.tipo = contacto.Rol;
+            contactoEntidad.telefono = contacto.Telefono;
+            contactoEntidad.correo = contacto.Email;
+            contactoEntidad.direccion = contacto.Direccion;
+            contactoEntidad.fuente = contacto.Fuente;
+            contactoEntidad.producto_que_provee = contacto.ProductoQueProvee;
+            contactoEntidad.desea_recibir_correos = contacto.DeseaRecibirCorreos;
+            contactoEntidad.desea_recibir_whatsapp = contacto.DeseaRecibirWhatsapp;
+            contactoEntidad.informacion_personal = contacto.InformacionPersonal;
         }
 
     }

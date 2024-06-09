@@ -1,4 +1,4 @@
-﻿using Datos.Entidades;
+﻿using Dominio.Modelos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,23 +9,31 @@ namespace Datos.Mappers
 {
     internal class ProductoDetalleOrdenMapper
     {
-        internal static Dominio.Modelos.ProductoDetalleOrdenModelo EntidadAModelo(Datos.Entidades.ProductoDetalleOrdenEntidad entidad)
+        internal static Dominio.Modelos.ProductoDetalleOrdenModelo EntidadAModelo(DETALLE_ORDENES entidad)
         {
-            return new Dominio.Modelos.ProductoDetalleOrdenModelo
+            Dominio.Modelos.ProductoDetalleOrdenModelo modelo = new Dominio.Modelos.ProductoDetalleOrdenModelo
             {
-                Producto = ProductoMapper.EntidadAModelo(entidad.producto),
+                IdOrden = entidad.id_orden,
                 Cantidad = entidad.cantidad,
                 CostoUnitarioActual = entidad.producto_costo,
                 PrecioUnitarioActual = entidad.producto_precio,
                 Porciones = entidad.producto_porciones
             };
+
+            if (entidad.PRODUCTOS != null)
+            {
+                modelo.Producto = ProductoMapper.EntidadAModelo(entidad.PRODUCTOS);
+            }
+
+            return modelo;
         }
 
-        internal static Datos.Entidades.ProductoDetalleOrdenEntidad ModeloAEntidad(Dominio.Modelos.ProductoDetalleOrdenModelo modelo)
+        internal static DETALLE_ORDENES ModeloAEntidad(Dominio.Modelos.ProductoDetalleOrdenModelo modelo)
         {
-            return new Datos.Entidades.ProductoDetalleOrdenEntidad
+            return new DETALLE_ORDENES
             {
-                producto = ProductoMapper.ModeloAEntidad(modelo.Producto),
+                id_orden = modelo.IdOrden,
+                id_producto = modelo.Producto.IdProducto,
                 cantidad = modelo.Cantidad,
                 producto_costo = modelo.CostoUnitarioActual,
                 producto_precio = modelo.PrecioUnitarioActual,

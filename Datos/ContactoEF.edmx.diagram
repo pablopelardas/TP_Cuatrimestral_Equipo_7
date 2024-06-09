@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="b748fe7ab5f645bc83a66b32244590ff" Name="Diagram1" ZoomLevel="74">
+        <EntityTypeShape EntityType="EFModel.CATEGORIAS" Width="1.5" PointX="3.75" PointY="10.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="EFModel.CONTACTOS" Width="1.5" PointX="0.75" PointY="3.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="EFModel.DETALLE_ORDENES" Width="1.5" PointX="8.25" PointY="3.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="EFModel.DETALLE_RECETAS" Width="1.5" PointX="15.25" PointY="9.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="EFModel.EVENTOS" Width="1.5" PointX="3.875" PointY="0.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="EFModel.IMAGENES_PRODUCTOS" Width="1.5" PointX="8.25" PointY="11" IsExpanded="true" />
+        <EntityTypeShape EntityType="EFModel.INGREDIENTES" Width="1.5" PointX="13" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="EFModel.ORDENES" Width="1.5" PointX="6" PointY="3" IsExpanded="true" />
+        <EntityTypeShape EntityType="EFModel.ORDENES_ESTADOS" Width="1.5" PointX="6.625" PointY="0.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="EFModel.ORDENES_PAGO_ESTADOS" Width="1.5" PointX="3.75" PointY="7.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="EFModel.PRODUCTOS" Width="1.5" PointX="6" PointY="10.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="EFModel.RECETAS" Width="1.5" PointX="6" PointY="18.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="EFModel.SUMINISTROS" Width="1.5" PointX="6" PointY="14.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="EFModel.TIPOS_EVENTOS" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="EFModel.UNIDADES_MEDIDA" Width="1.5" PointX="10.75" PointY="1.5" IsExpanded="true" />
+        <AssociationConnector Association="EFModel.FK__PRODUCTOS__id_ca__4BAC3F29" ManuallyRouted="false" />
+        <AssociationConnector Association="EFModel.FK__SUMINISTR__id_ca__48CFD27E" ManuallyRouted="false" />
+        <AssociationConnector Association="EFModel.FK__EVENTOS__id_clie__68487DD7" ManuallyRouted="false" />
+        <AssociationConnector Association="EFModel.FK__ORDENES__id_clie__5BE2A6F2" ManuallyRouted="false" />
+        <AssociationConnector Association="EFModel.FK__DETALLE_O__id_or__60A75C0F" ManuallyRouted="false" />
+        <AssociationConnector Association="EFModel.FK__DETALLE_O__id_pr__619B8048" ManuallyRouted="false" />
+        <AssociationConnector Association="EFModel.FK__DETALLE_R__id_in__45F365D3" ManuallyRouted="false" />
+        <AssociationConnector Association="EFModel.FK__DETALLE_R__id_re__44FF419A" ManuallyRouted="false" />
+        <AssociationConnector Association="EFModel.FK__EVENTOS__id_orde__693CA210" ManuallyRouted="false" />
+        <AssociationConnector Association="EFModel.FK__EVENTOS__id_tipo__6A30C649" ManuallyRouted="false" />
+        <AssociationConnector Association="EFModel.FK__IMAGENES___id_pr__4E88ABD4" ManuallyRouted="false" />
+        <AssociationConnector Association="EFModel.FK__INGREDIEN__id_un__403A8C7D" ManuallyRouted="false" />
+        <AssociationConnector Association="EFModel.FK__ORDENES__id_orde__5CD6CB2B" ManuallyRouted="false" />
+        <AssociationConnector Association="EFModel.FK__ORDENES__id_orde__5DCAEF64" ManuallyRouted="false" />
+        <AssociationConnector Association="EFModel.FK__RECETAS__id_cate__4316F928" />
+        <EntityTypeShape EntityType="EFModel.DETALLE_PRODUCTOS" Width="1.5" PointX="8.25" PointY="14.375" />
+        <AssociationConnector Association="EFModel.FK__DETALLE_P__id_pr__5165187F" />
+        <AssociationConnector Association="EFModel.FK__DETALLE_P__id_re__534D60F1" />
+        <AssociationConnector Association="EFModel.FK__DETALLE_P__id_su__52593CB8" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

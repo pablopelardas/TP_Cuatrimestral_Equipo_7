@@ -10,40 +10,55 @@ namespace Datos.Mappers
 {
     internal class OrdenMapper
     {
-        internal static Dominio.Modelos.OrdenModelo EntidadAModelo(Entidades.OrdenEntidad ordenEntidad, bool incluyeDetalle = false)
-        {
-            Repositorios.ProductoDetalleOrdenRepositorio productoDetalleOrdenRepositorio = new Repositorios.ProductoDetalleOrdenRepositorio();
-            Repositorios.EventoRepositorio eventoRepositorio = new Repositorios.EventoRepositorio();
+        private Entities db = new Entities();
 
-            Dominio.Modelos.OrdenModelo ordenModelo = new Dominio.Modelos.OrdenModelo
+        internal static Dominio.Modelos.OrdenModelo EntidadAModelo(ORDENES orden)
+        {
+            Dominio.Modelos.OrdenModelo modelo = new Dominio.Modelos.OrdenModelo
             {
                 // ATRIBUTOS DE ENTIDAD
-                IdOrden = ordenEntidad.id_orden,
-                TipoEntrega = ordenEntidad.tipo_entrega,
-                DescuentoPorcentaje = ordenEntidad.descuento_porcentaje,
-                CostoEnvio = ordenEntidad.costo_envio,
-                Descripcion = ordenEntidad.descripcion,
-                HoraEntrega = ordenEntidad.hora_entrega,
-                Cliente = ContactoMapper.EntidadAModelo(ordenEntidad.cliente),
-                Estado = OrdenEstadoMapper.EntidadAModelo(ordenEntidad.estado),
-                EstadoPago = OrdenEstadoPagoMapper.EntidadAModelo(ordenEntidad.estado_pago),
+                IdOrden = orden.id_orden,
+                TipoEntrega = orden.tipo_entrega,
+                DescuentoPorcentaje = orden.descuento_porcentaje ?? 0,
+                CostoEnvio = orden.costo_envio ?? 0,
+                Descripcion = orden.descripcion,
+                HoraEntrega = orden.hora_entrega.ToString() ?? "",
+                DireccionEntrega = orden.direccion_entrega,
             };
 
-            // ATRIBUTOS DE OTRAS ENTIDADES
-            if (incluyeDetalle)
+            if (orden.CONTACTOS != null)
             {
-                ordenModelo.DetalleProductos = productoDetalleOrdenRepositorio.ObtenerDetallePorOrden(ordenEntidad.id_orden);
-                ordenModelo.Evento = eventoRepositorio.ObtenerPorOrden(ordenEntidad.id_orden);
+                modelo.Cliente = ContactoMapper.EntidadAModelo(orden.CONTACTOS);
             }
 
-            return ordenModelo;
+            if (orden.ORDENES_ESTADOS != null)
+            {
+                modelo.Estado = OrdenEstadoMapper.EntidadAModelo(orden.ORDENES_ESTADOS);
+            }
 
-            
+            if (orden.ORDENES_PAGO_ESTADOS != null)
+            {
+                modelo.EstadoPago = OrdenEstadoPagoMapper.EntidadAModelo(orden.ORDENES_PAGO_ESTADOS);
+            }
+
+            if (orden.EVENTOS != null)
+            {
+                modelo.Evento = EventoMapper.EntidadAModelo(orden.EVENTOS.First());
+            }
+            if (orden.DETALLE_ORDENES != null)
+            {
+                foreach (var detalle in orden.DETALLE_ORDENES)
+                {
+                    modelo.DetalleProductos.Add(ProductoDetalleOrdenMapper.EntidadAModelo(detalle));
+                }
+            }
+
+            return modelo;
         }
 
-        internal static Entidades.OrdenEntidad ModeloAEntidad(Dominio.Modelos.OrdenModelo ordenModelo)
+        internal static ORDENES ModeloAEntidad(Dominio.Modelos.OrdenModelo ordenModelo)
         {
-            Entidades.OrdenEntidad entidad = new Entidades.OrdenEntidad
+            ORDENES entidad = new ORDENES
             {
                 // ATRIBUTOS DE MODELO
                 id_orden = ordenModelo.IdOrden,
@@ -51,23 +66,28 @@ namespace Datos.Mappers
                 descuento_porcentaje = ordenModelo.DescuentoPorcentaje,
                 costo_envio = ordenModelo.CostoEnvio,
                 descripcion = ordenModelo.Descripcion,
-                hora_entrega = ordenModelo.HoraEntrega,
-                direccion_entrega = ordenModelo.DireccionEntrega
+                hora_entrega = TimeSpan.Parse(ordenModelo.HoraEntrega),
+                direccion_entrega = ordenModelo.DireccionEntrega,
+                id_cliente = ordenModelo.Cliente.Id,
+                id_orden_estado = ordenModelo.Estado != null ? ordenModelo.Estado.IdOrdenEstado : 0,
+                id_orden_pago_estado = ordenModelo.EstadoPago != null ? ordenModelo.EstadoPago.IdOrdenPagoEstado : 0
             };
-            if (ordenModelo.Cliente != null)
-            {
-                entidad.cliente = ContactoMapper.ModeloAEntidad(ordenModelo.Cliente);
-            } 
-            if (ordenModelo.Estado != null)
-            {
-                entidad.estado = OrdenEstadoMapper.ModeloAEntidad(ordenModelo.Estado);
-            }
-            if (ordenModelo.EstadoPago != null)
-            {
-                entidad.estado_pago = OrdenEstadoPagoMapper.ModeloAEntidad(ordenModelo.EstadoPago);
-            }
 
             return entidad;
+        }
+
+        internal static void ActualizarEntidad(ref ORDENES entidad, Dominio.Modelos.OrdenModelo modelo)
+        {
+            entidad.id_orden = modelo.IdOrden;
+            entidad.tipo_entrega = modelo.TipoEntrega;
+            entidad.descuento_porcentaje = modelo.DescuentoPorcentaje;
+            entidad.costo_envio = modelo.CostoEnvio;
+            entidad.descripcion = modelo.Descripcion;
+            entidad.hora_entrega = TimeSpan.Parse(modelo.HoraEntrega);
+            entidad.direccion_entrega = modelo.DireccionEntrega;
+            entidad.id_cliente = modelo.Cliente.Id;
+            entidad.id_orden_estado = modelo.Estado != null ? modelo.Estado.IdOrdenEstado : 0;
+            entidad.id_orden_pago_estado = modelo.EstadoPago != null ? modelo.EstadoPago.IdOrdenPagoEstado : 0;
         }
     }
 }

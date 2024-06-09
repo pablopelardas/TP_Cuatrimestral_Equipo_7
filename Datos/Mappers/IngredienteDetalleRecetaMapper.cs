@@ -8,22 +8,34 @@ namespace Datos.Mappers
 {
     public class IngredienteDetalleRecetaMapper
     {
-        internal static Dominio.Modelos.IngredienteDetalleRecetaModelo EntidadAModelo(Datos.Entidades.IngredienteDetalleRecetaEntidad entidad)
+        internal static Dominio.Modelos.IngredienteDetalleRecetaModelo EntidadAModelo(DETALLE_RECETAS entidad)
         {
-            return new Dominio.Modelos.IngredienteDetalleRecetaModelo
+            Dominio.Modelos.IngredienteDetalleRecetaModelo modelo = new Dominio.Modelos.IngredienteDetalleRecetaModelo
             {
-                Ingrediente = IngredienteMapper.EntidadAModelo(entidad.ingrediente),
-                Cantidad = entidad.cantidad
+                Cantidad = entidad.cantidad != 0 ? entidad.cantidad : 1
             };
+
+            if (entidad.INGREDIENTES != null)
+            {
+                modelo.Ingrediente = IngredienteMapper.EntidadAModelo(entidad.INGREDIENTES);
+            }
+
+            return modelo;
         }
 
-        internal static Datos.Entidades.IngredienteDetalleRecetaEntidad ModeloAEntidad(Dominio.Modelos.IngredienteDetalleRecetaModelo modelo)
+        internal static DETALLE_RECETAS ModeloAEntidad(Dominio.Modelos.IngredienteDetalleRecetaModelo modelo)
         {
-            return new Datos.Entidades.IngredienteDetalleRecetaEntidad
+            DETALLE_RECETAS entidad = new DETALLE_RECETAS
             {
-                ingrediente = IngredienteMapper.ModeloAEntidad(modelo.Ingrediente),
-                cantidad = modelo.Cantidad
+                cantidad = modelo.Cantidad != 0 ? modelo.Cantidad : 1
             };
+
+            if (modelo.Ingrediente != null)
+            {
+                entidad.INGREDIENTES = IngredienteMapper.ModeloAEntidad(modelo.Ingrediente);
+            }
+
+            return entidad;
         }
     }
 }
