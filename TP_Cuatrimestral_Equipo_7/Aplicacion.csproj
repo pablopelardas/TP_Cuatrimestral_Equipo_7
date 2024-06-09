@@ -67,6 +67,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\logo.png" />
     <Content Include="Backoffice\Components\ComboBoxAutoComplete.ascx" />
     <Content Include="Backoffice\Components\DetailList.ascx" />
     <Content Include="Backoffice\Ingredientes\Default.aspx" />
@@ -85,12 +86,16 @@
     <Content Include="Css\bootstrap.min.css" />
     <Content Include="Backoffice\Dashboard.aspx" />
     <Content Include="Css\chosen.css" />
+    <Content Include="Css\flowbite.min.css" />
+    <Content Include="Css\output.css" />
     <Content Include="Css\styles.css" />
     <Content Include="Default.aspx" />
     <Content Include="Global.asax" />
     <Content Include="Js\bootstrap.bundle.min.js" />
     <Content Include="Js\chosen.jquery.js" />
+    <Content Include="Js\flowbite.min.js" />
     <Content Include="Js\jquery-3.7.1.min.js" />
+    <Content Include="tailwind.config.js" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -223,10 +228,18 @@
     <Compile Include="LayoutNegocio.Master.designer.cs">
       <DependentUpon>LayoutNegocio.Master</DependentUpon>
     </Compile>
+    <Compile Include="LayoutTailwind.Master.cs">
+      <DependentUpon>LayoutTailwind.Master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="LayoutTailwind.Master.designer.cs">
+      <DependentUpon>LayoutTailwind.Master</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="LayoutNegocio.Master" />
+    <Content Include="LayoutTailwind.Master" />
     <None Include="packages.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
