@@ -180,6 +180,7 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
 
             ProductoDetalleOrdenModelo detalle = new ProductoDetalleOrdenModelo
             {
+                IdOrden = orden.IdOrden,
                 Producto = producto,
                 Cantidad = Convert.ToInt32(Cantidad),
                 PrecioUnitarioActual = producto.Precio,
@@ -273,63 +274,28 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
         }
         private OrdenModelo ObtenerModeloDesdeFormulario()
         {
-            OrdenModelo _newOrden = new OrdenModelo();
+            orden.TipoEntrega = rbtnTipoEntrega.SelectedValue;
+            orden.HoraEntrega = txtHora.Text;
+            orden.DireccionEntrega = txtDireccion.Text;
 
-            if (orden.DetalleProductos != null)
+            orden.Evento = new EventoModelo
             {
-                _newOrden.DetalleProductos = orden.DetalleProductos;
-            } else
-            {
-                throw new Exception("Debe agregar al menos un producto a la orden");
-            }
+                Fecha = calendario.FechaCalendario,
+                TipoEvento = new TipoEventoModelo { IdTipoEvento = Convert.ToInt32(cboTipo.SelectedValue) }
+            };
 
-            if ((string)cboCliente.SelectedValue == "0")
-            {
-                throw new Exception("Debe seleccionar un cliente");
-            }
-            else
-            {
-                _newOrden.Cliente = new ContactoModelo { Id = Convert.ToInt32(cboCliente.SelectedValue) };
-            }
+            orden.Cliente = new ContactoModelo { Id = Convert.ToInt32(cboCliente.SelectedValue) };
+            orden.Descripcion = tiny.Text;
 
-            if ((string)cboTipo.SelectedValue == "0")
-            {
-                throw new Exception("Debe seleccionar un tipo de evento");
-            }
-            else
-            {
-                _newOrden.Evento = new EventoModelo
-                {
-                    Fecha = calendario.FechaCalendario,
-                    TipoEvento = new TipoEventoModelo { IdTipoEvento = Convert.ToInt32(cboTipo.SelectedValue) }
-                };
-            }
-            _newOrden.TipoEntrega = rbtnTipoEntrega.SelectedValue;
-            _newOrden.HoraEntrega = txtHora.Text;
-            _newOrden.DireccionEntrega = txtDireccion.Text;
+            decimal descuento = 0;
+            decimal costoEnvio = 0;
+            decimal.TryParse(txtDescuento.Text, NumberStyles.Any, CultureInfo.InvariantCulture, out descuento);
+            decimal.TryParse(txtCostoEnvio.Text, NumberStyles.Any, CultureInfo.InvariantCulture, out costoEnvio);
 
-            decimal _descuento = 0;
-            decimal _costoEnvio = 0;
-
-            decimal.TryParse(txtDescuento.Text, NumberStyles.Any, CultureInfo.InvariantCulture, out _descuento);
-            decimal.TryParse(txtCostoEnvio.Text, NumberStyles.Any, CultureInfo.InvariantCulture, out _costoEnvio);
-
-            if (_descuento < 0 || _descuento > 100)
-            {
-                throw new Exception("El descuento debe ser un valor entre 0 y 100");
-            }
-
-            if (_costoEnvio < 0)
-            {
-                throw new Exception("El costo de envio debe ser un valor positivo");
-            }
-
-            _newOrden.DescuentoPorcentaje = _descuento;
-            _newOrden.CostoEnvio = _costoEnvio;
-
-            _newOrden.Descripcion = tiny.Text;
+            orden.DescuentoPorcentaje = descuento;
+            orden.CostoEnvio = costoEnvio;
             
-            return _newOrden;
+            return orden;
         }
 
         protected void rbtnTipoEntrega_SelectedIndexChanged(object sender, EventArgs e)

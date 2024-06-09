@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Datos;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -32,7 +33,7 @@ namespace Negocio.Servicios
 
         public void Eliminar(int id)
         {
-            ordenRepositorio.Eliminar(id);
+            //ordenRepositorio.Eliminar(id);
         }
 
         

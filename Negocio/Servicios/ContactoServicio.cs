@@ -32,7 +32,7 @@ namespace Negocio.Servicios
 
         public void Modificar(Dominio.Modelos.ContactoModelo contacto)
         {
-            contactosRepositorio.Modificar(contacto);
+            //contactosRepositorio.Modificar(contacto);
         }
 
         public void Eliminar(int id)
