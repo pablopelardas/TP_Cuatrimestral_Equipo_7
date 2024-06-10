@@ -8,7 +8,7 @@ namespace Datos.Mappers
 {
     internal class OrdenEstadoPagoMapper
     {
-        internal static Dominio.Modelos.OrdenEstadoPagoModelo EntidadAModelo(ORDENES_PAGO_ESTADOS ordenEstadoPagoEntidad)
+        internal static Dominio.Modelos.OrdenEstadoPagoModelo EntidadAModelo(ORDEN_PAGO_ESTADO ordenEstadoPagoEntidad)
         {
             return new Dominio.Modelos.OrdenEstadoPagoModelo
             {
@@ -17,9 +17,9 @@ namespace Datos.Mappers
             };
         }
 
-        internal static ORDENES_PAGO_ESTADOS ModeloAEntidad(Dominio.Modelos.OrdenEstadoPagoModelo ordenEstadoPago)
+        internal static ORDEN_PAGO_ESTADO ModeloAEntidad(Dominio.Modelos.OrdenEstadoPagoModelo ordenEstadoPago)
         {
-            return new ORDENES_PAGO_ESTADOS
+            return new ORDEN_PAGO_ESTADO
             {
                 id_orden_pago_estado = ordenEstadoPago.IdOrdenPagoEstado,
                 nombre = ordenEstadoPago.Nombre

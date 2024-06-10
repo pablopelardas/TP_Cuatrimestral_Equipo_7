@@ -12,18 +12,18 @@ namespace Datos.Mappers
 {
     internal class ItemDetalleProductoMapper
     {
-        public static ItemDetalleProductoModelo EntidadAModelo(DETALLE_PRODUCTOS entidad)
+        public static ItemDetalleProductoModelo EntidadAModelo(DETALLE_PRODUCTO entidad)
         {
             ItemDetalleProductoModelo detalle = new ItemDetalleProductoModelo();
 
-            if (entidad.SUMINISTROS != null)
+            if (entidad.SUMINISTRO != null)
             {
-                detalle.Suministro = SuministroMapper.EntidadAModelo(entidad.SUMINISTROS);
+                detalle.Suministro = SuministroMapper.EntidadAModelo(entidad.SUMINISTRO);
             }
 
-            if (entidad.RECETAS != null)
+            if (entidad.RECETA != null)
             {
-                detalle.Receta = RecetaMapper.EntidadAModelo(entidad.RECETAS);
+                detalle.Receta = RecetaMapper.EntidadAModelo(entidad.RECETA);
             }
 
             if (entidad.cantidad != 0)
@@ -38,18 +38,18 @@ namespace Datos.Mappers
 
 
 
-        public static DETALLE_PRODUCTOS ModeloAEntidad(ItemDetalleProductoModelo item)
+        public static DETALLE_PRODUCTO ModeloAEntidad(ItemDetalleProductoModelo item)
         {
-            DETALLE_PRODUCTOS entidad = new DETALLE_PRODUCTOS();
+            DETALLE_PRODUCTO entidad = new DETALLE_PRODUCTO();
 
             if (item.Suministro != null)
             {
-                entidad.SUMINISTROS = SuministroMapper.ModeloAEntidad(item.Suministro);
+                entidad.id_suministro = item.Suministro.IdSuministro;
             }
 
             if (item.Receta != null)
             {
-                entidad.RECETAS = RecetaMapper.ModeloAEntidad(item.Receta);
+                entidad.id_receta = item.Receta.IdReceta;
             }
 
             if (item.Cantidad != 0)

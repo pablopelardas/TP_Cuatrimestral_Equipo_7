@@ -12,12 +12,13 @@ namespace Datos
     using System;
     using System.Collections.Generic;
     
-    public partial class IMAGENES_PRODUCTOS
+    public partial class DETALLE_RECETA
     {
-        public int id_imagen { get; set; }
-        public int id_producto { get; set; }
-        public string url { get; set; }
+        public int id_receta { get; set; }
+        public int id_ingrediente { get; set; }
+        public double cantidad { get; set; }
     
-        public virtual PRODUCTOS PRODUCTOS { get; set; }
+        public virtual INGREDIENTE INGREDIENTE { get; set; }
+        public virtual RECETA RECETA { get; set; }
     }
 }

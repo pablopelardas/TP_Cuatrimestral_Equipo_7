@@ -12,17 +12,16 @@ namespace Datos
     using System;
     using System.Collections.Generic;
     
-    public partial class UNIDADES_MEDIDA
+    public partial class TIPO_EVENTO
     {
-        public UNIDADES_MEDIDA()
+        public TIPO_EVENTO()
         {
-            this.INGREDIENTES = new HashSet<INGREDIENTES>();
+            this.EVENTOS = new HashSet<EVENTO>();
         }
     
-        public int id_unidad { get; set; }
+        public int id_tipo_evento { get; set; }
         public string nombre { get; set; }
-        public string abreviatura { get; set; }
     
-        public virtual ICollection<INGREDIENTES> INGREDIENTES { get; set; }
+        public virtual ICollection<EVENTO> EVENTOS { get; set; }
     }
 }

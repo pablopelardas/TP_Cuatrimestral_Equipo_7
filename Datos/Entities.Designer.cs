@@ -1,4 +1,4 @@
-﻿// T4 code generation is enabled for model 'D:\pablo\source\github.com\pablopelardas\TP_Cuatrimestral_Equipo_7\Datos\ContactoEF.edmx'. 
+﻿// T4 code generation is enabled for model 'D:\pablo\source\github.com\pablopelardas\TP_Cuatrimestral_Equipo_7\Datos\Entities.edmx'. 
 // To enable legacy code generation, change the value of the 'Code Generation Strategy' designer
 // property to 'Legacy ObjectContext'. This property is available in the Properties Window when the model
 // is open in the designer.

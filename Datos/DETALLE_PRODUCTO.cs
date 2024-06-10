@@ -12,15 +12,15 @@ namespace Datos
     using System;
     using System.Collections.Generic;
     
-    public partial class DETALLE_PRODUCTOS
+    public partial class DETALLE_PRODUCTO
     {
         public int id_producto { get; set; }
         public Nullable<int> id_suministro { get; set; }
         public Nullable<int> id_receta { get; set; }
         public int cantidad { get; set; }
     
-        public virtual PRODUCTOS PRODUCTOS { get; set; }
-        public virtual RECETAS RECETAS { get; set; }
-        public virtual SUMINISTROS SUMINISTROS { get; set; }
+        public virtual PRODUCTO PRODUCTO { get; set; }
+        public virtual RECETA RECETA { get; set; }
+        public virtual SUMINISTRO SUMINISTRO { get; set; }
     }
 }

@@ -12,12 +12,12 @@ namespace Datos
     using System;
     using System.Collections.Generic;
     
-    public partial class RECETAS
+    public partial class RECETA
     {
-        public RECETAS()
+        public RECETA()
         {
-            this.DETALLE_RECETAS = new HashSet<DETALLE_RECETAS>();
-            this.DETALLE_PRODUCTOS = new HashSet<DETALLE_PRODUCTOS>();
+            this.DETALLE_RECETAS = new HashSet<DETALLE_RECETA>();
+            this.DETALLE_PRODUCTOS = new HashSet<DETALLE_PRODUCTO>();
         }
     
         public int id_receta { get; set; }
@@ -26,8 +26,8 @@ namespace Datos
         public int id_categoria { get; set; }
         public Nullable<decimal> precio_personalizado { get; set; }
     
-        public virtual ICollection<DETALLE_RECETAS> DETALLE_RECETAS { get; set; }
-        public virtual CATEGORIAS CATEGORIAS { get; set; }
-        public virtual ICollection<DETALLE_PRODUCTOS> DETALLE_PRODUCTOS { get; set; }
+        public virtual CATEGORIA CATEGORIA { get; set; }
+        public virtual ICollection<DETALLE_RECETA> DETALLE_RECETAS { get; set; }
+        public virtual ICollection<DETALLE_PRODUCTO> DETALLE_PRODUCTOS { get; set; }
     }
 }

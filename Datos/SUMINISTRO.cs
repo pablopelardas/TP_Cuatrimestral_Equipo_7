@@ -12,21 +12,21 @@ namespace Datos
     using System;
     using System.Collections.Generic;
     
-    public partial class CATEGORIAS
+    public partial class SUMINISTRO
     {
-        public CATEGORIAS()
+        public SUMINISTRO()
         {
-            this.PRODUCTOS = new HashSet<PRODUCTOS>();
-            this.SUMINISTROS = new HashSet<SUMINISTROS>();
-            this.RECETAS = new HashSet<RECETAS>();
+            this.DETALLE_PRODUCTOS = new HashSet<DETALLE_PRODUCTO>();
         }
     
+        public int id_suministro { get; set; }
         public int id_categoria { get; set; }
-        public string tipo { get; set; }
         public string nombre { get; set; }
+        public string proveedor { get; set; }
+        public double cantidad { get; set; }
+        public decimal costo { get; set; }
     
-        public virtual ICollection<PRODUCTOS> PRODUCTOS { get; set; }
-        public virtual ICollection<SUMINISTROS> SUMINISTROS { get; set; }
-        public virtual ICollection<RECETAS> RECETAS { get; set; }
+        public virtual CATEGORIA CATEGORIA { get; set; }
+        public virtual ICollection<DETALLE_PRODUCTO> DETALLE_PRODUCTOS { get; set; }
     }
 }

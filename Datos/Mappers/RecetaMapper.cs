@@ -11,7 +11,7 @@ namespace Datos.Mappers
     internal class RecetaMapper
     {
 
-        internal static Dominio.Modelos.RecetaModelo EntidadAModelo(RECETAS recetaEntidad)
+        internal static Dominio.Modelos.RecetaModelo EntidadAModelo(RECETA recetaEntidad)
         {
             RecetaModelo receta = new RecetaModelo
             {
@@ -25,9 +25,9 @@ namespace Datos.Mappers
                 receta.PrecioPersonalizado = (decimal)recetaEntidad.precio_personalizado;
             }
 
-            if (recetaEntidad.CATEGORIAS != null)
+            if (recetaEntidad.CATEGORIA != null)
             {
-                receta.Categoria = CategoriaMapper.EntidadAModelo(recetaEntidad.CATEGORIAS);
+                receta.Categoria = CategoriaMapper.EntidadAModelo(recetaEntidad.CATEGORIA);
             }
 
             if (recetaEntidad.DETALLE_RECETAS != null)
@@ -43,9 +43,9 @@ namespace Datos.Mappers
             return receta;
         }
 
-        internal static RECETAS ModeloAEntidad(Dominio.Modelos.RecetaModelo recetaModelo)
+        internal static RECETA ModeloAEntidad(Dominio.Modelos.RecetaModelo recetaModelo)
         {
-            RECETAS entidad = new RECETAS
+            RECETA entidad = new RECETA
             {
                 descripcion = recetaModelo.Descripcion,
                 id_receta = recetaModelo.IdReceta,
@@ -59,12 +59,12 @@ namespace Datos.Mappers
 
             if (recetaModelo.Categoria != null)
             {
-                entidad.CATEGORIAS = CategoriaMapper.ModeloAEntidad(recetaModelo.Categoria);
+                entidad.id_categoria = recetaModelo.Categoria.Id;
             }
 
             if (recetaModelo.DetalleRecetas != null)
             {
-                entidad.DETALLE_RECETAS = new List<DETALLE_RECETAS>();
+                entidad.DETALLE_RECETAS = new List<DETALLE_RECETA>();
                 foreach (var detalleReceta in recetaModelo.DetalleRecetas)
                 {
                     entidad.DETALLE_RECETAS.Add(IngredienteDetalleRecetaMapper.ModeloAEntidad(detalleReceta));

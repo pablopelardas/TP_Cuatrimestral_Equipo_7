@@ -8,7 +8,7 @@ namespace Datos.Mappers
 {
     internal class CategoriaMapper
     {
-        internal static Dominio.Modelos.CategoriaModelo EntidadAModelo(CATEGORIAS entidad)
+        internal static Dominio.Modelos.CategoriaModelo EntidadAModelo(CATEGORIA entidad)
         {
             return new Dominio.Modelos.CategoriaModelo
             {
@@ -18,9 +18,9 @@ namespace Datos.Mappers
             };
         }
 
-        internal static CATEGORIAS ModeloAEntidad(Dominio.Modelos.CategoriaModelo modelo)
+        internal static CATEGORIA ModeloAEntidad(Dominio.Modelos.CategoriaModelo modelo)
         {
-            return new CATEGORIAS
+            return new CATEGORIA
             {
                 tipo = modelo.Tipo,
                 id_categoria = modelo.Id,

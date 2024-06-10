@@ -12,21 +12,16 @@ namespace Datos
     using System;
     using System.Collections.Generic;
     
-    public partial class INGREDIENTES
+    public partial class ORDEN_PAGO_ESTADO
     {
-        public INGREDIENTES()
+        public ORDEN_PAGO_ESTADO()
         {
-            this.DETALLE_RECETAS = new HashSet<DETALLE_RECETAS>();
+            this.ORDENES = new HashSet<ORDEN>();
         }
     
-        public int id_ingrediente { get; set; }
+        public int id_orden_pago_estado { get; set; }
         public string nombre { get; set; }
-        public double cantidad { get; set; }
-        public int id_unidad { get; set; }
-        public decimal costo { get; set; }
-        public string proveedor { get; set; }
     
-        public virtual ICollection<DETALLE_RECETAS> DETALLE_RECETAS { get; set; }
-        public virtual UNIDADES_MEDIDA UNIDADES_MEDIDA { get; set; }
+        public virtual ICollection<ORDEN> ORDENES { get; set; }
     }
 }

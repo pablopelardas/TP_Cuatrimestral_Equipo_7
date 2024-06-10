@@ -10,7 +10,7 @@ namespace Datos.Mappers
 {
     internal class ProductoMapper
     {
-        internal static Dominio.Modelos.ProductoModelo EntidadAModelo(PRODUCTOS productoEntidad)
+        internal static Dominio.Modelos.ProductoModelo EntidadAModelo(PRODUCTO productoEntidad)
         {
             ProductoModelo producto = new ProductoModelo
             {
@@ -23,19 +23,18 @@ namespace Datos.Mappers
                 ValorPrecio = productoEntidad.valor_precio,
             };  
 
-            if (productoEntidad.CATEGORIAS != null)
+            if (productoEntidad.CATEGORIA != null)
             {
-                producto.Categoria = CategoriaMapper.EntidadAModelo(productoEntidad.CATEGORIAS);
+                producto.Categoria = CategoriaMapper.EntidadAModelo(productoEntidad.CATEGORIA);
             }
 
             return producto;
         }
 
-        internal static PRODUCTOS ModeloAEntidad(Dominio.Modelos.ProductoModelo productoModelo)
+        internal static PRODUCTO ModeloAEntidad(Dominio.Modelos.ProductoModelo productoModelo)
         {
-            return new PRODUCTOS
+            return new PRODUCTO
             {
-                CATEGORIAS = CategoriaMapper.ModeloAEntidad(productoModelo.Categoria),
                 descripcion = productoModelo.Descripcion,
                 horas_trabajo = productoModelo.HorasTrabajo,
                 id_producto = productoModelo.IdProducto,
@@ -43,10 +42,11 @@ namespace Datos.Mappers
                 porciones = productoModelo.Porciones,
                 tipo_precio = productoModelo.TipoPrecio,
                 valor_precio = productoModelo.ValorPrecio,
+                id_categoria = productoModelo.Categoria.Id
             };          
         }
 
-        internal static void ActualizarEntidad(ref PRODUCTOS productoEntidad, Dominio.Modelos.ProductoModelo productoModelo)
+        internal static void ActualizarEntidad(ref PRODUCTO productoEntidad, Dominio.Modelos.ProductoModelo productoModelo)
         {
             productoEntidad.descripcion = productoModelo.Descripcion;
             productoEntidad.horas_trabajo = productoModelo.HorasTrabajo;
@@ -55,7 +55,7 @@ namespace Datos.Mappers
             productoEntidad.tipo_precio = productoModelo.TipoPrecio;
             productoEntidad.valor_precio = productoModelo.ValorPrecio;
             productoEntidad.id_producto = productoModelo.IdProducto;
-            productoEntidad.CATEGORIAS = CategoriaMapper.ModeloAEntidad(productoModelo.Categoria);
+            productoEntidad.id_categoria = productoModelo.Categoria.Id;
         }
     }
 }

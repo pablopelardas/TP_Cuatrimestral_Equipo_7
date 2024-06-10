@@ -12,16 +12,20 @@ namespace Datos
     using System;
     using System.Collections.Generic;
     
-    public partial class EVENTOS
+    public partial class EVENTO
     {
+        public EVENTO()
+        {
+            this.ORDENES = new HashSet<ORDEN>();
+        }
+    
         public int id_evento { get; set; }
         public System.DateTime fecha { get; set; }
         public int id_cliente { get; set; }
-        public int id_orden { get; set; }
         public int id_tipo_evento { get; set; }
     
-        public virtual CONTACTOS CONTACTOS { get; set; }
-        public virtual ORDENES ORDENES { get; set; }
-        public virtual TIPOS_EVENTOS TIPOS_EVENTOS { get; set; }
+        public virtual CONTACTO CLIENTE { get; set; }
+        public virtual TIPO_EVENTO TIPO_EVENTO { get; set; }
+        public virtual ICollection<ORDEN> ORDENES { get; set; }
     }
 }

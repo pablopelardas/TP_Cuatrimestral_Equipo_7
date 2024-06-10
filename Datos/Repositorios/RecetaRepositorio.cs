@@ -18,15 +18,22 @@ namespace Datos.Repositorios
             List<RecetaModelo> recetas = new List<RecetaModelo>();
             try
             {
-                var query = from r in db.RECETAS
-                            select new
-                            {
-                                Receta = r
-                            };
+                ////var query = from r in db.RECETAS
+                ////            select new
+                ////            {
+                ////                Receta = r
+                ////            };
 
-                foreach (var row in query)
+
+                //foreach (var row in query)
+                //{
+                //    recetas.Add(Mappers.RecetaMapper.EntidadAModelo(row.Receta));
+                //}
+
+                List<RECETA> recetasEntidad = db.RECETAS.ToList();
+                foreach (var recetaEntidad in recetasEntidad)
                 {
-                    recetas.Add(Mappers.RecetaMapper.EntidadAModelo(row.Receta));
+                    recetas.Add(Mappers.RecetaMapper.EntidadAModelo(recetaEntidad));
                 }
 
                 return recetas;

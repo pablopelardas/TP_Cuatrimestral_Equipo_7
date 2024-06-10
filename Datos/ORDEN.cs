@@ -12,12 +12,11 @@ namespace Datos
     using System;
     using System.Collections.Generic;
     
-    public partial class ORDENES
+    public partial class ORDEN
     {
-        public ORDENES()
+        public ORDEN()
         {
-            this.DETALLE_ORDENES = new HashSet<DETALLE_ORDENES>();
-            this.EVENTOS = new HashSet<EVENTOS>();
+            this.DETALLE_ORDENES = new HashSet<DETALLE_ORDEN>();
         }
     
         public int id_orden { get; set; }
@@ -30,11 +29,12 @@ namespace Datos
         public System.TimeSpan hora_entrega { get; set; }
         public Nullable<int> id_orden_estado { get; set; }
         public Nullable<int> id_orden_pago_estado { get; set; }
+        public Nullable<int> id_evento { get; set; }
     
-        public virtual CONTACTOS CONTACTOS { get; set; }
-        public virtual ICollection<DETALLE_ORDENES> DETALLE_ORDENES { get; set; }
-        public virtual ICollection<EVENTOS> EVENTOS { get; set; }
-        public virtual ORDENES_ESTADOS ORDENES_ESTADOS { get; set; }
-        public virtual ORDENES_PAGO_ESTADOS ORDENES_PAGO_ESTADOS { get; set; }
+        public virtual CONTACTO CLIENTE { get; set; }
+        public virtual ICollection<DETALLE_ORDEN> DETALLE_ORDENES { get; set; }
+        public virtual EVENTO EVENTO { get; set; }
+        public virtual ORDEN_ESTADO ESTADO { get; set; }
+        public virtual ORDEN_PAGO_ESTADO ESTADO_PAGO { get; set; }
     }
 }

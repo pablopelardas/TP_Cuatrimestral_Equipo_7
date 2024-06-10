@@ -12,12 +12,12 @@ namespace Datos
     using System;
     using System.Collections.Generic;
     
-    public partial class CONTACTOS
+    public partial class CONTACTO
     {
-        public CONTACTOS()
+        public CONTACTO()
         {
-            this.EVENTOS = new HashSet<EVENTOS>();
-            this.ORDENES = new HashSet<ORDENES>();
+            this.EVENTOS = new HashSet<EVENTO>();
+            this.ORDENES = new HashSet<ORDEN>();
         }
     
         public int id_contacto { get; set; }
@@ -32,7 +32,7 @@ namespace Datos
         public bool desea_recibir_whatsapp { get; set; }
         public string informacion_personal { get; set; }
     
-        public virtual ICollection<EVENTOS> EVENTOS { get; set; }
-        public virtual ICollection<ORDENES> ORDENES { get; set; }
+        public virtual ICollection<EVENTO> EVENTOS { get; set; }
+        public virtual ICollection<ORDEN> ORDENES { get; set; }
     }
 }

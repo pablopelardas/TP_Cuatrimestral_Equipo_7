@@ -8,7 +8,7 @@ namespace Datos.Mappers
 {
     internal class TipoEventoMapper
     {
-        public static Dominio.Modelos.TipoEventoModelo EntidadAModelo(TIPOS_EVENTOS entidad)
+        public static Dominio.Modelos.TipoEventoModelo EntidadAModelo(TIPO_EVENTO entidad)
         {
             return new Dominio.Modelos.TipoEventoModelo
             {
@@ -17,9 +17,9 @@ namespace Datos.Mappers
             };
         }
 
-        public static TIPOS_EVENTOS ModeloAEntidad(Dominio.Modelos.TipoEventoModelo modelo)
+        public static TIPO_EVENTO ModeloAEntidad(Dominio.Modelos.TipoEventoModelo modelo)
         {
-            return new TIPOS_EVENTOS
+            return new TIPO_EVENTO
             {
                 id_tipo_evento = modelo.IdTipoEvento,
                 nombre = modelo.Nombre

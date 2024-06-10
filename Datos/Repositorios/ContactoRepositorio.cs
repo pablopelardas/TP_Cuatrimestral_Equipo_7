@@ -68,7 +68,7 @@ namespace Datos.Repositorios
             Entities db = new Entities();
             try
             {
-                CONTACTOS c = Mappers.ContactoMapper.ModeloAEntidad(contacto);
+                CONTACTO c = Mappers.ContactoMapper.ModeloAEntidad(contacto);
                 db.CONTACTOS.Add(c);
                 db.SaveChanges();
             }
@@ -83,7 +83,7 @@ namespace Datos.Repositorios
             Entities db = new Entities();
             try
             {
-                CONTACTOS c = db.CONTACTOS.Find(contacto.Id);
+                CONTACTO c = db.CONTACTOS.Find(contacto.Id);
                 Mappers.ContactoMapper.ActualizarEntidad(ref c, contacto);
                 db.SaveChanges();
             }

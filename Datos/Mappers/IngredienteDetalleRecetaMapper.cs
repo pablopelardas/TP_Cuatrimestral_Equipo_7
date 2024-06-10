@@ -8,31 +8,31 @@ namespace Datos.Mappers
 {
     public class IngredienteDetalleRecetaMapper
     {
-        internal static Dominio.Modelos.IngredienteDetalleRecetaModelo EntidadAModelo(DETALLE_RECETAS entidad)
+        internal static Dominio.Modelos.IngredienteDetalleRecetaModelo EntidadAModelo(DETALLE_RECETA entidad)
         {
             Dominio.Modelos.IngredienteDetalleRecetaModelo modelo = new Dominio.Modelos.IngredienteDetalleRecetaModelo
             {
                 Cantidad = entidad.cantidad != 0 ? entidad.cantidad : 1
             };
 
-            if (entidad.INGREDIENTES != null)
+            if (entidad.INGREDIENTE != null)
             {
-                modelo.Ingrediente = IngredienteMapper.EntidadAModelo(entidad.INGREDIENTES);
+                modelo.Ingrediente = IngredienteMapper.EntidadAModelo(entidad.INGREDIENTE);
             }
 
             return modelo;
         }
 
-        internal static DETALLE_RECETAS ModeloAEntidad(Dominio.Modelos.IngredienteDetalleRecetaModelo modelo)
+        internal static DETALLE_RECETA ModeloAEntidad(Dominio.Modelos.IngredienteDetalleRecetaModelo modelo)
         {
-            DETALLE_RECETAS entidad = new DETALLE_RECETAS
+            DETALLE_RECETA entidad = new DETALLE_RECETA
             {
                 cantidad = modelo.Cantidad != 0 ? modelo.Cantidad : 1
             };
 
             if (modelo.Ingrediente != null)
             {
-                entidad.INGREDIENTES = IngredienteMapper.ModeloAEntidad(modelo.Ingrediente);
+                entidad.id_ingrediente = modelo.Ingrediente.IdIngrediente;
             }
 
             return entidad;

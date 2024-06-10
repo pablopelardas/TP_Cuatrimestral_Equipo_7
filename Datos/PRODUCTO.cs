@@ -12,13 +12,13 @@ namespace Datos
     using System;
     using System.Collections.Generic;
     
-    public partial class PRODUCTOS
+    public partial class PRODUCTO
     {
-        public PRODUCTOS()
+        public PRODUCTO()
         {
-            this.DETALLE_ORDENES = new HashSet<DETALLE_ORDENES>();
-            this.IMAGENES_PRODUCTOS = new HashSet<IMAGENES_PRODUCTOS>();
-            this.DETALLE_PRODUCTOS = new HashSet<DETALLE_PRODUCTOS>();
+            this.DETALLE_ORDENES = new HashSet<DETALLE_ORDEN>();
+            this.IMAGENES = new HashSet<IMAGEN_PRODUCTO>();
+            this.DETALLE_PRODUCTOS = new HashSet<DETALLE_PRODUCTO>();
         }
     
         public int id_producto { get; set; }
@@ -30,9 +30,9 @@ namespace Datos
         public decimal valor_precio { get; set; }
         public int id_categoria { get; set; }
     
-        public virtual CATEGORIAS CATEGORIAS { get; set; }
-        public virtual ICollection<DETALLE_ORDENES> DETALLE_ORDENES { get; set; }
-        public virtual ICollection<IMAGENES_PRODUCTOS> IMAGENES_PRODUCTOS { get; set; }
-        public virtual ICollection<DETALLE_PRODUCTOS> DETALLE_PRODUCTOS { get; set; }
+        public virtual CATEGORIA CATEGORIA { get; set; }
+        public virtual ICollection<DETALLE_ORDEN> DETALLE_ORDENES { get; set; }
+        public virtual ICollection<IMAGEN_PRODUCTO> IMAGENES { get; set; }
+        public virtual ICollection<DETALLE_PRODUCTO> DETALLE_PRODUCTOS { get; set; }
     }
 }

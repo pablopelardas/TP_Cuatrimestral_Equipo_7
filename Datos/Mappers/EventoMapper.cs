@@ -8,59 +8,39 @@ namespace Datos.Mappers
 {
     internal class EventoMapper
     {
-        public static Dominio.Modelos.EventoModelo EntidadAModelo(EVENTOS entidad)
+        public static Dominio.Modelos.EventoModelo EntidadAModelo(EVENTO entidad, bool ListarOrdenes = true)
         {
             Dominio.Modelos.EventoModelo modelo = new Dominio.Modelos.EventoModelo
             {
                 IdEvento = entidad.id_evento,
                 Fecha = entidad.fecha,
-                //TipoEvento = TipoEventoMapper.EntidadAModelo(entidad.TIPOS_EVENTOS),
-                //TipoEvento = TipoEventoMapper.EntidadAModelo(),
-                //Cliente = ContactoMapper.EntidadAModelo(entidad.cliente),
-                //Orden = OrdenMapper.EntidadAModelo(entidad.orden)
 
             };
-            if (entidad.TIPOS_EVENTOS != null)
+            if (entidad.TIPO_EVENTO != null)
             {
-                modelo.TipoEvento = TipoEventoMapper.EntidadAModelo(entidad.TIPOS_EVENTOS);
+                modelo.TipoEvento = TipoEventoMapper.EntidadAModelo(entidad.TIPO_EVENTO);
             }
-            if (entidad.CONTACTOS != null)
+            if (entidad.CLIENTE != null)
             {
-                modelo.Cliente = ContactoMapper.EntidadAModelo(entidad.CONTACTOS);
+                modelo.Cliente = ContactoMapper.EntidadAModelo(entidad.CLIENTE);
             }
-            if (entidad.ORDENES != null)
+            if (entidad.ORDENES != null && ListarOrdenes)
             {
-                //modelo.Orden = OrdenMapper.EntidadAModelo(entidad.ORDENES);
+                modelo.Orden = OrdenMapper.EntidadesAModelos(entidad.ORDENES.ToList()).First();
             }
 
             return modelo;
         }
 
-        public static EVENTOS ModeloAEntidad(Dominio.Modelos.EventoModelo modelo)
+        public static EVENTO ModeloAEntidad(Dominio.Modelos.EventoModelo modelo)
         {
-            EVENTOS entidad = new EVENTOS
+            EVENTO entidad = new EVENTO
             {
                 id_evento = modelo.IdEvento,
                 fecha = modelo.Fecha,
-                //tipo_evento = TipoEventoMapper.ModeloAEntidad(modelo.TipoEvento),
-                //cliente = ContactoMapper.ModeloAEntidad(modelo.Cliente),
-                //orden = OrdenMapper.ModeloAEntidad(modelo.Orden)
+                id_cliente = modelo.Cliente.Id,
+                id_tipo_evento = modelo.TipoEvento.IdTipoEvento
             };
-
-            if (modelo.TipoEvento != null)
-            {
-                entidad.TIPOS_EVENTOS = Mappers.TipoEventoMapper.ModeloAEntidad(modelo.TipoEvento);
-            }
-
-            if (modelo.Cliente != null)
-            {
-                entidad.CONTACTOS = Mappers.ContactoMapper.ModeloAEntidad(modelo.Cliente);
-            }
-
-            if (modelo.Orden != null)
-            {
-                entidad.ORDENES = Mappers.OrdenMapper.ModeloAEntidad(modelo.Orden);
-            }
 
             return entidad;
         }

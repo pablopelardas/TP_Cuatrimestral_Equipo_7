@@ -17,8 +17,7 @@ namespace Datos.Repositorios
             List<Dominio.Modelos.EventoModelo> eventos = new List<Dominio.Modelos.EventoModelo>();
             try
             {
-                var query = from e in db.EVENTOS
-                            select e;
+                var query = db.EVENTOS.ToList();
                 foreach (var item in query)
                 {
                     eventos.Add(Mappers.EventoMapper.EntidadAModelo(item));

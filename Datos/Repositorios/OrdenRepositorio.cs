@@ -19,16 +19,11 @@ namespace Datos.Repositorios
 
             try
             {
-                // add eventos
-                var query = from o in db.ORDENES
-                            select new
-                            {
-                                Orden = o
-                            };
 
-                foreach (var row in query)
+                List<ORDEN> ordenesEntidad = db.ORDENES.ToList();
+                foreach (var ordenEntidad in ordenesEntidad)
                 {
-                    OrdenModelo orden = Mappers.OrdenMapper.EntidadAModelo(row.Orden);
+                    OrdenModelo orden = Mappers.OrdenMapper.EntidadAModelo(ordenEntidad);
                     ordenes.Add(orden);
                 }
 
@@ -45,18 +40,14 @@ namespace Datos.Repositorios
             Entities db = new Entities();
             try
             {
-                var query = from o in db.ORDENES
-                            where o.id_orden == id
-                            select new
-                            {
-                                Orden = o,
-                            };
 
-                var row = query.FirstOrDefault();
-                if (row != null)
+                ORDEN ordenEntidad = db.ORDENES.Find(id);
+
+                if (ordenEntidad != null)
                 {
-                    return Mappers.OrdenMapper.EntidadAModelo(row.Orden);
+                    return Mappers.OrdenMapper.EntidadAModelo(ordenEntidad);
                 }
+
                 return null;
             }
             catch (Exception ex)
@@ -67,19 +58,21 @@ namespace Datos.Repositorios
 
         public void GuardarOrdenTx(OrdenModelo orden)
         {
+            
             using (Entities db = new Entities())
             using (var scope = new System.Transactions.TransactionScope())
             {
                 try
                 {
+                    ORDEN ordenEntidad;
                     if (orden.IdOrden != 0)
                     {
-                        ORDENES ordenEntidad = db.ORDENES.Find(orden.IdOrden);
+                        ordenEntidad = db.ORDENES.Find(orden.IdOrden);
                         Mappers.OrdenMapper.ActualizarEntidad(ref ordenEntidad, orden);
                     }
                     else
                     {
-                        ORDENES ordenEntidad = Mappers.OrdenMapper.ModeloAEntidad(orden);
+                        ordenEntidad = Mappers.OrdenMapper.ModeloAEntidad(orden);
                         db.ORDENES.Add(ordenEntidad);
                     }
 
@@ -89,8 +82,8 @@ namespace Datos.Repositorios
 
                     // Encontrar y eliminar detalles
 
-                    List<DETALLE_ORDENES> detallesViejos = db.DETALLE_ORDENES.Where(x => x.id_orden == orden.IdOrden).ToList();
-                    foreach (DETALLE_ORDENES detalle in detallesViejos)
+                    List<DETALLE_ORDEN> detallesViejos = db.DETALLE_ORDENES.Where(x => x.id_orden == orden.IdOrden).ToList();
+                    foreach (DETALLE_ORDEN detalle in detallesViejos)
                     {
                         db.DETALLE_ORDENES.Remove(detalle);
                     }
@@ -98,7 +91,7 @@ namespace Datos.Repositorios
                     // Agregar detalles nuevos
                     foreach (ProductoDetalleOrdenModelo detalle in orden.DetalleProductos)
                     {
-                        DETALLE_ORDENES detalleEntidad = Mappers.ProductoDetalleOrdenMapper.ModeloAEntidad(detalle);
+                        DETALLE_ORDEN detalleEntidad = Mappers.ProductoDetalleOrdenMapper.ModeloAEntidad(detalle);
                         db.DETALLE_ORDENES.Add(detalleEntidad);
                     }
 
@@ -110,7 +103,7 @@ namespace Datos.Repositorios
                     // Eliminar evento anterior
                     if (orden.IdOrden != 0)
                     {
-                        EVENTOS eventoEntidad = db.EVENTOS.Where(x => x.id_orden == orden.IdOrden).FirstOrDefault();
+                        EVENTO eventoEntidad = db.EVENTOS.Where(x => x.id_evento == ordenEntidad.id_evento).FirstOrDefault();
                         if (eventoEntidad != null)
                         {
                             db.EVENTOS.Remove(eventoEntidad);
@@ -120,14 +113,14 @@ namespace Datos.Repositorios
                     // Agregar evento
                     if (orden.Evento != null)
                     {
-                        EVENTOS evento = new EVENTOS
+                        EVENTO evento = new EVENTO
                         {
                             id_cliente = orden.Cliente.Id,
-                            id_orden = orden.IdOrden,
                             fecha = orden.Evento.Fecha,
                             id_tipo_evento = orden.Evento.TipoEvento.IdTipoEvento
                         };
                         db.EVENTOS.Add(evento);
+                        ordenEntidad.id_evento = evento.id_evento;
 
                         db.SaveChanges();
                     }

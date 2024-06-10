@@ -50,44 +50,44 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AccesoDatos.cs" />
-    <Compile Include="CATEGORIAS.cs">
-      <DependentUpon>ContactoEF.tt</DependentUpon>
+    <Compile Include="CATEGORIA.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
     </Compile>
-    <Compile Include="ContactoEF.Context.cs">
+    <Compile Include="CONTACTO.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DETALLE_ORDEN.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DETALLE_PRODUCTO.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DETALLE_RECETA.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>ContactoEF.Context.tt</DependentUpon>
+      <DependentUpon>Entities.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="ContactoEF.cs">
+    <Compile Include="Entities.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>ContactoEF.tt</DependentUpon>
+      <DependentUpon>Entities.tt</DependentUpon>
     </Compile>
-    <Compile Include="ContactoEF.Designer.cs">
+    <Compile Include="Entities.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>ContactoEF.edmx</DependentUpon>
+      <DependentUpon>Entities.edmx</DependentUpon>
     </Compile>
-    <Compile Include="CONTACTOS.cs">
-      <DependentUpon>ContactoEF.tt</DependentUpon>
+    <Compile Include="EVENTO.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
     </Compile>
-    <Compile Include="DETALLE_ORDENES.cs">
-      <DependentUpon>ContactoEF.tt</DependentUpon>
+    <Compile Include="IMAGEN_PRODUCTO.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
     </Compile>
-    <Compile Include="DETALLE_PRODUCTOS.cs">
-      <DependentUpon>ContactoEF.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DETALLE_RECETAS.cs">
-      <DependentUpon>ContactoEF.tt</DependentUpon>
-    </Compile>
-    <Compile Include="EVENTOS.cs">
-      <DependentUpon>ContactoEF.tt</DependentUpon>
-    </Compile>
-    <Compile Include="IMAGENES_PRODUCTOS.cs">
-      <DependentUpon>ContactoEF.tt</DependentUpon>
-    </Compile>
-    <Compile Include="INGREDIENTES.cs">
-      <DependentUpon>ContactoEF.tt</DependentUpon>
+    <Compile Include="INGREDIENTE.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
     </Compile>
     <Compile Include="Mappers\CategoriaMapper.cs" />
     <Compile Include="Mappers\ContactoMapper.cs" />
@@ -103,20 +103,20 @@
     <Compile Include="Mappers\RecetaMapper.cs" />
     <Compile Include="Mappers\SuministroMapper.cs" />
     <Compile Include="Mappers\TipoEventoMapper.cs" />
-    <Compile Include="ORDENES.cs">
-      <DependentUpon>ContactoEF.tt</DependentUpon>
+    <Compile Include="ORDEN.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
     </Compile>
-    <Compile Include="ORDENES_ESTADOS.cs">
-      <DependentUpon>ContactoEF.tt</DependentUpon>
+    <Compile Include="ORDEN_ESTADO.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
     </Compile>
-    <Compile Include="ORDENES_PAGO_ESTADOS.cs">
-      <DependentUpon>ContactoEF.tt</DependentUpon>
+    <Compile Include="ORDEN_PAGO_ESTADO.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
     </Compile>
-    <Compile Include="PRODUCTOS.cs">
-      <DependentUpon>ContactoEF.tt</DependentUpon>
+    <Compile Include="PRODUCTO.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
     </Compile>
-    <Compile Include="RECETAS.cs">
-      <DependentUpon>ContactoEF.tt</DependentUpon>
+    <Compile Include="RECETA.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
     </Compile>
     <Compile Include="Repositorios\CategoriasRepositorio.cs" />
     <Compile Include="Mappers\UnidadMedidaMapper.cs" />
@@ -135,14 +135,14 @@
     <Compile Include="Repositorios\SuministroRepositorio.cs" />
     <Compile Include="Repositorios\UnidadMedidaRepositorio.cs" />
     <Compile Include="Repositorios\TipoEventoRepositorio.cs" />
-    <Compile Include="SUMINISTROS.cs">
-      <DependentUpon>ContactoEF.tt</DependentUpon>
+    <Compile Include="SUMINISTRO.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
     </Compile>
-    <Compile Include="TIPOS_EVENTOS.cs">
-      <DependentUpon>ContactoEF.tt</DependentUpon>
+    <Compile Include="TIPO_EVENTO.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
     </Compile>
-    <Compile Include="UNIDADES_MEDIDA.cs">
-      <DependentUpon>ContactoEF.tt</DependentUpon>
+    <Compile Include="UNIDAD_MEDIDA.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -152,30 +152,28 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="ContactoEF.Context.tt">
+    <Content Include="Entities.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>ContactoEF.Context.cs</LastGenOutput>
-      <DependentUpon>ContactoEF.edmx</DependentUpon>
+      <DependentUpon>Entities.edmx</DependentUpon>
+      <LastGenOutput>Entities.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="ContactoEF.tt">
+    <Content Include="Entities.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>ContactoEF.edmx</DependentUpon>
-      <LastGenOutput>ContactoEF.cs</LastGenOutput>
+      <DependentUpon>Entities.edmx</DependentUpon>
+      <LastGenOutput>Entities.cs</LastGenOutput>
     </Content>
     <Content Include="Scripts\sql_create.sql" />
     <Content Include="Scripts\sql_drop.sql" />
     <Content Include="Scripts\sql_seed.sql" />
   </ItemGroup>
   <ItemGroup>
-    <EntityDeploy Include="ContactoEF.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>ContactoEF.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="App.Config" />
-    <None Include="ContactoEF.edmx.diagram">
-      <DependentUpon>ContactoEF.edmx</DependentUpon>
+    <EntityDeploy Include="Entities.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>Entities.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="Entities.edmx.diagram">
+      <DependentUpon>Entities.edmx</DependentUpon>
     </None>
     <None Include="packages.config" />
   </ItemGroup>

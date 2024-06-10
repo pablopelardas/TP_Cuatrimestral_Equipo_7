@@ -9,7 +9,7 @@ namespace Datos.Mappers
 {
     internal class ProductoDetalleOrdenMapper
     {
-        internal static Dominio.Modelos.ProductoDetalleOrdenModelo EntidadAModelo(DETALLE_ORDENES entidad)
+        internal static Dominio.Modelos.ProductoDetalleOrdenModelo EntidadAModelo(DETALLE_ORDEN entidad)
         {
             Dominio.Modelos.ProductoDetalleOrdenModelo modelo = new Dominio.Modelos.ProductoDetalleOrdenModelo
             {
@@ -20,17 +20,17 @@ namespace Datos.Mappers
                 Porciones = entidad.producto_porciones
             };
 
-            if (entidad.PRODUCTOS != null)
+            if (entidad.PRODUCTO != null)
             {
-                modelo.Producto = ProductoMapper.EntidadAModelo(entidad.PRODUCTOS);
+                modelo.Producto = ProductoMapper.EntidadAModelo(entidad.PRODUCTO);
             }
 
             return modelo;
         }
 
-        internal static DETALLE_ORDENES ModeloAEntidad(Dominio.Modelos.ProductoDetalleOrdenModelo modelo)
+        internal static DETALLE_ORDEN ModeloAEntidad(Dominio.Modelos.ProductoDetalleOrdenModelo modelo)
         {
-            return new DETALLE_ORDENES
+            return new DETALLE_ORDEN
             {
                 id_orden = modelo.IdOrden,
                 id_producto = modelo.Producto.IdProducto,

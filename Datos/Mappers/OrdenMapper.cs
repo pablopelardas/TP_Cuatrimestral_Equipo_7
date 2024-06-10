@@ -10,9 +10,7 @@ namespace Datos.Mappers
 {
     internal class OrdenMapper
     {
-        private Entities db = new Entities();
-
-        internal static Dominio.Modelos.OrdenModelo EntidadAModelo(ORDENES orden)
+        internal static Dominio.Modelos.OrdenModelo EntidadAModelo(ORDEN orden)
         {
             Dominio.Modelos.OrdenModelo modelo = new Dominio.Modelos.OrdenModelo
             {
@@ -26,24 +24,24 @@ namespace Datos.Mappers
                 DireccionEntrega = orden.direccion_entrega,
             };
 
-            if (orden.CONTACTOS != null)
+            if (orden.CLIENTE != null)
             {
-                modelo.Cliente = ContactoMapper.EntidadAModelo(orden.CONTACTOS);
+                modelo.Cliente = ContactoMapper.EntidadAModelo(orden.CLIENTE);
             }
 
-            if (orden.ORDENES_ESTADOS != null)
+            if (orden.ESTADO != null)
             {
-                modelo.Estado = OrdenEstadoMapper.EntidadAModelo(orden.ORDENES_ESTADOS);
+                modelo.Estado = OrdenEstadoMapper.EntidadAModelo(orden.ESTADO);
             }
 
-            if (orden.ORDENES_PAGO_ESTADOS != null)
+            if (orden.ESTADO_PAGO != null)
             {
-                modelo.EstadoPago = OrdenEstadoPagoMapper.EntidadAModelo(orden.ORDENES_PAGO_ESTADOS);
+                modelo.EstadoPago = OrdenEstadoPagoMapper.EntidadAModelo(orden.ESTADO_PAGO);
             }
 
-            if (orden.EVENTOS != null)
+            if (orden.EVENTO != null)
             {
-                modelo.Evento = EventoMapper.EntidadAModelo(orden.EVENTOS.First());
+                modelo.Evento = EventoMapper.EntidadAModelo(orden.EVENTO, false);
             }
             if (orden.DETALLE_ORDENES != null)
             {
@@ -56,9 +54,21 @@ namespace Datos.Mappers
             return modelo;
         }
 
-        internal static ORDENES ModeloAEntidad(Dominio.Modelos.OrdenModelo ordenModelo)
+        internal static List<Dominio.Modelos.OrdenModelo> EntidadesAModelos(List<ORDEN> ordenes)
         {
-            ORDENES entidad = new ORDENES
+            List<Dominio.Modelos.OrdenModelo> modelos = new List<Dominio.Modelos.OrdenModelo>();
+
+            foreach (var orden in ordenes)
+            {
+                modelos.Add(EntidadAModelo(orden));
+            }
+
+            return modelos;
+        }
+
+        internal static ORDEN ModeloAEntidad(Dominio.Modelos.OrdenModelo ordenModelo)
+        {
+            ORDEN entidad = new ORDEN
             {
                 // ATRIBUTOS DE MODELO
                 id_orden = ordenModelo.IdOrden,
@@ -76,7 +86,7 @@ namespace Datos.Mappers
             return entidad;
         }
 
-        internal static void ActualizarEntidad(ref ORDENES entidad, Dominio.Modelos.OrdenModelo modelo)
+        internal static void ActualizarEntidad(ref ORDEN entidad, Dominio.Modelos.OrdenModelo modelo)
         {
             entidad.id_orden = modelo.IdOrden;
             entidad.tipo_entrega = modelo.TipoEntrega;

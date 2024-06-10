@@ -8,7 +8,7 @@ namespace Datos.Mappers
 {
     internal class SuministroMapper
     {
-        internal static Dominio.Modelos.SuministroModelo EntidadAModelo(SUMINISTROS suministroEntidad)
+        internal static Dominio.Modelos.SuministroModelo EntidadAModelo(SUMINISTRO suministroEntidad)
         {
             Dominio.Modelos.SuministroModelo suministro = new Dominio.Modelos.SuministroModelo
             {
@@ -18,17 +18,17 @@ namespace Datos.Mappers
                 Nombre = suministroEntidad.nombre,
                 Proveedor = suministroEntidad.proveedor
 };
-            if (suministroEntidad.CATEGORIAS != null)
+            if (suministroEntidad.CATEGORIA != null)
             {
-                suministro.Categoria = CategoriaMapper.EntidadAModelo(suministroEntidad.CATEGORIAS);
+                suministro.Categoria = CategoriaMapper.EntidadAModelo(suministroEntidad.CATEGORIA);
             }
 
             return suministro;
         }
 
-        internal static SUMINISTROS ModeloAEntidad(Dominio.Modelos.SuministroModelo suministroModelo)
+        internal static SUMINISTRO ModeloAEntidad(Dominio.Modelos.SuministroModelo suministroModelo)
         {
-            SUMINISTROS entidad = new SUMINISTROS
+            SUMINISTRO entidad = new SUMINISTRO
             {
                 cantidad = suministroModelo.Cantidad,
                 costo = suministroModelo.Costo,
@@ -38,7 +38,7 @@ namespace Datos.Mappers
             };
             if (suministroModelo.Categoria != null)
             {
-                entidad.CATEGORIAS = CategoriaMapper.ModeloAEntidad(suministroModelo.Categoria);
+                entidad.id_categoria = suministroModelo.Categoria.Id;
             }
 
             return entidad;

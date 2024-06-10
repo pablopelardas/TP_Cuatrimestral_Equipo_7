@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="EFModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="CATEGORIAS">
           <Key>
             <PropertyRef Name="id_categoria" />
@@ -69,7 +69,6 @@ warning 6002: The table/view 'tp-cuatrimestral-grupo-7.dbo.DETALLE_PRODUCTOS' do
           <Property Name="id_evento" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="fecha" Type="date" Nullable="false" />
           <Property Name="id_cliente" Type="int" Nullable="false" />
-          <Property Name="id_orden" Type="int" Nullable="false" />
           <Property Name="id_tipo_evento" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="IMAGENES_PRODUCTOS">
@@ -105,6 +104,7 @@ warning 6002: The table/view 'tp-cuatrimestral-grupo-7.dbo.DETALLE_PRODUCTOS' do
           <Property Name="hora_entrega" Type="time" Precision="7" Nullable="false" />
           <Property Name="id_orden_estado" Type="int" />
           <Property Name="id_orden_pago_estado" Type="int" />
+          <Property Name="id_evento" Type="int" />
         </EntityType>
         <EntityType Name="ORDENES_ESTADOS">
           <Key>
@@ -169,7 +169,7 @@ warning 6002: The table/view 'tp-cuatrimestral-grupo-7.dbo.DETALLE_PRODUCTOS' do
           <Property Name="nombre" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="abreviatura" Type="varchar" MaxLength="10" Nullable="false" />
         </EntityType>
-        <Association Name="FK__DETALLE_O__id_or__619B8048">
+        <Association Name="FK__DETALLE_O__id_or__693CA210">
           <End Role="ORDENES" Type="Self.ORDENES" Multiplicity="1" />
           <End Role="DETALLE_ORDENES" Type="Self.DETALLE_ORDENES" Multiplicity="*" />
           <ReferentialConstraint>
@@ -181,7 +181,7 @@ warning 6002: The table/view 'tp-cuatrimestral-grupo-7.dbo.DETALLE_PRODUCTOS' do
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__DETALLE_O__id_pr__628FA481">
+        <Association Name="FK__DETALLE_O__id_pr__6A30C649">
           <End Role="PRODUCTOS" Type="Self.PRODUCTOS" Multiplicity="1" />
           <End Role="DETALLE_ORDENES" Type="Self.DETALLE_ORDENES" Multiplicity="*" />
           <ReferentialConstraint>
@@ -253,7 +253,7 @@ warning 6002: The table/view 'tp-cuatrimestral-grupo-7.dbo.DETALLE_PRODUCTOS' do
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__EVENTOS__id_clie__693CA210">
+        <Association Name="FK__EVENTOS__id_clie__5CD6CB2B">
           <End Role="CONTACTOS" Type="Self.CONTACTOS" Multiplicity="1" />
           <End Role="EVENTOS" Type="Self.EVENTOS" Multiplicity="*" />
           <ReferentialConstraint>
@@ -265,19 +265,7 @@ warning 6002: The table/view 'tp-cuatrimestral-grupo-7.dbo.DETALLE_PRODUCTOS' do
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__EVENTOS__id_orde__6A30C649">
-          <End Role="ORDENES" Type="Self.ORDENES" Multiplicity="1" />
-          <End Role="EVENTOS" Type="Self.EVENTOS" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ORDENES">
-              <PropertyRef Name="id_orden" />
-            </Principal>
-            <Dependent Role="EVENTOS">
-              <PropertyRef Name="id_orden" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__EVENTOS__id_tipo__6B24EA82">
+        <Association Name="FK__EVENTOS__id_tipo__5DCAEF64">
           <End Role="TIPOS_EVENTOS" Type="Self.TIPOS_EVENTOS" Multiplicity="1" />
           <End Role="EVENTOS" Type="Self.EVENTOS" Multiplicity="*" />
           <ReferentialConstraint>
@@ -313,7 +301,7 @@ warning 6002: The table/view 'tp-cuatrimestral-grupo-7.dbo.DETALLE_PRODUCTOS' do
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__ORDENES__id_clie__5CD6CB2B">
+        <Association Name="FK__ORDENES__id_clie__6383C8BA">
           <End Role="CONTACTOS" Type="Self.CONTACTOS" Multiplicity="1" />
           <End Role="ORDENES" Type="Self.ORDENES" Multiplicity="*" />
           <ReferentialConstraint>
@@ -325,7 +313,19 @@ warning 6002: The table/view 'tp-cuatrimestral-grupo-7.dbo.DETALLE_PRODUCTOS' do
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__ORDENES__id_orde__5DCAEF64">
+        <Association Name="FK__ORDENES__id_even__66603565">
+          <End Role="EVENTOS" Type="Self.EVENTOS" Multiplicity="0..1" />
+          <End Role="ORDENES" Type="Self.ORDENES" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EVENTOS">
+              <PropertyRef Name="id_evento" />
+            </Principal>
+            <Dependent Role="ORDENES">
+              <PropertyRef Name="id_evento" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ORDENES__id_orde__6477ECF3">
           <End Role="ORDENES_ESTADOS" Type="Self.ORDENES_ESTADOS" Multiplicity="0..1" />
           <End Role="ORDENES" Type="Self.ORDENES" Multiplicity="*" />
           <ReferentialConstraint>
@@ -337,7 +337,7 @@ warning 6002: The table/view 'tp-cuatrimestral-grupo-7.dbo.DETALLE_PRODUCTOS' do
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__ORDENES__id_orde__5EBF139D">
+        <Association Name="FK__ORDENES__id_orde__656C112C">
           <End Role="ORDENES_PAGO_ESTADOS" Type="Self.ORDENES_PAGO_ESTADOS" Multiplicity="0..1" />
           <End Role="ORDENES" Type="Self.ORDENES" Multiplicity="*" />
           <ReferentialConstraint>
@@ -385,7 +385,7 @@ warning 6002: The table/view 'tp-cuatrimestral-grupo-7.dbo.DETALLE_PRODUCTOS' do
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="EFModelStoreContainer">
+        <EntityContainer Name="ModelStoreContainer">
           <EntitySet Name="CATEGORIAS" EntityType="Self.CATEGORIAS" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CONTACTOS" EntityType="Self.CONTACTOS" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DETALLE_ORDENES" EntityType="Self.DETALLE_ORDENES" Schema="dbo" store:Type="Tables" />
@@ -409,11 +409,11 @@ warning 6002: The table/view 'tp-cuatrimestral-grupo-7.dbo.DETALLE_PRODUCTOS' do
 [DETALLE_PRODUCTOS].[cantidad] AS [cantidad]
 FROM [dbo].[DETALLE_PRODUCTOS] AS [DETALLE_PRODUCTOS]</DefiningQuery>
           </EntitySet>
-          <AssociationSet Name="FK__DETALLE_O__id_or__619B8048" Association="Self.FK__DETALLE_O__id_or__619B8048">
+          <AssociationSet Name="FK__DETALLE_O__id_or__693CA210" Association="Self.FK__DETALLE_O__id_or__693CA210">
             <End Role="ORDENES" EntitySet="ORDENES" />
             <End Role="DETALLE_ORDENES" EntitySet="DETALLE_ORDENES" />
           </AssociationSet>
-          <AssociationSet Name="FK__DETALLE_O__id_pr__628FA481" Association="Self.FK__DETALLE_O__id_pr__628FA481">
+          <AssociationSet Name="FK__DETALLE_O__id_pr__6A30C649" Association="Self.FK__DETALLE_O__id_pr__6A30C649">
             <End Role="PRODUCTOS" EntitySet="PRODUCTOS" />
             <End Role="DETALLE_ORDENES" EntitySet="DETALLE_ORDENES" />
           </AssociationSet>
@@ -437,15 +437,11 @@ FROM [dbo].[DETALLE_PRODUCTOS] AS [DETALLE_PRODUCTOS]</DefiningQuery>
             <End Role="RECETAS" EntitySet="RECETAS" />
             <End Role="DETALLE_RECETAS" EntitySet="DETALLE_RECETAS" />
           </AssociationSet>
-          <AssociationSet Name="FK__EVENTOS__id_clie__693CA210" Association="Self.FK__EVENTOS__id_clie__693CA210">
+          <AssociationSet Name="FK__EVENTOS__id_clie__5CD6CB2B" Association="Self.FK__EVENTOS__id_clie__5CD6CB2B">
             <End Role="CONTACTOS" EntitySet="CONTACTOS" />
             <End Role="EVENTOS" EntitySet="EVENTOS" />
           </AssociationSet>
-          <AssociationSet Name="FK__EVENTOS__id_orde__6A30C649" Association="Self.FK__EVENTOS__id_orde__6A30C649">
-            <End Role="ORDENES" EntitySet="ORDENES" />
-            <End Role="EVENTOS" EntitySet="EVENTOS" />
-          </AssociationSet>
-          <AssociationSet Name="FK__EVENTOS__id_tipo__6B24EA82" Association="Self.FK__EVENTOS__id_tipo__6B24EA82">
+          <AssociationSet Name="FK__EVENTOS__id_tipo__5DCAEF64" Association="Self.FK__EVENTOS__id_tipo__5DCAEF64">
             <End Role="TIPOS_EVENTOS" EntitySet="TIPOS_EVENTOS" />
             <End Role="EVENTOS" EntitySet="EVENTOS" />
           </AssociationSet>
@@ -457,15 +453,19 @@ FROM [dbo].[DETALLE_PRODUCTOS] AS [DETALLE_PRODUCTOS]</DefiningQuery>
             <End Role="UNIDADES_MEDIDA" EntitySet="UNIDADES_MEDIDA" />
             <End Role="INGREDIENTES" EntitySet="INGREDIENTES" />
           </AssociationSet>
-          <AssociationSet Name="FK__ORDENES__id_clie__5CD6CB2B" Association="Self.FK__ORDENES__id_clie__5CD6CB2B">
+          <AssociationSet Name="FK__ORDENES__id_clie__6383C8BA" Association="Self.FK__ORDENES__id_clie__6383C8BA">
             <End Role="CONTACTOS" EntitySet="CONTACTOS" />
             <End Role="ORDENES" EntitySet="ORDENES" />
           </AssociationSet>
-          <AssociationSet Name="FK__ORDENES__id_orde__5DCAEF64" Association="Self.FK__ORDENES__id_orde__5DCAEF64">
+          <AssociationSet Name="FK__ORDENES__id_even__66603565" Association="Self.FK__ORDENES__id_even__66603565">
+            <End Role="EVENTOS" EntitySet="EVENTOS" />
+            <End Role="ORDENES" EntitySet="ORDENES" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ORDENES__id_orde__6477ECF3" Association="Self.FK__ORDENES__id_orde__6477ECF3">
             <End Role="ORDENES_ESTADOS" EntitySet="ORDENES_ESTADOS" />
             <End Role="ORDENES" EntitySet="ORDENES" />
           </AssociationSet>
-          <AssociationSet Name="FK__ORDENES__id_orde__5EBF139D" Association="Self.FK__ORDENES__id_orde__5EBF139D">
+          <AssociationSet Name="FK__ORDENES__id_orde__656C112C" Association="Self.FK__ORDENES__id_orde__656C112C">
             <End Role="ORDENES_PAGO_ESTADOS" EntitySet="ORDENES_PAGO_ESTADOS" />
             <End Role="ORDENES" EntitySet="ORDENES" />
           </AssociationSet>
@@ -485,19 +485,19 @@ FROM [dbo].[DETALLE_PRODUCTOS] AS [DETALLE_PRODUCTOS]</DefiningQuery>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="EFModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityType Name="CATEGORIAS">
+      <Schema Namespace="Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="CATEGORIA">
           <Key>
             <PropertyRef Name="id_categoria" />
           </Key>
           <Property Name="id_categoria" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="tipo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="PRODUCTOS" Relationship="Self.FK__PRODUCTOS__id_ca__4BAC3F29" FromRole="CATEGORIAS" ToRole="PRODUCTOS" />
-          <NavigationProperty Name="SUMINISTROS" Relationship="Self.FK__SUMINISTR__id_ca__48CFD27E" FromRole="CATEGORIAS" ToRole="SUMINISTROS" />
-          <NavigationProperty Name="RECETAS" Relationship="EFModel.FK__RECETAS__id_cate__4316F928" FromRole="CATEGORIAS" ToRole="RECETAS" />
+          <NavigationProperty Name="PRODUCTOS" Relationship="Self.FK__PRODUCTOS__id_ca__4CA06362" FromRole="CATEGORIAS" ToRole="PRODUCTOS" />
+          <NavigationProperty Name="RECETAS" Relationship="Self.FK__RECETAS__id_cate__4316F928" FromRole="CATEGORIAS" ToRole="RECETAS" />
+          <NavigationProperty Name="SUMINISTROS" Relationship="Self.FK__SUMINISTR__id_ca__49C3F6B7" FromRole="CATEGORIAS" ToRole="SUMINISTROS" />
         </EntityType>
-        <EntityType Name="CONTACTOS">
+        <EntityType Name="CONTACTO">
           <Key>
             <PropertyRef Name="id_contacto" />
           </Key>
@@ -512,10 +512,10 @@ FROM [dbo].[DETALLE_PRODUCTOS] AS [DETALLE_PRODUCTOS]</DefiningQuery>
           <Property Name="desea_recibir_correos" Type="Boolean" Nullable="false" />
           <Property Name="desea_recibir_whatsapp" Type="Boolean" Nullable="false" />
           <Property Name="informacion_personal" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="EVENTOS" Relationship="Self.FK__EVENTOS__id_clie__68487DD7" FromRole="CONTACTOS" ToRole="EVENTOS" />
-          <NavigationProperty Name="ORDENES" Relationship="Self.FK__ORDENES__id_clie__5BE2A6F2" FromRole="CONTACTOS" ToRole="ORDENES" />
+          <NavigationProperty Name="EVENTOS" Relationship="Self.FK__EVENTOS__id_clie__5CD6CB2B" FromRole="CONTACTOS" ToRole="EVENTOS" />
+          <NavigationProperty Name="ORDENES" Relationship="Self.FK__ORDENES__id_clie__628FA481" FromRole="CONTACTOS" ToRole="ORDENES" />
         </EntityType>
-        <EntityType Name="DETALLE_ORDENES">
+        <EntityType Name="DETALLE_ORDEN">
           <Key>
             <PropertyRef Name="id_orden" />
             <PropertyRef Name="id_producto" />
@@ -526,10 +526,10 @@ FROM [dbo].[DETALLE_PRODUCTOS] AS [DETALLE_PRODUCTOS]</DefiningQuery>
           <Property Name="producto_porciones" Type="Int32" Nullable="false" />
           <Property Name="producto_costo" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
           <Property Name="producto_precio" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
-          <NavigationProperty Name="ORDENES" Relationship="Self.FK__DETALLE_O__id_or__60A75C0F" FromRole="DETALLE_ORDENES" ToRole="ORDENES" />
-          <NavigationProperty Name="PRODUCTOS" Relationship="Self.FK__DETALLE_O__id_pr__619B8048" FromRole="DETALLE_ORDENES" ToRole="PRODUCTOS" />
+          <NavigationProperty Name="ORDEN" Relationship="Self.FK__DETALLE_O__id_or__68487DD7" FromRole="DETALLE_ORDENES" ToRole="ORDENES" />
+          <NavigationProperty Name="PRODUCTO" Relationship="Self.FK__DETALLE_O__id_pr__693CA210" FromRole="DETALLE_ORDENES" ToRole="PRODUCTOS" />
         </EntityType>
-        <EntityType Name="DETALLE_RECETAS">
+        <EntityType Name="DETALLE_RECETA">
           <Key>
             <PropertyRef Name="id_receta" />
             <PropertyRef Name="id_ingrediente" />
@@ -537,32 +537,31 @@ FROM [dbo].[DETALLE_PRODUCTOS] AS [DETALLE_PRODUCTOS]</DefiningQuery>
           <Property Name="id_receta" Type="Int32" Nullable="false" />
           <Property Name="id_ingrediente" Type="Int32" Nullable="false" />
           <Property Name="cantidad" Type="Double" Nullable="false" />
-          <NavigationProperty Name="INGREDIENTES" Relationship="Self.FK__DETALLE_R__id_in__45F365D3" FromRole="DETALLE_RECETAS" ToRole="INGREDIENTES" />
-          <NavigationProperty Name="RECETAS" Relationship="Self.FK__DETALLE_R__id_re__44FF419A" FromRole="DETALLE_RECETAS" ToRole="RECETAS" />
+          <NavigationProperty Name="INGREDIENTE" Relationship="Self.FK__DETALLE_R__id_in__46E78A0C" FromRole="DETALLE_RECETAS" ToRole="INGREDIENTES" />
+          <NavigationProperty Name="RECETA" Relationship="Self.FK__DETALLE_R__id_re__45F365D3" FromRole="DETALLE_RECETAS" ToRole="RECETAS" />
         </EntityType>
-        <EntityType Name="EVENTOS">
+        <EntityType Name="EVENTO">
           <Key>
             <PropertyRef Name="id_evento" />
           </Key>
           <Property Name="id_evento" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="fecha" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="id_cliente" Type="Int32" Nullable="false" />
-          <Property Name="id_orden" Type="Int32" Nullable="false" />
           <Property Name="id_tipo_evento" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="CONTACTOS" Relationship="Self.FK__EVENTOS__id_clie__68487DD7" FromRole="EVENTOS" ToRole="CONTACTOS" />
-          <NavigationProperty Name="ORDENES" Relationship="Self.FK__EVENTOS__id_orde__693CA210" FromRole="EVENTOS" ToRole="ORDENES" />
-          <NavigationProperty Name="TIPOS_EVENTOS" Relationship="Self.FK__EVENTOS__id_tipo__6A30C649" FromRole="EVENTOS" ToRole="TIPOS_EVENTOS" />
+          <NavigationProperty Name="CLIENTE" Relationship="Self.FK__EVENTOS__id_clie__5CD6CB2B" FromRole="EVENTOS" ToRole="CONTACTOS" />
+          <NavigationProperty Name="TIPO_EVENTO" Relationship="Self.FK__EVENTOS__id_tipo__5DCAEF64" FromRole="EVENTOS" ToRole="TIPOS_EVENTOS" />
+          <NavigationProperty Name="ORDENES" Relationship="Self.FK__ORDENES__id_even__656C112C" FromRole="EVENTOS" ToRole="ORDENES" />
         </EntityType>
-        <EntityType Name="IMAGENES_PRODUCTOS">
+        <EntityType Name="IMAGEN_PRODUCTO">
           <Key>
             <PropertyRef Name="id_imagen" />
           </Key>
           <Property Name="id_imagen" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="id_producto" Type="Int32" Nullable="false" />
           <Property Name="url" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="PRODUCTOS" Relationship="Self.FK__IMAGENES___id_pr__4E88ABD4" FromRole="IMAGENES_PRODUCTOS" ToRole="PRODUCTOS" />
+          <NavigationProperty Name="PRODUCTO" Relationship="Self.FK__IMAGENES___id_pr__4F7CD00D" FromRole="IMAGENES_PRODUCTOS" ToRole="PRODUCTOS" />
         </EntityType>
-        <EntityType Name="INGREDIENTES">
+        <EntityType Name="INGREDIENTE">
           <Key>
             <PropertyRef Name="id_ingrediente" />
           </Key>
@@ -572,10 +571,10 @@ FROM [dbo].[DETALLE_PRODUCTOS] AS [DETALLE_PRODUCTOS]</DefiningQuery>
           <Property Name="id_unidad" Type="Int32" Nullable="false" />
           <Property Name="costo" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
           <Property Name="proveedor" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="DETALLE_RECETAS" Relationship="Self.FK__DETALLE_R__id_in__45F365D3" FromRole="INGREDIENTES" ToRole="DETALLE_RECETAS" />
-          <NavigationProperty Name="UNIDADES_MEDIDA" Relationship="Self.FK__INGREDIEN__id_un__403A8C7D" FromRole="INGREDIENTES" ToRole="UNIDADES_MEDIDA" />
+          <NavigationProperty Name="DETALLE_RECETAS" Relationship="Self.FK__DETALLE_R__id_in__46E78A0C" FromRole="INGREDIENTES" ToRole="DETALLE_RECETAS" />
+          <NavigationProperty Name="UNIDAD_MEDIDA" Relationship="Self.FK__INGREDIEN__id_un__403A8C7D" FromRole="INGREDIENTES" ToRole="UNIDADES_MEDIDA" />
         </EntityType>
-        <EntityType Name="ORDENES">
+        <EntityType Name="ORDEN">
           <Key>
             <PropertyRef Name="id_orden" />
           </Key>
@@ -589,29 +588,30 @@ FROM [dbo].[DETALLE_PRODUCTOS] AS [DETALLE_PRODUCTOS]</DefiningQuery>
           <Property Name="hora_entrega" Type="Time" Nullable="false" Precision="7" />
           <Property Name="id_orden_estado" Type="Int32" />
           <Property Name="id_orden_pago_estado" Type="Int32" />
-          <NavigationProperty Name="CONTACTOS" Relationship="Self.FK__ORDENES__id_clie__5BE2A6F2" FromRole="ORDENES" ToRole="CONTACTOS" />
-          <NavigationProperty Name="DETALLE_ORDENES" Relationship="Self.FK__DETALLE_O__id_or__60A75C0F" FromRole="ORDENES" ToRole="DETALLE_ORDENES" />
-          <NavigationProperty Name="EVENTOS" Relationship="Self.FK__EVENTOS__id_orde__693CA210" FromRole="ORDENES" ToRole="EVENTOS" />
-          <NavigationProperty Name="ORDENES_ESTADOS" Relationship="Self.FK__ORDENES__id_orde__5CD6CB2B" FromRole="ORDENES" ToRole="ORDENES_ESTADOS" />
-          <NavigationProperty Name="ORDENES_PAGO_ESTADOS" Relationship="Self.FK__ORDENES__id_orde__5DCAEF64" FromRole="ORDENES" ToRole="ORDENES_PAGO_ESTADOS" />
+          <Property Name="id_evento" Type="Int32" />
+          <NavigationProperty Name="CLIENTE" Relationship="Self.FK__ORDENES__id_clie__628FA481" FromRole="ORDENES" ToRole="CONTACTOS" />
+          <NavigationProperty Name="DETALLE_ORDENES" Relationship="Self.FK__DETALLE_O__id_or__68487DD7" FromRole="ORDENES" ToRole="DETALLE_ORDENES" />
+          <NavigationProperty Name="EVENTO" Relationship="Self.FK__ORDENES__id_even__656C112C" FromRole="ORDENES" ToRole="EVENTOS" />
+          <NavigationProperty Name="ESTADO" Relationship="Self.FK__ORDENES__id_orde__6383C8BA" FromRole="ORDENES" ToRole="ORDENES_ESTADOS" />
+          <NavigationProperty Name="ESTADO_PAGO" Relationship="Self.FK__ORDENES__id_orde__6477ECF3" FromRole="ORDENES" ToRole="ORDENES_PAGO_ESTADOS" />
         </EntityType>
-        <EntityType Name="ORDENES_ESTADOS">
+        <EntityType Name="ORDEN_ESTADO">
           <Key>
             <PropertyRef Name="id_orden_estado" />
           </Key>
           <Property Name="id_orden_estado" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="ORDENES" Relationship="Self.FK__ORDENES__id_orde__5CD6CB2B" FromRole="ORDENES_ESTADOS" ToRole="ORDENES" />
+          <NavigationProperty Name="ORDENES" Relationship="Self.FK__ORDENES__id_orde__6383C8BA" FromRole="ORDENES_ESTADOS" ToRole="ORDENES" />
         </EntityType>
-        <EntityType Name="ORDENES_PAGO_ESTADOS">
+        <EntityType Name="ORDEN_PAGO_ESTADO">
           <Key>
             <PropertyRef Name="id_orden_pago_estado" />
           </Key>
           <Property Name="id_orden_pago_estado" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="ORDENES" Relationship="Self.FK__ORDENES__id_orde__5DCAEF64" FromRole="ORDENES_PAGO_ESTADOS" ToRole="ORDENES" />
+          <NavigationProperty Name="ORDENES" Relationship="Self.FK__ORDENES__id_orde__6477ECF3" FromRole="ORDENES_PAGO_ESTADOS" ToRole="ORDENES" />
         </EntityType>
-        <EntityType Name="PRODUCTOS">
+        <EntityType Name="PRODUCTO">
           <Key>
             <PropertyRef Name="id_producto" />
           </Key>
@@ -623,12 +623,12 @@ FROM [dbo].[DETALLE_PRODUCTOS] AS [DETALLE_PRODUCTOS]</DefiningQuery>
           <Property Name="tipo_precio" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="valor_precio" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
           <Property Name="id_categoria" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="CATEGORIAS" Relationship="Self.FK__PRODUCTOS__id_ca__4BAC3F29" FromRole="PRODUCTOS" ToRole="CATEGORIAS" />
-          <NavigationProperty Name="DETALLE_ORDENES" Relationship="Self.FK__DETALLE_O__id_pr__619B8048" FromRole="PRODUCTOS" ToRole="DETALLE_ORDENES" />
-          <NavigationProperty Name="IMAGENES_PRODUCTOS" Relationship="Self.FK__IMAGENES___id_pr__4E88ABD4" FromRole="PRODUCTOS" ToRole="IMAGENES_PRODUCTOS" />
-          <NavigationProperty Name="DETALLE_PRODUCTOS" Relationship="EFModel.FK__DETALLE_P__id_pr__5165187F" FromRole="PRODUCTOS" ToRole="DETALLE_PRODUCTOS" />
+          <NavigationProperty Name="CATEGORIA" Relationship="Self.FK__PRODUCTOS__id_ca__4CA06362" FromRole="PRODUCTOS" ToRole="CATEGORIAS" />
+          <NavigationProperty Name="DETALLE_ORDENES" Relationship="Self.FK__DETALLE_O__id_pr__693CA210" FromRole="PRODUCTOS" ToRole="DETALLE_ORDENES" />
+          <NavigationProperty Name="IMAGENES" Relationship="Self.FK__IMAGENES___id_pr__4F7CD00D" FromRole="PRODUCTOS" ToRole="IMAGENES_PRODUCTOS" />
+          <NavigationProperty Name="DETALLE_PRODUCTOS" Relationship="Self.FK__DETALLE_P__id_pr__5165187F" FromRole="PRODUCTOS" ToRole="DETALLE_PRODUCTOS" />
         </EntityType>
-        <EntityType Name="RECETAS">
+        <EntityType Name="RECETA">
           <Key>
             <PropertyRef Name="id_receta" />
           </Key>
@@ -637,11 +637,11 @@ FROM [dbo].[DETALLE_PRODUCTOS] AS [DETALLE_PRODUCTOS]</DefiningQuery>
           <Property Name="descripcion" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="id_categoria" Type="Int32" Nullable="false" />
           <Property Name="precio_personalizado" Type="Decimal" Precision="19" Scale="4" />
-          <NavigationProperty Name="DETALLE_RECETAS" Relationship="Self.FK__DETALLE_R__id_re__44FF419A" FromRole="RECETAS" ToRole="DETALLE_RECETAS" />
-          <NavigationProperty Name="CATEGORIAS" Relationship="EFModel.FK__RECETAS__id_cate__4316F928" FromRole="RECETAS" ToRole="CATEGORIAS" />
-          <NavigationProperty Name="DETALLE_PRODUCTOS" Relationship="EFModel.FK__DETALLE_P__id_re__534D60F1" FromRole="RECETAS" ToRole="DETALLE_PRODUCTOS" />
+          <NavigationProperty Name="CATEGORIA" Relationship="Self.FK__RECETAS__id_cate__4316F928" FromRole="RECETAS" ToRole="CATEGORIAS" />
+          <NavigationProperty Name="DETALLE_RECETAS" Relationship="Self.FK__DETALLE_R__id_re__45F365D3" FromRole="RECETAS" ToRole="DETALLE_RECETAS" />
+          <NavigationProperty Name="DETALLE_PRODUCTOS" Relationship="Self.FK__DETALLE_P__id_re__534D60F1" FromRole="RECETAS" ToRole="DETALLE_PRODUCTOS" />
         </EntityType>
-        <EntityType Name="SUMINISTROS">
+        <EntityType Name="SUMINISTRO">
           <Key>
             <PropertyRef Name="id_suministro" />
           </Key>
@@ -651,18 +651,18 @@ FROM [dbo].[DETALLE_PRODUCTOS] AS [DETALLE_PRODUCTOS]</DefiningQuery>
           <Property Name="proveedor" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="cantidad" Type="Double" Nullable="false" />
           <Property Name="costo" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
-          <NavigationProperty Name="CATEGORIAS" Relationship="Self.FK__SUMINISTR__id_ca__48CFD27E" FromRole="SUMINISTROS" ToRole="CATEGORIAS" />
-          <NavigationProperty Name="DETALLE_PRODUCTOS" Relationship="EFModel.FK__DETALLE_P__id_su__52593CB8" FromRole="SUMINISTROS" ToRole="DETALLE_PRODUCTOS" />
+          <NavigationProperty Name="CATEGORIA" Relationship="Self.FK__SUMINISTR__id_ca__49C3F6B7" FromRole="SUMINISTROS" ToRole="CATEGORIAS" />
+          <NavigationProperty Name="DETALLE_PRODUCTOS" Relationship="Self.FK__DETALLE_P__id_su__52593CB8" FromRole="SUMINISTROS" ToRole="DETALLE_PRODUCTOS" />
         </EntityType>
-        <EntityType Name="TIPOS_EVENTOS">
+        <EntityType Name="TIPO_EVENTO">
           <Key>
             <PropertyRef Name="id_tipo_evento" />
           </Key>
           <Property Name="id_tipo_evento" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="EVENTOS" Relationship="Self.FK__EVENTOS__id_tipo__6A30C649" FromRole="TIPOS_EVENTOS" ToRole="EVENTOS" />
+          <NavigationProperty Name="EVENTOS" Relationship="Self.FK__EVENTOS__id_tipo__5DCAEF64" FromRole="TIPOS_EVENTOS" ToRole="EVENTOS" />
         </EntityType>
-        <EntityType Name="UNIDADES_MEDIDA">
+        <EntityType Name="UNIDAD_MEDIDA">
           <Key>
             <PropertyRef Name="id_unidad" />
           </Key>
@@ -671,9 +671,22 @@ FROM [dbo].[DETALLE_PRODUCTOS] AS [DETALLE_PRODUCTOS]</DefiningQuery>
           <Property Name="abreviatura" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="INGREDIENTES" Relationship="Self.FK__INGREDIEN__id_un__403A8C7D" FromRole="UNIDADES_MEDIDA" ToRole="INGREDIENTES" />
         </EntityType>
-        <Association Name="FK__PRODUCTOS__id_ca__4BAC3F29">
-          <End Role="CATEGORIAS" Type="Self.CATEGORIAS" Multiplicity="1" />
-          <End Role="PRODUCTOS" Type="Self.PRODUCTOS" Multiplicity="*" />
+        <EntityType Name="DETALLE_PRODUCTO">
+          <Key>
+            <PropertyRef Name="id_producto" />
+            <PropertyRef Name="cantidad" />
+          </Key>
+          <Property Name="id_producto" Type="Int32" Nullable="false" />
+          <Property Name="id_suministro" Type="Int32" />
+          <Property Name="id_receta" Type="Int32" />
+          <Property Name="cantidad" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="PRODUCTO" Relationship="Self.FK__DETALLE_P__id_pr__5165187F" FromRole="DETALLE_PRODUCTOS" ToRole="PRODUCTOS" />
+          <NavigationProperty Name="RECETA" Relationship="Self.FK__DETALLE_P__id_re__534D60F1" FromRole="DETALLE_PRODUCTOS" ToRole="RECETAS" />
+          <NavigationProperty Name="SUMINISTRO" Relationship="Self.FK__DETALLE_P__id_su__52593CB8" FromRole="DETALLE_PRODUCTOS" ToRole="SUMINISTROS" />
+        </EntityType>
+        <Association Name="FK__PRODUCTOS__id_ca__4CA06362">
+          <End Role="CATEGORIAS" Type="Model.CATEGORIA" Multiplicity="1" />
+          <End Role="PRODUCTOS" Type="Model.PRODUCTO" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="CATEGORIAS">
               <PropertyRef Name="id_categoria" />
@@ -683,9 +696,21 @@ FROM [dbo].[DETALLE_PRODUCTOS] AS [DETALLE_PRODUCTOS]</DefiningQuery>
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__SUMINISTR__id_ca__48CFD27E">
-          <End Role="CATEGORIAS" Type="Self.CATEGORIAS" Multiplicity="1" />
-          <End Role="SUMINISTROS" Type="Self.SUMINISTROS" Multiplicity="*" />
+        <Association Name="FK__RECETAS__id_cate__4316F928">
+          <End Role="CATEGORIAS" Type="Model.CATEGORIA" Multiplicity="1" />
+          <End Role="RECETAS" Type="Model.RECETA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CATEGORIAS">
+              <PropertyRef Name="id_categoria" />
+            </Principal>
+            <Dependent Role="RECETAS">
+              <PropertyRef Name="id_categoria" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__SUMINISTR__id_ca__49C3F6B7">
+          <End Role="CATEGORIAS" Type="Model.CATEGORIA" Multiplicity="1" />
+          <End Role="SUMINISTROS" Type="Model.SUMINISTRO" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="CATEGORIAS">
               <PropertyRef Name="id_categoria" />
@@ -695,9 +720,9 @@ FROM [dbo].[DETALLE_PRODUCTOS] AS [DETALLE_PRODUCTOS]</DefiningQuery>
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__EVENTOS__id_clie__68487DD7">
-          <End Role="CONTACTOS" Type="Self.CONTACTOS" Multiplicity="1" />
-          <End Role="EVENTOS" Type="Self.EVENTOS" Multiplicity="*" />
+        <Association Name="FK__EVENTOS__id_clie__5CD6CB2B">
+          <End Role="CONTACTOS" Type="Model.CONTACTO" Multiplicity="1" />
+          <End Role="EVENTOS" Type="Model.EVENTO" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="CONTACTOS">
               <PropertyRef Name="id_contacto" />
@@ -707,9 +732,9 @@ FROM [dbo].[DETALLE_PRODUCTOS] AS [DETALLE_PRODUCTOS]</DefiningQuery>
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__ORDENES__id_clie__5BE2A6F2">
-          <End Role="CONTACTOS" Type="Self.CONTACTOS" Multiplicity="1" />
-          <End Role="ORDENES" Type="Self.ORDENES" Multiplicity="*" />
+        <Association Name="FK__ORDENES__id_clie__628FA481">
+          <End Role="CONTACTOS" Type="Model.CONTACTO" Multiplicity="1" />
+          <End Role="ORDENES" Type="Model.ORDEN" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="CONTACTOS">
               <PropertyRef Name="id_contacto" />
@@ -719,9 +744,9 @@ FROM [dbo].[DETALLE_PRODUCTOS] AS [DETALLE_PRODUCTOS]</DefiningQuery>
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__DETALLE_O__id_or__60A75C0F">
-          <End Role="ORDENES" Type="Self.ORDENES" Multiplicity="1" />
-          <End Role="DETALLE_ORDENES" Type="Self.DETALLE_ORDENES" Multiplicity="*" />
+        <Association Name="FK__DETALLE_O__id_or__68487DD7">
+          <End Role="ORDENES" Type="Model.ORDEN" Multiplicity="1" />
+          <End Role="DETALLE_ORDENES" Type="Model.DETALLE_ORDEN" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="ORDENES">
               <PropertyRef Name="id_orden" />
@@ -731,9 +756,9 @@ FROM [dbo].[DETALLE_PRODUCTOS] AS [DETALLE_PRODUCTOS]</DefiningQuery>
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__DETALLE_O__id_pr__619B8048">
-          <End Role="PRODUCTOS" Type="Self.PRODUCTOS" Multiplicity="1" />
-          <End Role="DETALLE_ORDENES" Type="Self.DETALLE_ORDENES" Multiplicity="*" />
+        <Association Name="FK__DETALLE_O__id_pr__693CA210">
+          <End Role="PRODUCTOS" Type="Model.PRODUCTO" Multiplicity="1" />
+          <End Role="DETALLE_ORDENES" Type="Model.DETALLE_ORDEN" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="PRODUCTOS">
               <PropertyRef Name="id_producto" />
@@ -743,9 +768,9 @@ FROM [dbo].[DETALLE_PRODUCTOS] AS [DETALLE_PRODUCTOS]</DefiningQuery>
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__DETALLE_R__id_in__45F365D3">
-          <End Role="INGREDIENTES" Type="Self.INGREDIENTES" Multiplicity="1" />
-          <End Role="DETALLE_RECETAS" Type="Self.DETALLE_RECETAS" Multiplicity="*" />
+        <Association Name="FK__DETALLE_R__id_in__46E78A0C">
+          <End Role="INGREDIENTES" Type="Model.INGREDIENTE" Multiplicity="1" />
+          <End Role="DETALLE_RECETAS" Type="Model.DETALLE_RECETA" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="INGREDIENTES">
               <PropertyRef Name="id_ingrediente" />
@@ -755,9 +780,9 @@ FROM [dbo].[DETALLE_PRODUCTOS] AS [DETALLE_PRODUCTOS]</DefiningQuery>
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__DETALLE_R__id_re__44FF419A">
-          <End Role="RECETAS" Type="Self.RECETAS" Multiplicity="1" />
-          <End Role="DETALLE_RECETAS" Type="Self.DETALLE_RECETAS" Multiplicity="*" />
+        <Association Name="FK__DETALLE_R__id_re__45F365D3">
+          <End Role="RECETAS" Type="Model.RECETA" Multiplicity="1" />
+          <End Role="DETALLE_RECETAS" Type="Model.DETALLE_RECETA" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="RECETAS">
               <PropertyRef Name="id_receta" />
@@ -767,21 +792,9 @@ FROM [dbo].[DETALLE_PRODUCTOS] AS [DETALLE_PRODUCTOS]</DefiningQuery>
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__EVENTOS__id_orde__693CA210">
-          <End Role="ORDENES" Type="Self.ORDENES" Multiplicity="1" />
-          <End Role="EVENTOS" Type="Self.EVENTOS" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ORDENES">
-              <PropertyRef Name="id_orden" />
-            </Principal>
-            <Dependent Role="EVENTOS">
-              <PropertyRef Name="id_orden" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__EVENTOS__id_tipo__6A30C649">
-          <End Role="TIPOS_EVENTOS" Type="Self.TIPOS_EVENTOS" Multiplicity="1" />
-          <End Role="EVENTOS" Type="Self.EVENTOS" Multiplicity="*" />
+        <Association Name="FK__EVENTOS__id_tipo__5DCAEF64">
+          <End Role="TIPOS_EVENTOS" Type="Model.TIPO_EVENTO" Multiplicity="1" />
+          <End Role="EVENTOS" Type="Model.EVENTO" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="TIPOS_EVENTOS">
               <PropertyRef Name="id_tipo_evento" />
@@ -791,9 +804,21 @@ FROM [dbo].[DETALLE_PRODUCTOS] AS [DETALLE_PRODUCTOS]</DefiningQuery>
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__IMAGENES___id_pr__4E88ABD4">
-          <End Role="PRODUCTOS" Type="Self.PRODUCTOS" Multiplicity="1" />
-          <End Role="IMAGENES_PRODUCTOS" Type="Self.IMAGENES_PRODUCTOS" Multiplicity="*" />
+        <Association Name="FK__ORDENES__id_even__656C112C">
+          <End Role="EVENTOS" Type="Model.EVENTO" Multiplicity="0..1" />
+          <End Role="ORDENES" Type="Model.ORDEN" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EVENTOS">
+              <PropertyRef Name="id_evento" />
+            </Principal>
+            <Dependent Role="ORDENES">
+              <PropertyRef Name="id_evento" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__IMAGENES___id_pr__4F7CD00D">
+          <End Role="PRODUCTOS" Type="Model.PRODUCTO" Multiplicity="1" />
+          <End Role="IMAGENES_PRODUCTOS" Type="Model.IMAGEN_PRODUCTO" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="PRODUCTOS">
               <PropertyRef Name="id_producto" />
@@ -804,8 +829,8 @@ FROM [dbo].[DETALLE_PRODUCTOS] AS [DETALLE_PRODUCTOS]</DefiningQuery>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK__INGREDIEN__id_un__403A8C7D">
-          <End Role="UNIDADES_MEDIDA" Type="Self.UNIDADES_MEDIDA" Multiplicity="1" />
-          <End Role="INGREDIENTES" Type="Self.INGREDIENTES" Multiplicity="*" />
+          <End Role="UNIDADES_MEDIDA" Type="Model.UNIDAD_MEDIDA" Multiplicity="1" />
+          <End Role="INGREDIENTES" Type="Model.INGREDIENTE" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="UNIDADES_MEDIDA">
               <PropertyRef Name="id_unidad" />
@@ -815,9 +840,9 @@ FROM [dbo].[DETALLE_PRODUCTOS] AS [DETALLE_PRODUCTOS]</DefiningQuery>
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__ORDENES__id_orde__5CD6CB2B">
-          <End Role="ORDENES_ESTADOS" Type="Self.ORDENES_ESTADOS" Multiplicity="0..1" />
-          <End Role="ORDENES" Type="Self.ORDENES" Multiplicity="*" />
+        <Association Name="FK__ORDENES__id_orde__6383C8BA">
+          <End Role="ORDENES_ESTADOS" Type="Model.ORDEN_ESTADO" Multiplicity="0..1" />
+          <End Role="ORDENES" Type="Model.ORDEN" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="ORDENES_ESTADOS">
               <PropertyRef Name="id_orden_estado" />
@@ -827,9 +852,9 @@ FROM [dbo].[DETALLE_PRODUCTOS] AS [DETALLE_PRODUCTOS]</DefiningQuery>
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__ORDENES__id_orde__5DCAEF64">
-          <End Role="ORDENES_PAGO_ESTADOS" Type="Self.ORDENES_PAGO_ESTADOS" Multiplicity="0..1" />
-          <End Role="ORDENES" Type="Self.ORDENES" Multiplicity="*" />
+        <Association Name="FK__ORDENES__id_orde__6477ECF3">
+          <End Role="ORDENES_PAGO_ESTADOS" Type="Model.ORDEN_PAGO_ESTADO" Multiplicity="0..1" />
+          <End Role="ORDENES" Type="Model.ORDEN" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="ORDENES_PAGO_ESTADOS">
               <PropertyRef Name="id_orden_pago_estado" />
@@ -839,124 +864,9 @@ FROM [dbo].[DETALLE_PRODUCTOS] AS [DETALLE_PRODUCTOS]</DefiningQuery>
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="CATEGORIAS" EntityType="Self.CATEGORIAS" />
-          <EntitySet Name="CONTACTOS" EntityType="Self.CONTACTOS" />
-          <EntitySet Name="DETALLE_ORDENES" EntityType="Self.DETALLE_ORDENES" />
-          <EntitySet Name="DETALLE_RECETAS" EntityType="Self.DETALLE_RECETAS" />
-          <EntitySet Name="EVENTOS" EntityType="Self.EVENTOS" />
-          <EntitySet Name="IMAGENES_PRODUCTOS" EntityType="Self.IMAGENES_PRODUCTOS" />
-          <EntitySet Name="INGREDIENTES" EntityType="Self.INGREDIENTES" />
-          <EntitySet Name="ORDENES" EntityType="Self.ORDENES" />
-          <EntitySet Name="ORDENES_ESTADOS" EntityType="Self.ORDENES_ESTADOS" />
-          <EntitySet Name="ORDENES_PAGO_ESTADOS" EntityType="Self.ORDENES_PAGO_ESTADOS" />
-          <EntitySet Name="PRODUCTOS" EntityType="Self.PRODUCTOS" />
-          <EntitySet Name="RECETAS" EntityType="Self.RECETAS" />
-          <EntitySet Name="SUMINISTROS" EntityType="Self.SUMINISTROS" />
-          <EntitySet Name="TIPOS_EVENTOS" EntityType="Self.TIPOS_EVENTOS" />
-          <EntitySet Name="UNIDADES_MEDIDA" EntityType="Self.UNIDADES_MEDIDA" />
-          <AssociationSet Name="FK__PRODUCTOS__id_ca__4BAC3F29" Association="Self.FK__PRODUCTOS__id_ca__4BAC3F29">
-            <End Role="CATEGORIAS" EntitySet="CATEGORIAS" />
-            <End Role="PRODUCTOS" EntitySet="PRODUCTOS" />
-          </AssociationSet>
-          <AssociationSet Name="FK__SUMINISTR__id_ca__48CFD27E" Association="Self.FK__SUMINISTR__id_ca__48CFD27E">
-            <End Role="CATEGORIAS" EntitySet="CATEGORIAS" />
-            <End Role="SUMINISTROS" EntitySet="SUMINISTROS" />
-          </AssociationSet>
-          <AssociationSet Name="FK__EVENTOS__id_clie__68487DD7" Association="Self.FK__EVENTOS__id_clie__68487DD7">
-            <End Role="CONTACTOS" EntitySet="CONTACTOS" />
-            <End Role="EVENTOS" EntitySet="EVENTOS" />
-          </AssociationSet>
-          <AssociationSet Name="FK__ORDENES__id_clie__5BE2A6F2" Association="Self.FK__ORDENES__id_clie__5BE2A6F2">
-            <End Role="CONTACTOS" EntitySet="CONTACTOS" />
-            <End Role="ORDENES" EntitySet="ORDENES" />
-          </AssociationSet>
-          <AssociationSet Name="FK__DETALLE_O__id_or__60A75C0F" Association="Self.FK__DETALLE_O__id_or__60A75C0F">
-            <End Role="ORDENES" EntitySet="ORDENES" />
-            <End Role="DETALLE_ORDENES" EntitySet="DETALLE_ORDENES" />
-          </AssociationSet>
-          <AssociationSet Name="FK__DETALLE_O__id_pr__619B8048" Association="Self.FK__DETALLE_O__id_pr__619B8048">
-            <End Role="PRODUCTOS" EntitySet="PRODUCTOS" />
-            <End Role="DETALLE_ORDENES" EntitySet="DETALLE_ORDENES" />
-          </AssociationSet>
-          <AssociationSet Name="FK__DETALLE_R__id_in__45F365D3" Association="Self.FK__DETALLE_R__id_in__45F365D3">
-            <End Role="INGREDIENTES" EntitySet="INGREDIENTES" />
-            <End Role="DETALLE_RECETAS" EntitySet="DETALLE_RECETAS" />
-          </AssociationSet>
-          <AssociationSet Name="FK__DETALLE_R__id_re__44FF419A" Association="Self.FK__DETALLE_R__id_re__44FF419A">
-            <End Role="RECETAS" EntitySet="RECETAS" />
-            <End Role="DETALLE_RECETAS" EntitySet="DETALLE_RECETAS" />
-          </AssociationSet>
-          <AssociationSet Name="FK__EVENTOS__id_orde__693CA210" Association="Self.FK__EVENTOS__id_orde__693CA210">
-            <End Role="ORDENES" EntitySet="ORDENES" />
-            <End Role="EVENTOS" EntitySet="EVENTOS" />
-          </AssociationSet>
-          <AssociationSet Name="FK__EVENTOS__id_tipo__6A30C649" Association="Self.FK__EVENTOS__id_tipo__6A30C649">
-            <End Role="TIPOS_EVENTOS" EntitySet="TIPOS_EVENTOS" />
-            <End Role="EVENTOS" EntitySet="EVENTOS" />
-          </AssociationSet>
-          <AssociationSet Name="FK__IMAGENES___id_pr__4E88ABD4" Association="Self.FK__IMAGENES___id_pr__4E88ABD4">
-            <End Role="PRODUCTOS" EntitySet="PRODUCTOS" />
-            <End Role="IMAGENES_PRODUCTOS" EntitySet="IMAGENES_PRODUCTOS" />
-          </AssociationSet>
-          <AssociationSet Name="FK__INGREDIEN__id_un__403A8C7D" Association="Self.FK__INGREDIEN__id_un__403A8C7D">
-            <End Role="UNIDADES_MEDIDA" EntitySet="UNIDADES_MEDIDA" />
-            <End Role="INGREDIENTES" EntitySet="INGREDIENTES" />
-          </AssociationSet>
-          <AssociationSet Name="FK__ORDENES__id_orde__5CD6CB2B" Association="Self.FK__ORDENES__id_orde__5CD6CB2B">
-            <End Role="ORDENES_ESTADOS" EntitySet="ORDENES_ESTADOS" />
-            <End Role="ORDENES" EntitySet="ORDENES" />
-          </AssociationSet>
-          <AssociationSet Name="FK__ORDENES__id_orde__5DCAEF64" Association="Self.FK__ORDENES__id_orde__5DCAEF64">
-            <End Role="ORDENES_PAGO_ESTADOS" EntitySet="ORDENES_PAGO_ESTADOS" />
-            <End Role="ORDENES" EntitySet="ORDENES" />
-          </AssociationSet>
-          <AssociationSet Name="FK__RECETAS__id_cate__4316F928" Association="EFModel.FK__RECETAS__id_cate__4316F928">
-            <End Role="CATEGORIAS" EntitySet="CATEGORIAS" />
-            <End Role="RECETAS" EntitySet="RECETAS" />
-          </AssociationSet>
-          <EntitySet Name="DETALLE_PRODUCTOS" EntityType="EFModel.DETALLE_PRODUCTOS" />
-          <AssociationSet Name="FK__DETALLE_P__id_pr__5165187F" Association="EFModel.FK__DETALLE_P__id_pr__5165187F">
-            <End Role="PRODUCTOS" EntitySet="PRODUCTOS" />
-            <End Role="DETALLE_PRODUCTOS" EntitySet="DETALLE_PRODUCTOS" />
-          </AssociationSet>
-          <AssociationSet Name="FK__DETALLE_P__id_re__534D60F1" Association="EFModel.FK__DETALLE_P__id_re__534D60F1">
-            <End Role="RECETAS" EntitySet="RECETAS" />
-            <End Role="DETALLE_PRODUCTOS" EntitySet="DETALLE_PRODUCTOS" />
-          </AssociationSet>
-          <AssociationSet Name="FK__DETALLE_P__id_su__52593CB8" Association="EFModel.FK__DETALLE_P__id_su__52593CB8">
-            <End Role="SUMINISTROS" EntitySet="SUMINISTROS" />
-            <End Role="DETALLE_PRODUCTOS" EntitySet="DETALLE_PRODUCTOS" />
-          </AssociationSet>
-        </EntityContainer>
-        <Association Name="FK__RECETAS__id_cate__4316F928">
-          <End Type="EFModel.CATEGORIAS" Role="CATEGORIAS" Multiplicity="1" />
-          <End Type="EFModel.RECETAS" Role="RECETAS" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="CATEGORIAS">
-              <PropertyRef Name="id_categoria" />
-            </Principal>
-            <Dependent Role="RECETAS">
-              <PropertyRef Name="id_categoria" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="DETALLE_PRODUCTOS">
-          <Key>
-            <PropertyRef Name="id_producto" />
-            <PropertyRef Name="cantidad" />
-          </Key>
-          <Property Name="id_producto" Type="Int32" Nullable="false" />
-          <Property Name="id_suministro" Type="Int32" />
-          <Property Name="id_receta" Type="Int32" />
-          <Property Name="cantidad" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="PRODUCTOS" Relationship="EFModel.FK__DETALLE_P__id_pr__5165187F" FromRole="DETALLE_PRODUCTOS" ToRole="PRODUCTOS" />
-          <NavigationProperty Name="RECETAS" Relationship="EFModel.FK__DETALLE_P__id_re__534D60F1" FromRole="DETALLE_PRODUCTOS" ToRole="RECETAS" />
-          <NavigationProperty Name="SUMINISTROS" Relationship="EFModel.FK__DETALLE_P__id_su__52593CB8" FromRole="DETALLE_PRODUCTOS" ToRole="SUMINISTROS" />
-        </EntityType>
         <Association Name="FK__DETALLE_P__id_pr__5165187F">
-          <End Type="EFModel.PRODUCTOS" Role="PRODUCTOS" Multiplicity="1" />
-          <End Type="EFModel.DETALLE_PRODUCTOS" Role="DETALLE_PRODUCTOS" Multiplicity="*" />
+          <End Role="PRODUCTOS" Type="Model.PRODUCTO" Multiplicity="1" />
+          <End Role="DETALLE_PRODUCTOS" Type="Model.DETALLE_PRODUCTO" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="PRODUCTOS">
               <PropertyRef Name="id_producto" />
@@ -967,8 +877,8 @@ FROM [dbo].[DETALLE_PRODUCTOS] AS [DETALLE_PRODUCTOS]</DefiningQuery>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK__DETALLE_P__id_re__534D60F1">
-          <End Type="EFModel.RECETAS" Role="RECETAS" Multiplicity="0..1" />
-          <End Type="EFModel.DETALLE_PRODUCTOS" Role="DETALLE_PRODUCTOS" Multiplicity="*" />
+          <End Role="RECETAS" Type="Model.RECETA" Multiplicity="0..1" />
+          <End Role="DETALLE_PRODUCTOS" Type="Model.DETALLE_PRODUCTO" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="RECETAS">
               <PropertyRef Name="id_receta" />
@@ -979,8 +889,8 @@ FROM [dbo].[DETALLE_PRODUCTOS] AS [DETALLE_PRODUCTOS]</DefiningQuery>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK__DETALLE_P__id_su__52593CB8">
-          <End Type="EFModel.SUMINISTROS" Role="SUMINISTROS" Multiplicity="0..1" />
-          <End Type="EFModel.DETALLE_PRODUCTOS" Role="DETALLE_PRODUCTOS" Multiplicity="*" />
+          <End Role="SUMINISTROS" Type="Model.SUMINISTRO" Multiplicity="0..1" />
+          <End Role="DETALLE_PRODUCTOS" Type="Model.DETALLE_PRODUCTO" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="SUMINISTROS">
               <PropertyRef Name="id_suministro" />
@@ -990,14 +900,104 @@ FROM [dbo].[DETALLE_PRODUCTOS] AS [DETALLE_PRODUCTOS]</DefiningQuery>
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="CATEGORIAS" EntityType="Model.CATEGORIA" />
+          <EntitySet Name="CONTACTOS" EntityType="Model.CONTACTO" />
+          <EntitySet Name="DETALLE_ORDENES" EntityType="Model.DETALLE_ORDEN" />
+          <EntitySet Name="DETALLE_RECETAS" EntityType="Model.DETALLE_RECETA" />
+          <EntitySet Name="EVENTOS" EntityType="Model.EVENTO" />
+          <EntitySet Name="IMAGENES_PRODUCTOS" EntityType="Model.IMAGEN_PRODUCTO" />
+          <EntitySet Name="INGREDIENTES" EntityType="Model.INGREDIENTE" />
+          <EntitySet Name="ORDENES" EntityType="Model.ORDEN" />
+          <EntitySet Name="ORDENES_ESTADOS" EntityType="Model.ORDEN_ESTADO" />
+          <EntitySet Name="ORDENES_PAGO_ESTADOS" EntityType="Model.ORDEN_PAGO_ESTADO" />
+          <EntitySet Name="PRODUCTOS" EntityType="Model.PRODUCTO" />
+          <EntitySet Name="RECETAS" EntityType="Model.RECETA" />
+          <EntitySet Name="SUMINISTROS" EntityType="Model.SUMINISTRO" />
+          <EntitySet Name="TIPOS_EVENTOS" EntityType="Model.TIPO_EVENTO" />
+          <EntitySet Name="UNIDADES_MEDIDA" EntityType="Model.UNIDAD_MEDIDA" />
+          <EntitySet Name="DETALLE_PRODUCTOS" EntityType="Model.DETALLE_PRODUCTO" />
+          <AssociationSet Name="FK__PRODUCTOS__id_ca__4CA06362" Association="Self.FK__PRODUCTOS__id_ca__4CA06362">
+            <End Role="CATEGORIAS" EntitySet="CATEGORIAS" />
+            <End Role="PRODUCTOS" EntitySet="PRODUCTOS" />
+          </AssociationSet>
+          <AssociationSet Name="FK__RECETAS__id_cate__4316F928" Association="Self.FK__RECETAS__id_cate__4316F928">
+            <End Role="CATEGORIAS" EntitySet="CATEGORIAS" />
+            <End Role="RECETAS" EntitySet="RECETAS" />
+          </AssociationSet>
+          <AssociationSet Name="FK__SUMINISTR__id_ca__49C3F6B7" Association="Self.FK__SUMINISTR__id_ca__49C3F6B7">
+            <End Role="CATEGORIAS" EntitySet="CATEGORIAS" />
+            <End Role="SUMINISTROS" EntitySet="SUMINISTROS" />
+          </AssociationSet>
+          <AssociationSet Name="FK__EVENTOS__id_clie__5CD6CB2B" Association="Self.FK__EVENTOS__id_clie__5CD6CB2B">
+            <End Role="CONTACTOS" EntitySet="CONTACTOS" />
+            <End Role="EVENTOS" EntitySet="EVENTOS" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ORDENES__id_clie__628FA481" Association="Self.FK__ORDENES__id_clie__628FA481">
+            <End Role="CONTACTOS" EntitySet="CONTACTOS" />
+            <End Role="ORDENES" EntitySet="ORDENES" />
+          </AssociationSet>
+          <AssociationSet Name="FK__DETALLE_O__id_or__68487DD7" Association="Self.FK__DETALLE_O__id_or__68487DD7">
+            <End Role="ORDENES" EntitySet="ORDENES" />
+            <End Role="DETALLE_ORDENES" EntitySet="DETALLE_ORDENES" />
+          </AssociationSet>
+          <AssociationSet Name="FK__DETALLE_O__id_pr__693CA210" Association="Self.FK__DETALLE_O__id_pr__693CA210">
+            <End Role="PRODUCTOS" EntitySet="PRODUCTOS" />
+            <End Role="DETALLE_ORDENES" EntitySet="DETALLE_ORDENES" />
+          </AssociationSet>
+          <AssociationSet Name="FK__DETALLE_R__id_in__46E78A0C" Association="Self.FK__DETALLE_R__id_in__46E78A0C">
+            <End Role="INGREDIENTES" EntitySet="INGREDIENTES" />
+            <End Role="DETALLE_RECETAS" EntitySet="DETALLE_RECETAS" />
+          </AssociationSet>
+          <AssociationSet Name="FK__DETALLE_R__id_re__45F365D3" Association="Self.FK__DETALLE_R__id_re__45F365D3">
+            <End Role="RECETAS" EntitySet="RECETAS" />
+            <End Role="DETALLE_RECETAS" EntitySet="DETALLE_RECETAS" />
+          </AssociationSet>
+          <AssociationSet Name="FK__EVENTOS__id_tipo__5DCAEF64" Association="Self.FK__EVENTOS__id_tipo__5DCAEF64">
+            <End Role="TIPOS_EVENTOS" EntitySet="TIPOS_EVENTOS" />
+            <End Role="EVENTOS" EntitySet="EVENTOS" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ORDENES__id_even__656C112C" Association="Self.FK__ORDENES__id_even__656C112C">
+            <End Role="EVENTOS" EntitySet="EVENTOS" />
+            <End Role="ORDENES" EntitySet="ORDENES" />
+          </AssociationSet>
+          <AssociationSet Name="FK__IMAGENES___id_pr__4F7CD00D" Association="Self.FK__IMAGENES___id_pr__4F7CD00D">
+            <End Role="PRODUCTOS" EntitySet="PRODUCTOS" />
+            <End Role="IMAGENES_PRODUCTOS" EntitySet="IMAGENES_PRODUCTOS" />
+          </AssociationSet>
+          <AssociationSet Name="FK__INGREDIEN__id_un__403A8C7D" Association="Self.FK__INGREDIEN__id_un__403A8C7D">
+            <End Role="UNIDADES_MEDIDA" EntitySet="UNIDADES_MEDIDA" />
+            <End Role="INGREDIENTES" EntitySet="INGREDIENTES" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ORDENES__id_orde__6383C8BA" Association="Self.FK__ORDENES__id_orde__6383C8BA">
+            <End Role="ORDENES_ESTADOS" EntitySet="ORDENES_ESTADOS" />
+            <End Role="ORDENES" EntitySet="ORDENES" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ORDENES__id_orde__6477ECF3" Association="Self.FK__ORDENES__id_orde__6477ECF3">
+            <End Role="ORDENES_PAGO_ESTADOS" EntitySet="ORDENES_PAGO_ESTADOS" />
+            <End Role="ORDENES" EntitySet="ORDENES" />
+          </AssociationSet>
+          <AssociationSet Name="FK__DETALLE_P__id_pr__5165187F" Association="Self.FK__DETALLE_P__id_pr__5165187F">
+            <End Role="PRODUCTOS" EntitySet="PRODUCTOS" />
+            <End Role="DETALLE_PRODUCTOS" EntitySet="DETALLE_PRODUCTOS" />
+          </AssociationSet>
+          <AssociationSet Name="FK__DETALLE_P__id_re__534D60F1" Association="Self.FK__DETALLE_P__id_re__534D60F1">
+            <End Role="RECETAS" EntitySet="RECETAS" />
+            <End Role="DETALLE_PRODUCTOS" EntitySet="DETALLE_PRODUCTOS" />
+          </AssociationSet>
+          <AssociationSet Name="FK__DETALLE_P__id_su__52593CB8" Association="Self.FK__DETALLE_P__id_su__52593CB8">
+            <End Role="SUMINISTROS" EntitySet="SUMINISTROS" />
+            <End Role="DETALLE_PRODUCTOS" EntitySet="DETALLE_PRODUCTOS" />
+          </AssociationSet>
+        </EntityContainer>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="EFModelStoreContainer" CdmEntityContainer="Entities">
+        <EntityContainerMapping StorageEntityContainer="ModelStoreContainer" CdmEntityContainer="Entities">
           <EntitySetMapping Name="CATEGORIAS">
-            <EntityTypeMapping TypeName="EFModel.CATEGORIAS">
+            <EntityTypeMapping TypeName="Model.CATEGORIA">
               <MappingFragment StoreEntitySet="CATEGORIAS">
                 <ScalarProperty Name="id_categoria" ColumnName="id_categoria" />
                 <ScalarProperty Name="tipo" ColumnName="tipo" />
@@ -1006,7 +1006,7 @@ FROM [dbo].[DETALLE_PRODUCTOS] AS [DETALLE_PRODUCTOS]</DefiningQuery>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="CONTACTOS">
-            <EntityTypeMapping TypeName="EFModel.CONTACTOS">
+            <EntityTypeMapping TypeName="Model.CONTACTO">
               <MappingFragment StoreEntitySet="CONTACTOS">
                 <ScalarProperty Name="id_contacto" ColumnName="id_contacto" />
                 <ScalarProperty Name="nombre_apellido" ColumnName="nombre_apellido" />
@@ -1023,7 +1023,7 @@ FROM [dbo].[DETALLE_PRODUCTOS] AS [DETALLE_PRODUCTOS]</DefiningQuery>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="DETALLE_ORDENES">
-            <EntityTypeMapping TypeName="EFModel.DETALLE_ORDENES">
+            <EntityTypeMapping TypeName="Model.DETALLE_ORDEN">
               <MappingFragment StoreEntitySet="DETALLE_ORDENES">
                 <ScalarProperty Name="id_orden" ColumnName="id_orden" />
                 <ScalarProperty Name="id_producto" ColumnName="id_producto" />
@@ -1035,7 +1035,7 @@ FROM [dbo].[DETALLE_PRODUCTOS] AS [DETALLE_PRODUCTOS]</DefiningQuery>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="DETALLE_RECETAS">
-            <EntityTypeMapping TypeName="EFModel.DETALLE_RECETAS">
+            <EntityTypeMapping TypeName="Model.DETALLE_RECETA">
               <MappingFragment StoreEntitySet="DETALLE_RECETAS">
                 <ScalarProperty Name="id_receta" ColumnName="id_receta" />
                 <ScalarProperty Name="id_ingrediente" ColumnName="id_ingrediente" />
@@ -1044,18 +1044,17 @@ FROM [dbo].[DETALLE_PRODUCTOS] AS [DETALLE_PRODUCTOS]</DefiningQuery>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="EVENTOS">
-            <EntityTypeMapping TypeName="EFModel.EVENTOS">
+            <EntityTypeMapping TypeName="Model.EVENTO">
               <MappingFragment StoreEntitySet="EVENTOS">
                 <ScalarProperty Name="id_evento" ColumnName="id_evento" />
                 <ScalarProperty Name="fecha" ColumnName="fecha" />
                 <ScalarProperty Name="id_cliente" ColumnName="id_cliente" />
-                <ScalarProperty Name="id_orden" ColumnName="id_orden" />
                 <ScalarProperty Name="id_tipo_evento" ColumnName="id_tipo_evento" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="IMAGENES_PRODUCTOS">
-            <EntityTypeMapping TypeName="EFModel.IMAGENES_PRODUCTOS">
+            <EntityTypeMapping TypeName="Model.IMAGEN_PRODUCTO">
               <MappingFragment StoreEntitySet="IMAGENES_PRODUCTOS">
                 <ScalarProperty Name="id_imagen" ColumnName="id_imagen" />
                 <ScalarProperty Name="id_producto" ColumnName="id_producto" />
@@ -1064,7 +1063,7 @@ FROM [dbo].[DETALLE_PRODUCTOS] AS [DETALLE_PRODUCTOS]</DefiningQuery>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="INGREDIENTES">
-            <EntityTypeMapping TypeName="EFModel.INGREDIENTES">
+            <EntityTypeMapping TypeName="Model.INGREDIENTE">
               <MappingFragment StoreEntitySet="INGREDIENTES">
                 <ScalarProperty Name="id_ingrediente" ColumnName="id_ingrediente" />
                 <ScalarProperty Name="nombre" ColumnName="nombre" />
@@ -1076,7 +1075,7 @@ FROM [dbo].[DETALLE_PRODUCTOS] AS [DETALLE_PRODUCTOS]</DefiningQuery>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="ORDENES">
-            <EntityTypeMapping TypeName="EFModel.ORDENES">
+            <EntityTypeMapping TypeName="Model.ORDEN">
               <MappingFragment StoreEntitySet="ORDENES">
                 <ScalarProperty Name="id_orden" ColumnName="id_orden" />
                 <ScalarProperty Name="id_cliente" ColumnName="id_cliente" />
@@ -1088,11 +1087,12 @@ FROM [dbo].[DETALLE_PRODUCTOS] AS [DETALLE_PRODUCTOS]</DefiningQuery>
                 <ScalarProperty Name="hora_entrega" ColumnName="hora_entrega" />
                 <ScalarProperty Name="id_orden_estado" ColumnName="id_orden_estado" />
                 <ScalarProperty Name="id_orden_pago_estado" ColumnName="id_orden_pago_estado" />
+                <ScalarProperty Name="id_evento" ColumnName="id_evento" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="ORDENES_ESTADOS">
-            <EntityTypeMapping TypeName="EFModel.ORDENES_ESTADOS">
+            <EntityTypeMapping TypeName="Model.ORDEN_ESTADO">
               <MappingFragment StoreEntitySet="ORDENES_ESTADOS">
                 <ScalarProperty Name="id_orden_estado" ColumnName="id_orden_estado" />
                 <ScalarProperty Name="nombre" ColumnName="nombre" />
@@ -1100,7 +1100,7 @@ FROM [dbo].[DETALLE_PRODUCTOS] AS [DETALLE_PRODUCTOS]</DefiningQuery>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="ORDENES_PAGO_ESTADOS">
-            <EntityTypeMapping TypeName="EFModel.ORDENES_PAGO_ESTADOS">
+            <EntityTypeMapping TypeName="Model.ORDEN_PAGO_ESTADO">
               <MappingFragment StoreEntitySet="ORDENES_PAGO_ESTADOS">
                 <ScalarProperty Name="id_orden_pago_estado" ColumnName="id_orden_pago_estado" />
                 <ScalarProperty Name="nombre" ColumnName="nombre" />
@@ -1108,7 +1108,7 @@ FROM [dbo].[DETALLE_PRODUCTOS] AS [DETALLE_PRODUCTOS]</DefiningQuery>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="PRODUCTOS">
-            <EntityTypeMapping TypeName="EFModel.PRODUCTOS">
+            <EntityTypeMapping TypeName="Model.PRODUCTO">
               <MappingFragment StoreEntitySet="PRODUCTOS">
                 <ScalarProperty Name="id_producto" ColumnName="id_producto" />
                 <ScalarProperty Name="nombre" ColumnName="nombre" />
@@ -1122,7 +1122,7 @@ FROM [dbo].[DETALLE_PRODUCTOS] AS [DETALLE_PRODUCTOS]</DefiningQuery>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="RECETAS">
-            <EntityTypeMapping TypeName="EFModel.RECETAS">
+            <EntityTypeMapping TypeName="Model.RECETA">
               <MappingFragment StoreEntitySet="RECETAS">
                 <ScalarProperty Name="id_receta" ColumnName="id_receta" />
                 <ScalarProperty Name="nombre" ColumnName="nombre" />
@@ -1133,7 +1133,7 @@ FROM [dbo].[DETALLE_PRODUCTOS] AS [DETALLE_PRODUCTOS]</DefiningQuery>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="SUMINISTROS">
-            <EntityTypeMapping TypeName="EFModel.SUMINISTROS">
+            <EntityTypeMapping TypeName="Model.SUMINISTRO">
               <MappingFragment StoreEntitySet="SUMINISTROS">
                 <ScalarProperty Name="id_suministro" ColumnName="id_suministro" />
                 <ScalarProperty Name="id_categoria" ColumnName="id_categoria" />
@@ -1145,7 +1145,7 @@ FROM [dbo].[DETALLE_PRODUCTOS] AS [DETALLE_PRODUCTOS]</DefiningQuery>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="TIPOS_EVENTOS">
-            <EntityTypeMapping TypeName="EFModel.TIPOS_EVENTOS">
+            <EntityTypeMapping TypeName="Model.TIPO_EVENTO">
               <MappingFragment StoreEntitySet="TIPOS_EVENTOS">
                 <ScalarProperty Name="id_tipo_evento" ColumnName="id_tipo_evento" />
                 <ScalarProperty Name="nombre" ColumnName="nombre" />
@@ -1153,7 +1153,7 @@ FROM [dbo].[DETALLE_PRODUCTOS] AS [DETALLE_PRODUCTOS]</DefiningQuery>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="UNIDADES_MEDIDA">
-            <EntityTypeMapping TypeName="EFModel.UNIDADES_MEDIDA">
+            <EntityTypeMapping TypeName="Model.UNIDAD_MEDIDA">
               <MappingFragment StoreEntitySet="UNIDADES_MEDIDA">
                 <ScalarProperty Name="id_unidad" ColumnName="id_unidad" />
                 <ScalarProperty Name="nombre" ColumnName="nombre" />
@@ -1162,12 +1162,12 @@ FROM [dbo].[DETALLE_PRODUCTOS] AS [DETALLE_PRODUCTOS]</DefiningQuery>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="DETALLE_PRODUCTOS">
-            <EntityTypeMapping TypeName="EFModel.DETALLE_PRODUCTOS">
+            <EntityTypeMapping TypeName="Model.DETALLE_PRODUCTO">
               <MappingFragment StoreEntitySet="DETALLE_PRODUCTOS">
-                <ScalarProperty Name="cantidad" ColumnName="cantidad" />
-                <ScalarProperty Name="id_receta" ColumnName="id_receta" />
-                <ScalarProperty Name="id_suministro" ColumnName="id_suministro" />
                 <ScalarProperty Name="id_producto" ColumnName="id_producto" />
+                <ScalarProperty Name="id_suministro" ColumnName="id_suministro" />
+                <ScalarProperty Name="id_receta" ColumnName="id_receta" />
+                <ScalarProperty Name="cantidad" ColumnName="cantidad" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -81,7 +81,7 @@ namespace Datos.Repositorios
             Entities db = new Entities();
             try
             {
-                PRODUCTOS p = db.PRODUCTOS.Find(modelo.IdProducto);
+                PRODUCTO p = db.PRODUCTOS.Find(modelo.IdProducto);
                 Mappers.ProductoMapper.ActualizarEntidad(ref p, modelo);
                 db.SaveChanges();
 

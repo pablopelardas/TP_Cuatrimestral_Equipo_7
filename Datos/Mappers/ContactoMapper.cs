@@ -8,7 +8,7 @@ namespace Datos.Mappers
 {
     internal class ContactoMapper
     {
-        internal static Dominio.Modelos.ContactoModelo EntidadAModelo(CONTACTOS contactoEntidad)
+        internal static Dominio.Modelos.ContactoModelo EntidadAModelo(CONTACTO contactoEntidad)
         {
             return new Dominio.Modelos.ContactoModelo
             {
@@ -26,9 +26,9 @@ namespace Datos.Mappers
             };
         }
 
-        internal static CONTACTOS ModeloAEntidad(Dominio.Modelos.ContactoModelo contacto)
+        internal static CONTACTO ModeloAEntidad(Dominio.Modelos.ContactoModelo contacto)
         {
-            return new CONTACTOS
+            return new CONTACTO
             {
                 id_contacto = contacto.Id,
                 nombre_apellido = contacto.NombreApellido,
@@ -44,7 +44,7 @@ namespace Datos.Mappers
             };
         }
 
-        internal static void ActualizarEntidad(ref CONTACTOS contactoEntidad, Dominio.Modelos.ContactoModelo contacto)
+        internal static void ActualizarEntidad(ref CONTACTO contactoEntidad, Dominio.Modelos.ContactoModelo contacto)
         {
             contactoEntidad.id_contacto = contacto.Id;
             contactoEntidad.nombre_apellido = contacto.NombreApellido;

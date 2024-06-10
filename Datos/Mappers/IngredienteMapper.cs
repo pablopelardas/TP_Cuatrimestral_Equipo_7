@@ -10,7 +10,7 @@ namespace Datos.Mappers
 {
     public class IngredienteMapper
     {
-        public static IngredienteModelo EntidadAModelo(INGREDIENTES entidad)
+        public static IngredienteModelo EntidadAModelo(INGREDIENTE entidad)
         {
             IngredienteModelo ingrediente = new IngredienteModelo
             {
@@ -20,14 +20,14 @@ namespace Datos.Mappers
                 Costo = entidad.costo,
                 Proveedor = entidad.proveedor
             };
-            if (entidad.UNIDADES_MEDIDA != null)
+            if (entidad.UNIDAD_MEDIDA != null)
             {
-                ingrediente.Unidad = UnidadMedidaMapper.EntidadAModelo(entidad.UNIDADES_MEDIDA);
+                ingrediente.Unidad = UnidadMedidaMapper.EntidadAModelo(entidad.UNIDAD_MEDIDA);
             }
             return ingrediente;
         }
 
-        public static List<IngredienteModelo> EntidadesAModelos(List<INGREDIENTES> entidades)
+        public static List<IngredienteModelo> EntidadesAModelos(List<INGREDIENTE> entidades)
         {
             List<IngredienteModelo> ingredientes = new List<IngredienteModelo>();
             foreach (var entidad in entidades)
@@ -37,9 +37,9 @@ namespace Datos.Mappers
             return ingredientes;
         }
 
-        public static INGREDIENTES ModeloAEntidad(IngredienteModelo ingrediente)
+        public static INGREDIENTE ModeloAEntidad(IngredienteModelo ingrediente)
         {
-            INGREDIENTES entidad = new INGREDIENTES
+            INGREDIENTE entidad = new INGREDIENTE
             {
                 id_ingrediente = ingrediente.IdIngrediente,
                 nombre = ingrediente.Nombre,
@@ -50,7 +50,7 @@ namespace Datos.Mappers
 
             if (ingrediente.Unidad != null)
             {
-                entidad.UNIDADES_MEDIDA = UnidadMedidaMapper.ModeloAEntidad(ingrediente.Unidad);
+                entidad.id_unidad = ingrediente.Unidad.Id;
             }
 
             return entidad;

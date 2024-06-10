@@ -12,13 +12,16 @@ namespace Datos
     using System;
     using System.Collections.Generic;
     
-    public partial class DETALLE_RECETAS
+    public partial class DETALLE_ORDEN
     {
-        public int id_receta { get; set; }
-        public int id_ingrediente { get; set; }
-        public double cantidad { get; set; }
+        public int id_orden { get; set; }
+        public int id_producto { get; set; }
+        public int cantidad { get; set; }
+        public int producto_porciones { get; set; }
+        public decimal producto_costo { get; set; }
+        public decimal producto_precio { get; set; }
     
-        public virtual INGREDIENTES INGREDIENTES { get; set; }
-        public virtual RECETAS RECETAS { get; set; }
+        public virtual ORDEN ORDEN { get; set; }
+        public virtual PRODUCTO PRODUCTO { get; set; }
     }
 }

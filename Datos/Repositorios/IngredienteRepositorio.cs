@@ -16,7 +16,7 @@ namespace Datos.Repositorios
             Entities db = new Entities();
             try
             {
-                List<INGREDIENTES> ingredientes = db.INGREDIENTES.ToList();
+                List<INGREDIENTE> ingredientes = db.INGREDIENTES.ToList();
                 return Mappers.IngredienteMapper.EntidadesAModelos(ingredientes);
             }
             catch (Exception)
@@ -31,7 +31,7 @@ namespace Datos.Repositorios
             Entities db = new Entities();
             try
             {
-                INGREDIENTES ingrediente = db.INGREDIENTES.FirstOrDefault(x => x.id_ingrediente == id);
+                INGREDIENTE ingrediente = db.INGREDIENTES.FirstOrDefault(x => x.id_ingrediente == id);
                 return Mappers.IngredienteMapper.EntidadAModelo(ingrediente);
             }
             catch (Exception)
@@ -46,7 +46,7 @@ namespace Datos.Repositorios
             Entities db = new Entities();
             try
             {
-                INGREDIENTES entidad = Mappers.IngredienteMapper.ModeloAEntidad(ingrediente);
+                INGREDIENTE entidad = Mappers.IngredienteMapper.ModeloAEntidad(ingrediente);
                 db.INGREDIENTES.Add(entidad);
                 db.SaveChanges();
             }
@@ -62,7 +62,7 @@ namespace Datos.Repositorios
             Entities db = new Entities();
             try
             {
-                INGREDIENTES entidad = Mappers.IngredienteMapper.ModeloAEntidad(ingrediente);
+                INGREDIENTE entidad = Mappers.IngredienteMapper.ModeloAEntidad(ingrediente);
                 db.Entry(entidad).State = EntityState.Modified;
                 db.SaveChanges();
             }
@@ -78,7 +78,7 @@ namespace Datos.Repositorios
             Entities db = new Entities();
             try
             {
-                INGREDIENTES entidad = db.INGREDIENTES.FirstOrDefault(x => x.id_ingrediente == id);
+                INGREDIENTE entidad = db.INGREDIENTES.FirstOrDefault(x => x.id_ingrediente == id);
                 db.INGREDIENTES.Remove(entidad);
                 db.SaveChanges();
             }

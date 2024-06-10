@@ -10,7 +10,7 @@ namespace Datos.Mappers
 {
     public class UnidadMedidaMapper
     {
-        public static UnidadMedidaModelo EntidadAModelo(UNIDADES_MEDIDA entidad)
+        public static UnidadMedidaModelo EntidadAModelo(UNIDAD_MEDIDA entidad)
         {
             return new UnidadMedidaModelo
             {
@@ -20,9 +20,9 @@ namespace Datos.Mappers
             };
         }
 
-        public static UNIDADES_MEDIDA ModeloAEntidad(UnidadMedidaModelo unidad)
+        public static UNIDAD_MEDIDA ModeloAEntidad(UnidadMedidaModelo unidad)
         {
-            return new UNIDADES_MEDIDA
+            return new UNIDAD_MEDIDA
             {
                 id_unidad = unidad.Id,
                 nombre = unidad.Nombre,
