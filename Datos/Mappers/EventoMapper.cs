@@ -25,7 +25,7 @@ namespace Datos.Mappers
             {
                 modelo.Cliente = ContactoMapper.EntidadAModelo(entidad.CLIENTE);
             }
-            if (entidad.ORDENES != null && ListarOrdenes)
+            if (entidad.ORDENES != null && entidad.ORDENES.Count() > 0 && ListarOrdenes)
             {
                 modelo.Orden = OrdenMapper.EntidadesAModelos(entidad.ORDENES.ToList()).First();
             }

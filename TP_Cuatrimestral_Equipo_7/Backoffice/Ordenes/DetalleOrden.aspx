@@ -6,9 +6,8 @@
 <%-- DIV Detalles de evento  --%>
 <% if (orden != null)
    { %>
-    <section class="bg-white py-8 px-5 antialiased dark:bg-gray-900 md:py-16">
-        <form action="#" class="mx-auto max-w-screen-xl px-4 2xl:px-0">
-            <div class="mx-auto max-w-3xl">
+        <form action="#" class="mx-auto max-w-screen-xl px-4 ">
+            <div class="mx-auto max-w-3xl px-4">
                 <div class="flex justify-between align-items-center">
                     <h2 class="text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl">Orden #<%: orden.IdOrden %></h2>
                     <a href="<%: redirect_to %>" class="flex align-items-center gap-2 text-gray-800 dark:text-white hover:text-primary-600 hover:dark:text-primary-600 ">
@@ -49,7 +48,7 @@
                             <span class="<%: orden.EstadoPago.PillClass %> ml-4"><%: orden.EstadoPago.Nombre %></span>
                         </div>
                         <asp:Button CssClass="inline-flex items-center justify-center rounded-lg bg-primary-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 cursor-pointer" ID="btnAgregarPago" runat="server" Text="Agregar Pago"></asp:Button>
-                        <button type="button" data-modal-target="billingInformationModal" data-modal-toggle="billingInformationModal">Abrir modal</button>
+                        <%-- <button type="button" data-modal-target="billingInformationModal" data-modal-toggle="billingInformationModal">Abrir modal</button> --%>
                     </h4>
 
                     <div class="flex justify-between">
@@ -152,7 +151,6 @@
                 </div>
             </div>
         </form>
-    </section>
 
     <div id="billingInformationModal" tabindex="-1" aria-hidden="true" class="antialiased fixed left-0 right-0 top-0 z-50 hidden h-[calc(100%-1rem)] max-h-auto w-full max-h-full items-center justify-center overflow-y-auto overflow-x-hidden antialiased md:inset-0">
     <div class="relative max-h-auto w-full max-h-full max-w-lg p-4">

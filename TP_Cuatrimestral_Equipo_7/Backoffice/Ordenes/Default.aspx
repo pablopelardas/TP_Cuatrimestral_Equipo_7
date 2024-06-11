@@ -21,7 +21,6 @@
     </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-    <section class="bg-white py-8 antialiased dark:bg-gray-900 md:py-16">
         <div class="mx-auto max-w-screen-xl px-4 2xl:px-0">
             <div class="mx-auto max-w-5xl">
                 <div class="gap-4 sm:flex sm:items-center sm:justify-between">
@@ -63,7 +62,7 @@
                                 <dt class="text-base font-medium text-gray-500 dark:text-gray-400">Orden</dt>
                                 <dd class="mt-1.5 text-base font-semibold text-gray-900 dark:text-white">
                                     <%-- show last part of id concat with #...id --%>
-                                    <a href="DetalleOrden.aspx?id=<%: orden.IdOrden %>" title="<%: orden.IdOrden%>" class="hover:underline"><%: $"#...{orden.IdOrden.ToString().Substring(orden.IdOrden.ToString().Length - 4)}"%></a>
+                                    <a href="DetalleOrden.aspx?id=<%: orden.IdOrden %>" title="<%: orden.IdOrden%>" class="hover:underline"><%: $"#...{orden.ShortId}"%></a>
                                 </dd>
                             </dl>
 
@@ -141,9 +140,4 @@
                 </nav>
             </div>
         </div>
-    </section>
-</asp:Content>
-<asp:Content ID="Content3" ContentPlaceHolderID="PageHeader" runat="server">
-    <h4>Ordenes</h4>
-    <a href="EditarOrden.aspx" class="btn btn-primary">Nueva orden</a>
 </asp:Content>

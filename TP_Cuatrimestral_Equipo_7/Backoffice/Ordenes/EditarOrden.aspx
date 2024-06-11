@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" MaintainScrollPositionOnPostback="true" Language="C#" MasterPageFile="~/LayoutNegocio.Master" AutoEventWireup="true" CodeBehind="EditarOrden.aspx.cs" Inherits="TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes.EditarOrden"  ValidateRequest="false"%>
+﻿<%@ Page Title="" MaintainScrollPositionOnPostback="true" Language="C#" MasterPageFile="~/LayoutTailwind.Master" AutoEventWireup="true" CodeBehind="EditarOrden.aspx.cs" Inherits="TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes.EditarOrden"  ValidateRequest="false"%>
 
 <%@ Register Src="~/Backoffice/Components/ComboBoxAutoComplete.ascx" TagPrefix="uc" TagName="ComboBoxAutoComplete" %>
 
@@ -11,20 +11,20 @@
     <script type = "text/javascript" src = "https://unpkg.com/default-passive-events" ></script>
 </asp:Content>
 
-<asp:Content ID="Content3" ContentPlaceHolderID="PageHeader" runat="server">
-    <%if (id != null) { %>
-        <a href="DetalleOrden.aspx?id=<%: id %>" class="page-header--go-back">
-        <i class="fa-solid fa-arrow-left"></i>
-        <h4>Editor de orden</h4>
-    </a>
-    <%}
-else { %>
-    <a href="/Backoffice/Ordenes" class="page-header--go-back">
-        <i class="fa-solid fa-arrow-left"></i>
-        <h4>Editor de orden</h4>
-    </a>
-    <%} %>
-</asp:Content>
+<%-- <asp:Content ID="Content3" ContentPlaceHolderID="PageHeader" runat="server"> --%>
+<%--     <%if (id != null) { %> --%>
+<%--         <a href="DetalleOrden.aspx?id=<%: id %>" class="page-header--go-back"> --%>
+<%--         <i class="fa-solid fa-arrow-left"></i> --%>
+<%--         <h4>Editor de orden</h4> --%>
+<%--     </a> --%>
+<%--     <%} --%>
+<%-- else { %> --%>
+<%--     <a href="/Backoffice/Ordenes" class="page-header--go-back"> --%>
+<%--         <i class="fa-solid fa-arrow-left"></i> --%>
+<%--         <h4>Editor de orden</h4> --%>
+<%--     </a> --%>
+<%--     <%} %> --%>
+<%-- </asp:Content> --%>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 

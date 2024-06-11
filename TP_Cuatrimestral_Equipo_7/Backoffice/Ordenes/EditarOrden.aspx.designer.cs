@@ -130,5 +130,19 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnGuardar;
+
+        /// <summary>
+        /// Master property.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated property.
+        /// </remarks>
+        public new TP_Cuatrimestral_Equipo_7.LayoutTailwind Master
+        {
+            get
+            {
+                return ((TP_Cuatrimestral_Equipo_7.LayoutTailwind)(base.Master));
+            }
+        }
     }
 }

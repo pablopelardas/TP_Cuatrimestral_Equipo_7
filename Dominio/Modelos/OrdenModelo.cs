@@ -48,6 +48,15 @@ namespace Dominio.Modelos
                 }
             }
         }
+        
+        public string ShortId
+        {
+            get
+            {
+                // last 4 digits of the id
+                return IdOrden.ToString().Substring(IdOrden.ToString().Length - 4);
+            }
+        }
 
         public ContactoModelo Cliente { get; set; }
         public OrdenEstadoModelo Estado { get; set; }

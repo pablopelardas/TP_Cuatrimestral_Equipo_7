@@ -21,8 +21,6 @@
         loading = true;
         ShowLoader();
 
-        console.log('SHOW POPUP')
-
         setTimeout(() => {
             const button = document.querySelector('[data-modal-toggle="dayOrders"]');
 
@@ -156,7 +154,7 @@
                                 <dl class="w-1/2 sm:w-1/4 lg:w-auto lg:flex-1">
                                     <dt class="text-base font-medium text-gray-500 dark:text-gray-400">Orden</dt>
                                     <dd class="mt-1.5 text-base font-semibold text-gray-900 dark:text-white">
-                                        <a href="#" class="hover:underline">#<%# Eval("Orden.IdOrden") %></a>
+                                        <a href="/Backoffice/Ordenes/EditarOrden.aspx?id=<%# Eval("Orden.IdOrden")%>" class="hover:underline">#...<%# Eval("Orden.ShortId") %></a>
                                     </dd>
                                 </dl>
                                 <dl class="w-1/2 sm:w-1/4 lg:w-auto lg:flex-1">
