@@ -91,7 +91,6 @@
       <DependentUpon>202406110237396_Init.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="Migrations\GuidGenerator.cs" />
     <Compile Include="Migrations\Seeds\IngredientesSeed.cs" />
     <Compile Include="Migrations\Seeds\DetalleRecetasSeed.cs" />
     <Compile Include="Migrations\Seeds\ProductosSeed.cs" />
