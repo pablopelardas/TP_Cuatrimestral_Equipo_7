@@ -8,7 +8,7 @@ namespace Dominio.Modelos
 {
     public class TipoEventoModelo
     {
-        public int IdTipoEvento { get; set; }
+        public Guid IdTipoEvento { get; set; }
         public string Nombre { get; set; }
 
         public TipoEventoModelo() { }

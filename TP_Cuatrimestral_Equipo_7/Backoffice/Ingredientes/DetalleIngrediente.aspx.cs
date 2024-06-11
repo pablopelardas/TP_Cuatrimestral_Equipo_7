@@ -15,15 +15,13 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ingredientes
         {
             if (!IsPostBack)
             {
-                string id = Request.QueryString["id"];
+                Guid id = Guid.TryParse(Request.QueryString["id"], out id) ? id : Guid.Empty;
                 negocio = new Negocio.Servicios.IngredienteServicio();
-                if (id == null) Response.Redirect("/Backoffice/Ingredientes", false);
-                try
-                {
-                    int idInt = Convert.ToInt32(Request.QueryString["id"]);
-                    if (idInt > 0)
+                if (id == Guid.Empty) Response.Redirect("/Backoffice/Ingredientes", false);
+                try{
+                    if (id != Guid.Empty)
                     {
-                        ingrediente = negocio.ObtenerPorId(idInt);
+                        ingrediente = negocio.ObtenerPorId(id);
                         if (ingrediente != null)
                         {
                             lblNombre.Text = ingrediente.Nombre;

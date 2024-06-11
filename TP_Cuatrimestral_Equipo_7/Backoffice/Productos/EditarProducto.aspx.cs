@@ -14,11 +14,11 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Productos
 
         public Dominio.Modelos.ProductoModelo producto;
         private Negocio.Servicios.ProductoServicio negocioProducto;
-        public string id = null;
+        public Guid id = Guid.Empty;
         protected void Page_Load(object sender, EventArgs e)
         {
             negocioProducto = new Negocio.Servicios.ProductoServicio();
-            id = Request.QueryString["id"];
+            id = Guid.TryParse(Request.QueryString["id"], out id) ? id : Guid.Empty; ;
 
             if (!IsPostBack)
             {
@@ -30,10 +30,9 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Productos
                 {
                     try
                     {
-                        int idInt = Convert.ToInt32(Request.QueryString["id"]);
-                        if (idInt > 0)
+                        if (id != Guid.Empty)
                         {
-                            producto = negocioProducto.ObtenerPorId(idInt);
+                            producto = negocioProducto.ObtenerPorId(id);
                             if (producto != null)
                             {                               
                                 txtNombre.Text = producto.Nombre;
@@ -70,10 +69,10 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Productos
 
         protected void btnGuardar_Click(object sender, EventArgs e)
         {
-            if (id != null)
+            if (id != Guid.Empty)
             {
                 ProductoModelo producto = ObtenerModeloDesdeFormulario();
-                producto.IdProducto = Convert.ToInt32(id);
+                producto.IdProducto = id;
                 negocioProducto.Modificar(producto);
             }
             else

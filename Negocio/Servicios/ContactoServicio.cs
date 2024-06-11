@@ -20,7 +20,7 @@ namespace Negocio.Servicios
             return contactosRepositorio.Listar();
         }
 
-        public Dominio.Modelos.ContactoModelo ObtenerPorId(int id)
+        public Dominio.Modelos.ContactoModelo ObtenerPorId(Guid id)
         {
             return contactosRepositorio.ObtenerPorId(id);
         }

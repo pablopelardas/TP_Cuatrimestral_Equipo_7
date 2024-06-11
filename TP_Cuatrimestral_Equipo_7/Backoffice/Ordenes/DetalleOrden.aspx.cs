@@ -20,15 +20,14 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
             }
             if (!IsPostBack)
             {
-                string id = Request.QueryString["id"];
+                Guid id = Guid.TryParse(Request.QueryString["id"], out id) ? id : Guid.Empty;
                 servicioOrden = new Negocio.Servicios.OrdenServicio();
-                if (id == null) Response.Redirect(redirect_to, false);
+                if (id == Guid.Empty) Response.Redirect(redirect_to, false);
                 try
                 {
-                    int idInt = Convert.ToInt32(Request.QueryString["id"]);
-                    if (idInt > 0)
+                    if (id != Guid.Empty)
                     {
-                        orden = servicioOrden.ObtenerPorId(idInt);
+                        orden = servicioOrden.ObtenerPorId(id);
                         if (orden == null) throw new Exception();
                     }
                 }

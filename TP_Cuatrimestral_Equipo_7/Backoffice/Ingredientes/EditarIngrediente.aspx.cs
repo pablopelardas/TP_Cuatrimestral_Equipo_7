@@ -16,12 +16,12 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ingredientes
 
         public List<UnidadMedidaModelo> unidadesMedida;
         private Negocio.Servicios.UnidadMedidaServicio negocioUnidad;
-        public string id = null;
+        public Guid id = Guid.Empty;
         protected void Page_Load(object sender, EventArgs e)
         {
             negocioUnidad = new Negocio.Servicios.UnidadMedidaServicio();
             negocioIngrediente = new Negocio.Servicios.IngredienteServicio();
-            id = Request.QueryString["id"];
+            id = Guid.TryParse(Request.QueryString["id"], out id) ? id : Guid.Empty; ;
 
             if (!IsPostBack)
             {
@@ -35,10 +35,10 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ingredientes
                 {
                     try
                     {
-                        int idInt = Convert.ToInt32(Request.QueryString["id"]);
-                        if (idInt > 0)
+                       
+                        if (id != Guid.Empty)
                         {
-                            ingrediente = negocioIngrediente.ObtenerPorId(idInt);
+                            ingrediente = negocioIngrediente.ObtenerPorId(id);
                             if (ingrediente != null)
                             {
                                 txtNombre.Text = ingrediente.Nombre;
@@ -90,10 +90,10 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ingredientes
 
         protected void btnGuardar_Click(object sender, EventArgs e)
         {
-            if (id != null)
+            if (id != Guid.Empty)
             {
                 IngredienteModelo ingrediente = ObtenerModeloDesdeFormulario();
-                ingrediente.IdIngrediente = Convert.ToInt32(id);
+                ingrediente.IdIngrediente = id;
                 negocioIngrediente.Modificar(ingrediente);
             }
             else

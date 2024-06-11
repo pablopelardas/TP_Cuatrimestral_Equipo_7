@@ -20,7 +20,7 @@ namespace Negocio.Servicios
             return ingredienteRepositorio.Listar();
         }
 
-        public Dominio.Modelos.IngredienteModelo ObtenerPorId(int id)
+        public Dominio.Modelos.IngredienteModelo ObtenerPorId(Guid id)
         {
             return ingredienteRepositorio.ObtenerPorId(id);
         }
@@ -35,7 +35,7 @@ namespace Negocio.Servicios
             ingredienteRepositorio.Modificar(ingrediente);
         }
 
-        public void Eliminar(int id)
+        public void Eliminar(Guid id)
         {
             ingredienteRepositorio.Eliminar(id);
         }

@@ -8,7 +8,7 @@ namespace Dominio.Modelos
 {
     public class UnidadMedidaModelo
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         public string Nombre { get; set; }
         public string Abreviatura { get; set; }
         public UnidadMedidaModelo() { }

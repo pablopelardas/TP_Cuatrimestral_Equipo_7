@@ -9,7 +9,7 @@ namespace Dominio.Modelos
 {
     public class ProductoModelo
     {
-        public int IdProducto { get; set; }
+        public Guid IdProducto { get; set; }
         public string Nombre { get; set; }
         public string Descripcion { get; set; }
 

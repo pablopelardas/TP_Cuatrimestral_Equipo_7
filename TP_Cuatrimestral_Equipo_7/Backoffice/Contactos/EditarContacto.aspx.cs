@@ -13,11 +13,11 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Contactos
     {
         public Dominio.Modelos.ContactoModelo contacto;
         private Negocio.Servicios.ContactoServicio negocio;
-        public string id = null;
+        public Guid id = Guid.Empty;
         protected void Page_Load(object sender, EventArgs e)
         {
             negocio = new Negocio.Servicios.ContactoServicio();
-            id = Request.QueryString["id"];
+            id = Guid.TryParse(Request.QueryString["id"], out id) ? id : Guid.Empty; ;
             
             if (!IsPostBack)
             {
@@ -28,10 +28,9 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Contactos
                 {
                     try
                     {
-                        int idInt = Convert.ToInt32(Request.QueryString["id"]);
-                        if (idInt > 0)
+                        if (id != Guid.Empty)
                         {
-                            contacto = negocio.ObtenerPorId(idInt);
+                            contacto = negocio.ObtenerPorId(id);
                             if (contacto != null)
                             {
                                 ddlTipo.SelectedValue = contacto.Rol == "Cliente" ? "1" : "2";
@@ -79,10 +78,10 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Contactos
 
         protected void btnGuardar_Click(object sender, EventArgs e)
         {
-            if (id != null)
+            if (id != Guid.Empty)
             {
                 ContactoModelo Ob = ObtenerModeloDesdeFormulario();
-                Ob.Id = Convert.ToInt32(id);
+                Ob.Id = id;
                 negocio.Modificar(Ob);
             }
             else

@@ -8,7 +8,7 @@ namespace Dominio.Modelos
 {
     public class SuministroModelo
     {
-        public int IdSuministro { get; set; }
+        public Guid IdSuministro { get; set; }
         public string Nombre { get; set; }
         public string Proveedor { get; set; }
         public double Cantidad { get; set; }

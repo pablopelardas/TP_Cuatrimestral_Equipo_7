@@ -8,7 +8,7 @@ namespace Dominio.Modelos
 {
     public class ProductoDetalleOrdenModelo
     {
-        public int IdOrden { get; set; }
+        public Guid IdOrden { get; set; }
         public ProductoModelo Producto { get; set; }
         public int Cantidad { get; set; }
         public decimal CostoUnitarioActual { get; set; }

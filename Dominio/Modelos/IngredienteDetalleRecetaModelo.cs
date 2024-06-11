@@ -8,7 +8,7 @@ namespace Dominio.Modelos
 {
     public class IngredienteDetalleRecetaModelo
     {
-        public int IdReceta { get; set; }
+        public Guid IdReceta { get; set; }
         public IngredienteModelo Ingrediente { get; set; }
         public double Cantidad { get; set; }
 

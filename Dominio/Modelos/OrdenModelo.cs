@@ -8,7 +8,7 @@ namespace Dominio.Modelos
 {
     public class OrdenModelo
     {
-        public int IdOrden { get; set; }
+        public Guid IdOrden { get; set; }
         public string TipoEntrega { get; set; }
         public string HoraEntrega { get; set; }
         public string DireccionEntrega { get; set; }

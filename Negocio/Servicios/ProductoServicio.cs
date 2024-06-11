@@ -20,7 +20,7 @@ namespace Negocio.Servicios
             return productosRepositorio.Listar();
         }
 
-        public Dominio.Modelos.ProductoModelo ObtenerPorId(int id)
+        public Dominio.Modelos.ProductoModelo ObtenerPorId(Guid id)
         {
             return productosRepositorio.ObtenerPorId(id);
         }

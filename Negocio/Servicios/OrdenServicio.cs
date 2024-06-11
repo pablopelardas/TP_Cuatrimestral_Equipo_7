@@ -21,7 +21,7 @@ namespace Negocio.Servicios
             return ordenRepositorio.Listar();
         }
 
-        public Dominio.Modelos.OrdenModelo ObtenerPorId(int id)
+        public Dominio.Modelos.OrdenModelo ObtenerPorId(Guid id)
         {
             return ordenRepositorio.ObtenerPorId(id);
         }

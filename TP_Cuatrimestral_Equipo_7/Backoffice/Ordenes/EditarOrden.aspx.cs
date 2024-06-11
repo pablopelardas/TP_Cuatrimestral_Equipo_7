@@ -15,7 +15,7 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
     {
         public Dominio.Modelos.OrdenModelo orden;
         public string FechaSeleccionada;
-        public string id = null;
+        public Guid id = Guid.Empty;
         private string OrdenActual = "editorOrden_OrdenActual";
 
         
@@ -39,7 +39,7 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
             servicioContacto = new Negocio.Servicios.ContactoServicio();
             servicioProducto = new Negocio.Servicios.ProductoServicio();
 
-            id = Request.QueryString["id"];
+            id = Guid.TryParse(Request.QueryString["id"], out id) ? id : Guid.Empty;
 
             if (Session[OrdenActual] != null)
             {
@@ -56,10 +56,9 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
                 {
                     try
                     {
-                        int idInt = Convert.ToInt32(Request.QueryString["id"]);
-                        if (idInt > 0)
+                        if (id != Guid.Empty)
                         {
-                            orden = servicioOrden.ObtenerPorId(idInt);
+                            orden = servicioOrden.ObtenerPorId(id);
                         }
                     }
                     catch (Exception ex)
@@ -69,7 +68,7 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
                 }
                 Session[OrdenActual] = orden;
                 CargarComponentes();
-                if (orden.IdOrden != 0) CargarDatos();
+                if (orden.IdOrden != Guid.Empty) CargarDatos();
             }
             else
             {
@@ -89,7 +88,7 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
         private void _initComboBoxTipo(DropDownList comboBox)
         {
             comboBox.DataSource = 
-                new List<TipoEventoModelo> { new TipoEventoModelo { IdTipoEvento = 0, Nombre = "Seleccione un tipo de evento" } }.Concat(servicioEvento.ListarTipoDeEventos());
+                new List<TipoEventoModelo> { new TipoEventoModelo { IdTipoEvento = Guid.Empty, Nombre = "Seleccione un tipo de evento" } }.Concat(servicioEvento.ListarTipoDeEventos());
             comboBox.DataTextField = "Nombre";
             comboBox.DataValueField = "IdTipoEvento";
             comboBox.DataBind();
@@ -98,7 +97,7 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
         private void _initComboBoxCliente(DropDownList comboBox)
         {
             comboBox.DataSource = 
-                new List<ContactoModelo> { new ContactoModelo { Id = 0, NombreApellido = "Seleccione un cliente" } }.Concat(servicioContacto.Listar().Where(contacto => contacto.Rol == "Cliente"));
+                new List<ContactoModelo> { new ContactoModelo { Id = Guid.Empty, NombreApellido = "Seleccione un cliente" } }.Concat(servicioContacto.Listar().Where(contacto => contacto.Rol == "Cliente"));
             comboBox.DataTextField = "NombreApellido";
             comboBox.DataValueField = "Id";
             comboBox.DataBind();
@@ -107,7 +106,7 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
         private void _initComboBoxProducto(DropDownList comboBox)
         {
             comboBox.DataSource = 
-                new List<ProductoModelo> { new ProductoModelo { IdProducto = 0, Nombre = "Seleccione un producto" } }.Concat(servicioProducto.Listar());
+                new List<ProductoModelo> { new ProductoModelo { IdProducto = Guid.Empty, Nombre = "Seleccione un producto" } }.Concat(servicioProducto.Listar());
             comboBox.DataTextField = "Nombre";
             comboBox.DataValueField = "IdProducto";
             comboBox.DataBind();
@@ -169,14 +168,14 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
         private void OnAceptarAgregarProducto(object sender, EventArgs e)
         {
             // Agregar producto a la orden
-            string IdProducto = (string)cboProducto.SelectedValue;
+            Guid IdProducto = (Guid)cboProducto.SelectedValue;
             string Cantidad = txtCantidad.Text;
 
             if (orden.DetalleProductos == null)
             {
                 orden.DetalleProductos = new List<ProductoDetalleOrdenModelo>();
             }
-            ProductoModelo producto = servicioProducto.ObtenerPorId(Convert.ToInt32(IdProducto));
+            ProductoModelo producto = servicioProducto.ObtenerPorId(IdProducto);
 
             ProductoDetalleOrdenModelo detalle = new ProductoDetalleOrdenModelo
             {
@@ -278,13 +277,16 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
             orden.HoraEntrega = txtHora.Text;
             orden.DireccionEntrega = txtDireccion.Text;
 
+            Guid idTipoEvento = (Guid)cboTipo.SelectedValue;
+            Guid idCliente = (Guid)cboCliente.SelectedValue;
+
             orden.Evento = new EventoModelo
             {
                 Fecha = calendario.FechaCalendario,
-                TipoEvento = new TipoEventoModelo { IdTipoEvento = Convert.ToInt32(cboTipo.SelectedValue) }
+                TipoEvento = new TipoEventoModelo { IdTipoEvento = idTipoEvento }
             };
 
-            orden.Cliente = new ContactoModelo { Id = Convert.ToInt32(cboCliente.SelectedValue) };
+            orden.Cliente = new ContactoModelo { Id = idCliente };
             orden.Descripcion = tiny.Text;
 
             decimal descuento = 0;
@@ -307,9 +309,9 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
         protected void btnGuardar_Click(object sender, EventArgs e)
         {
             OrdenModelo Ob = ObtenerModeloDesdeFormulario();
-            if (id != null)
+            if (id != Guid.Empty)
             {
-                Ob.IdOrden = Convert.ToInt32(id);
+                Ob.IdOrden = id;
             }
             servicioOrden.GuardarOrden(Ob);
         }

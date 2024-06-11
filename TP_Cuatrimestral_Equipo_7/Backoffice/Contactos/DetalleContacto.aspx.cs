@@ -15,15 +15,14 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Contactos
         {
             if (!IsPostBack)
             {
-                string id = Request.QueryString["id"];
+                Guid id = Guid.TryParse(Request.QueryString["id"], out id) ? id : Guid.Empty;
                 negocio = new Negocio.Servicios.ContactoServicio();
-                if (id == null) Response.Redirect("/Backoffice/Contactos", false);
+                if (id == Guid.Empty) Response.Redirect("/Backoffice/Contactos", false);
                 try
-                {
-                    int idInt = Convert.ToInt32(Request.QueryString["id"]);
-                    if (idInt > 0)
+                { ;
+                    if (id != Guid.Empty)
                     {
-                        contacto = negocio.ObtenerPorId(idInt);
+                        contacto = negocio.ObtenerPorId(id);
                         if (contacto != null)
                         {
                             lblTipo.Text = contacto.Rol;

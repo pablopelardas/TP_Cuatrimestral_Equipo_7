@@ -15,15 +15,14 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Productos
         {
             if (!IsPostBack)
             {
-                string id = Request.QueryString["id"];
+                Guid id = Guid.TryParse(Request.QueryString["id"], out id) ? id : Guid.Empty;
                 negocio = new Negocio.Servicios.ProductoServicio();
-                if (id == null) Response.Redirect("/Backoffice/Producto", false);
+                if (id == Guid.Empty) Response.Redirect("/Backoffice/Producto", false);
                 try
                 {
-                    int idInt = Convert.ToInt32(Request.QueryString["id"]);
-                    if (idInt > 0)
+                    if (id != Guid.Empty)
                     {
-                        producto = negocio.ObtenerPorId(idInt);
+                        producto = negocio.ObtenerPorId(id);
                         if (producto != null)
                         {
                             lblNombre.Text = producto.Nombre;

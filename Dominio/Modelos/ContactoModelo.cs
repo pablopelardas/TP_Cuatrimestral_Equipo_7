@@ -8,7 +8,7 @@ namespace Dominio.Modelos
 {
     public class ContactoModelo
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         public string NombreApellido { get; set; }
 
         public string Rol { get; set; }
