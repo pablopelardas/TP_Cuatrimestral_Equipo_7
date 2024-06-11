@@ -16,12 +16,14 @@ namespace Dominio.Modelos
         public ContactoModelo Cliente { get; set; }
 
         public OrdenModelo Orden { get; set; }
-        public string Descripcion
+        public string DescripcionEventoOrden
         {
             get
             {
-                return $"{Cliente.NombreApellido} - {TipoEvento.Nombre} ";
+                return $" {TipoEvento.Nombre} - {Fecha.ToString("dd/MM/yyyy")}";                
             }
+
+
         }
 
     }

@@ -15,7 +15,8 @@ namespace Datos.Mappers
             {
                 Id = entidad.id_categoria,
                 Nombre = entidad.nombre,
-                Tipo = entidad.tipo
+                Tipo = entidad.tipo,
+                Imagen = entidad.imagen
             };
         }
 
@@ -25,7 +26,8 @@ namespace Datos.Mappers
             {
                 tipo = modelo.Tipo,
                 id_categoria = modelo.Id,
-                nombre = modelo.Nombre
+                nombre = modelo.Nombre,
+                imagen = modelo.Imagen
             };
         }
     }

@@ -74,6 +74,16 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\Categorias\cajasybolsas.svg" />
+    <Content Include="Assets\Categorias\decoracion.svg" />
+    <Content Include="Assets\Categorias\galleta.png" />
+    <Content Include="Assets\Categorias\galleta.svg" />
+    <Content Include="Assets\Categorias\insumos.svg" />
+    <Content Include="Assets\Categorias\otros.svg" />
+    <Content Include="Assets\Categorias\pan.svg" />
+    <Content Include="Assets\Categorias\tarjetasyetiquetas.svg" />
+    <Content Include="Assets\Categorias\tarta.svg" />
+    <Content Include="Assets\Categorias\torta.svg" />
     <Content Include="Assets\logo.png" />
     <Content Include="Backoffice\Components\ComboBoxAutoComplete.ascx" />
     <Content Include="Backoffice\Components\DetailList.ascx" />
@@ -94,7 +104,7 @@
     <Content Include="Backoffice\Dashboard.aspx" />
     <Content Include="Css\chosen.css" />
     <Content Include="Css\flowbite.min.css" />
-    <Content Include="Css\output.css" />
+    <Content Include="Css\tailwind-local.css" />
     <Content Include="Css\styles.css" />
     <Content Include="Default.aspx" />
     <Content Include="Global.asax" />
@@ -102,6 +112,7 @@
     <Content Include="Js\chosen.jquery.js" />
     <Content Include="Js\flowbite.min.js" />
     <Content Include="Js\jquery-3.7.1.min.js" />
+    <Content Include="Js\tailwind.js" />
     <Content Include="tailwind.config.js" />
     <Content Include="Web.config" />
   </ItemGroup>

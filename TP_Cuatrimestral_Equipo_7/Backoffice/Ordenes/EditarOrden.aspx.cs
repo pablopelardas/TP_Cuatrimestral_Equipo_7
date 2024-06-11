@@ -274,7 +274,7 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
         private OrdenModelo ObtenerModeloDesdeFormulario()
         {
             orden.TipoEntrega = rbtnTipoEntrega.SelectedValue;
-            orden.HoraEntrega = txtHora.Text;
+            orden.HoraEntrega = TimeSpan.TryParse(txtHora.Text, out TimeSpan hora) ? hora : orden.HoraEntrega;
             orden.DireccionEntrega = txtDireccion.Text;
 
             Guid idTipoEvento = (Guid)cboTipo.SelectedValue;

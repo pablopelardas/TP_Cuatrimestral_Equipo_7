@@ -23,5 +23,10 @@ namespace Dominio.Modelos
         public string ProductoQueProvee { get; set; }
         public bool DeseaRecibirCorreos { get; set; }
         public bool DeseaRecibirWhatsapp { get; set; }
+
+        public string DatosDeContacto
+        {
+            get { return $"{NombreApellido} - {Telefono} - {Email}"; }
+        }
     }
 }

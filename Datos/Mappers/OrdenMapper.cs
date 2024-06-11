@@ -21,7 +21,7 @@ namespace Datos.Mappers
                 DescuentoPorcentaje = orden.descuento_porcentaje ?? 0,
                 CostoEnvio = orden.costo_envio ?? 0,
                 Descripcion = orden.descripcion,
-                HoraEntrega = orden.hora_entrega.ToString() ?? "",
+                HoraEntrega = orden.hora_entrega,
                 DireccionEntrega = orden.direccion_entrega,
             };
 
@@ -83,7 +83,7 @@ namespace Datos.Mappers
                 id_orden_pago_estado = ordenModelo.EstadoPago != null ? ordenModelo.EstadoPago.IdOrdenPagoEstado : 1
             };
 
-            TimeSpan hora = TimeSpan.TryParse(ordenModelo.HoraEntrega, out hora) ? hora : new TimeSpan(0, 0, 0);
+            TimeSpan hora = ordenModelo.HoraEntrega;
             entidad.hora_entrega = hora;
 
             return entidad;
@@ -96,7 +96,7 @@ namespace Datos.Mappers
             entidad.descuento_porcentaje = modelo.DescuentoPorcentaje;
             entidad.costo_envio = modelo.CostoEnvio;
             entidad.descripcion = modelo.Descripcion;
-            entidad.hora_entrega = TimeSpan.Parse(modelo.HoraEntrega);
+            entidad.hora_entrega = modelo.HoraEntrega;
             entidad.direccion_entrega = modelo.DireccionEntrega;
             entidad.id_cliente = modelo.Cliente.Id;
             entidad.id_orden_estado = modelo.Estado != null ? modelo.Estado.IdOrdenEstado : 1;

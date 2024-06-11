@@ -90,6 +90,10 @@
     <Compile Include="Migrations\202406110237396_Init.Designer.cs">
       <DependentUpon>202406110237396_Init.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202406111531207_ImagenCategoria.cs" />
+    <Compile Include="Migrations\202406111531207_ImagenCategoria.Designer.cs">
+      <DependentUpon>202406111531207_ImagenCategoria.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Migrations\Seeds\IngredientesSeed.cs" />
     <Compile Include="Migrations\Seeds\DetalleRecetasSeed.cs" />
@@ -139,6 +143,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202406110237396_Init.resx">
       <DependentUpon>202406110237396_Init.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202406111531207_ImagenCategoria.resx">
+      <DependentUpon>202406111531207_ImagenCategoria.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

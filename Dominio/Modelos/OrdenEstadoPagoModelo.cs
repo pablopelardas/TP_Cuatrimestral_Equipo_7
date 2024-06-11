@@ -17,7 +17,7 @@ namespace Dominio.Modelos
             {
                 switch (Nombre)
                 {
-                    case "SIN PAGOS":
+                    case "Sin Pagos":
                         return "status-pill status-pill--danger";
                     case "PARCIALMENTE PAGADO":
                         return "status-pill status-pill--warning";

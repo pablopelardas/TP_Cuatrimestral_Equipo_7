@@ -22,5 +22,7 @@ namespace Datos.EF
         [StringLength(50)]
         public string nombre { get; set; }
 
+        public string imagen { get; set; }
+
     }
 }

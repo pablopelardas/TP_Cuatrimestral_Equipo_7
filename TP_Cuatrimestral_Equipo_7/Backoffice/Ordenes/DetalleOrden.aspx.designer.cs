@@ -13,5 +13,28 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
 
     public partial class DetalleOrden
     {
+
+        /// <summary>
+        /// btnAgregarPago control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnAgregarPago;
+
+        /// <summary>
+        /// Master property.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated property.
+        /// </remarks>
+        public new TP_Cuatrimestral_Equipo_7.LayoutTailwind Master
+        {
+            get
+            {
+                return ((TP_Cuatrimestral_Equipo_7.LayoutTailwind)(base.Master));
+            }
+        }
     }
 }

@@ -10,7 +10,7 @@ namespace Dominio.Modelos
     {
         public Guid IdOrden { get; set; }
         public string TipoEntrega { get; set; }
-        public string HoraEntrega { get; set; }
+        public TimeSpan HoraEntrega { get; set; }
         public string DireccionEntrega { get; set; }
         public decimal DescuentoPorcentaje { get; set; }
         public decimal CostoEnvio { get; set; }
@@ -29,6 +29,23 @@ namespace Dominio.Modelos
             get
             {
                 return Subtotal - (Subtotal * DescuentoPorcentaje / 100) + CostoEnvio;
+            }
+        }
+        
+        public string DetalleEntrega
+        {
+            get
+            {
+                // time format HH:MM
+                string horario = HoraEntrega.ToString("hh\\:mm");
+                if (TipoEntrega == "Delivery")
+                {
+                    return $"{TipoEntrega} - {DireccionEntrega} - {horario}";
+                }
+                else
+                {
+                    return $"{TipoEntrega} - {horario}";
+                }
             }
         }
 

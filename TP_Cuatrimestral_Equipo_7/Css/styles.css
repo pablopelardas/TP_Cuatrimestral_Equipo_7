@@ -1,13 +1,4 @@
-﻿@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-.link-active {
-    @apply text-blue-500 !important;
-}
-
-
-/*#region general*/
+﻿/*#region general*/
 /*#endregion general*/
 /*#region layout-sidebar*/
 ul.sidebar {
@@ -109,14 +100,14 @@ ul.sidebar {
     text-align: center;
 }
 
-        .tbl-header .tbl-search input {
-            width: 200px;
-            min-height: 40px;
-            margin: 10px;
-            padding: 5px;
-            border-radius: 5px;
-            border: 1px solid #f5f5f5;
-        }
+.tbl-header .tbl-search input {
+    width: 200px;
+    min-height: 40px;
+    margin: 10px;
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid #f5f5f5;
+}
 
 .tbl-body {
     display: flex;
