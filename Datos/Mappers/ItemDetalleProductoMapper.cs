@@ -1,4 +1,5 @@
-﻿using Datos.Repositorios;
+﻿using Datos.EF;
+using Datos.Repositorios;
 using Dominio.Modelos;
 using Datos.Mappers;
 using System;
@@ -12,7 +13,7 @@ namespace Datos.Mappers
 {
     internal class ItemDetalleProductoMapper
     {
-        public static ItemDetalleProductoModelo EntidadAModelo(DETALLE_PRODUCTO entidad)
+        public static ItemDetalleProductoModelo EntidadAModelo(DETALLEPRODUCTO entidad)
         {
             ItemDetalleProductoModelo detalle = new ItemDetalleProductoModelo();
 
@@ -38,9 +39,9 @@ namespace Datos.Mappers
 
 
 
-        public static DETALLE_PRODUCTO ModeloAEntidad(ItemDetalleProductoModelo item)
+        public static DETALLEPRODUCTO ModeloAEntidad(ItemDetalleProductoModelo item)
         {
-            DETALLE_PRODUCTO entidad = new DETALLE_PRODUCTO();
+            DETALLEPRODUCTO entidad = new DETALLEPRODUCTO();
 
             if (item.Suministro != null)
             {

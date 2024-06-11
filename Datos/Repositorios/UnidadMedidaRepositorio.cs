@@ -1,4 +1,5 @@
-﻿using Dominio.Modelos;
+﻿using Datos.EF;
+using Dominio.Modelos;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -66,7 +67,14 @@ namespace Datos.Repositorios
             try
             {
                 UNIDAD_MEDIDA entidad = Mappers.UnidadMedidaMapper.ModeloAEntidad(unidad);
-                db.Entry(entidad).State = EntityState.Modified;
+                UNIDAD_MEDIDA entidadDB = db.UNIDADES_MEDIDA.Find(entidad.id_unidad);
+                if (entidadDB == null)
+                {
+                    throw new Exception("Unidad de medida no encontrada");
+                }
+
+                db.Entry(entidadDB).CurrentValues.SetValues(entidad);
+
                 db.SaveChanges();
             }
             catch (Exception ex)

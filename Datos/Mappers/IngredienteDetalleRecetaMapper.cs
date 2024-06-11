@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Datos.EF;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,7 +9,7 @@ namespace Datos.Mappers
 {
     public class IngredienteDetalleRecetaMapper
     {
-        internal static Dominio.Modelos.IngredienteDetalleRecetaModelo EntidadAModelo(DETALLE_RECETA entidad)
+        internal static Dominio.Modelos.IngredienteDetalleRecetaModelo EntidadAModelo(DETALLERECETA entidad)
         {
             Dominio.Modelos.IngredienteDetalleRecetaModelo modelo = new Dominio.Modelos.IngredienteDetalleRecetaModelo
             {
@@ -23,9 +24,9 @@ namespace Datos.Mappers
             return modelo;
         }
 
-        internal static DETALLE_RECETA ModeloAEntidad(Dominio.Modelos.IngredienteDetalleRecetaModelo modelo)
+        internal static DETALLERECETA ModeloAEntidad(Dominio.Modelos.IngredienteDetalleRecetaModelo modelo)
         {
-            DETALLE_RECETA entidad = new DETALLE_RECETA
+            DETALLERECETA entidad = new DETALLERECETA
             {
                 cantidad = modelo.Cantidad != 0 ? modelo.Cantidad : 1
             };

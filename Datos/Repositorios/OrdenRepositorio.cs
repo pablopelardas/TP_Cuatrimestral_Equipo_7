@@ -1,4 +1,5 @@
-﻿using Dominio.Modelos;
+﻿using Datos.EF;
+using Dominio.Modelos;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -82,8 +83,8 @@ namespace Datos.Repositorios
 
                     // Encontrar y eliminar detalles
 
-                    List<DETALLE_ORDEN> detallesViejos = db.DETALLE_ORDENES.Where(x => x.id_orden == orden.IdOrden).ToList();
-                    foreach (DETALLE_ORDEN detalle in detallesViejos)
+                    List<DETALLEORDEN> detallesViejos = db.DETALLE_ORDENES.Where(x => x.id_orden == orden.IdOrden).ToList();
+                    foreach (DETALLEORDEN detalle in detallesViejos)
                     {
                         db.DETALLE_ORDENES.Remove(detalle);
                     }
@@ -91,7 +92,7 @@ namespace Datos.Repositorios
                     // Agregar detalles nuevos
                     foreach (ProductoDetalleOrdenModelo detalle in orden.DetalleProductos)
                     {
-                        DETALLE_ORDEN detalleEntidad = Mappers.ProductoDetalleOrdenMapper.ModeloAEntidad(detalle);
+                        DETALLEORDEN detalleEntidad = Mappers.ProductoDetalleOrdenMapper.ModeloAEntidad(detalle);
                         db.DETALLE_ORDENES.Add(detalleEntidad);
                     }
 
@@ -103,7 +104,7 @@ namespace Datos.Repositorios
                     // Eliminar evento anterior
                     if (orden.IdOrden != 0)
                     {
-                        EVENTO eventoEntidad = db.EVENTOS.Where(x => x.id_evento == ordenEntidad.id_evento).FirstOrDefault();
+                        EVENTO eventoEntidad = db.EVENTOS.Find(ordenEntidad.id_evento);
                         if (eventoEntidad != null)
                         {
                             db.EVENTOS.Remove(eventoEntidad);

@@ -1,4 +1,5 @@
-﻿using Datos;
+﻿using Datos.EF;
+using Datos;
 using Dominio.Modelos;
 using System;
 using System.Collections.Generic;
@@ -64,7 +65,7 @@ namespace Datos.Mappers
 
             if (recetaModelo.DetalleRecetas != null)
             {
-                entidad.DETALLE_RECETAS = new List<DETALLE_RECETA>();
+                entidad.DETALLE_RECETAS = new List<DETALLERECETA>();
                 foreach (var detalleReceta in recetaModelo.DetalleRecetas)
                 {
                     entidad.DETALLE_RECETAS.Add(IngredienteDetalleRecetaMapper.ModeloAEntidad(detalleReceta));

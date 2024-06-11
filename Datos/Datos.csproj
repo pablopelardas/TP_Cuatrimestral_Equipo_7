@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\EntityFramework.6.4.4\build\EntityFramework.props" Condition="Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -12,6 +13,8 @@
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -31,13 +34,15 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="EntityFramework, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.5.0.0\lib\net45\EntityFramework.dll</HintPath>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Data.Entity" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
     <Reference Include="System.Transactions" />
@@ -49,46 +54,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AccesoDatos.cs" />
-    <Compile Include="CATEGORIA.cs">
-      <DependentUpon>Entities.tt</DependentUpon>
-    </Compile>
-    <Compile Include="CONTACTO.cs">
-      <DependentUpon>Entities.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DETALLE_ORDEN.cs">
-      <DependentUpon>Entities.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DETALLE_PRODUCTO.cs">
-      <DependentUpon>Entities.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DETALLE_RECETA.cs">
-      <DependentUpon>Entities.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Entities.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Entities.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Entities.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Entities.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Entities.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Entities.edmx</DependentUpon>
-    </Compile>
-    <Compile Include="EVENTO.cs">
-      <DependentUpon>Entities.tt</DependentUpon>
-    </Compile>
-    <Compile Include="IMAGEN_PRODUCTO.cs">
-      <DependentUpon>Entities.tt</DependentUpon>
-    </Compile>
-    <Compile Include="INGREDIENTE.cs">
-      <DependentUpon>Entities.tt</DependentUpon>
-    </Compile>
+    <Compile Include="EF\CATEGORIA.cs" />
+    <Compile Include="EF\CONTACTO.cs" />
+    <Compile Include="EF\DETALLEORDEN.cs" />
+    <Compile Include="EF\DETALLEPRODUCTO.cs" />
+    <Compile Include="EF\DETALLERECETA.cs" />
+    <Compile Include="EF\Entities.cs" />
+    <Compile Include="EF\EVENTO.cs" />
+    <Compile Include="EF\IMAGENPRODUCTO.cs" />
+    <Compile Include="EF\INGREDIENTE.cs" />
+    <Compile Include="EF\ORDEN.cs" />
+    <Compile Include="EF\ORDENESTADO.cs" />
+    <Compile Include="EF\ORDENPAGOESTADO.cs" />
+    <Compile Include="EF\PRODUCTO.cs" />
+    <Compile Include="EF\RECETA.cs" />
+    <Compile Include="EF\SUMINISTRO.cs" />
+    <Compile Include="EF\PAGO.cs" />
+    <Compile Include="EF\TIPO_EVENTO.cs" />
+    <Compile Include="EF\UNIDAD_MEDIDA.cs" />
     <Compile Include="Mappers\CategoriaMapper.cs" />
     <Compile Include="Mappers\ContactoMapper.cs" />
     <Compile Include="Mappers\IngredienteDetalleRecetaMapper.cs" />
@@ -103,47 +86,38 @@
     <Compile Include="Mappers\RecetaMapper.cs" />
     <Compile Include="Mappers\SuministroMapper.cs" />
     <Compile Include="Mappers\TipoEventoMapper.cs" />
-    <Compile Include="ORDEN.cs">
-      <DependentUpon>Entities.tt</DependentUpon>
-    </Compile>
-    <Compile Include="ORDEN_ESTADO.cs">
-      <DependentUpon>Entities.tt</DependentUpon>
-    </Compile>
-    <Compile Include="ORDEN_PAGO_ESTADO.cs">
-      <DependentUpon>Entities.tt</DependentUpon>
-    </Compile>
-    <Compile Include="PRODUCTO.cs">
-      <DependentUpon>Entities.tt</DependentUpon>
-    </Compile>
-    <Compile Include="RECETA.cs">
-      <DependentUpon>Entities.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Repositorios\CategoriasRepositorio.cs" />
     <Compile Include="Mappers\UnidadMedidaMapper.cs" />
+    <Compile Include="Migrations\202406110036154_Init.cs" />
+    <Compile Include="Migrations\202406110036154_Init.Designer.cs">
+      <DependentUpon>202406110036154_Init.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Migrations\Seeds\IngredientesSeed.cs" />
+    <Compile Include="Migrations\Seeds\DetalleRecetasSeed.cs" />
+    <Compile Include="Migrations\Seeds\ProductosSeed.cs" />
+    <Compile Include="Migrations\Seeds\DetalleProductosSeed.cs" />
+    <Compile Include="Migrations\Seeds\OrdenEstadosSeed.cs" />
+    <Compile Include="Migrations\Seeds\OrdenPagoEstadosSeed.cs" />
+    <Compile Include="Migrations\Seeds\EventosSeed.cs" />
+    <Compile Include="Migrations\Seeds\OrdenesSeed.cs" />
+    <Compile Include="Migrations\Seeds\DetalleOrdenesSeed.cs" />
+    <Compile Include="Migrations\Seeds\PagosSeed.cs" />
+    <Compile Include="Migrations\Seeds\TipoEventosSeed.cs" />
+    <Compile Include="Migrations\Seeds\SuministrosSeed.cs" />
+    <Compile Include="Migrations\Seeds\RecetasSeed.cs" />
+    <Compile Include="Migrations\Seeds\UnidadesMedidaSeed.cs" />
+    <Compile Include="Migrations\Seeds\CategoriasSeed.cs" />
+    <Compile Include="Migrations\Seeds\ContactosSeed.cs" />
     <Compile Include="Repositorios\ContactoRepositorio.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Repositorios\IngredienteDetalleRecetaRepositorio.cs" />
     <Compile Include="Repositorios\IngredienteRepositorio.cs" />
     <Compile Include="Repositorios\EventoRepositorio.cs" />
-    <Compile Include="Repositorios\ItemDetalleProductoRepositorio.cs" />
-    <Compile Include="Repositorios\OrdenEstadoPagoRepositorio.cs" />
-    <Compile Include="Repositorios\OrdenEstadoRepositorio.cs" />
     <Compile Include="Repositorios\OrdenRepositorio.cs" />
-    <Compile Include="Repositorios\ProductoDetalleOrdenRepositorio.cs" />
     <Compile Include="Repositorios\ProductoRepositorio.cs" />
     <Compile Include="Repositorios\RecetaRepositorio.cs" />
     <Compile Include="Repositorios\SuministroRepositorio.cs" />
     <Compile Include="Repositorios\UnidadMedidaRepositorio.cs" />
     <Compile Include="Repositorios\TipoEventoRepositorio.cs" />
-    <Compile Include="SUMINISTRO.cs">
-      <DependentUpon>Entities.tt</DependentUpon>
-    </Compile>
-    <Compile Include="TIPO_EVENTO.cs">
-      <DependentUpon>Entities.tt</DependentUpon>
-    </Compile>
-    <Compile Include="UNIDAD_MEDIDA.cs">
-      <DependentUpon>Entities.tt</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Dominio\Dominio.csproj">
@@ -152,33 +126,29 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Entities.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>Entities.edmx</DependentUpon>
-      <LastGenOutput>Entities.Context.cs</LastGenOutput>
-    </Content>
-    <Content Include="Entities.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>Entities.edmx</DependentUpon>
-      <LastGenOutput>Entities.cs</LastGenOutput>
-    </Content>
     <Content Include="Scripts\sql_create.sql" />
     <Content Include="Scripts\sql_drop.sql" />
     <Content Include="Scripts\sql_seed.sql" />
   </ItemGroup>
   <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
     <None Include="App.Config" />
-    <EntityDeploy Include="Entities.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>Entities.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <None Include="Entities.edmx.diagram">
-      <DependentUpon>Entities.edmx</DependentUpon>
-    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+    <EmbeddedResource Include="Migrations\202406110036154_Init.resx">
+      <DependentUpon>202406110036154_Init.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.4.4\build\EntityFramework.props'))" />
+    <Error Condition="!Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.4.4\build\EntityFramework.targets'))" />
+  </Target>
+  <Import Project="..\packages\EntityFramework.6.4.4\build\EntityFramework.targets" Condition="Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.targets')" />
 </Project>

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Datos.EF;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,7 +9,7 @@ namespace Datos.Mappers
 {
     internal class OrdenEstadoMapper
     {
-        internal static Dominio.Modelos.OrdenEstadoModelo EntidadAModelo(ORDEN_ESTADO ordenEstadoEntidad)
+        internal static Dominio.Modelos.OrdenEstadoModelo EntidadAModelo(ORDENESTADO ordenEstadoEntidad)
         {
             return new Dominio.Modelos.OrdenEstadoModelo
             {
@@ -17,9 +18,9 @@ namespace Datos.Mappers
             };
         }
 
-        internal static ORDEN_ESTADO ModeloAEntidad(Dominio.Modelos.OrdenEstadoModelo ordenEstado)
+        internal static ORDENESTADO ModeloAEntidad(Dominio.Modelos.OrdenEstadoModelo ordenEstado)
         {
-            return new ORDEN_ESTADO
+            return new ORDENESTADO
             {
                 id_orden_estado = ordenEstado.IdOrdenEstado,
                 nombre = ordenEstado.Nombre

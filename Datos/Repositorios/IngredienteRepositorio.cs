@@ -1,4 +1,5 @@
-﻿using Dominio.Modelos;
+﻿using Datos.EF;
+using Dominio.Modelos;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -63,7 +64,14 @@ namespace Datos.Repositorios
             try
             {
                 INGREDIENTE entidad = Mappers.IngredienteMapper.ModeloAEntidad(ingrediente);
-                db.Entry(entidad).State = EntityState.Modified;
+                INGREDIENTE entidadDB = db.INGREDIENTES.Find(entidad.id_ingrediente);
+                if (entidadDB == null)
+                {
+                    throw new Exception("Ingrediente no encontrado");
+                }
+
+                db.Entry(entidadDB).CurrentValues.SetValues(entidad);
+
                 db.SaveChanges();
             }
             catch (Exception ex)

@@ -1,4 +1,5 @@
-﻿using Dominio.Modelos;
+﻿using Datos.EF;
+using Dominio.Modelos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ namespace Datos.Mappers
 {
     internal class ProductoDetalleOrdenMapper
     {
-        internal static Dominio.Modelos.ProductoDetalleOrdenModelo EntidadAModelo(DETALLE_ORDEN entidad)
+        internal static Dominio.Modelos.ProductoDetalleOrdenModelo EntidadAModelo(DETALLEORDEN entidad)
         {
             Dominio.Modelos.ProductoDetalleOrdenModelo modelo = new Dominio.Modelos.ProductoDetalleOrdenModelo
             {
@@ -28,9 +29,9 @@ namespace Datos.Mappers
             return modelo;
         }
 
-        internal static DETALLE_ORDEN ModeloAEntidad(Dominio.Modelos.ProductoDetalleOrdenModelo modelo)
+        internal static DETALLEORDEN ModeloAEntidad(Dominio.Modelos.ProductoDetalleOrdenModelo modelo)
         {
-            return new DETALLE_ORDEN
+            return new DETALLEORDEN
             {
                 id_orden = modelo.IdOrden,
                 id_producto = modelo.Producto.IdProducto,
