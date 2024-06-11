@@ -8,20 +8,16 @@ namespace Datos.EF
 
     public partial class TIPO_EVENTO
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public TIPO_EVENTO()
-        {
-            EVENTOS = new HashSet<EVENTO>();
-        }
 
         [Key]
-        public int id_tipo_evento { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public Guid id_tipo_evento { get; set; }
 
         [Required]
         [StringLength(50)]
         public string nombre { get; set; }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        [ForeignKey("id_tipo_evento")]
         public virtual ICollection<EVENTO> EVENTOS { get; set; }
     }
 }

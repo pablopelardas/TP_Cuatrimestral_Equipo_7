@@ -77,12 +77,14 @@ namespace Datos.Mappers
                 descuento_porcentaje = ordenModelo.DescuentoPorcentaje,
                 costo_envio = ordenModelo.CostoEnvio,
                 descripcion = ordenModelo.Descripcion,
-                hora_entrega = TimeSpan.Parse(ordenModelo.HoraEntrega),
                 direccion_entrega = ordenModelo.DireccionEntrega,
                 id_cliente = ordenModelo.Cliente.Id,
-                id_orden_estado = ordenModelo.Estado != null ? ordenModelo.Estado.IdOrdenEstado : 0,
-                id_orden_pago_estado = ordenModelo.EstadoPago != null ? ordenModelo.EstadoPago.IdOrdenPagoEstado : 0
+                id_orden_estado = ordenModelo.Estado != null ? ordenModelo.Estado.IdOrdenEstado : 1,
+                id_orden_pago_estado = ordenModelo.EstadoPago != null ? ordenModelo.EstadoPago.IdOrdenPagoEstado : 1
             };
+
+            TimeSpan hora = TimeSpan.TryParse(ordenModelo.HoraEntrega, out hora) ? hora : new TimeSpan(0, 0, 0);
+            entidad.hora_entrega = hora;
 
             return entidad;
         }
@@ -97,8 +99,8 @@ namespace Datos.Mappers
             entidad.hora_entrega = TimeSpan.Parse(modelo.HoraEntrega);
             entidad.direccion_entrega = modelo.DireccionEntrega;
             entidad.id_cliente = modelo.Cliente.Id;
-            entidad.id_orden_estado = modelo.Estado != null ? modelo.Estado.IdOrdenEstado : 0;
-            entidad.id_orden_pago_estado = modelo.EstadoPago != null ? modelo.EstadoPago.IdOrdenPagoEstado : 0;
+            entidad.id_orden_estado = modelo.Estado != null ? modelo.Estado.IdOrdenEstado : 1;
+            entidad.id_orden_pago_estado = modelo.EstadoPago != null ? modelo.EstadoPago.IdOrdenPagoEstado : 1;
         }
     }
 }

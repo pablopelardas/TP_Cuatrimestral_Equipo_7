@@ -9,17 +9,21 @@ namespace Datos.EF
     public partial class DETALLEPRODUCTO
     {
         [Key]
-        public int id_detalle_producto { get; set; }
-        public int id_producto { get; set; }
-        public int? id_suministro { get; set; }
-        public int? id_receta { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public Guid id_detalle_producto { get; set; }
+        public Guid id_producto { get; set; }
+        public Guid? id_suministro { get; set; }
+        public Guid? id_receta { get; set; }
 
         public int cantidad { get; set; }
 
+
+        [ForeignKey("id_producto")]
         public virtual PRODUCTO PRODUCTO { get; set; }
 
+        [ForeignKey("id_receta")]
         public virtual RECETA RECETA { get; set; }
-
+        [ForeignKey("id_suministro")]
         public virtual SUMINISTRO SUMINISTRO { get; set; }
     }
 }

@@ -9,14 +9,16 @@ namespace Datos.EF
     public partial class IMAGENPRODUCTO
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int id_imagen { get; set; }
 
-        public int id_producto { get; set; }
+        public Guid id_producto { get; set; }
 
         [Required]
         [StringLength(200)]
         public string url { get; set; }
 
+        [ForeignKey("id_producto")]
         public virtual PRODUCTO PRODUCTO { get; set; }
     }
 }

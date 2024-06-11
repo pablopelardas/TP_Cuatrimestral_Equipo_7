@@ -11,17 +11,19 @@ namespace Datos.EF
         [Key]
         [Column(Order = 0)]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public int id_receta { get; set; }
+        public Guid id_receta { get; set; }
 
         [Key]
         [Column(Order = 1)]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public int id_ingrediente { get; set; }
+        public Guid id_ingrediente { get; set; }
 
         public double cantidad { get; set; }
 
+        [ForeignKey("id_ingrediente")]
         public virtual INGREDIENTE INGREDIENTE { get; set; }
 
+        [ForeignKey("id_receta")]
         public virtual RECETA RECETA { get; set; }
     }
 }

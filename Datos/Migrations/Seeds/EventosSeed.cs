@@ -1,67 +1,38 @@
 ﻿using System;
 using Datos.EF;
 using System.Collections.Generic;
+using System.Linq;
 
 public static class EventosSeed
 {
-    public static List<EVENTO> getEventos()
+    private static Random random = new Random();
+    public static List<EVENTO> getEventos(Datos.EF.Entities context)
     {
+
+        List<TIPO_EVENTO> tipoEventosContext = context.TIPOS_EVENTOS.ToList();
+        List<CONTACTO> clientesContext = context.CONTACTOS.ToList();
+
+        EVENTO getRandomEvento(DateTime fecha)
+        {
+            TIPO_EVENTO tipoEvento = tipoEventosContext[random.Next(0, tipoEventosContext.Count)];
+            CONTACTO cliente = clientesContext[random.Next(0, clientesContext.Count)];
+            return new EVENTO
+            {
+                id_cliente = cliente.id_contacto,
+                fecha = fecha,
+                id_tipo_evento = tipoEvento.id_tipo_evento
+            };
+        }
+
         return new List<EVENTO>
         {
-            new EVENTO
-            {
-                id_evento = 1,
-                id_cliente = 1,
-                fecha = new DateTime(2021, 12, 24),
-                id_tipo_evento = 1
-            },
-            new EVENTO
-            {
-                id_evento = 2,
-                id_cliente = 2,
-                fecha = new DateTime(2021, 12, 24),
-                id_tipo_evento = 2
-            },
-            new EVENTO
-            {
-                id_evento = 3,
-                id_cliente = 1,
-                fecha = new DateTime(2021, 12, 24),
-                id_tipo_evento = 3
-            },
-            new EVENTO
-            {
-                id_evento = 4,
-                id_cliente = 2,
-                fecha = new DateTime(2021, 12, 24),
-                id_tipo_evento = 4
-            },
-            new EVENTO
-            {id_evento = 5,
-                id_cliente = 1,
-                fecha = new DateTime(2021, 12, 24),
-                id_tipo_evento = 5
-            },
-            new EVENTO
-            {
-                id_evento = 6,
-                id_cliente = 2,
-                fecha = new DateTime(2021, 12, 24),
-                id_tipo_evento = 6
-            },
-            new EVENTO
-            {id_evento = 7,
-                id_cliente = 1,
-                fecha = new DateTime(2021, 12, 24),
-                id_tipo_evento = 7
-            },
-            new EVENTO
-            {
-                id_evento = 8,
-                id_cliente = 2,
-                fecha = new DateTime(2021, 12, 24),
-                id_tipo_evento = 8
-            }
+            getRandomEvento(new DateTime(2024,06,15)),
+            getRandomEvento(new DateTime(2024,06,16)),
+            getRandomEvento(new DateTime(2024,06,17)),
+            getRandomEvento(new DateTime(2024,06,18)),
+            getRandomEvento(new DateTime(2024,06,19)),
+            getRandomEvento(new DateTime(2024,06,20)),
+            getRandomEvento(new DateTime(2024,06,21)),
         };
     }
 

@@ -1,91 +1,49 @@
-﻿using Datos.EF;
+﻿using System;
+using System.Collections;
+using Datos.EF;
 using System.Collections.Generic;
+using System.Data.Entity.Core.Metadata.Edm;
+using System.Linq;
+using static System.Net.Mime.MediaTypeNames;
 
 public static class DetalleRecetasSeed
 {
-    public static List<DETALLERECETA> getDetalleRecetas()
+    private static Random random = new Random(); // Move the random variable outside the method
+    public static List<DETALLERECETA> getDetalleRecetas(Datos.EF.Entities context)
     {
-        return new List<DETALLERECETA>
+        List<INGREDIENTE> ingredientesContext = context.INGREDIENTES.ToList();
+        List<RECETA> recetasContext = context.RECETAS.ToList();
+
+        DETALLERECETA getRandomDetalleReceta(Guid id_receta)
+        {
+            INGREDIENTE ingrediente = ingredientesContext[random.Next(0, ingredientesContext.Count)];
+            return new DETALLERECETA
             {
-                new DETALLERECETA
-                {
-                    id_receta = 1,
-                    id_ingrediente = 1,
-                    cantidad = 500
-                },
-                new DETALLERECETA
-                {
-                    id_receta = 1,
-                    id_ingrediente = 2,
-                    cantidad = 300
-                },
-                new DETALLERECETA
-                {
-                    id_receta = 1,
-                    id_ingrediente = 3,
-                    cantidad = 4
-                },
-                new DETALLERECETA
-                {
-                    id_receta = 1,
-                    id_ingrediente = 4,
-                    cantidad = 200
-                },
-                new DETALLERECETA
-                {
-                    id_receta = 1,
-                    id_ingrediente = 5,
-                    cantidad = 200
-                },
-                new DETALLERECETA
-                {
-                    id_receta = 1,
-                    id_ingrediente = 6,
-                    cantidad = 10
-                },
-                new DETALLERECETA
-                {
-                    id_receta = 1,
-                    id_ingrediente = 7,
-                    cantidad = 10
-                },
-                new DETALLERECETA
-                {
-                    id_receta = 2,
-                    id_ingrediente = 1,
-                    cantidad = 500
-                },
-                new DETALLERECETA
-                {
-                    id_receta = 2,
-                    id_ingrediente = 2,
-                    cantidad = 300
-                },
-                new DETALLERECETA
-                {
-                    id_receta = 2,
-                    id_ingrediente = 3,
-                    cantidad = 4
-                },
-                new DETALLERECETA
-                {
-                    id_receta = 2,
-                    id_ingrediente = 4,
-                    cantidad = 200
-                },
-                new DETALLERECETA
-                {
-                    id_receta = 2,
-                    id_ingrediente = 5,
-                    cantidad = 200
-                },
-                new DETALLERECETA
-                {
-                    id_receta = 2,
-                    id_ingrediente = 6,
-                    cantidad = 10
-                }
+                cantidad = random.Next(1, 10),
+                id_ingrediente = ingrediente.id_ingrediente,
+                id_receta = id_receta
             };
+        }
+
+        List<DETALLERECETA> detalleRecetas = new List<DETALLERECETA>();
+
+        foreach (RECETA receta in recetasContext )
+        {
+            List<Guid> ingredientesEnReceta = new List<Guid>();
+            int cantidadDetalleRecetas = random.Next(1, 10);
+            for (int i = 0; i < cantidadDetalleRecetas; i++)
+            {
+                DETALLERECETA detalleReceta = getRandomDetalleReceta(receta.id_receta);
+                if (ingredientesEnReceta.Contains(detalleReceta.id_ingrediente))
+                {
+                    continue;
+                }
+                ingredientesEnReceta.Add(detalleReceta.id_ingrediente);
+                detalleRecetas.Add(detalleReceta);
+            }
+        }
+
+        return detalleRecetas;
     }
 
 }

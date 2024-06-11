@@ -27,7 +27,7 @@ namespace Datos.Repositorios
             }
         }
 
-        public IngredienteModelo ObtenerPorId(int id)
+        public IngredienteModelo ObtenerPorId(Guid id)
         {
             Entities db = new Entities();
             try
@@ -81,7 +81,7 @@ namespace Datos.Repositorios
         }
 
 
-        public void Eliminar(int id)
+        public void Eliminar(Guid id)
         {
             Entities db = new Entities();
             try

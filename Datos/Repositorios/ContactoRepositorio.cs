@@ -39,7 +39,7 @@ namespace Datos.Repositorios
             
         }
 
-        public Dominio.Modelos.ContactoModelo ObtenerPorId(int id)
+        public Dominio.Modelos.ContactoModelo ObtenerPorId(Guid id)
         {
             Entities db = new Entities();
             try

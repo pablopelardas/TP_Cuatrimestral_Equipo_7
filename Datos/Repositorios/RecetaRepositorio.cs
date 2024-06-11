@@ -45,7 +45,7 @@ namespace Datos.Repositorios
             }
         }
 
-       public RecetaModelo ObtenerPorId(int id)
+       public RecetaModelo ObtenerPorId(Guid id)
         {
             Entities db = new Entities();
             try

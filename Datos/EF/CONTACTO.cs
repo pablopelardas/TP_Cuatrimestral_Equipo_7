@@ -8,15 +8,10 @@ namespace Datos.EF
 
     public partial class CONTACTO
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public CONTACTO()
-        {
-            EVENTOS = new HashSet<EVENTO>();
-            ORDENES = new HashSet<ORDEN>();
-        }
 
         [Key]
-        public int id_contacto { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public Guid id_contacto { get; set; }
 
         [Required]
         [StringLength(100)]
@@ -28,6 +23,7 @@ namespace Datos.EF
 
         [Required]
         [StringLength(100)]
+        [EmailAddress]
         public string correo { get; set; }
 
         [Required]
@@ -37,7 +33,6 @@ namespace Datos.EF
         [StringLength(100)]
         public string fuente { get; set; }
 
-        [Required]
         [StringLength(200)]
         public string direccion { get; set; }
 
@@ -50,10 +45,10 @@ namespace Datos.EF
 
         public string informacion_personal { get; set; }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        [ForeignKey("id_cliente")]
         public virtual ICollection<EVENTO> EVENTOS { get; set; }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        [ForeignKey("id_cliente")]
         public virtual ICollection<ORDEN> ORDENES { get; set; }
     }
 }

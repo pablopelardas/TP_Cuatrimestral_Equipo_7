@@ -8,14 +8,9 @@ namespace Datos.EF
 
     public partial class UNIDAD_MEDIDA
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public UNIDAD_MEDIDA()
-        {
-            INGREDIENTES = new HashSet<INGREDIENTE>();
-        }
-
         [Key]
-        public int id_unidad { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public Guid id_unidad { get; set; }
 
         [Required]
         [StringLength(50)]
@@ -25,7 +20,7 @@ namespace Datos.EF
         [StringLength(10)]
         public string abreviatura { get; set; }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        [ForeignKey("id_unidad")]
         public virtual ICollection<INGREDIENTE> INGREDIENTES { get; set; }
     }
 }

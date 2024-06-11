@@ -35,7 +35,7 @@ namespace Datos.Repositorios
             }
         }
 
-        public SuministroModelo ObtenerPorId(int id)
+        public SuministroModelo ObtenerPorId(Guid id)
         {
             Entities db = new Entities();
 

@@ -9,19 +9,16 @@ public static class UnidadesMedidaSeed
         {
             new UNIDAD_MEDIDA
             {
-                id_unidad = 1,
                 nombre = "Unidad",
                 abreviatura = "UN",
             },
             new UNIDAD_MEDIDA
             {
-                id_unidad = 2,
                 nombre = "Kilogramo",
                 abreviatura = "KG"
             },
             new UNIDAD_MEDIDA
             {
-                id_unidad = 3,
                 nombre = "Litro",
                 abreviatura = "LT"
             }

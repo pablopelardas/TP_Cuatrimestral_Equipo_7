@@ -8,27 +8,25 @@ namespace Datos.EF
 
     public class EVENTO
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public EVENTO()
-        {
-            ORDENES = new HashSet<ORDEN>();
-        }
 
         [Key]
-        public int id_evento { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public Guid id_evento { get; set; }
 
         [Column(TypeName = "date")]
         public DateTime fecha { get; set; }
 
-        public int id_cliente { get; set; }
+        public Guid id_cliente { get; set; }
 
-        public int id_tipo_evento { get; set; }
+        public Guid id_tipo_evento { get; set; }
 
+        [ForeignKey("id_cliente")]
         public virtual CONTACTO CLIENTE { get; set; }
 
+        [ForeignKey("id_tipo_evento")]
         public virtual TIPO_EVENTO TIPO_EVENTO { get; set; }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        [ForeignKey("id_evento")]
         public virtual ICollection<ORDEN> ORDENES { get; set; }
     }
 }

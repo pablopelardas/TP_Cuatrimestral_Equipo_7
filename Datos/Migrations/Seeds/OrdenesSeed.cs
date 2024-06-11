@@ -1,72 +1,51 @@
 ﻿using System;
 using Datos.EF;
 using System.Collections.Generic;
+using System.Linq;
 
 public static class OrdenesSeed
 {
-    public static List<ORDEN> getOrdenes()
+    private static Random random = new Random();
+
+    public static List<ORDEN> getOrdenes(Datos.EF.Entities context)
     {
-        return new List<ORDEN>
+
+        List<EVENTO> eventosContext = context.EVENTOS.ToList();
+
+        List<string> Descripciones = new List<string>
         {
-            new ORDEN
-            {
-                id_orden = 1,
-                id_cliente = 1,
-                costo_envio = 250,
-                descripcion = "Tarta de frutillas",
-                descuento_porcentaje = 0,
-                id_evento = 1,
-                hora_entrega = new TimeSpan(10, 0, 0),
-                direccion_entrega = "Av. Siempre Viva 123",
-                tipo_entrega = "Delivery"
-            },
-            new ORDEN
-            {
-                id_orden = 2,
-                id_cliente = 2,
-                costo_envio = 250,
-                descripcion = "Tarta de chocolate",
-                descuento_porcentaje = 0,
-                id_evento = 2,
-                hora_entrega = new TimeSpan(10, 0, 0),
-                direccion_entrega = "Calle Falsa 123",
-                tipo_entrega = "Delivery"
-            },
-            new ORDEN
-            {
-                id_orden = 3,
-                id_cliente = 1,
-                costo_envio = 250,
-                descripcion = "Tarta de dulce de leche",
-                descuento_porcentaje = 0,
-                id_evento = 3,
-                hora_entrega = new TimeSpan(10, 0, 0),
-                direccion_entrega = "Av. Siempre Viva 123",
-                tipo_entrega = "Delivery"
-            },
-            new ORDEN
-            {
-                id_orden = 4,
-                id_cliente = 2,
-                costo_envio = 250,
-                descripcion = "Galletas de vainilla",
-                descuento_porcentaje = 0,
-                id_evento = 4,
-                hora_entrega = new TimeSpan(10, 0, 0),
-                direccion_entrega = "Calle Falsa 123",
-                tipo_entrega = "Delivery"
-            },
-            new ORDEN
-            {id_orden = 5,
-                id_cliente = 1,
-                costo_envio = 250,
-                descripcion = "Galletas de chocolate",
-                descuento_porcentaje = 0,
-                id_evento = 5,
-                hora_entrega = new TimeSpan(10, 0, 0),
-                direccion_entrega = "Av. Siempre Viva 123",
-                tipo_entrega = "Delivery"
-            },
+            "Tarta de frutillas",
+            "Tarta de chocolate",
+            "Tarta de dulce de leche",
+            "Galletas de vainilla",
+            "Galletas de chocolate",
         };
+
+        ORDEN getRandomOrder()
+        {
+            EVENTO evento = eventosContext[random.Next(0, eventosContext.Count)];
+            return new ORDEN
+            {
+                id_cliente = evento.id_cliente,
+                costo_envio = random.Next(100, 500),
+                descripcion = random.Next(0, 5) < 4 ? Descripciones[random.Next(0, Descripciones.Count)] : null,
+                descuento_porcentaje = random.Next(0, 5) < 4 ? random.Next(0, 10) : 0,
+                id_evento = evento.id_evento,
+                hora_entrega = new TimeSpan(random.Next(0, 24), random.Next(0, 60), random.Next(0, 60)),
+                direccion_entrega = random.Next(0, 5) < 4 ? "Calle Falsa 123" : "Av. Siempre Viva 123",
+                tipo_entrega = random.Next(0, 5) < 4 ? "Delivery" : "Retiro",
+                id_orden_pago_estado = 1,
+                id_orden_estado = 1
+            };
+        }
+
+        List<ORDEN> ordenes = new List<ORDEN>();
+
+        for (int i = 0; i < 5; i++)
+        {
+            ordenes.Add(getRandomOrder());
+        }
+
+        return ordenes;
     }
 }

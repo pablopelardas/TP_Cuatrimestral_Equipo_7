@@ -8,15 +8,10 @@ namespace Datos.EF
 
     public partial class RECETA
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public RECETA()
-        {
-            DETALLE_RECETAS = new HashSet<DETALLERECETA>();
-            DETALLE_PRODUCTOS = new HashSet<DETALLEPRODUCTO>();
-        }
 
         [Key]
-        public int id_receta { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public Guid id_receta { get; set; }
 
         [Required]
         [StringLength(50)]
@@ -26,17 +21,18 @@ namespace Datos.EF
         [StringLength(200)]
         public string descripcion { get; set; }
 
-        public int id_categoria { get; set; }
+        public Guid id_categoria { get; set; }
 
         [Column(TypeName = "money")]
         public decimal? precio_personalizado { get; set; }
 
+        [ForeignKey("id_categoria")]
         public virtual CATEGORIA CATEGORIA { get; set; }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        [ForeignKey("id_receta")]
         public virtual ICollection<DETALLERECETA> DETALLE_RECETAS { get; set; }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        [ForeignKey("id_receta")]
         public virtual ICollection<DETALLEPRODUCTO> DETALLE_PRODUCTOS { get; set; }
     }
 }

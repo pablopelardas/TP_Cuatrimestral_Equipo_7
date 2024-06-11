@@ -8,14 +8,10 @@ namespace Datos.EF
 
     public partial class INGREDIENTE
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public INGREDIENTE()
-        {
-            DETALLE_RECETAS = new HashSet<DETALLERECETA>();
-        }
 
         [Key]
-        public int id_ingrediente { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public Guid id_ingrediente { get; set; }
 
         [Required]
         [StringLength(50)]
@@ -23,7 +19,7 @@ namespace Datos.EF
 
         public double cantidad { get; set; }
 
-        public int id_unidad { get; set; }
+        public Guid id_unidad { get; set; }
 
         [Column(TypeName = "money")]
         public decimal costo { get; set; }
@@ -31,9 +27,10 @@ namespace Datos.EF
         [StringLength(50)]
         public string proveedor { get; set; }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        [ForeignKey("id_ingrediente")]
         public virtual ICollection<DETALLERECETA> DETALLE_RECETAS { get; set; }
 
+        [ForeignKey("id_unidad")]
         public virtual UNIDAD_MEDIDA UNIDAD_MEDIDA { get; set; }
     }
 }

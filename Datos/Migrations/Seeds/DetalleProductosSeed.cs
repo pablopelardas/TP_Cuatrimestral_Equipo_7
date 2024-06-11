@@ -1,69 +1,72 @@
 ﻿using Datos.EF;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 
 public static class DetalleProductosSeed
 {
-    public static List<DETALLEPRODUCTO> getDetalleProductos()
+    private static Random random = new Random();
+    public static List<DETALLEPRODUCTO> getDetalleProductos(Datos.EF.Entities context)
     {
-        return new List<DETALLEPRODUCTO>
+        List<SUMINISTRO> suministrosContext = context.SUMINISTROS.ToList();
+        List<RECETA> recetasContext = context.RECETAS.ToList();
+        List<PRODUCTO> productosContext = context.PRODUCTOS.ToList();
+
+        DETALLEPRODUCTO getRandomProductoDetalle(Guid id_producto, bool esReceta)
         {
-            new DETALLEPRODUCTO
+            if (esReceta)
             {
-                id_producto = 1,
-                id_receta = 1,
-                id_suministro = null,
-                cantidad = 1
-            },
-            new DETALLEPRODUCTO
-            {
-                id_producto = 2,
-                id_receta = 2,
-                id_suministro = null,
-                cantidad = 1
-            },
-            new DETALLEPRODUCTO
-            {
-                id_producto = 3,
-                id_receta = 3,
-                id_suministro = null,
-                cantidad = 1
-            },
-            new DETALLEPRODUCTO
-            {
-                id_producto = 4,
-                id_receta = 4,
-                id_suministro = null,
-                cantidad = 1
-            },
-            new DETALLEPRODUCTO
-            {
-                id_producto = 5,
-                id_receta = 5,
-                id_suministro = null,
-                cantidad = 1
-            },
-            new DETALLEPRODUCTO
-            {
-                id_producto = 6,
-                id_receta = null,
-                id_suministro = 1,
-                cantidad = 1
-            },
-            new DETALLEPRODUCTO
-            {
-                id_producto = 3,
-                id_receta = null,
-                id_suministro = 4,
-                cantidad = 1
-            },
-            new DETALLEPRODUCTO
-            {
-                id_producto = 1,
-                id_receta = null,
-                id_suministro = 7,
-                cantidad = 1
+                RECETA receta = recetasContext[random.Next(0, recetasContext.Count)];
+                return new DETALLEPRODUCTO()
+                {
+                    id_producto = id_producto,
+                    cantidad = random.Next(1, 10),
+                    id_receta = receta.id_receta,
+                    id_suministro = null
+                };
             }
-        };
+            else
+            {
+                SUMINISTRO suministro = suministrosContext[random.Next(0, suministrosContext.Count)];
+                return new DETALLEPRODUCTO()
+                {
+                    id_producto = id_producto,
+                    cantidad = random.Next(1, 10),
+                    id_receta = null,
+                    id_suministro = suministro.id_suministro
+                };
+            }
+
+        }
+
+        List<DETALLEPRODUCTO> detalleProductos = new List<DETALLEPRODUCTO>();
+
+        foreach (PRODUCTO producto in productosContext)
+        {
+            List<Guid> suministrosEnProducto = new List<Guid>();
+            List<Guid> recetasEnProducto = new List<Guid>();
+            int cantidadDetalles = random.Next(1, 20);
+            for (int i = 0; i < cantidadDetalles; i++)
+            {
+                DETALLEPRODUCTO detalleProducto = getRandomProductoDetalle(producto.id_producto, cantidadDetalles % 2 == 0);
+                if (suministrosEnProducto.Contains(detalleProducto.id_suministro ?? Guid.Empty) || recetasEnProducto.Contains(detalleProducto.id_receta ?? Guid.Empty))
+                {
+                    continue;
+                }
+                if (detalleProducto.id_suministro != null)
+                {
+                    suministrosEnProducto.Add(detalleProducto.id_suministro ?? Guid.Empty);
+                }
+                else
+                {
+                    recetasEnProducto.Add(detalleProducto.id_receta ?? Guid.Empty);
+                }
+                detalleProductos.Add(detalleProducto);
+            }
+        }
+
+        return detalleProductos;
+
     }
 
 }

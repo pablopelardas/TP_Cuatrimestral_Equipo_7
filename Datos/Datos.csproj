@@ -77,7 +77,6 @@
     <Compile Include="Mappers\IngredienteDetalleRecetaMapper.cs" />
     <Compile Include="Mappers\IngredienteMapper.cs" />
     <Compile Include="Mappers\EventoMapper.cs" />
-    <Compile Include="Mappers\ItemDetalleProductoMapper.cs" />
     <Compile Include="Mappers\OrdenEstadoMapper.cs" />
     <Compile Include="Mappers\OrdenEstadoPagoMapper.cs" />
     <Compile Include="Mappers\OrdenMapper.cs" />
@@ -87,11 +86,12 @@
     <Compile Include="Mappers\SuministroMapper.cs" />
     <Compile Include="Mappers\TipoEventoMapper.cs" />
     <Compile Include="Mappers\UnidadMedidaMapper.cs" />
-    <Compile Include="Migrations\202406110036154_Init.cs" />
-    <Compile Include="Migrations\202406110036154_Init.Designer.cs">
-      <DependentUpon>202406110036154_Init.cs</DependentUpon>
+    <Compile Include="Migrations\202406110237396_Init.cs" />
+    <Compile Include="Migrations\202406110237396_Init.Designer.cs">
+      <DependentUpon>202406110237396_Init.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Migrations\GuidGenerator.cs" />
     <Compile Include="Migrations\Seeds\IngredientesSeed.cs" />
     <Compile Include="Migrations\Seeds\DetalleRecetasSeed.cs" />
     <Compile Include="Migrations\Seeds\ProductosSeed.cs" />
@@ -138,8 +138,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202406110036154_Init.resx">
-      <DependentUpon>202406110036154_Init.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202406110237396_Init.resx">
+      <DependentUpon>202406110237396_Init.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

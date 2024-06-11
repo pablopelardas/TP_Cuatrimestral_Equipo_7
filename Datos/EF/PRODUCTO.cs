@@ -8,16 +8,10 @@ namespace Datos.EF
 
     public partial class PRODUCTO
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public PRODUCTO()
-        {
-            DETALLE_ORDENES = new HashSet<DETALLEORDEN>();
-            IMAGENES = new HashSet<IMAGENPRODUCTO>();
-            DETALLE_PRODUCTOS = new HashSet<DETALLEPRODUCTO>();
-        }
 
         [Key]
-        public int id_producto { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public Guid id_producto { get; set; }
 
         [Required]
         [StringLength(50)]
@@ -37,17 +31,18 @@ namespace Datos.EF
 
         public decimal valor_precio { get; set; }
 
-        public int id_categoria { get; set; }
+        public Guid id_categoria { get; set; }
 
+        [ForeignKey("id_categoria")]
         public virtual CATEGORIA CATEGORIA { get; set; }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        [ForeignKey("id_producto")]
         public virtual ICollection<DETALLEORDEN> DETALLE_ORDENES { get; set; }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        [ForeignKey("id_producto")]
         public virtual ICollection<IMAGENPRODUCTO> IMAGENES { get; set; }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        [ForeignKey("id_producto")]
         public virtual ICollection<DETALLEPRODUCTO> DETALLE_PRODUCTOS { get; set; }
     }
 }

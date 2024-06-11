@@ -1,62 +1,66 @@
 ﻿using Datos.EF;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 
 public static class RecetasSeed
 {
-    public static List<RECETA> getRecetas()
+    private static Random random = new Random(); // Move the random variable outside the method
+
+    public static List<RECETA> getRecetas(Datos.EF.Entities context)
     {
+        List<CATEGORIA> categorias = context.CATEGORIAS.ToList();
+
+        Guid randomCategoryGuid()
+        {
+            int index = random.Next(0, categorias.Count);
+            return categorias[index].id_categoria;
+        }
+
         return new List<RECETA>
         {
             new RECETA
             {
-                id_receta = 1,
                 nombre = "Torta de Vainilla",
-                id_categoria = 1,
+                id_categoria = randomCategoryGuid(),
                 descripcion = "Torta de vainilla con crema y frutillas",
             },
             new RECETA
             {
-                id_receta = 2,
                 nombre = "Torta de Chocolate",
-                id_categoria = 1,
+                id_categoria = randomCategoryGuid(),
                 descripcion = "Torta de chocolate con crema y frutillas",
             },
             new RECETA
             {
-                id_receta = 3,
                 nombre = "Torta de Dulce de Leche",
-                id_categoria = 1,
+                id_categoria = randomCategoryGuid(),
                 descripcion = "Torta de dulce de leche con crema y frutillas",
             },
             new RECETA
             {
-                id_receta = 4,
                 nombre = "Galletas de Vainilla",
-                id_categoria = 2,
+                id_categoria = randomCategoryGuid(),
                 descripcion = "Galletas de vainilla con azucar",
             },
             new RECETA
             {
-                id_receta = 5,
                 nombre = "Galletas de Chocolate",
-                id_categoria = 2,
+                id_categoria = randomCategoryGuid(),
                 descripcion = "Galletas de chocolate con azucar",
             },
             new RECETA
             {
-                id_receta = 6,
                 nombre = "Galletas de Limon",
-                id_categoria = 2,
+                id_categoria = randomCategoryGuid(),
                 descripcion = "Galletas de limon con azucar",
             },
             new RECETA
             {
-                id_receta = 7,
                 nombre = "Pan de Vainilla",
-                id_categoria = 3,
+                id_categoria = randomCategoryGuid(),
                 descripcion = "Pan de vainilla con azucar",
             }
         };
     }
-
 }

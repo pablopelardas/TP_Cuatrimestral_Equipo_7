@@ -8,16 +8,12 @@ namespace Datos.EF
 
     public partial class ORDEN
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public ORDEN()
-        {
-            DETALLE_ORDENES = new HashSet<DETALLEORDEN>();
-        }
 
         [Key]
-        public int id_orden { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public Guid id_orden { get; set; }
 
-        public int id_cliente { get; set; }
+        public Guid id_cliente { get; set; }
 
         [Required]
         [StringLength(50)]
@@ -38,17 +34,24 @@ namespace Datos.EF
 
         public int? id_orden_pago_estado { get; set; }
 
-        public int? id_evento { get; set; }
+        public Guid? id_evento { get; set; }
 
+        [ForeignKey("id_cliente")]
         public virtual CONTACTO CLIENTE { get; set; }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        [ForeignKey("id_orden")]
         public virtual ICollection<DETALLEORDEN> DETALLE_ORDENES { get; set; }
 
+        [ForeignKey("id_evento")]
         public virtual EVENTO EVENTO { get; set; }
 
+        [ForeignKey("id_orden_estado")]
         public virtual ORDENESTADO ESTADO { get; set; }
 
+        [ForeignKey("id_orden_pago_estado")]
         public virtual ORDENPAGOESTADO ESTADO_PAGO { get; set; }
+
+        [ForeignKey("id_orden")]
+        public virtual ICollection<PAGO> PAGOS { get; set; }
     }
 }

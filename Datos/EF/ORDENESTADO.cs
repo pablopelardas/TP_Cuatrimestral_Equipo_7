@@ -8,20 +8,15 @@ namespace Datos.EF
 
     public class ORDENESTADO
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public ORDENESTADO()
-        {
-            ORDENES = new HashSet<ORDEN>();
-        }
-
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int id_orden_estado { get; set; }
 
         [Required]
         [StringLength(50)]
         public string nombre { get; set; }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        [ForeignKey("id_orden_estado")]
         public virtual ICollection<ORDEN> ORDENES { get; set; }
     }
 }

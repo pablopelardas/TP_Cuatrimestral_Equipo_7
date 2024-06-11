@@ -11,12 +11,12 @@ namespace Datos.EF
         [Key]
         [Column(Order = 0)]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public int id_orden { get; set; }
+        public Guid id_orden { get; set; }
 
         [Key]
         [Column(Order = 1)]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public int id_producto { get; set; }
+        public Guid id_producto { get; set; }
 
         public int cantidad { get; set; }
 
@@ -28,8 +28,10 @@ namespace Datos.EF
         [Column(TypeName = "money")]
         public decimal producto_precio { get; set; }
 
+        [ForeignKey("id_orden")]
         public virtual ORDEN ORDEN { get; set; }
 
+        [ForeignKey("id_producto")]
         public virtual PRODUCTO PRODUCTO { get; set; }
     }
 }

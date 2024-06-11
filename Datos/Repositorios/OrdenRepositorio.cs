@@ -36,7 +36,7 @@ namespace Datos.Repositorios
             }
         }
 
-        public Dominio.Modelos.OrdenModelo ObtenerPorId(int id)
+        public Dominio.Modelos.OrdenModelo ObtenerPorId(Guid id)
         {
             Entities db = new Entities();
             try
@@ -66,7 +66,7 @@ namespace Datos.Repositorios
                 try
                 {
                     ORDEN ordenEntidad;
-                    if (orden.IdOrden != 0)
+                    if (orden.IdOrden != Guid.Empty)
                     {
                         ordenEntidad = db.ORDENES.Find(orden.IdOrden);
                         Mappers.OrdenMapper.ActualizarEntidad(ref ordenEntidad, orden);
@@ -93,6 +93,7 @@ namespace Datos.Repositorios
                     foreach (ProductoDetalleOrdenModelo detalle in orden.DetalleProductos)
                     {
                         DETALLEORDEN detalleEntidad = Mappers.ProductoDetalleOrdenMapper.ModeloAEntidad(detalle);
+                        detalleEntidad.id_orden = ordenEntidad.id_orden;
                         db.DETALLE_ORDENES.Add(detalleEntidad);
                     }
 
@@ -102,7 +103,7 @@ namespace Datos.Repositorios
 
 
                     // Eliminar evento anterior
-                    if (orden.IdOrden != 0)
+                    if (orden.IdOrden != Guid.Empty)
                     {
                         EVENTO eventoEntidad = db.EVENTOS.Find(ordenEntidad.id_evento);
                         if (eventoEntidad != null)

@@ -38,7 +38,7 @@ namespace Datos.Repositorios
             }
         }
 
-        public Dominio.Modelos.ProductoModelo ObtenerPorId(int id)
+        public Dominio.Modelos.ProductoModelo ObtenerPorId(Guid id)
         {
             Entities db = new Entities();
             try
