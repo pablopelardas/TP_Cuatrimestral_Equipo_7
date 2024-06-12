@@ -37,7 +37,7 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Components
             {
                 cboAutoComplete = new DropDownList();
                 cboAutoComplete.Attributes.Add("id", ComboID);
-                cboAutoComplete.Attributes.Add("class", "chzn-select");
+                cboAutoComplete.Attributes.Add("class", "chzn-select ");
                 initComboBox(cboAutoComplete);
                 Session[ComboID] = cboAutoComplete;
             }

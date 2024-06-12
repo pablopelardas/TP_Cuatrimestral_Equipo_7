@@ -15,15 +15,6 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
     {
 
         /// <summary>
-        /// phComboBoxTipo control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.PlaceHolder phComboBoxTipo;
-
-        /// <summary>
         /// phComboBoxCliente control.
         /// </summary>
         /// <remarks>
@@ -31,6 +22,15 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.PlaceHolder phComboBoxCliente;
+
+        /// <summary>
+        /// phComboBoxTipo control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.PlaceHolder phComboBoxTipo;
 
         /// <summary>
         /// phCalendario control.
@@ -51,13 +51,13 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
         protected global::System.Web.UI.WebControls.RadioButtonList rbtnTipoEntrega;
 
         /// <summary>
-        /// txtHora control.
+        /// inputHora control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtHora;
+        protected global::System.Web.UI.HtmlControls.HtmlInputGenericControl inputHora;
 
         /// <summary>
         /// txtDireccion control.

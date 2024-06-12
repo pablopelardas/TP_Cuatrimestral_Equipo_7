@@ -9,78 +9,99 @@
     <script src="https://cdn.tiny.cloud/1/valwbezytp23wuvlb68adt6hx9ggw67661q3p79cvj23ai0p/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
 
     <script type = "text/javascript" src = "https://unpkg.com/default-passive-events" ></script>
+    
+    <style type="text/tailwindcss">
+        @layer base {
+            .radioEntrega input[type="radio"] {
+                @apply my-3 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 !important;
+            }
+            
+            .radioEntrega label {
+                @apply my-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300 !important;
+            }
+            
+        }
+    </style>
+    
 </asp:Content>
 
-<%-- <asp:Content ID="Content3" ContentPlaceHolderID="PageHeader" runat="server"> --%>
-<%--     <%if (id != null) { %> --%>
-<%--         <a href="DetalleOrden.aspx?id=<%: id %>" class="page-header--go-back"> --%>
-<%--         <i class="fa-solid fa-arrow-left"></i> --%>
-<%--         <h4>Editor de orden</h4> --%>
-<%--     </a> --%>
-<%--     <%} --%>
-<%-- else { %> --%>
-<%--     <a href="/Backoffice/Ordenes" class="page-header--go-back"> --%>
-<%--         <i class="fa-solid fa-arrow-left"></i> --%>
-<%--         <h4>Editor de orden</h4> --%>
-<%--     </a> --%>
-<%--     <%} %> --%>
-<%-- </asp:Content> --%>
-
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+    <%if (orden != null)
+        {  %>
+    <form action="#" class="mx-auto max-w-screen-xl px-4">
+        <div class="mx-auto max-w-3xl px-4">
+            <div class="flex justify-between align-items-center">
+                <%if (id != Guid.Empty)
+                    {  %>
+                <h2 class="text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl">Editando Orden #<%: orden.IdOrden %></h2>
+                <% } else { %>
+                <h2 class="text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl">Nueva Orden</h2>
+                <% } %>
+                <a href="<%: redirect_to %>" class="flex align-items-center gap-2 text-gray-800 dark:text-white hover:text-primary-600 hover:dark:text-primary-600 ">
+                    <svg class="w-6 h-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M5 12l4-4m-4 4 4 4"/>
+                    </svg>
+                    <span>
+                        VOLVER
+                    </span>
+                </a>
+            </div>
+            <div class="mt-6 space-y-4 border-b border-t border-gray-200 py-8 dark:border-gray-700 sm:mt-8">
+                <h4 class="text-lg font-semibold text-gray-900 dark:text-white">Información General</h4>
+                <div class="w-full flex justify-between text-start flex-wrap gap-4">
+                    <div class="w-full mt-3 lg:mt-0 lg:w-2/5 flex flex-col flex-wrap  ">
+                          <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Cliente</label>
+                          <asp:PlaceHolder ID="phComboBoxCliente" runat="server"></asp:PlaceHolder>
+                    </div>
+                    <div class="w-full mt-3 lg:mt-0 lg:w-2/5 flex flex-col flex-wrap  ">
+                        <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Tipo de evento: </label>
+                        <asp:PlaceHolder ID="phComboBoxTipo" runat="server"></asp:PlaceHolder>
+                    </div>
+                    <div class="w-full mt-3 flex flex-col flex-wrap justify-end">
+                        <label class="block mb-5 text-sm font-medium text-gray-900 dark:text-white">Fecha: <%: FechaSeleccionada != null ? FechaSeleccionada : ""%></label>
+                        <asp:PlaceHolder ID="phCalendario" runat="server"></asp:PlaceHolder>
+                    </div>
+                    <div class="w-full mt-5 lg:mt-0 lg:w-2/5 flex flex-col flex-wrap">
+                        <label class="block mb-5 text-sm font-medium text-gray-900 dark:text-white">Tipo de entrega: </label>
+                        <asp:RadioButtonList CssClass="radioEntrega" ID="rbtnTipoEntrega" AutoPostBack="true" OnSelectedIndexChanged="rbtnTipoEntrega_SelectedIndexChanged" runat="server">
+                            <asp:ListItem Text="Retira" Value="R"></asp:ListItem>
+                            <asp:ListItem Text="Delivery" Value="D"></asp:ListItem>
+                        </asp:RadioButtonList>
+                    </div>
+                    <div class="w-full mt-3 lg:mt-0 lg:w-2/5 flex flex-col flex-wrap">
+                         <div class="w-full mb-3">
+                                <label for="inputHora" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Hora: </label>
+                                <div class="relative">
+                                    <div class="absolute inset-y-0 end-0 top-0 flex items-center pe-3.5 pointer-events-none">
+                                        <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+                                            <path fill-rule="evenodd" d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm11-4a1 1 0 1 0-2 0v4a1 1 0 0 0 .293.707l3 3a1 1 0 0 0 1.414-1.414L13 11.586V8Z" clip-rule="evenodd" />
+                                        </svg>
+                                    </div>
+                                    <input type="time" id="inputHora" class="bg-gray-50 border leading-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" min="09:00" max="22:00" value="00:00" required runat="server" />
+                                </div>
+                        </div>
+                        <% if (orden.TipoEntrega == "D"){%>
+                        <div class="w-full">
+                            <label for="txtDireccion" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Direccion</label>
+                            <asp:TextBox CssClass="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" ID="txtDireccion" runat="server"></asp:TextBox>
+                        </div>
+                        <%} %>
+                    </div>
+                </div>
+            </div>
+            <div class="space-y-4 border-b border-gray-200 py-8 dark:border-gray-700">
+                <div class="w-full flex justify-between text-start flex-wrap gap-4">
+                    <h4 class="text-lg font-semibold text-gray-900 dark:text-white">Detalle de la orden</h4>
+                </div>
+                <asp:PlaceHolder ID="phDetalleOrden" runat="server"></asp:PlaceHolder>
+            </div>
+        </div>
+    </form>
 
-
-    <%-- DIV Detalles del evento  --%>
-    <div>
-        <h3>Detalles del evento</h3>
-        <div>
-            <%if (id != null)
-                {  %>
-             <div>
-                    <span>Orden #: </span>
-                    <span><%: orden.IdOrden %></span>
-            </div>
-            <% }  %>
-            <div class="my-2 d-flex gap-3">
-                <label class="form-label">Tipo: </label>
-                <asp:PlaceHolder ID="phComboBoxTipo" runat="server"></asp:PlaceHolder>
-            </div>
-            <div class="my-2 d-flex gap-3">
-                <label class="form-label">Cliente: </label>
-                <asp:PlaceHolder ID="phComboBoxCliente" runat="server"></asp:PlaceHolder>
-            </div>
-            <div>
-                <label class="form-label">Fecha: <%: FechaSeleccionada != null ? FechaSeleccionada : ""%></label>
-                <asp:PlaceHolder ID="phCalendario" runat="server"></asp:PlaceHolder>
-            </div>
-            
-        </div>
-    </div>
-    <%-- DIV Tipo entrega  --%>
-    <div>
-        <h3>Datos de la entrega</h3>
-        <div>
-            <label class="form-label">Tipo de entrega</label>
-            <asp:RadioButtonList ID="rbtnTipoEntrega" AutoPostBack="true" OnSelectedIndexChanged="rbtnTipoEntrega_SelectedIndexChanged" runat="server">
-                <asp:ListItem Text="Retiro" Value="R"></asp:ListItem>
-                <asp:ListItem Text="Delivery" Value="D"></asp:ListItem>
-            </asp:RadioButtonList>
-        </div>
-        <div>
-            <label class="form-label">Hora de entrega: </label>
-            <asp:TextBox CssClass="form-control" ID="txtHora" runat="server"></asp:TextBox>
-        </div>
-        <%if (orden.TipoEntrega == "D")
-            { %>
-        <div>
-            <label class="form-label">Dirección</label>
-            <asp:TextBox CssClass="form-control" ID="txtDireccion" runat="server"></asp:TextBox>
-        </div>
-        <%} %>
-    </div>
     <%-- DIV DETALLE ORDEN --%>
     <div class="detalle-orden">
         <div class="do-lista">
-            <asp:PlaceHolder ID="phDetalleOrden" runat="server"></asp:PlaceHolder>
+            <%-- <asp:PlaceHolder ID="phDetalleOrden" runat="server"></asp:PlaceHolder> --%>
         </div>
         <div class="do-detalle">
             <div>
@@ -115,7 +136,8 @@
     
     <asp:Button ID="btnCancelar" runat="server" Text="Cancelar" CssClass="btn btn-secondary" OnClick="btnCancelar_Click" />
     <asp:Button ID="btnGuardar" runat="server" Text="Guardar" CssClass="btn btn-primary" OnClick="btnGuardar_Click" />
-
+        
+        <% } %>
 
     <script type="text/javascript" language="javascript">
         function LoadTiny() {

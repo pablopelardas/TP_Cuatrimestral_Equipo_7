@@ -16,6 +16,7 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
         public Dominio.Modelos.OrdenModelo orden;
         public string FechaSeleccionada;
         public Guid id = Guid.Empty;
+        public string redirect_to = "/Backoffice/Ordenes";
         private string OrdenActual = "editorOrden_OrdenActual";
 
         
@@ -48,7 +49,7 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
 
             if (!IsPostBack)
             {
-                if (id == null)
+                if (id == Guid.Empty)
                 {
                     orden = new Dominio.Modelos.OrdenModelo();
                 }
@@ -131,7 +132,7 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
             }
 
 
-            if (orden.DetalleProductos != null )
+            if (orden != null && orden.DetalleProductos != null )
             {
                 gvData.DataSource = orden.DetalleProductos;
                 gvData.DataBind();
@@ -204,6 +205,7 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
            Button btnAgregarProducto = new Button();
            btnAgregarProducto.Text = "Agregar Producto";
            btnAgregarProducto.CssClass = "btn btn-primary";
+           btnAgregarProducto.Attributes.Add("type", "button");
            btnAgregarProducto.Click += new EventHandler(btnAgregarProducto_Click);
 
            Panel headerPanel = new Panel();
@@ -245,7 +247,7 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
 
             FechaSeleccionada = orden.Evento.Fecha.ToShortDateString();
             rbtnTipoEntrega.SelectedValue = orden.TipoEntrega;
-            txtHora.Text = orden.HoraEntrega.ToString();
+            inputHora.Value = orden.HoraEntrega.ToString();
             txtDireccion.Text = orden.DireccionEntrega;
             txtDescuento.Text = orden.DescuentoPorcentaje.ToString();
             txtCostoEnvio.Text = orden.CostoEnvio.ToString();
@@ -274,7 +276,7 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
         private OrdenModelo ObtenerModeloDesdeFormulario()
         {
             orden.TipoEntrega = rbtnTipoEntrega.SelectedValue;
-            orden.HoraEntrega = TimeSpan.TryParse(txtHora.Text, out TimeSpan hora) ? hora : orden.HoraEntrega;
+            orden.HoraEntrega = TimeSpan.TryParse(inputHora.Value, out TimeSpan hora) ? hora : orden.HoraEntrega;
             orden.DireccionEntrega = txtDireccion.Text;
 
             Guid idTipoEvento = (Guid)cboTipo.SelectedValue;
