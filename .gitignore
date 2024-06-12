@@ -364,11 +364,4 @@ FodyWeavers.xsd
 
 .idea
 
-TP_Cuatrimestral_Equipo_7/ApiKeys.config
-/TP_Cuatrimestral_Equipo_7/ApiKeys.config
-./TP_Cuatrimestral_Equipo_7/ApiKeys.config
-ApiKeys.config
-/ApiKeys.config
-./ApiKeys.config
-**/ApiKeys.config
-**/*.config
+**/apiKeys.config
