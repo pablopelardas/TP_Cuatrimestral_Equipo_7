@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Services.Description;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using Newtonsoft.Json;
 using TP_Cuatrimestral_Equipo_7.Backoffice.Productos;
 
 namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
@@ -40,11 +41,34 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
             servicioProducto = new Negocio.Servicios.ProductoServicio();
 
             id = Guid.TryParse(Request.QueryString["id"], out id) ? id : Guid.Empty;
+            if (Request.QueryString["redirect_to"] != null)
+            {
+                redirect_to = Request.QueryString["redirect_to"];
+            }
 
             if (Session[OrdenActual] != null)
             {
                 orden = (OrdenModelo)Session[OrdenActual];
+                string eventTarget = Request["__EVENTTARGET"];
+                string eventArgument = Request["__EVENTARGUMENT"];
+                if (eventTarget == "getPlaceDetails")
+                {
+                    string args = eventArgument;
+                    // decode json into GooglePlaceDetails
+                    GooglePlaceDetails placeDetails = new GooglePlaceDetails();
+                    JsonConvert.PopulateObject(args, placeDetails);
+                    orden.DireccionEntrega.GoogleFormattedAddress = placeDetails.formatted_address;
+                    if (orden.DireccionEntrega.GoogleFormattedAddress != null)
+                    {
+                        orden.DireccionEntrega.GoogleLat = placeDetails.lat;
+                        orden.DireccionEntrega.GoogleLng = placeDetails.lng;
+                        orden.DireccionEntrega.GoogleName = placeDetails.name;
+                        orden.DireccionEntrega.GooglePlaceId = placeDetails.place_id;
+                        orden.DireccionEntrega.GoogleUrl = placeDetails.url;
+                    }
+                }
             }
+
 
             if (!IsPostBack)
             {
@@ -61,18 +85,27 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
                             orden = servicioOrden.ObtenerPorId(id);
                             if (orden == null)
                             {
-                                Response.Redirect(redirect_to);
+                                throw new Exception("Orden no encontrada");
                             }
                         }
                     }
                     catch (Exception ex)
                     {
-                        throw ex;
+                        Response.Redirect(redirect_to, false);
+                        return;
                     }
                 }
                 Session[OrdenActual] = orden;
                 CargarComponentes();
-                if (orden != null && orden.IdOrden != Guid.Empty) CargarDatos();
+                if (orden.IdOrden != Guid.Empty)
+                {
+                    CargarDatos();
+                }
+                else
+                {
+                    rbtnTipoEntrega.SelectedValue = "R";                    
+                    
+                }
             }
             else
             {
@@ -197,23 +230,20 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
             orden.DetalleProductos.Add(detalle);
             CargarRepeaterDetalle();
         }
-        
-        protected void OnTinyLoad(object sender, EventArgs e)
-        {
-            ScriptManager.RegisterStartupScript(this, GetType(), "text", "LoadTiny();", true);
-        }
-
         private void CargarDatos()
         {
             if (orden == null)
             {
                 return;
             }
+            
+            orden.TipoEntrega = orden.TipoEntrega == "Delivery" ? "D" : "R";
+            Session[OrdenActual] = orden;
 
             FechaSeleccionada = orden.Evento.Fecha.ToShortDateString();
             rbtnTipoEntrega.SelectedValue = orden.TipoEntrega;
+
             inputHora.Value = orden.HoraEntrega.ToString();
-            txtDireccion.Text = orden.DireccionEntrega;
             txtDescuento.Text = orden.DescuentoPorcentaje.ToString();
             txtCostoEnvio.Text = orden.CostoEnvio.ToString();
 
@@ -224,7 +254,12 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
 
             // EDITOR
             tiny.Text = orden.Descripcion;
-
+            
+            if (orden.TipoEntrega == "D")
+            {
+                txtDireccion.Text = orden.DireccionEntrega.GoogleFormattedAddress;
+                FirePostBackEvent("rbtnTipoEntrega_SelectedIndexChanged");
+            }
         }
 
         protected void TotalChanged(object sender, EventArgs e)
@@ -238,22 +273,28 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
             orden.CostoEnvio = costoEnvio;
 
         }
+        
+        protected void txtDireccion_TextChanged(object sender, EventArgs e)
+        {
+            orden.DireccionEntrega.GoogleFormattedAddress = txtDireccion.Text;
+        }
+        
         private OrdenModelo ObtenerModeloDesdeFormulario()
         {
             orden.TipoEntrega = rbtnTipoEntrega.SelectedValue ?? "R";
             orden.HoraEntrega = TimeSpan.TryParse(inputHora.Value, out TimeSpan hora) ? hora : TimeSpan.Zero;
-            orden.DireccionEntrega = txtDireccion.Text;
+            orden.DireccionEntrega.GoogleFormattedAddress = txtDireccion.Text;
             
             if (orden.TipoEntrega == "D") // Delivery
             {
-                if (string.IsNullOrEmpty(orden.DireccionEntrega))
+                if (string.IsNullOrEmpty(orden.DireccionEntrega.GoogleFormattedAddress))
                 {
                     throw  new Exception("Debe ingresar una dirección de entrega");
                 }
             }
             else
             {
-                orden.DireccionEntrega = "";
+                orden.DireccionEntrega.GoogleFormattedAddress = "";
             }
             
             orden.TipoEntrega = orden.TipoEntrega == "D" ? "Delivery" : "Retiro";
@@ -320,6 +361,7 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
                 Ob.IdOrden = id;
             }
             servicioOrden.GuardarOrden(Ob);
+            Response.Redirect(redirect_to);
         }
 
         protected void btnCancelar_Click(object sender, EventArgs e)
@@ -362,5 +404,26 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
             ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "ShowModal();", true);
         }
         
+        private void FirePostBackEvent(string eventTarget)
+        {
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "PostBack", "__doPostBack('" + eventTarget + "','');", true);
+        }
+        
+        protected void OnTinyLoad(object sender, EventArgs e)
+        {
+            ScriptManager.RegisterStartupScript(this, GetType(), "text", "LoadTiny();", true);
+        }
+
+        
+    }
+    
+    public class GooglePlaceDetails
+    {
+        public string lat { get; set; }
+        public string lng { get; set; }
+        public string formatted_address { get; set; }
+        public string place_id { get; set; }
+        public string name { get; set; }
+        public string url { get; set; }
     }
 }

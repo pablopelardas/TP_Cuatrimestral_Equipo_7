@@ -27,6 +27,8 @@ namespace Datos.EF
         public virtual DbSet<DETALLEPRODUCTO> DETALLE_PRODUCTOS { get; set; }
 
         public virtual DbSet<PAGO> PAGOS { get; set; }
+        
+        public virtual DbSet<DIRECCION> DIRECCIONES { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -48,6 +50,7 @@ namespace Datos.EF
             modelBuilder.Entity<UNIDAD_MEDIDA>().ToTable("Unidades_Medida");
             modelBuilder.Entity<EVENTO>().ToTable("Eventos");
             modelBuilder.Entity<PAGO>().ToTable("Pagos");
+            modelBuilder.Entity<DIRECCION>().ToTable("Direcciones");
 
 
             modelBuilder.Entity<PAGO>()

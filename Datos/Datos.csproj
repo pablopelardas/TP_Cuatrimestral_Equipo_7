@@ -59,6 +59,7 @@
     <Compile Include="EF\DETALLEORDEN.cs" />
     <Compile Include="EF\DETALLEPRODUCTO.cs" />
     <Compile Include="EF\DETALLERECETA.cs" />
+    <Compile Include="EF\DIRECCION.cs" />
     <Compile Include="EF\Entities.cs" />
     <Compile Include="EF\EVENTO.cs" />
     <Compile Include="EF\IMAGENPRODUCTO.cs" />
@@ -74,6 +75,7 @@
     <Compile Include="EF\UNIDAD_MEDIDA.cs" />
     <Compile Include="Mappers\CategoriaMapper.cs" />
     <Compile Include="Mappers\ContactoMapper.cs" />
+    <Compile Include="Mappers\DireccionMapper.cs" />
     <Compile Include="Mappers\IngredienteDetalleRecetaMapper.cs" />
     <Compile Include="Mappers\IngredienteMapper.cs" />
     <Compile Include="Mappers\EventoMapper.cs" />
@@ -94,7 +96,20 @@
     <Compile Include="Migrations\202406111531207_ImagenCategoria.Designer.cs">
       <DependentUpon>202406111531207_ImagenCategoria.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202406121544467_Direcciones.cs" />
+    <Compile Include="Migrations\202406121544467_Direcciones.Designer.cs">
+      <DependentUpon>202406121544467_Direcciones.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202406121553571_saco_dir_entrega_ordenes.cs" />
+    <Compile Include="Migrations\202406121553571_saco_dir_entrega_ordenes.Designer.cs">
+      <DependentUpon>202406121553571_saco_dir_entrega_ordenes.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202406121733099_id_direccion_opcional.cs" />
+    <Compile Include="Migrations\202406121733099_id_direccion_opcional.Designer.cs">
+      <DependentUpon>202406121733099_id_direccion_opcional.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Migrations\Seeds\DireccionesSeed.cs" />
     <Compile Include="Migrations\Seeds\IngredientesSeed.cs" />
     <Compile Include="Migrations\Seeds\DetalleRecetasSeed.cs" />
     <Compile Include="Migrations\Seeds\ProductosSeed.cs" />
@@ -146,6 +161,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202406111531207_ImagenCategoria.resx">
       <DependentUpon>202406111531207_ImagenCategoria.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202406121544467_Direcciones.resx">
+      <DependentUpon>202406121544467_Direcciones.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202406121553571_saco_dir_entrega_ordenes.resx">
+      <DependentUpon>202406121553571_saco_dir_entrega_ordenes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202406121733099_id_direccion_opcional.resx">
+      <DependentUpon>202406121733099_id_direccion_opcional.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

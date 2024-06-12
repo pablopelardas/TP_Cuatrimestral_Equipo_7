@@ -11,7 +11,6 @@ namespace Dominio.Modelos
         public Guid IdOrden { get; set; }
         public string TipoEntrega { get; set; }
         public TimeSpan HoraEntrega { get; set; }
-        public string DireccionEntrega { get; set; }
         public decimal DescuentoPorcentaje { get; set; }
         public decimal CostoEnvio { get; set; }
         public string Descripcion { get; set; }
@@ -61,10 +60,18 @@ namespace Dominio.Modelos
         public ContactoModelo Cliente { get; set; }
         public OrdenEstadoModelo Estado { get; set; }
         public OrdenEstadoPagoModelo EstadoPago { get; set; }
-
+        
+        public DireccionModelo DireccionEntrega { get; set; }
 
 
         public List<ProductoDetalleOrdenModelo> DetalleProductos { get; set; } = new List<ProductoDetalleOrdenModelo>();
         public EventoModelo Evento { get; set; }
+
+        public OrdenModelo()
+        {
+            DireccionEntrega = new DireccionModelo();
+        }
+
+
     }
 }

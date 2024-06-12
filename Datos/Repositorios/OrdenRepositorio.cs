@@ -3,6 +3,7 @@ using Dominio.Modelos;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Entity.Migrations;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Net.NetworkInformation;
@@ -65,18 +66,47 @@ namespace Datos.Repositorios
             {
                 try
                 {
+                    
+                    
                     ORDEN ordenEntidad;
                     if (orden.IdOrden != Guid.Empty)
                     {
                         ordenEntidad = db.ORDENES.Find(orden.IdOrden);
+                        
+                        // Check if orden exists
+                        if (ordenEntidad == null)
+                        {
+                            throw new Exception("La orden no existe");
+                        }
+                        // Check if direccion is different
+                        if (ordenEntidad.id_direccion != orden.DireccionEntrega.IdDireccion)
+                        {
+                            // Check if direccion exists
+                            DIRECCION direccionEntidad = db.DIRECCIONES.Find(orden.DireccionEntrega.IdDireccion);
+                            if (direccionEntidad == null)
+                            {
+                                db.DIRECCIONES.Add(Mappers.DireccionMapper.ModeloAEntidad(orden.DireccionEntrega));
+                                db.SaveChanges();
+                            }
+                            else
+                            {
+                                // Remove old direccion
+                                db.DIRECCIONES.Remove(direccionEntidad);
+                                db.SaveChanges();
+                            }
+                        }
                         Mappers.OrdenMapper.ActualizarEntidad(ref ordenEntidad, orden);
                     }
                     else
                     {
                         ordenEntidad = Mappers.OrdenMapper.ModeloAEntidad(orden);
-                        db.ORDENES.Add(ordenEntidad);
+                        if (orden.TipoEntrega == "Retiro")
+                        {
+                            ordenEntidad.id_direccion = null;
+                        }
                     }
-
+                    
+                    db.ORDENES.AddOrUpdate(ordenEntidad);
                     db.SaveChanges();
 
                     // Agregar detalles
@@ -121,7 +151,9 @@ namespace Datos.Repositorios
                             fecha = orden.Evento.Fecha,
                             id_tipo_evento = orden.Evento.TipoEvento.IdTipoEvento
                         };
-                        db.EVENTOS.Add(evento);
+                        evento = db.EVENTOS.Add(evento);
+                        db.SaveChanges();
+                        
                         ordenEntidad.id_evento = evento.id_evento;
 
                         db.SaveChanges();

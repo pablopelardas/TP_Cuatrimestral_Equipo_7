@@ -36,6 +36,8 @@
             context.SaveChanges();
             EventosSeed.getEventos(context).ForEach(e => context.EVENTOS.Add(e));
             context.SaveChanges();
+            DireccionesSeed.getDirecciones().ForEach(d => context.DIRECCIONES.Add(d));
+            context.SaveChanges();
             OrdenesSeed.getOrdenes(context).ForEach(o => context.ORDENES.Add(o));
             context.SaveChanges();
             DetalleOrdenesSeed.getDetalleOrdenes(context).ForEach(deo => context.DETALLE_ORDENES.Add(deo));

@@ -14,9 +14,9 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
         public string redirect_to = "/Backoffice/Ordenes";
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (Request.QueryString["redirect_back"] != null)
+            if (Request.QueryString["redirect_to"] != null)
             {
-                redirect_to = Request.QueryString["redirect_back"];
+                redirect_to = Request.QueryString["redirect_to"];
             }
             if (!IsPostBack)
             {

@@ -14,6 +14,8 @@ namespace Datos.EF
         public Guid id_orden { get; set; }
 
         public Guid id_cliente { get; set; }
+        
+        public Guid? id_direccion { get; set; }
 
         [Required]
         [StringLength(50)]
@@ -24,10 +26,7 @@ namespace Datos.EF
         public decimal? descuento_porcentaje { get; set; }
 
         public decimal? costo_envio { get; set; }
-
-        [StringLength(200)]
-        public string direccion_entrega { get; set; }
-
+        
         public TimeSpan hora_entrega { get; set; }
 
         public int? id_orden_estado { get; set; }
@@ -35,7 +34,10 @@ namespace Datos.EF
         public int? id_orden_pago_estado { get; set; }
 
         public Guid? id_evento { get; set; }
-
+        
+        [ForeignKey("id_direccion")]
+        public virtual DIRECCION DIRECCION { get; set; }
+        
         [ForeignKey("id_cliente")]
         public virtual CONTACTO CLIENTE { get; set; }
 
@@ -53,5 +55,6 @@ namespace Datos.EF
 
         [ForeignKey("id_orden")]
         public virtual ICollection<PAGO> PAGOS { get; set; }
+        
     }
 }

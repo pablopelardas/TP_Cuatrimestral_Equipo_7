@@ -51,6 +51,9 @@
       <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -86,7 +89,6 @@
     <Content Include="Assets\Categorias\torta.svg" />
     <Content Include="Assets\logo.png" />
     <Content Include="Backoffice\Components\ComboBoxAutoComplete.ascx" />
-    <Content Include="Backoffice\Components\DetailList.ascx" />
     <Content Include="Backoffice\Ingredientes\Default.aspx" />
     <Content Include="Backoffice\Ingredientes\DetalleIngrediente.aspx" />
     <Content Include="Backoffice\Ingredientes\EditarIngrediente.aspx" />
@@ -123,13 +125,6 @@
     </Compile>
     <Compile Include="Backoffice\Components\ComboBoxAutoComplete.ascx.designer.cs">
       <DependentUpon>ComboBoxAutoComplete.ascx</DependentUpon>
-    </Compile>
-    <Compile Include="Backoffice\Components\DetailList.ascx.cs">
-      <DependentUpon>DetailList.ascx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Backoffice\Components\DetailList.ascx.designer.cs">
-      <DependentUpon>DetailList.ascx</DependentUpon>
     </Compile>
     <Compile Include="Backoffice\Ingredientes\Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
@@ -258,13 +253,8 @@
   <ItemGroup>
     <Content Include="LayoutNegocio.Master" />
     <Content Include="LayoutTailwind.Master" />
+    <None Include="apiKeys.config" />
     <None Include="packages.config" />
-    <None Include="Web.Debug.config">
-      <DependentUpon>Web.config</DependentUpon>
-    </None>
-    <None Include="Web.Release.config">
-      <DependentUpon>Web.config</DependentUpon>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />

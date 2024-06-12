@@ -19,7 +19,7 @@
                         </span>
                     </a>
                 </div>
-                <a href="EditarOrden.aspx?id=<%: orden.IdOrden %>" class="inline-flex items-center justify-center mt-3 rounded-lg bg-primary-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Editar orden</a>
+                <a href="EditarOrden.aspx?id=<%: orden.IdOrden %>&redirect_to=DetalleOrden.aspx?id=<%: orden.IdOrden%>" class="inline-flex items-center justify-center mt-3 rounded-lg bg-primary-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Editar orden</a>
                 <div class="mt-6 space-y-4 border-b border-t border-gray-200 py-8 dark:border-gray-700 sm:mt-8">
                     <h4 class="text-lg font-semibold text-gray-900 dark:text-white">Información General</h4>
                     <dl class="w-full flex justify-between text-start flex-wrap flex-col lg:flex-row">

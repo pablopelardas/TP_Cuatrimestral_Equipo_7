@@ -5,6 +5,7 @@
 <html>
 <head runat="server">
     <title>Pastelería</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <asp:ContentPlaceHolder ID="head" runat="server">
     </asp:ContentPlaceHolder>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css" rel="stylesheet" />
@@ -79,7 +80,7 @@
               @apply bg-blue-200 text-blue-800;
           }
            .chzn-container-single, .chzn-single,  .chzn-drop,  .chzn-container-single .chzn-search input, .chzn-container-single .chzn-results .no-results, .chzn-results, .chzn-container-single, .chzn-single{
-              @apply bg-gray-50 text-gray-900 focus:ring-blue-500 focus:border-blue-500 block dark:bg-gray-700 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 !important;
+              @apply bg-gray-200 text-gray-900 focus:ring-blue-500 focus:border-blue-500 block dark:bg-gray-700 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 !important;
             }
         }
       </style>
@@ -285,5 +286,9 @@
             }
         });
     </script>
+
+<asp:ContentPlaceHolder ID="SCRIPTS_PLACEHOLDER" runat="server">
+
+</asp:ContentPlaceHolder>
 </body>
 </html>

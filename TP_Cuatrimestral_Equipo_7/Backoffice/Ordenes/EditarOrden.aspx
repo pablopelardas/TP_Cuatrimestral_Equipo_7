@@ -1,6 +1,5 @@
 ﻿<%@ Page Title="" MaintainScrollPositionOnPostback="true" Language="C#" MasterPageFile="~/LayoutTailwind.Master" AutoEventWireup="true" CodeBehind="EditarOrden.aspx.cs" Inherits="TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes.EditarOrden" ValidateRequest="false"%>
-
-<%@ Register Src="~/Backoffice/Components/ComboBoxAutoComplete.ascx" TagPrefix="uc" TagName="ComboBoxAutoComplete" %>
+<%@ Import Namespace="System.Web.Configuration" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <link href="/Css/chosen.css" rel="stylesheet"/>
@@ -8,7 +7,6 @@
     <script src="/Js/chosen.jquery.js" type="text/javascript"></script>
     <script src="https://cdn.tiny.cloud/1/valwbezytp23wuvlb68adt6hx9ggw67661q3p79cvj23ai0p/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
 
-    <script type="text/javascript" src="https://unpkg.com/default-passive-events"></script>
 
     <style type="text/tailwindcss">
         @layer base {
@@ -87,17 +85,24 @@
                                         <path fill-rule="evenodd" d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm11-4a1 1 0 1 0-2 0v4a1 1 0 0 0 .293.707l3 3a1 1 0 0 0 1.414-1.414L13 11.586V8Z" clip-rule="evenodd"/>
                                     </svg>
                                 </div>
-                                <input type="time" id="inputHora" class="bg-gray-50 h-[24px] border leading-none border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="00:00" required runat="server"/>
+                                <input type="time" id="inputHora" class="bg-gray-50 h-[24px] border leading-none border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="15:00" required runat="server"/>
                             </div>
                         </div>
-                        <% if (orden.TipoEntrega == "D")
-                           { %>
-                            <div class="w-full">
-                                <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Direccion</label>
-                                <asp:TextBox CssClass="bg-gray-50 h-[24px] border border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" ID="txtDireccion" runat="server"></asp:TextBox>
-                            </div>
-                        <% } %>
                     </div>
+                     <% if (orden.TipoEntrega == "D")
+                       { %>
+                        <div class="w-full mt-3 flex flex-col flex-wrap justify-end MAP">
+                                   
+                            <label class="block mb-5 text-sm font-medium text-gray-900 dark:text-white">Direccion</label>
+                            <asp:TextBox CssClass="bg-gray-50 h-[24px] border border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" ClientIDMode="Static" ID="txtDireccion" OnTextChanged="txtDireccion_TextChanged" runat="server"></asp:TextBox>
+                            <% if (!string.IsNullOrEmpty(orden.DireccionEntrega.GoogleUrl))
+                               { %>
+                                <a href="<%: orden.DireccionEntrega.GoogleUrl %>" target="_blank" class="w-20 text-xs mt-3 font-medium text-gray-900 dark:text-white">Abrir en maps</a>
+                            <% } %>
+                            
+                        </div>
+                    <% } %>
+
                 </div>
             </div>
             <div class="space-y-4 border-b border-gray-200 py-8 dark:border-gray-700">
@@ -269,7 +274,6 @@
         var loading = false;
         var loader = document.getElementById('loader');
         
-        console.log('loader', loader);
     
         function ShowLoader() {
             loader.classList.remove('hidden');
@@ -280,7 +284,6 @@
         }
     
         function ShowModal() {
-            console.log('ShowModal');
     
             if (loading) {
                 return;
@@ -291,9 +294,6 @@
     
             setTimeout(() => {
                 const button = document.querySelector('[data-modal-toggle="agregarProductoModal"]');
-                
-                console.log('button', button);
-    
                 // show modal
                 button.click();
                 loading = false;
@@ -303,6 +303,36 @@
             // wait for modal to be rendered with observer
         }
     </script>
+
+<script>
+    let autocomplete;
+    function initAutocomplete(){
+        autocomplete = new google.maps.places.Autocomplete(document.getElementById('txtDireccion'), {
+            fields: ['place_id', 'formatted_address', 'geometry', 'name', 'url'],
+            componentRestrictions: { country: ['AR'] },
+        });
+        google.maps.event.addDomListener(document.getElementById('txtDireccion'), 'keydown', function(e) { 
+            if (e.keyCode == 13) 
+            { 
+                e.preventDefault(); 
+            }
+        });
+        google.maps.event.addListener(autocomplete, 'place_changed', function() {
+            let place = autocomplete.getPlace();
+            __doPostBack('getPlaceDetails', JSON.stringify({
+                lat: place.geometry.location.lat(),
+                lng: place.geometry.location.lng(),
+                formatted_address: place.formatted_address,
+                placeId: place.place_id,
+                url: place.url,
+                name: place.name
+            }));
+        });
+    }
+</script>
+<script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=<%: WebConfigurationManager.AppSettings["ApiKey:GoogleMaps"]%>&loading=async&libraries=places&callback=initAutocomplete">
+</script>
 
 <script type="text/javascript" language="javascript">
         function LoadTiny() {
