@@ -38,7 +38,7 @@
 
 <style>
     .modal-body .chzn-container.chzn-container-single, .modal-body .chzn-drop {
-        min-width : 300px !important; /* or any value that fits your needs */
+        width: 100% !important;
     }
     .modal-body .chzn-drop input{
         width: 100% !important;
@@ -68,30 +68,6 @@
     </div>
 </div>
 
-
-<%-- <!-- Button trigger modal --> --%>
-<%-- <button type="button" id="<%:CustomID%>-trigger" style="display: none;" data-bs-toggle="modal" data-bs-target="#<%:CustomID%>-modal"> --%>
-<%-- </button> --%>
-<%-- --%>
-<%-- <!-- Modal --> --%>
-<%-- <div class="modal fade" id="<%:CustomID%>-modal" tabindex="-1" aria-labelledby="<%:CustomID%>-modalTitle" aria-hidden="true"> --%>
-<%--     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable"> --%>
-<%--     <div class="modal-content"> --%>
-<%--         <div class="modal-header"> --%>
-<%--         <h1 class="modal-title fs-5" id="<%:CustomID%>-modalTitle"><%:CustomID%></h1> --%>
-<%--         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> --%>
-<%--         </div> --%>
-<%--         <div class="modal-body position-relative " style="min-height: 300px"> --%>
-<%--             <asp:Panel ID="pnlModalBody" runat="server"></asp:Panel> --%>
-<%--         </div> --%>
-<%--         <div class="modal-footer"> --%>
-<%--         <asp:Button ID="btnCancelarModal" runat="server" Text="Cerrar" data-bs-dismiss="modal" CssClass="btn btn-secondary" /> --%>
-<%--         <asp:Button ID="btnGuardarModal" runat="server" Text="Guardar" CssClass="btn btn-primary" /> --%>
-<%--         </div> --%>
-<%--     </div> --%>
-<%--     </div> --%>
-<%-- </div> --%>
-
 <!-- Modal toggle -->
 <button data-modal-target="<%:CustomID%>-modal" data-modal-toggle="<%:CustomID%>-modal" class="hidden" type="button">
 </button>
@@ -99,10 +75,10 @@
 <div id="<%:CustomID%>-modal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
     <div class="relative p-4 w-full max-w-2xl max-h-full">
         <!-- Modal content -->
-        <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+        <div class="relative bg-white rounded-lg shadow dark:bg-gray-800">
             <!-- Modal header -->
             <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
-                <h3 class="text-xl font-semibold text-gray-900 dark:text-white"> <%:CustomID%>
+                <h3 class="text-xl font-semibold text-gray-900 dark:text-white"> <%:ModalTitle%>
                 </h3>
                 <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="<%:CustomID%>-modal">
                     <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
@@ -112,7 +88,7 @@
                 </button>
             </div>
             <!-- Modal body -->
-            <div class="">
+            <div class="modal-body p-5">
                    <asp:Panel ID="pnlModalBody" runat="server"></asp:Panel>
             </div>
             <!-- Modal footer -->

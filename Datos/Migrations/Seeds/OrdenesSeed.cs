@@ -31,7 +31,7 @@ public static class OrdenesSeed
                 descripcion = random.Next(0, 5) < 4 ? Descripciones[random.Next(0, Descripciones.Count)] : null,
                 descuento_porcentaje = random.Next(0, 5) < 4 ? random.Next(0, 10) : 0,
                 id_evento = evento.id_evento,
-                hora_entrega = new TimeSpan(random.Next(0, 24), random.Next(0, 60), random.Next(0, 60)),
+                hora_entrega = new TimeSpan(random.Next(0, 24), random.Next(0, 60),0),
                 direccion_entrega = random.Next(0, 5) < 4 ? "Calle Falsa 123" : "Av. Siempre Viva 123",
                 tipo_entrega = random.Next(0, 5) < 4 ? "Delivery" : "Retiro",
                 id_orden_pago_estado = 1,

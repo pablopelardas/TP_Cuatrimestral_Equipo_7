@@ -15,7 +15,7 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Components
         private GridView gvData;
         Action<GridView> _init;
 
-        public void InicializarListaDetalle(Action<GridView> initGridData, Control phHeader = null, Control phFooter = null)
+        public void InicializarListaDetalle(Action<GridView> initGridData, Control phHeader = null, Control phFooter = null, Action<GridView> registerEvents = null)
         {
             if (CustomID == null)
             {
@@ -33,9 +33,12 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Components
             {
                 phListFooter.Controls.Add(phFooter);
             }
-            if (!IsPostBack)
-            {
+            // if (!IsPostBack)
+            // {
+            // }
                 _init(gvData);
+            if (registerEvents != null) {
+                registerEvents(gvData);
             }
         }
 

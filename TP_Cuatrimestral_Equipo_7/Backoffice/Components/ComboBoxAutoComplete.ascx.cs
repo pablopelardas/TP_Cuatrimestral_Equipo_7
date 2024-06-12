@@ -11,6 +11,18 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Components
     {
 
         public string ComboID { get; set; }
+        
+        public bool Enabled
+        {
+            get
+            {
+                return cboAutoComplete.Enabled;
+            }
+            set
+            {
+                cboAutoComplete.Enabled = value;
+            }
+        }
 
         public object SelectedValue
         {
