@@ -19,7 +19,7 @@ namespace Dominio.Modelos
         {
             get
             {
-                return DetalleProductos.Sum(x => x.Subtotal);
+                return decimal.Round(DetalleProductos.Sum(x => x.Subtotal), 2);
             }
         }
 
@@ -27,7 +27,7 @@ namespace Dominio.Modelos
         {
             get
             {
-                return Subtotal - (Subtotal * DescuentoPorcentaje / 100) + CostoEnvio;
+                return decimal.Round(Subtotal - (Subtotal * DescuentoPorcentaje / 100) + CostoEnvio, 2);
             }
         }
         

@@ -13,7 +13,7 @@ public static class OrdenEstadosSeed
             },
             new ORDENESTADO
             {
-                nombre = "En Proceso"
+                nombre = "En preparación"
             },
             new ORDENESTADO
             {
@@ -22,6 +22,10 @@ public static class OrdenEstadosSeed
             new ORDENESTADO
             {
                 nombre = "Entregada"
+            },
+            new ORDENESTADO
+            {
+                nombre = "Cancelada"
             }
         };
     }

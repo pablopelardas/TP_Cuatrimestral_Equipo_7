@@ -10,13 +10,13 @@ namespace Dominio.Modelos
     {
         public Guid IdReceta { get; set; }
         public IngredienteModelo Ingrediente { get; set; }
-        public double Cantidad { get; set; }
+        public decimal Cantidad { get; set; }
 
-        public double Subtotal
+        public decimal Subtotal
         {
             get
             {
-                return Cantidad * (double)Ingrediente.Costo;
+                return Cantidad * Ingrediente.Costo;
             }
         }
 

@@ -11,7 +11,7 @@ namespace Dominio.Modelos
         public Guid IdSuministro { get; set; }
         public string Nombre { get; set; }
         public string Proveedor { get; set; }
-        public double Cantidad { get; set; }
+        public decimal Cantidad { get; set; }
         public decimal Costo { get; set; }
         public CategoriaModelo Categoria { get; set; }
         public SuministroModelo() { }

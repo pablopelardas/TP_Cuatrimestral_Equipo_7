@@ -16,12 +16,12 @@ namespace Datos.Mappers
             ProductoModelo producto = new ProductoModelo
             {
                 Descripcion = productoEntidad.descripcion,
-                HorasTrabajo = productoEntidad.horas_trabajo,
+                HorasTrabajo = decimal.Round(productoEntidad.horas_trabajo, 2),
                 IdProducto = productoEntidad.id_producto,
                 Nombre = productoEntidad.nombre,
                 Porciones = productoEntidad.porciones,
                 TipoPrecio = productoEntidad.tipo_precio,
-                ValorPrecio = productoEntidad.valor_precio,
+                ValorPrecio = decimal.Round(productoEntidad.valor_precio, 2)
             };  
 
             if (productoEntidad.CATEGORIA != null)

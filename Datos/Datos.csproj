@@ -108,6 +108,10 @@
     <Compile Include="Migrations\202406121733099_id_direccion_opcional.Designer.cs">
       <DependentUpon>202406121733099_id_direccion_opcional.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202406122226362_Unifico_Decimales.cs" />
+    <Compile Include="Migrations\202406122226362_Unifico_Decimales.Designer.cs">
+      <DependentUpon>202406122226362_Unifico_Decimales.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Migrations\Seeds\DireccionesSeed.cs" />
     <Compile Include="Migrations\Seeds\IngredientesSeed.cs" />
@@ -170,6 +174,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202406121733099_id_direccion_opcional.resx">
       <DependentUpon>202406121733099_id_direccion_opcional.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202406122226362_Unifico_Decimales.resx">
+      <DependentUpon>202406122226362_Unifico_Decimales.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

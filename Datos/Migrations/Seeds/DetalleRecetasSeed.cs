@@ -4,11 +4,11 @@ using Datos.EF;
 using System.Collections.Generic;
 using System.Data.Entity.Core.Metadata.Edm;
 using System.Linq;
+using Datos.Migrations;
 using static System.Net.Mime.MediaTypeNames;
 
 public static class DetalleRecetasSeed
 {
-    private static Random random = new Random(); // Move the random variable outside the method
     public static List<DETALLERECETA> getDetalleRecetas(Datos.EF.Entities context)
     {
         List<INGREDIENTE> ingredientesContext = context.INGREDIENTES.ToList();
@@ -16,10 +16,10 @@ public static class DetalleRecetasSeed
 
         DETALLERECETA getRandomDetalleReceta(Guid id_receta)
         {
-            INGREDIENTE ingrediente = ingredientesContext[random.Next(0, ingredientesContext.Count)];
+            INGREDIENTE ingrediente = ingredientesContext[Configuration.GlobalRandom.Next(0, ingredientesContext.Count)];
             return new DETALLERECETA
             {
-                cantidad = random.Next(1, 10),
+                cantidad = Configuration.GlobalRandom.Next(1, 10),
                 id_ingrediente = ingrediente.id_ingrediente,
                 id_receta = id_receta
             };
@@ -30,7 +30,7 @@ public static class DetalleRecetasSeed
         foreach (RECETA receta in recetasContext )
         {
             List<Guid> ingredientesEnReceta = new List<Guid>();
-            int cantidadDetalleRecetas = random.Next(1, 10);
+            int cantidadDetalleRecetas = Configuration.GlobalRandom.Next(1, 10);
             for (int i = 0; i < cantidadDetalleRecetas; i++)
             {
                 DETALLERECETA detalleReceta = getRandomDetalleReceta(receta.id_receta);

@@ -13,8 +13,8 @@ namespace Datos.Mappers
         {
             Dominio.Modelos.SuministroModelo suministro = new Dominio.Modelos.SuministroModelo
             {
-                Cantidad = suministroEntidad.cantidad,
-                Costo = suministroEntidad.costo,
+                Cantidad = decimal.Round(suministroEntidad.cantidad, 2),
+                Costo = decimal.Round(suministroEntidad.costo, 2),
                 IdSuministro = suministroEntidad.id_suministro,
                 Nombre = suministroEntidad.nombre,
                 Proveedor = suministroEntidad.proveedor

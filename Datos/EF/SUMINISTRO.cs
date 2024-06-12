@@ -21,7 +21,7 @@ namespace Datos.EF
         [StringLength(50)]
         public string proveedor { get; set; }
 
-        public double cantidad { get; set; }
+        public decimal cantidad { get; set; }
 
         [Column(TypeName = "money")]
         public decimal costo { get; set; }

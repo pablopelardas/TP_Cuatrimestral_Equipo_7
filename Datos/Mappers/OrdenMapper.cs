@@ -18,8 +18,8 @@ namespace Datos.Mappers
                 // ATRIBUTOS DE ENTIDAD
                 IdOrden = orden.id_orden,
                 TipoEntrega = orden.tipo_entrega,
-                DescuentoPorcentaje = orden.descuento_porcentaje ?? 0,
-                CostoEnvio = orden.costo_envio ?? 0,
+                DescuentoPorcentaje = decimal.Round(orden.descuento_porcentaje ?? 0, 2),
+                CostoEnvio = decimal.Round(orden.costo_envio ?? 0, 2),
                 Descripcion = orden.descripcion,
                 HoraEntrega = orden.hora_entrega,
             };

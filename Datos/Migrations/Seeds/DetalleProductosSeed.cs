@@ -2,10 +2,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Datos.Migrations;
 
 public static class DetalleProductosSeed
 {
-    private static Random random = new Random();
     public static List<DETALLEPRODUCTO> getDetalleProductos(Datos.EF.Entities context)
     {
         List<SUMINISTRO> suministrosContext = context.SUMINISTROS.ToList();
@@ -16,22 +16,22 @@ public static class DetalleProductosSeed
         {
             if (esReceta)
             {
-                RECETA receta = recetasContext[random.Next(0, recetasContext.Count)];
+                RECETA receta = recetasContext[Configuration.GlobalRandom.Next(0, recetasContext.Count)];
                 return new DETALLEPRODUCTO()
                 {
                     id_producto = id_producto,
-                    cantidad = random.Next(1, 10),
+                    cantidad = Configuration.GlobalRandom.Next(1, 10),
                     id_receta = receta.id_receta,
                     id_suministro = null
                 };
             }
             else
             {
-                SUMINISTRO suministro = suministrosContext[random.Next(0, suministrosContext.Count)];
+                SUMINISTRO suministro = suministrosContext[Configuration.GlobalRandom.Next(0, suministrosContext.Count)];
                 return new DETALLEPRODUCTO()
                 {
                     id_producto = id_producto,
-                    cantidad = random.Next(1, 10),
+                    cantidad = Configuration.GlobalRandom.Next(1, 10),
                     id_receta = null,
                     id_suministro = suministro.id_suministro
                 };
@@ -45,7 +45,7 @@ public static class DetalleProductosSeed
         {
             List<Guid> suministrosEnProducto = new List<Guid>();
             List<Guid> recetasEnProducto = new List<Guid>();
-            int cantidadDetalles = random.Next(1, 20);
+            int cantidadDetalles = Configuration.GlobalRandom.Next(1, 20);
             for (int i = 0; i < cantidadDetalles; i++)
             {
                 DETALLEPRODUCTO detalleProducto = getRandomProductoDetalle(producto.id_producto, cantidadDetalles % 2 == 0);

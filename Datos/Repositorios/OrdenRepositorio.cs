@@ -169,6 +169,45 @@ namespace Datos.Repositorios
             }
 
         }
+        
+        public OrdenModelo CambiarEstado(Guid idOrden, int idEstado)
+        {
+            Entities db = new Entities();
+            try
+            {
+                ORDEN ordenEntidad = db.ORDENES.Find(idOrden);
+                if (ordenEntidad != null)
+                {
+                    ordenEntidad.id_orden_estado = idEstado;
+                    db.SaveChanges();
+                }
+                return Mappers.OrdenMapper.EntidadAModelo(ordenEntidad);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        
+        public List<OrdenEstadoModelo> ListarEstados()
+        {
+            List<OrdenEstadoModelo> estados = new List<OrdenEstadoModelo>();
+            Entities db = new Entities();
+            try
+            {
+                List<ORDENESTADO> estadosEntidad = db.ORDENES_ESTADOS.ToList();
+                foreach (var estadoEntidad in estadosEntidad)
+                {
+                    OrdenEstadoModelo estado = Mappers.OrdenEstadoMapper.EntidadAModelo(estadoEntidad);
+                    estados.Add(estado);
+                }
+                return estados;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
     }
 }

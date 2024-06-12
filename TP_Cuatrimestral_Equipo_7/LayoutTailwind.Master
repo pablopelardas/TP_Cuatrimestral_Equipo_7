@@ -61,24 +61,26 @@
           }
           
           .status-pill{
-              @apply inline-block py-2  px-4 mr-4 rounded-full text-sm;
+              /*@apply inline-block py-2  px-4 rounded-full text-sm;*/
+              @apply me-2 mt-1.5 inline-flex items-center rounded  px-2.5 py-1 text-xs font-medium;
           }
           
-          .status-pill--warning{
-              @apply bg-yellow-200 text-yellow-800;
+          .status-pill--pending{
+              @apply bg-yellow-200 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-100;
           }
-          
-          .status-pill--success{
-              @apply bg-green-200 text-green-800;
+          .status-pill--doing{
+              @apply bg-orange-200 text-orange-800 dark:bg-orange-900 dark:text-orange-100;
           }
-          
-          .status-pill--danger{
-              @apply bg-red-200 text-red-800;
+          .status-pill--done{
+              @apply bg-purple-200 text-purple-800 dark:bg-purple-900 dark:text-purple-100;
           }
-          
-          .status-pill--default{
-              @apply bg-blue-200 text-blue-800;
+          .status-pill--delivered{
+              @apply bg-green-200 text-green-800 dark:bg-green-900 dark:text-green-100;
           }
+          .status-pill--canceled{
+             @apply bg-red-200 text-red-800 dark:bg-red-900 dark:text-red-100;
+          }
+
            .chzn-container-single, .chzn-single,  .chzn-drop,  .chzn-container-single .chzn-search input, .chzn-container-single .chzn-results .no-results, .chzn-results, .chzn-container-single, .chzn-single{
               @apply bg-gray-200 text-gray-900 focus:ring-blue-500 focus:border-blue-500 block dark:bg-gray-700 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 !important;
             }

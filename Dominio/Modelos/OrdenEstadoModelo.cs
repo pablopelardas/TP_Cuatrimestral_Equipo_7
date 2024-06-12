@@ -17,14 +17,18 @@ namespace Dominio.Modelos
             {
                 switch (Nombre)
                 {
-                    case "PENDIENTE":
-                        return "status-pill status-pill--warning";
-                    case "ENTREGADO":
-                        return "status-pill status-pill--success";
-                    case "CANCELADO":
-                        return "status-pill status-pill--danger";
+                    case "Pendiente":
+                        return "status-pill status-pill--pending";
+                    case "En preparación":
+                        return "status-pill status-pill--doing";
+                    case "Finalizada":
+                        return "status-pill status-pill--done";
+                    case "Entregada":
+                        return "status-pill status-pill--delivered";
+                    case "Cancelada":
+                        return "status-pill status-pill--canceled";
                     default:
-                        return "status-pill status-pill--default";
+                        return "status-pill";
                 }
             }
         }

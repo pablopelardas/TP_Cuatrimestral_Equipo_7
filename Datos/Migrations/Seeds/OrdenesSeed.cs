@@ -2,10 +2,10 @@
 using Datos.EF;
 using System.Collections.Generic;
 using System.Linq;
+using Datos.Migrations;
 
 public static class OrdenesSeed
 {
-    private static Random random = new Random();
 
     public static List<ORDEN> getOrdenes(Datos.EF.Entities context)
     {
@@ -27,15 +27,15 @@ public static class OrdenesSeed
             return new ORDEN
             {
                 id_cliente = evento.id_cliente,
-                costo_envio = random.Next(100, 500),
-                descripcion = random.Next(0, 5) < 4 ? Descripciones[random.Next(0, Descripciones.Count)] : null,
-                descuento_porcentaje = random.Next(0, 5) < 4 ? random.Next(0, 10) : 0,
+                costo_envio = Configuration.GlobalRandom.Next(100, 500),
+                descripcion = Configuration.GlobalRandom.Next(0, 5) < 4 ? Descripciones[Configuration.GlobalRandom.Next(0, Descripciones.Count)] : null,
+                descuento_porcentaje = Configuration.GlobalRandom.Next(0, 5) < 4 ? Configuration.GlobalRandom.Next(0, 10) : 0,
                 id_evento = evento.id_evento,
-                hora_entrega = new TimeSpan(random.Next(0, 24), random.Next(0, 60),0),
-                tipo_entrega = random.Next(0, 5) < 4 ? "Delivery" : "Retiro",
+                hora_entrega = new TimeSpan(Configuration.GlobalRandom.Next(0, 24), Configuration.GlobalRandom.Next(0, 60),0),
+                tipo_entrega = Configuration.GlobalRandom.Next(0, 5) < 4 ? "Delivery" : "Retiro",
                 id_orden_pago_estado = 1,
                 id_orden_estado = 1,
-                id_direccion = direccionesContext[random.Next(0, direccionesContext.Count)].id_direccion,
+                id_direccion = direccionesContext[Configuration.GlobalRandom.Next(0, direccionesContext.Count)].id_direccion,
             };
         }
 

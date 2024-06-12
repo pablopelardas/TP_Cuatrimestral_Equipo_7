@@ -17,8 +17,8 @@ namespace Datos.Mappers
             {
                 IdIngrediente = entidad.id_ingrediente,
                 Nombre = entidad.nombre,
-                Cantidad = entidad.cantidad,
-                Costo = entidad.costo,
+                Cantidad = decimal.Round(entidad.cantidad, 2),
+                Costo = decimal.Round(entidad.costo, 2),
                 Proveedor = entidad.proveedor
             };
             if (entidad.UNIDAD_MEDIDA != null)
