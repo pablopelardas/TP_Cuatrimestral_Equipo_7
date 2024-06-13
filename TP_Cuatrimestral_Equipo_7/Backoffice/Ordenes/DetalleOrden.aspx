@@ -1,4 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/LayoutTailwind.Master" AutoEventWireup="true" CodeBehind="DetalleOrden.aspx.cs" Inherits="TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes.DetalleOrden" %>
+<%@ Import Namespace="System.Web.Configuration" %>
 <%@ Import Namespace="Newtonsoft.Json" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
         <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
@@ -24,7 +25,8 @@
           }
     
           function initMap() {
-            if (!document.getElementById("map")) return;
+              console.log('initMap', '<%: GoogleMapsOff%>', '<%: GoogleMapsOff%>' === 'True');
+            if (!document.getElementById("map") || '<%: GoogleMapsOff%>' === 'True') return;
             let jsonAddress = '<%: JsonConvert.SerializeObject(orden.DireccionEntrega) %>';
             let address = JSON.parse(jsonAddress.replace(/&quot;/g, '"'));
             let lat = parseFloat(address.GoogleLat);
@@ -62,7 +64,7 @@
           window.initMap = initMap;
         </script>
         <script
-          src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCX-aSbeownsNhxGBHsilxLmtqATAtAuP8&callback=initMap&v=weekly&solution_channel=GMP_CCS_customcontrols_v1"
+          src="https://maps.googleapis.com/maps/api/js?key=<%: WebConfigurationManager.AppSettings["ApiKey:GoogleMaps"]%>&callback=initMap&v=weekly&solution_channel=GMP_CCS_customcontrols_v1"
           defer
         ></script>
 </asp:Content>

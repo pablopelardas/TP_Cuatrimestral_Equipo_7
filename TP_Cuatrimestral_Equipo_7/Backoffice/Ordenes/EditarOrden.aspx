@@ -304,35 +304,35 @@
         }
     </script>
 
-<script>
-    let autocomplete;
-    function initAutocomplete(){
-        autocomplete = new google.maps.places.Autocomplete(document.getElementById('txtDireccion'), {
-            fields: ['place_id', 'formatted_address', 'geometry', 'name', 'url'],
-            componentRestrictions: { country: ['AR'] },
-        });
-        google.maps.event.addDomListener(document.getElementById('txtDireccion'), 'keydown', function(e) { 
-            if (e.keyCode == 13) 
-            { 
-                e.preventDefault(); 
-            }
-        });
-        google.maps.event.addListener(autocomplete, 'place_changed', function() {
-            let place = autocomplete.getPlace();
-            __doPostBack('getPlaceDetails', JSON.stringify({
-                lat: place.geometry.location.lat(),
-                lng: place.geometry.location.lng(),
-                formatted_address: place.formatted_address,
-                placeId: place.place_id,
-                url: place.url,
-                name: place.name
-            }));
-        });
-    }
-</script>
-<script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=<%: WebConfigurationManager.AppSettings["ApiKey:GoogleMaps"]%>&loading=async&libraries=places&callback=initAutocomplete">
-</script>
+<%-- <script> --%>
+<%--     let autocomplete; --%>
+<%--     function initAutocomplete(){ --%>
+<%--         autocomplete = new google.maps.places.Autocomplete(document.getElementById('txtDireccion'), { --%>
+<%--             fields: ['place_id', 'formatted_address', 'geometry', 'name', 'url'], --%>
+<%--             componentRestrictions: { country: ['AR'] }, --%>
+<%--         }); --%>
+<%--         google.maps.event.addDomListener(document.getElementById('txtDireccion'), 'keydown', function(e) {  --%>
+<%--             if (e.keyCode == 13)  --%>
+<%--             {  --%>
+<%--                 e.preventDefault();  --%>
+<%--             } --%>
+<%--         }); --%>
+<%--         google.maps.event.addListener(autocomplete, 'place_changed', function() { --%>
+<%--             let place = autocomplete.getPlace(); --%>
+<%--             __doPostBack('getPlaceDetails', JSON.stringify({ --%>
+<%--                 lat: place.geometry.location.lat(), --%>
+<%--                 lng: place.geometry.location.lng(), --%>
+<%--                 formatted_address: place.formatted_address, --%>
+<%--                 placeId: place.place_id, --%>
+<%--                 url: place.url, --%>
+<%--                 name: place.name --%>
+<%--             })); --%>
+<%--         }); --%>
+<%--     } --%>
+<%-- </script> --%>
+<%-- <script async defer --%>
+<%--     src="https://maps.googleapis.com/maps/api/js?key=<%: WebConfigurationManager.AppSettings["ApiKey:GoogleMaps"]%>&loading=async&libraries=places&callback=initAutocomplete"> --%>
+<%-- </script> --%>
 
 <script type="text/javascript" language="javascript">
         function LoadTiny() {

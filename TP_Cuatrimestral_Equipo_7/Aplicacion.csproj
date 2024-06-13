@@ -254,6 +254,7 @@
     <Content Include="LayoutNegocio.Master" />
     <Content Include="LayoutTailwind.Master" />
     <None Include="apiKeys.config" />
+    <None Include="apiKeys.template.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
