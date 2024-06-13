@@ -1,72 +1,6 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/LayoutTailwind.Master" AutoEventWireup="true" CodeBehind="DetalleOrden.aspx.cs" Inherits="TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes.DetalleOrden" %>
-<%@ Import Namespace="System.Web.Configuration" %>
-<%@ Import Namespace="Newtonsoft.Json" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
-        <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
-        <script>
-          let map;
-    
-          /**
-           * Creates a control that recenters the map on Chicago.
-           */
-          function createCenterControl(map, center) {
-            const controlButton = document.createElement("button");
-            // Set CSS for the control.
-            controlButton.classList.add("bg-gray-900", "border", "border-gray-300", "rounded-lg", "shadow-sm", "py-2", "px-4", "text-sm", "font-medium", "text-gray-700", "dark:text-gray-200", "hover:bg-gray-50", "dark:hover:bg-gray-700", "focus:outline-none", "focus:ring-2", "focus:ring-primary-500", "focus:ring-offset-2", "focus:ring-offset-gray-100", "dark:focus:ring-offset-gray-800");
-    
-            controlButton.textContent = "Center Map";
-            controlButton.title = "Click to recenter the map";
-            controlButton.type = "button";
-            // Setup the click event listeners: simply set the map to Chicago.
-            controlButton.addEventListener("click", () => {
-              map.setCenter(center);
-            });
-            return controlButton;
-          }
-    
-          function initMap() {
-              console.log('initMap', '<%: GoogleMapsOff%>', '<%: GoogleMapsOff%>' === 'True');
-            if (!document.getElementById("map") || '<%: GoogleMapsOff%>' === 'True') return;
-            let jsonAddress = '<%: JsonConvert.SerializeObject(orden.DireccionEntrega) %>';
-            let address = JSON.parse(jsonAddress.replace(/&quot;/g, '"'));
-            let lat = parseFloat(address.GoogleLat);
-            let lng = parseFloat(address.GoogleLng);
-            let center = { lat, lng };
-            console.log(address);
-            map = new google.maps.Map(document.getElementById("map"), {
-              zoom: 16,
-              center,
-              mapTypeControl: false,
-            });
-    
-            // Create the DIV to hold the control.
-            const centerControlDiv = document.createElement("div");
-            // Create the control.
-            const centerControl = createCenterControl(map, center);
-    
-            // Append the control to the DIV.
-            centerControlDiv.appendChild(centerControl);
-            map.controls[google.maps.ControlPosition.TOP_CENTER].push(
-              centerControlDiv
-            );
-            
-            // Create a marker and set its position.
-            const marker = new google.maps.Marker({
-              map,
-              title: "Dirección de entrega",
-                position: center,
-            });
-            
-            // Create an info window to display the address.
-            
-          }
-    
-          window.initMap = initMap;
-        </script>
-        <script
-          src="https://maps.googleapis.com/maps/api/js?key=<%: WebConfigurationManager.AppSettings["ApiKey:GoogleMaps"]%>&callback=initMap&v=weekly&solution_channel=GMP_CCS_customcontrols_v1"
-          defer
-        ></script>
+
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
@@ -90,19 +24,18 @@
                 <div class="mt-6 space-y-4 border-b border-t border-gray-200 py-8 dark:border-gray-700 sm:mt-8">
                     <h4 class="text-lg font-semibold text-gray-900 dark:text-white">Información General</h4>
                     <dl class="w-full flex justify-between text-start flex-wrap flex-col lg:flex-row">
-                        <div class="w-full mt-5 lg:mt-0 lg:w-1/3 flex flex-col flex-wrap">
+                        <div class="w-full mt-5 flex flex-col flex-wra">
                             <dt class=" text-base font-medium text-gray-900 dark:text-white">Cliente</dt>
                             <dd class=" mt-1 text-base font-normal text-gray-500 dark:text-gray-400"><%: orden.Cliente.DatosDeContacto %></dd>
                         </div>
-                        <div class="w-full mt-5 lg:mt-0 lg:text-center lg:w-1/3 flex flex-col flex-wrap lg:align-items-baseline">
+                        <div class="mt-5 flex flex-col flex-wrap">
                             <dt class="text-base font-medium text-gray-900 dark:text-white">Evento</dt>
                             <dd class="mt-1 text-base font-normal text-gray-500 dark:text-gray-400"><%: orden.Evento.DescripcionEventoOrden %></dd>
                         </div>
-                        <div class="w-full mt-5 lg:mt-0 lg:text-right lg:w-1/3 flex flex-col flex-wrap">
+                        <div class="mt-5 flex flex-col flex-wrap">
                             <dt class=" text-base font-medium text-gray-900 dark:text-white">Entrega</dt>
                             <dd class="mt-1 text-base font-normal text-gray-500 dark:text-gray-400"><%: orden.DetalleEntrega %></dd>
                         </div>
-
                     </dl>
                 </div>
                 <% if (orden.TipoEntrega == "Delivery")
@@ -110,12 +43,23 @@
                 <div class="space-y-4 border-b py-8 dark:border-gray-700">
                     <h4 class="text-lg font-semibold text-gray-900 dark:text-white">Dirección</h4>
                     <dl class="w-full flex justify-between text-start flex-wrap flex-col lg:flex-row">
-                        <div class="w-full mt-5 flex flex-col flex-wrap">
-                            <dt class=" text-base font-medium text-gray-900 dark:text-white">Dirección</dt>
-                            <a href="<%: orden.DireccionEntrega.GoogleUrl%>" target="_blank" class=" mt-1 text-base font-normal text-blue-500 hover:text-blue-400"><%: orden.DireccionEntrega.GoogleFormattedAddress %></a>
+                        <div class="mt-5 flex flex-col flex-wrap">
+                            <dt class=" text-base font-medium text-gray-900 dark:text-white">Calle y Número</dt>
+                            <dd class=" mt-1 text-base font-normal text-gray-500 dark:text-gray-400"><%: orden.DireccionEntrega.CalleNumero %></dd>
+                        </div>
+                        <div class="mt-5 flex flex-col flex-wrap">
+                            <dt class="text-base font-medium text-gray-900 dark:text-white">Piso y Departamento</dt>
+                            <dd class="mt-1 text-base font-normal text-gray-500 dark:text-gray-400"><%: $"{orden.DireccionEntrega.Piso} - {orden.DireccionEntrega.Departamento}" %></dd>
+                        </div>
+                        <div class="mt-5 flex flex-col flex-wrap">
+                            <dt class=" text-base font-medium text-gray-900 dark:text-white">Localidad</dt>
+                            <dd class="mt-1 text-base font-normal text-gray-500 dark:text-gray-400"><%: $"{orden.DireccionEntrega.Localidad} - {orden.DireccionEntrega.CodigoPostal}" %></dd>
+                        </div>                        
+                        <div class="mt-5 flex  flex-col flex-wrap">
+                            <dt class=" text-base font-medium text-gray-900 dark:text-white">Provincia</dt>
+                            <dd class="mt-1 text-base font-normal text-gray-500 dark:text-gray-400"><%: orden.DireccionEntrega.Provincia %></dd>
                         </div>
                     </dl>
-                    <div id="map" class="h-[350px]"></div>
                 </div>
                     <% } %>
                    <div class="space-y-4 border-b py-8 dark:border-gray-700">
@@ -149,8 +93,12 @@
                 <div class="space-y-4 border-b py-8 dark:border-gray-700 curs">
                     <h4 class="text-lg font-semibold text-gray-900 dark:text-white flex flex-wrap justify-between gap-4">
                         <div>
-                            Pagos
-                            <span class="<%: orden.EstadoPago.PillClass %> ml-4"><%: orden.EstadoPago.Nombre %></span>
+                            <span class="mr-4">
+                                Pagos
+                            </span>
+                            <span class="<%: orden.EstadoPago.PillClass%>">
+                               <%: orden.EstadoPago.Nombre%>
+                            </span>
                         </div>
                         <asp:Button CssClass="inline-flex items-center justify-center rounded-lg bg-primary-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 cursor-pointer" ID="btnAgregarPago" runat="server" Text="Agregar Pago"></asp:Button>
                         <%-- <button type="button" data-modal-target="billingInformationModal" data-modal-toggle="billingInformationModal">Abrir modal</button> --%>

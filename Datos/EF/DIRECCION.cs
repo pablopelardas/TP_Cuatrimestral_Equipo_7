@@ -15,14 +15,13 @@ namespace Datos.EF
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         
         public Guid id_direccion { get; set; }
-        public string descripcion { get; set; }
         
-        public string google_name { get; set; }
-        public string google_lat { get; set; }
-        public string google_lng { get; set; }
-        public string google_place_id { get; set; }
-        public string google_formatted_address { get; set; }
-        public string google_url { get; set; }
+        public string calle_numero { get; set; }
+        public string localidad { get; set; }
+        public string codigo_postal { get; set; }
+        public string piso { get; set; }
+        public string departamento { get; set; }
+        public string provincia { get; set; }
         
         [ForeignKey("id_direccion")]
         public virtual ICollection<ORDEN> ORDENES { get; set; }

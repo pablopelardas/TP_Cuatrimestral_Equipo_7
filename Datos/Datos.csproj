@@ -112,6 +112,10 @@
     <Compile Include="Migrations\202406122226362_Unifico_Decimales.Designer.cs">
       <DependentUpon>202406122226362_Unifico_Decimales.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202406131336216_saco_direccion_google.cs" />
+    <Compile Include="Migrations\202406131336216_saco_direccion_google.Designer.cs">
+      <DependentUpon>202406131336216_saco_direccion_google.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Migrations\Seeds\DireccionesSeed.cs" />
     <Compile Include="Migrations\Seeds\IngredientesSeed.cs" />
@@ -177,6 +181,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202406122226362_Unifico_Decimales.resx">
       <DependentUpon>202406122226362_Unifico_Decimales.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202406131336216_saco_direccion_google.resx">
+      <DependentUpon>202406131336216_saco_direccion_google.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

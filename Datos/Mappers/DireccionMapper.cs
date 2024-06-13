@@ -10,13 +10,12 @@ namespace Datos.Mappers
             {
                 // ATRIBUTOS DE ENTIDAD
                 IdDireccion = direccion.id_direccion,
-                Descripcion = direccion.descripcion,
-                GoogleName = direccion.google_name,
-                GoogleLat = direccion.google_lat,
-                GoogleLng = direccion.google_lng,
-                GooglePlaceId = direccion.google_place_id,
-                GoogleFormattedAddress = direccion.google_formatted_address,
-                GoogleUrl = direccion.google_url
+                Localidad = direccion.localidad,
+                CodigoPostal = direccion.codigo_postal,
+                Piso = direccion.piso,
+                Departamento = direccion.departamento,
+                CalleNumero = direccion.calle_numero,
+                Provincia = direccion.provincia
             };
 
             return modelo;
@@ -28,13 +27,12 @@ namespace Datos.Mappers
             {
                 // ATRIBUTOS DE MODELO
                 id_direccion = modelo.IdDireccion,
-                descripcion = modelo.Descripcion,
-                google_name = modelo.GoogleName,
-                google_lat = modelo.GoogleLat,
-                google_lng = modelo.GoogleLng,
-                google_place_id = modelo.GooglePlaceId,
-                google_formatted_address = modelo.GoogleFormattedAddress,
-                google_url = modelo.GoogleUrl
+                localidad = modelo.Localidad,
+                codigo_postal = modelo.CodigoPostal,
+                piso = modelo.Piso,
+                departamento = modelo.Departamento,
+                calle_numero = modelo.CalleNumero,
+                provincia = modelo.Provincia
             };
 
             return direccion;
@@ -44,13 +42,12 @@ namespace Datos.Mappers
         {
             // ATRIBUTOS DE MODELO
             direccion.id_direccion = modelo.IdDireccion;
-            direccion.descripcion = modelo.Descripcion;
-            direccion.google_name = modelo.GoogleName;
-            direccion.google_lat = modelo.GoogleLat;
-            direccion.google_lng = modelo.GoogleLng;
-            direccion.google_place_id = modelo.GooglePlaceId;
-            direccion.google_formatted_address = modelo.GoogleFormattedAddress;
-            direccion.google_url = modelo.GoogleUrl;
+            direccion.localidad = modelo.Localidad;
+            direccion.codigo_postal = modelo.CodigoPostal;
+            direccion.piso = modelo.Piso;
+            direccion.departamento = modelo.Departamento;
+            direccion.calle_numero = modelo.CalleNumero;
+            direccion.provincia = modelo.Provincia;
         }
     }
 }

@@ -9,11 +9,11 @@ public static class OrdenPagoEstadosSeed
         {
             new ORDENPAGOESTADO
             {
-                nombre = "Sin Pagos"
+                nombre = "Sin pagos"
             },
             new ORDENPAGOESTADO
             {
-                nombre = "Parcialmente Pagado"
+                nombre = "Parcialmente pagado"
             },
             new ORDENPAGOESTADO
             {

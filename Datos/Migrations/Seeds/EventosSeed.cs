@@ -29,10 +29,6 @@ public static class EventosSeed
             getRandomEvento(new DateTime(2024,06,15)),
             getRandomEvento(new DateTime(2024,06,16)),
             getRandomEvento(new DateTime(2024,06,17)),
-            getRandomEvento(new DateTime(2024,06,18)),
-            getRandomEvento(new DateTime(2024,06,19)),
-            getRandomEvento(new DateTime(2024,06,20)),
-            getRandomEvento(new DateTime(2024,06,21)),
         };
     }
 

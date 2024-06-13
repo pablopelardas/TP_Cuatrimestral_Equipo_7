@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Configuration;
-using System.Web.UI;
 using System.Web.UI.WebControls;
 using Dominio.Modelos;
 
@@ -15,8 +11,6 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
         public Dominio.Modelos.OrdenModelo orden;
         public List<Dominio.Modelos.OrdenEstadoModelo> estados;
         public string redirect_to = "/Backoffice/Ordenes";
-        public bool GoogleMapsOff = WebConfigurationManager.AppSettings["GoogleMaps:off"] == "true";
-        public string GoogleMapsApiKey = WebConfigurationManager.AppSettings["GoogleMaps:apiKey"];
         
         private Negocio.Servicios.OrdenServicio servicioOrden;
         private string OrdenActual = "dtl_orden_actual";

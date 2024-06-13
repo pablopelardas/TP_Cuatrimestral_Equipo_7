@@ -12,26 +12,30 @@ public static class DireccionesSeed
         {
             new DIRECCION()
             {
-                descripcion = "Depto 3 A",
-                google_name = "Calle Siempre Viva",
-                google_lat = "-31.0099311",
-                google_lng = "-64.25451199999999",
-                google_place_id =
-                    "Ei9DLiBTaWVtcHJlIFZpdmEsIExhIEdyYW5qYSwgQ8OzcmRvYmEsIEFyZ2VudGluYSIuKiwKFAoSCWUIUgCwfjKUEVBsZlxpKpKPEhQKEgkTZjEhyn4ylBExz4EsGiYL8w",
-                google_formatted_address = "Calle Siempre Viva 123, La Granja, Córdoba, Argentina",
-                google_url =
-                    "https://maps.google.com/?q=C.+Siempre+Viva,+La+Granja,+C%C3%B3rdoba,+Argentina&ftid=0x94327eb000520865:0x8f922a695c666c50",
+                calle_numero = "Av Triunvirato 3749",
+                piso = "1",
+                departamento = "A",
+                localidad = "Villa Urquiza",
+                provincia = "CABA",
+                codigo_postal = "1431"
             },
             new DIRECCION()
             {
-                descripcion = "Casa de la esquina",
-                google_name = "Triunvirato y Los Incas",
-                google_lat = "-34.581314",
-                google_lng = "-58.473913",
-                google_place_id = "ChIJozb6eHK2vJURRXuq8H5gnsI",
-                google_formatted_address = "Av Triunvirato 3749, C1427 Cdad. Autónoma de Buenos Aires, Argentina",
-                google_url = "https://maps.google.com/?cid=14023752387998153541",
-            }
+                calle_numero = "Presidente Peron 1234",
+                piso = "2",
+                departamento = "B",
+                localidad = "San Miguel",
+                provincia = "Buenos Aires",
+            },
+            new DIRECCION()
+            {
+                calle_numero = "Av. Rivadavia 1234",
+                piso = "3",
+                departamento = "C",
+                localidad = "Caballito",
+                provincia = "CABA",
+                codigo_postal = "1406"
+            },
         };
     }
 }

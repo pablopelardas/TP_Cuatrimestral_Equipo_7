@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Web;
+using System.Web.Configuration;
 using System.Web.Services.Description;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -49,24 +50,6 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
             if (Session[OrdenActual] != null)
             {
                 orden = (OrdenModelo)Session[OrdenActual];
-                string eventTarget = Request["__EVENTTARGET"];
-                string eventArgument = Request["__EVENTARGUMENT"];
-                if (eventTarget == "getPlaceDetails")
-                {
-                    string args = eventArgument;
-                    // decode json into GooglePlaceDetails
-                    GooglePlaceDetails placeDetails = new GooglePlaceDetails();
-                    JsonConvert.PopulateObject(args, placeDetails);
-                    orden.DireccionEntrega.GoogleFormattedAddress = placeDetails.formatted_address;
-                    if (orden.DireccionEntrega.GoogleFormattedAddress != null)
-                    {
-                        orden.DireccionEntrega.GoogleLat = placeDetails.lat;
-                        orden.DireccionEntrega.GoogleLng = placeDetails.lng;
-                        orden.DireccionEntrega.GoogleName = placeDetails.name;
-                        orden.DireccionEntrega.GooglePlaceId = placeDetails.place_id;
-                        orden.DireccionEntrega.GoogleUrl = placeDetails.url;
-                    }
-                }
             }
 
 
@@ -257,7 +240,7 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
             
             if (orden.TipoEntrega == "D")
             {
-                txtDireccion.Text = orden.DireccionEntrega.GoogleFormattedAddress;
+                txtDireccion.Text = orden.DireccionEntrega.CalleNumero;
                 FirePostBackEvent("rbtnTipoEntrega_SelectedIndexChanged");
             }
         }
@@ -281,14 +264,15 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
             
             if (orden.TipoEntrega == "D") // Delivery
             {
-                if (string.IsNullOrEmpty(orden.DireccionEntrega.GoogleFormattedAddress))
+                if (string.IsNullOrEmpty(orden.DireccionEntrega.CalleNumero))
                 {
                     throw  new Exception("Debe ingresar una dirección de entrega");
                 }
             }
             else
             {
-                orden.DireccionEntrega.GoogleFormattedAddress = "";
+                // limpiar dirección    
+                orden.DireccionEntrega = new DireccionModelo();
             }
             
             orden.TipoEntrega = orden.TipoEntrega == "D" ? "Delivery" : "Retiro";
@@ -409,15 +393,5 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
         }
 
         
-    }
-    
-    public class GooglePlaceDetails
-    {
-        public string lat { get; set; }
-        public string lng { get; set; }
-        public string formatted_address { get; set; }
-        public string place_id { get; set; }
-        public string name { get; set; }
-        public string url { get; set; }
     }
 }
