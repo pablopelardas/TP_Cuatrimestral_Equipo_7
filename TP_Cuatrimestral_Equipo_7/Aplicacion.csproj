@@ -249,13 +249,21 @@
       <DependentUpon>LayoutTailwind.Master</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Public.Master.cs">
+      <DependentUpon>Public.Master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Public.Master.designer.cs">
+      <DependentUpon>Public.Master</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="LayoutNegocio.Master" />
     <Content Include="LayoutTailwind.Master" />
-    <None Include="apiKeys.config" />
+    <Content Include="apiKeys.config" />
     <None Include="apiKeys.template.config" />
     <None Include="packages.config" />
+    <Content Include="Public.Master" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />
