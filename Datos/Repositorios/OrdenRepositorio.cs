@@ -22,7 +22,7 @@ namespace Datos.Repositorios
             try
             {
 
-                List<ORDEN> ordenesEntidad = db.ORDENES.ToList();
+                List<ORDEN> ordenesEntidad = db.ORDENES.OrderByDescending(x => x.EVENTO.fecha).ToList();
                 foreach (var ordenEntidad in ordenesEntidad)
                 {
                     OrdenModelo orden = Mappers.OrdenMapper.EntidadAModelo(ordenEntidad);
@@ -58,7 +58,7 @@ namespace Datos.Repositorios
             }
         }
 
-        public void GuardarOrdenTx(OrdenModelo orden)
+        public void GuardarOrdenTx(OrdenModelo orden, bool guardarDireccionEnCliente = false)
         {
             
             using (Entities db = new Entities())
@@ -66,8 +66,6 @@ namespace Datos.Repositorios
             {
                 try
                 {
-                    
-                    
                     ORDEN ordenEntidad;
                     if (orden.IdOrden != Guid.Empty)
                     {
@@ -78,46 +76,73 @@ namespace Datos.Repositorios
                         {
                             throw new Exception("La orden no existe");
                         }
-                        // Check if direccion is different
-                        if (ordenEntidad.id_direccion != orden.DireccionEntrega.IdDireccion)
+                        
+                        // Check if contact is different
+                        if (ordenEntidad.id_cliente != orden.Cliente.Id)
                         {
-                            // Check if direccion exists
-                            DIRECCION direccionEntidad = db.DIRECCIONES.Find(orden.DireccionEntrega.IdDireccion);
-                            if (direccionEntidad == null)
-                            {
-                                db.DIRECCIONES.Add(Mappers.DireccionMapper.ModeloAEntidad(orden.DireccionEntrega));
-                                db.SaveChanges();
-                            }
-                            else
-                            {
-                                // Remove old direccion
-                                db.DIRECCIONES.Remove(direccionEntidad);
-                                db.SaveChanges();
-                            }
+                            throw new Exception("No se puede cambiar el cliente de la orden");
                         }
-                        else
-                        {
-                            // Update direccion
-                            DIRECCION direccionEntidad = db.DIRECCIONES.Find(orden.DireccionEntrega.IdDireccion);
-                            Mappers.DireccionMapper.ActualizarEntidad(ref direccionEntidad, orden.DireccionEntrega);
-                            db.SaveChanges();
-                        }
+                        
                         Mappers.OrdenMapper.ActualizarEntidad(ref ordenEntidad, orden);
                     }
                     else
                     {
                         ordenEntidad = Mappers.OrdenMapper.ModeloAEntidad(orden);
-                        if (orden.TipoEntrega == "Retiro")
-                        {
-                            ordenEntidad.id_direccion = null;
-                        }
                     }
                     
                     db.ORDENES.AddOrUpdate(ordenEntidad);
                     db.SaveChanges();
+                    
+                    if (orden.TipoEntrega == "Retiro")
+                    {
+                        ordenEntidad.ORDENDIRECCION = null;
+                        // remove direccion
+                        ORDENDIRECCION direccionEntidad = db.ORDENES_DIRECCIONES.Find(ordenEntidad.id_orden);
+                        if (direccionEntidad != null)
+                        {
+                            db.ORDENES_DIRECCIONES.Remove(direccionEntidad);
+                            db.SaveChanges();
+                        }
+                    }
+                    else
+                    {
+                        // Check if direccion is different
+                        ORDENDIRECCION direccionEntidad = db.ORDENES_DIRECCIONES.Find(ordenEntidad.id_orden);
+                        
+                        if (guardarDireccionEnCliente)
+                        {
+                            // check if direccion exists
+                            DIRECCION direccionCliente = db.DIRECCIONES.Find(orden.DireccionEntrega.IdDireccion);
+                            orden.DireccionEntrega.Cliente = orden.Cliente;
+                            if (direccionCliente == null)
+                            {
+                                // add direccion
+                                direccionCliente = Mappers.DireccionMapper.ModeloAEntidad(orden.DireccionEntrega);
+                                db.DIRECCIONES.Add(direccionCliente);
+                            }
+                            else
+                            {
+                                Mappers.DireccionMapper.ActualizarEntidad(ref direccionCliente, orden.DireccionEntrega);
+                            }
+                            db.SaveChanges();
+                        }
+                        
+                        orden.DireccionEntrega.IdDireccion = ordenEntidad.id_orden;
+                        // Check if direccion exists
+                        if (direccionEntidad == null)
+                        {
+                            db.ORDENES_DIRECCIONES.Add(Mappers.OrdenDireccionMapper.ModeloAEntidad(orden.DireccionEntrega));
+                            db.SaveChanges();
+                        }
+                        else
+                        {
+                            // Update direccion
+                            Mappers.OrdenDireccionMapper.ActualizarEntidad(ref direccionEntidad, orden.DireccionEntrega);
+                            db.SaveChanges();
+                        }
+                    }
 
-                    // Agregar detalles
-
+                    
                     // Encontrar y eliminar detalles
 
                     List<DETALLEORDEN> detallesViejos = db.DETALLE_ORDENES.Where(x => x.id_orden == orden.IdOrden).ToList();

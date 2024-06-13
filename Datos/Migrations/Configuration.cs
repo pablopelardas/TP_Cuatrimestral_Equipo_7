@@ -43,11 +43,13 @@
             context.SaveChanges();
             EventosSeed.getEventos(context).ForEach(e => context.EVENTOS.AddOrUpdate(e));
             context.SaveChanges();
-            DireccionesSeed.getDirecciones().ForEach(d => context.DIRECCIONES.AddOrUpdate(d));
-            context.SaveChanges();
             OrdenesSeed.getOrdenes(context).ForEach(o => context.ORDENES.AddOrUpdate(o));
             context.SaveChanges();
             DetalleOrdenesSeed.getDetalleOrdenes(context).ForEach(deo => context.DETALLE_ORDENES.AddOrUpdate(deo));
+            context.SaveChanges();
+            DireccionesSeed.getDirecciones(context).ForEach(d => context.DIRECCIONES.AddOrUpdate(d));
+            context.SaveChanges();
+            OrdenesDireccionesSeed.getDirecciones(context).ForEach(od => context.ORDENES_DIRECCIONES.AddOrUpdate(od));
             context.SaveChanges();
         }
 

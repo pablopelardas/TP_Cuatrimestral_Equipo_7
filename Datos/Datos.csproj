@@ -65,6 +65,7 @@
     <Compile Include="EF\IMAGENPRODUCTO.cs" />
     <Compile Include="EF\INGREDIENTE.cs" />
     <Compile Include="EF\ORDEN.cs" />
+    <Compile Include="EF\ORDENDIRECCION.cs" />
     <Compile Include="EF\ORDENESTADO.cs" />
     <Compile Include="EF\ORDENPAGOESTADO.cs" />
     <Compile Include="EF\PRODUCTO.cs" />
@@ -79,6 +80,7 @@
     <Compile Include="Mappers\IngredienteDetalleRecetaMapper.cs" />
     <Compile Include="Mappers\IngredienteMapper.cs" />
     <Compile Include="Mappers\EventoMapper.cs" />
+    <Compile Include="Mappers\OrdenDireccionMapper.cs" />
     <Compile Include="Mappers\OrdenEstadoMapper.cs" />
     <Compile Include="Mappers\OrdenEstadoPagoMapper.cs" />
     <Compile Include="Mappers\OrdenMapper.cs" />
@@ -88,38 +90,15 @@
     <Compile Include="Mappers\SuministroMapper.cs" />
     <Compile Include="Mappers\TipoEventoMapper.cs" />
     <Compile Include="Mappers\UnidadMedidaMapper.cs" />
-    <Compile Include="Migrations\202406110237396_Init.cs" />
-    <Compile Include="Migrations\202406110237396_Init.Designer.cs">
-      <DependentUpon>202406110237396_Init.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202406111531207_ImagenCategoria.cs" />
-    <Compile Include="Migrations\202406111531207_ImagenCategoria.Designer.cs">
-      <DependentUpon>202406111531207_ImagenCategoria.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202406121544467_Direcciones.cs" />
-    <Compile Include="Migrations\202406121544467_Direcciones.Designer.cs">
-      <DependentUpon>202406121544467_Direcciones.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202406121553571_saco_dir_entrega_ordenes.cs" />
-    <Compile Include="Migrations\202406121553571_saco_dir_entrega_ordenes.Designer.cs">
-      <DependentUpon>202406121553571_saco_dir_entrega_ordenes.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202406121733099_id_direccion_opcional.cs" />
-    <Compile Include="Migrations\202406121733099_id_direccion_opcional.Designer.cs">
-      <DependentUpon>202406121733099_id_direccion_opcional.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202406122226362_Unifico_Decimales.cs" />
-    <Compile Include="Migrations\202406122226362_Unifico_Decimales.Designer.cs">
-      <DependentUpon>202406122226362_Unifico_Decimales.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202406131336216_saco_direccion_google.cs" />
-    <Compile Include="Migrations\202406131336216_saco_direccion_google.Designer.cs">
-      <DependentUpon>202406131336216_saco_direccion_google.cs</DependentUpon>
+    <Compile Include="Migrations\202406132048257_init.cs" />
+    <Compile Include="Migrations\202406132048257_init.Designer.cs">
+      <DependentUpon>202406132048257_init.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Migrations\Seeds\DireccionesSeed.cs" />
     <Compile Include="Migrations\Seeds\IngredientesSeed.cs" />
     <Compile Include="Migrations\Seeds\DetalleRecetasSeed.cs" />
+    <Compile Include="Migrations\Seeds\OrdenesDireccionesSeed.cs" />
     <Compile Include="Migrations\Seeds\ProductosSeed.cs" />
     <Compile Include="Migrations\Seeds\DetalleProductosSeed.cs" />
     <Compile Include="Migrations\Seeds\OrdenEstadosSeed.cs" />
@@ -164,26 +143,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202406110237396_Init.resx">
-      <DependentUpon>202406110237396_Init.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202406111531207_ImagenCategoria.resx">
-      <DependentUpon>202406111531207_ImagenCategoria.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202406121544467_Direcciones.resx">
-      <DependentUpon>202406121544467_Direcciones.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202406121553571_saco_dir_entrega_ordenes.resx">
-      <DependentUpon>202406121553571_saco_dir_entrega_ordenes.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202406121733099_id_direccion_opcional.resx">
-      <DependentUpon>202406121733099_id_direccion_opcional.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202406122226362_Unifico_Decimales.resx">
-      <DependentUpon>202406122226362_Unifico_Decimales.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202406131336216_saco_direccion_google.resx">
-      <DependentUpon>202406131336216_saco_direccion_google.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202406132048257_init.resx">
+      <DependentUpon>202406132048257_init.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

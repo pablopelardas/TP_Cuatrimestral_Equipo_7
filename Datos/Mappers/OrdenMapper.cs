@@ -51,9 +51,10 @@ namespace Datos.Mappers
                 }
             }
 
-            if (orden.DIRECCION != null)
+            if (orden.ORDENDIRECCION != null)
             {
-                modelo.DireccionEntrega = DireccionMapper.EntidadAModelo(orden.DIRECCION);
+                modelo.DireccionEntrega = OrdenDireccionMapper.EntidadAModelo(orden.ORDENDIRECCION, false);
+                modelo.DireccionEntrega.IdDireccion = modelo.IdOrden;
             }
 
             return modelo;
@@ -89,7 +90,6 @@ namespace Datos.Mappers
             entidad.id_cliente = modelo.Cliente.Id;
             entidad.id_orden_estado = modelo.Estado?.IdOrdenEstado ?? 1;
             entidad.id_orden_pago_estado = modelo.EstadoPago?.IdOrdenPagoEstado ?? 1;
-            entidad.id_direccion = modelo.DireccionEntrega.IdDireccion != Guid.Empty ? modelo.DireccionEntrega.IdDireccion : (Guid?)null;
         }
     }
 }

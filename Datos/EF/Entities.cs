@@ -29,6 +29,8 @@ namespace Datos.EF
         public virtual DbSet<PAGO> PAGOS { get; set; }
         
         public virtual DbSet<DIRECCION> DIRECCIONES { get; set; }
+        
+        public virtual DbSet<ORDENDIRECCION> ORDENES_DIRECCIONES { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -51,12 +53,14 @@ namespace Datos.EF
             modelBuilder.Entity<EVENTO>().ToTable("Eventos");
             modelBuilder.Entity<PAGO>().ToTable("Pagos");
             modelBuilder.Entity<DIRECCION>().ToTable("Direcciones");
+            modelBuilder.Entity<ORDENDIRECCION>().ToTable("Ordenes_Direcciones");
 
 
             modelBuilder.Entity<PAGO>()
                 .HasRequired(e => e.ORDEN)
                 .WithMany(e => e.PAGOS)
                 .WillCascadeOnDelete(false);
+            
         }
     }
 }

@@ -60,13 +60,76 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
         protected global::System.Web.UI.HtmlControls.HtmlInputGenericControl inputHora;
 
         /// <summary>
-        /// txtDireccion control.
+        /// phDirecciones control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtDireccion;
+        protected global::System.Web.UI.WebControls.PlaceHolder phDirecciones;
+
+        /// <summary>
+        /// txtCalleYNumero control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtCalleYNumero;
+
+        /// <summary>
+        /// txtLocalidad control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtLocalidad;
+
+        /// <summary>
+        /// txtPiso control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtPiso;
+
+        /// <summary>
+        /// txtDepartamento control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtDepartamento;
+
+        /// <summary>
+        /// txtProvincia control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtProvincia;
+
+        /// <summary>
+        /// txtCodigoPostal control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtCodigoPostal;
+
+        /// <summary>
+        /// chkGuardarDireccion control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox chkGuardarDireccion;
 
         /// <summary>
         /// rptDetalleOrden control.

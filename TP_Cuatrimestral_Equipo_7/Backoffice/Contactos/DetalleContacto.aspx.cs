@@ -30,7 +30,7 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Contactos
                             lblCorreo.Text = contacto.Email;
                             lblTelefono.Text = contacto.Telefono;
                             lblFuente.Text = contacto.Fuente;
-                            lblDireccion.Text = contacto.Direccion;
+                            lblDireccion.Text = contacto.Direcciones.FirstOrDefault()?.CalleNumero;
                             lblDeseaRecibirCorreos.Text = contacto.DeseaRecibirCorreos ? "Sí" : "No";
                             lblDeseaRecibirWhatsapps.Text = contacto.DeseaRecibirWhatsapp ? "Sí" : "No";
                             

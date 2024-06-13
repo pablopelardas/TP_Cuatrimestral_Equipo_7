@@ -18,12 +18,12 @@ namespace Datos.Mappers
                 Rol = contactoEntidad.tipo,
                 Telefono = contactoEntidad.telefono,
                 Email = contactoEntidad.correo,
-                Direccion = contactoEntidad.direccion,
                 Fuente = contactoEntidad.fuente,
                 ProductoQueProvee = contactoEntidad.producto_que_provee,
                 DeseaRecibirCorreos = contactoEntidad.desea_recibir_correos,
                 DeseaRecibirWhatsapp = contactoEntidad.desea_recibir_whatsapp,
-                InformacionPersonal = contactoEntidad.informacion_personal
+                InformacionPersonal = contactoEntidad.informacion_personal,
+                Direcciones = contactoEntidad.DIRECCIONES.Select(d => DireccionMapper.EntidadAModelo(d, false)).ToList()
             };
         }
 
@@ -36,7 +36,6 @@ namespace Datos.Mappers
                 tipo = contacto.Rol,
                 telefono = contacto.Telefono,
                 correo = contacto.Email,
-                direccion = contacto.Direccion,
                 fuente = contacto.Fuente,
                 producto_que_provee = contacto.ProductoQueProvee,
                 desea_recibir_correos = contacto.DeseaRecibirCorreos,
@@ -52,7 +51,6 @@ namespace Datos.Mappers
             contactoEntidad.tipo = contacto.Rol;
             contactoEntidad.telefono = contacto.Telefono;
             contactoEntidad.correo = contacto.Email;
-            contactoEntidad.direccion = contacto.Direccion;
             contactoEntidad.fuente = contacto.Fuente;
             contactoEntidad.producto_que_provee = contacto.ProductoQueProvee;
             contactoEntidad.desea_recibir_correos = contacto.DeseaRecibirCorreos;

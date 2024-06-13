@@ -3,7 +3,7 @@
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class Init : DbMigration
+    public partial class init : DbMigration
     {
         public override void Up()
         {
@@ -14,6 +14,7 @@
                         id_categoria = c.Guid(nullable: false, identity: true),
                         tipo = c.String(nullable: false, maxLength: 50),
                         nombre = c.String(nullable: false, maxLength: 50),
+                        imagen = c.String(),
                     })
                 .PrimaryKey(t => t.id_categoria);
             
@@ -27,13 +28,29 @@
                         correo = c.String(nullable: false, maxLength: 100),
                         telefono = c.String(nullable: false, maxLength: 20),
                         fuente = c.String(maxLength: 100),
-                        direccion = c.String(maxLength: 200),
                         producto_que_provee = c.String(maxLength: 100),
                         desea_recibir_correos = c.Boolean(nullable: false),
                         desea_recibir_whatsapp = c.Boolean(nullable: false),
                         informacion_personal = c.String(),
                     })
                 .PrimaryKey(t => t.id_contacto);
+            
+            CreateTable(
+                "dbo.Direcciones",
+                c => new
+                    {
+                        id_direccion = c.Guid(nullable: false, identity: true),
+                        id_cliente = c.Guid(nullable: false),
+                        calle_numero = c.String(),
+                        localidad = c.String(),
+                        codigo_postal = c.String(),
+                        piso = c.String(),
+                        departamento = c.String(),
+                        provincia = c.String(),
+                    })
+                .PrimaryKey(t => t.id_direccion)
+                .ForeignKey("dbo.Contactos", t => t.id_cliente, cascadeDelete: true)
+                .Index(t => t.id_cliente);
             
             CreateTable(
                 "dbo.Eventos",
@@ -60,7 +77,6 @@
                         descripcion = c.String(),
                         descuento_porcentaje = c.Decimal(precision: 18, scale: 2),
                         costo_envio = c.Decimal(precision: 18, scale: 2),
-                        direccion_entrega = c.String(maxLength: 200),
                         hora_entrega = c.Time(nullable: false, precision: 7),
                         id_orden_estado = c.Int(),
                         id_orden_pago_estado = c.Int(),
@@ -148,7 +164,7 @@
                     {
                         id_receta = c.Guid(nullable: false),
                         id_ingrediente = c.Guid(nullable: false),
-                        cantidad = c.Double(nullable: false),
+                        cantidad = c.Decimal(nullable: false, precision: 18, scale: 2),
                     })
                 .PrimaryKey(t => new { t.id_receta, t.id_ingrediente })
                 .ForeignKey("dbo.Ingredientes", t => t.id_ingrediente, cascadeDelete: true)
@@ -162,7 +178,7 @@
                     {
                         id_ingrediente = c.Guid(nullable: false, identity: true),
                         nombre = c.String(nullable: false, maxLength: 50),
-                        cantidad = c.Double(nullable: false),
+                        cantidad = c.Decimal(nullable: false, precision: 18, scale: 2),
                         id_unidad = c.Guid(nullable: false),
                         costo = c.Decimal(nullable: false, storeType: "money"),
                         proveedor = c.String(maxLength: 50),
@@ -189,7 +205,7 @@
                         id_categoria = c.Guid(nullable: false),
                         nombre = c.String(nullable: false, maxLength: 50),
                         proveedor = c.String(maxLength: 50),
-                        cantidad = c.Double(nullable: false),
+                        cantidad = c.Decimal(nullable: false, precision: 18, scale: 2),
                         costo = c.Decimal(nullable: false, storeType: "money"),
                     })
                 .PrimaryKey(t => t.id_suministro)
@@ -227,6 +243,22 @@
                 .PrimaryKey(t => t.id_orden_pago_estado);
             
             CreateTable(
+                "dbo.Ordenes_Direcciones",
+                c => new
+                    {
+                        id_orden_direccion = c.Guid(nullable: false),
+                        calle_numero = c.String(),
+                        localidad = c.String(),
+                        codigo_postal = c.String(),
+                        piso = c.String(),
+                        departamento = c.String(),
+                        provincia = c.String(),
+                    })
+                .PrimaryKey(t => t.id_orden_direccion)
+                .ForeignKey("dbo.Ordenes", t => t.id_orden_direccion)
+                .Index(t => t.id_orden_direccion);
+            
+            CreateTable(
                 "dbo.Pagos",
                 c => new
                     {
@@ -259,6 +291,7 @@
             DropForeignKey("dbo.Eventos", "id_tipo_evento", "dbo.Tipos_Eventos");
             DropForeignKey("dbo.Pagos", "id_orden", "dbo.Ordenes");
             DropForeignKey("dbo.Pagos", "id_cliente", "dbo.Contactos");
+            DropForeignKey("dbo.Ordenes_Direcciones", "id_orden_direccion", "dbo.Ordenes");
             DropForeignKey("dbo.Ordenes", "id_evento", "dbo.Eventos");
             DropForeignKey("dbo.Ordenes", "id_orden_pago_estado", "dbo.Ordenes_Pago_Estados");
             DropForeignKey("dbo.Ordenes", "id_orden_estado", "dbo.Ordenes_Estados");
@@ -276,8 +309,10 @@
             DropForeignKey("dbo.Detalle_Ordenes", "id_orden", "dbo.Ordenes");
             DropForeignKey("dbo.Ordenes", "id_cliente", "dbo.Contactos");
             DropForeignKey("dbo.Eventos", "id_cliente", "dbo.Contactos");
+            DropForeignKey("dbo.Direcciones", "id_cliente", "dbo.Contactos");
             DropIndex("dbo.Pagos", new[] { "id_orden" });
             DropIndex("dbo.Pagos", new[] { "id_cliente" });
+            DropIndex("dbo.Ordenes_Direcciones", new[] { "id_orden_direccion" });
             DropIndex("dbo.Imagenes_Productos", new[] { "id_producto" });
             DropIndex("dbo.Suministros", new[] { "id_categoria" });
             DropIndex("dbo.Ingredientes", new[] { "id_unidad" });
@@ -296,8 +331,10 @@
             DropIndex("dbo.Ordenes", new[] { "id_cliente" });
             DropIndex("dbo.Eventos", new[] { "id_tipo_evento" });
             DropIndex("dbo.Eventos", new[] { "id_cliente" });
+            DropIndex("dbo.Direcciones", new[] { "id_cliente" });
             DropTable("dbo.Tipos_Eventos");
             DropTable("dbo.Pagos");
+            DropTable("dbo.Ordenes_Direcciones");
             DropTable("dbo.Ordenes_Pago_Estados");
             DropTable("dbo.Ordenes_Estados");
             DropTable("dbo.Imagenes_Productos");
@@ -311,6 +348,7 @@
             DropTable("dbo.Detalle_Ordenes");
             DropTable("dbo.Ordenes");
             DropTable("dbo.Eventos");
+            DropTable("dbo.Direcciones");
             DropTable("dbo.Contactos");
             DropTable("dbo.Categorias");
         }

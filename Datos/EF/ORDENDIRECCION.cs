@@ -8,15 +8,11 @@ using System.Threading.Tasks;
 
 namespace Datos.EF
 {
-    public class DIRECCION
+    public class ORDENDIRECCION
     {
-
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public Guid id_direccion { get; set; }
-        
-        public Guid id_cliente { get; set; }
-        
+        [ForeignKey("ORDEN")]
+        public Guid id_orden_direccion { get; set; }
         public string calle_numero { get; set; }
         public string localidad { get; set; }
         public string codigo_postal { get; set; }
@@ -25,9 +21,7 @@ namespace Datos.EF
 
         public string provincia { get; set; }
 
-        [ForeignKey("id_cliente")]
-        public virtual CONTACTO CLIENTE { get; set; }
-        
+        public virtual ORDEN ORDEN { get; set; }
         
     }
 }

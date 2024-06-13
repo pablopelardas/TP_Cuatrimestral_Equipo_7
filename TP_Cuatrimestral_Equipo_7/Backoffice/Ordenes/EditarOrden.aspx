@@ -56,28 +56,28 @@
             <div class="mt-6 space-y-4 border-b border-t border-gray-200 py-8 dark:border-gray-700 sm:mt-8">
                 <h4 class="text-lg font-semibold text-gray-900 dark:text-white">Información General</h4>
                 <div class="w-full flex justify-between text-start flex-wrap gap-4">
-                    <div class="w-full mt-3 lg:mt-0 lg:w-2/5 flex flex-col flex-wrap  ">
-                        <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Cliente</label>
+                    <div class="w-full mt-3 sm:mt-0 sm:w-2/5 flex flex-col flex-wrap  ">
+                        <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Cliente <span class="text-red-500">*</span></label>
                         <asp:PlaceHolder ID="phComboBoxCliente" runat="server"></asp:PlaceHolder>
                     </div>
-                    <div class="w-full mt-3 lg:mt-0 lg:w-2/5 flex flex-col flex-wrap  ">
-                        <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Tipo de evento: </label>
+                    <div class="w-full mt-3 sm:mt-0 sm:w-2/5 flex flex-col flex-wrap  ">
+                        <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Tipo de evento <span class="text-red-500">*</span> </label>
                         <asp:PlaceHolder ID="phComboBoxTipo" runat="server"></asp:PlaceHolder>
                     </div>
                     <div class="w-full mt-3 flex flex-col flex-wrap justify-end">
-                        <label class="block mb-5 text-sm font-medium text-gray-900 dark:text-white">Fecha: <%: FechaSeleccionada != null ? FechaSeleccionada : "" %></label>
+                        <label class="block mb-5 text-sm font-medium text-gray-900 dark:text-white">Fecha: <%: FechaSeleccionada != null ? FechaSeleccionada : "" %>  <span class="text-red-500">*</span></label>
                         <asp:PlaceHolder ID="phCalendario" runat="server"></asp:PlaceHolder>
                     </div>
-                    <div class="w-full mt-5 lg:mt-0 lg:w-2/5 flex flex-col flex-wrap">
-                        <label class="block mb-5 text-sm font-medium text-gray-900 dark:text-white">Tipo de entrega: </label>
+                    <div class="w-full mt-5 sm:mt-0 sm:w-2/5 flex flex-col flex-wrap">
+                        <label class="block mb-5 text-sm font-medium text-gray-900 dark:text-white">Tipo de entrega <span class="text-red-500">*</span></label>
                         <asp:RadioButtonList CssClass="radioEntrega" ID="rbtnTipoEntrega" AutoPostBack="true" OnSelectedIndexChanged="rbtnTipoEntrega_SelectedIndexChanged" runat="server">
                             <asp:ListItem Text="Retira" Value="R"></asp:ListItem>
                             <asp:ListItem Text="Delivery" Value="D"></asp:ListItem>
                         </asp:RadioButtonList>
                     </div>
-                    <div class="w-full mt-3 lg:mt-0 lg:w-2/5 flex flex-col flex-wrap">
+                    <div class="w-full mt-3 sm:mt-0 sm:w-2/5 flex flex-col flex-wrap">
                         <div class="w-full mb-3">
-                            <label for="inputHora" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Hora: </label>
+                            <label for="inputHora" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Hora <span class="text-red-500">*</span></label>
                             <div class="relative">
                                 <div class="absolute inset-y-0 end-0 top-0 flex items-center pe-3.5 pointer-events-none">
                                     <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
@@ -91,9 +91,47 @@
                      <% if (orden.TipoEntrega == "D")
                        { %>
                         <div class="w-full mt-3 flex flex-col flex-wrap justify-end MAP">
-                                   
-                            <label class="block mb-5 text-sm font-medium text-gray-900 dark:text-white">Direccion</label>
-                            <asp:TextBox CssClass="bg-gray-50 h-[24px] border border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" ClientIDMode="Static" ID="txtDireccion"  runat="server"></asp:TextBox>
+                            <h4 class="text-lg font-semibold text-gray-900 dark:text-white">Dirección de entrega</h4>
+                                <button class="w-36 mt-5 font-semibold flex items-center text-white text-xs" id="dropdownDireccionesButton" data-dropdown-toggle="dropdownDirecciones" type="button">
+                                     <span class="me-2">Cargar Direccion</span>
+                                    <svg class="w-2 h-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
+                                    </svg>
+                                </button>
+                                <!-- Dropdown menu -->
+                                <div id="dropdownDirecciones" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-auto dark:bg-gray-700">
+                                    <ul class="py-4 px-2 flex flex-col gap-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
+                                        <asp:PlaceHolder runat="server" ID="phDirecciones"></asp:PlaceHolder>
+                                    </ul>
+                                </div>
+                             <div class="w-full pt-5 flex justify-between text-start flex-wrap gap-4">
+                                <div class="w-full sm:w-2/5 flex flex-col flex-wrap  ">
+                                    <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Direccion <span class="text-red-500">*</span></label>
+                                    <asp:TextBox CssClass="bg-gray-50 h-[24px] border border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" ClientIDMode="Static" ID="txtCalleYNumero" OnTextChanged="TextAddressChanged" runat="server"></asp:TextBox>
+                                </div>                                
+                                 <div class="w-full sm:w-2/5 flex flex-col flex-wrap  ">
+                                    <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Localidad <span class="text-red-500">*</span></label>
+                                    <asp:TextBox CssClass="bg-gray-50 h-[24px] border border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" ClientIDMode="Static" ID="txtLocalidad" OnTextChanged="TextAddressChanged" runat="server"></asp:TextBox>
+                                </div>                                 
+                                 <div class="w-full sm:w-2/5 flex flex-col flex-wrap  ">
+                                    <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Piso</label>
+                                    <asp:TextBox CssClass="bg-gray-50 h-[24px] border border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" ClientIDMode="Static" ID="txtPiso" OnTextChanged="TextAddressChanged" runat="server"></asp:TextBox>
+                                </div>                                 
+                                 <div class="w-full sm:w-2/5 flex flex-col flex-wrap  ">
+                                    <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Departamento</label>
+                                    <asp:TextBox CssClass="bg-gray-50 h-[24px] border border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" ClientIDMode="Static" ID="txtDepartamento" OnTextChanged="TextAddressChanged" runat="server"></asp:TextBox>
+                                </div>
+                                 <div class="w-full sm:w-2/5 flex flex-col flex-wrap  ">
+                                    <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Provincia</label>
+                                    <asp:TextBox CssClass="bg-gray-50 h-[24px] border border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" ClientIDMode="Static" ID="txtProvincia" OnTextChanged="TextAddressChanged" runat="server"></asp:TextBox>
+                                </div>
+                                <div class="w-full sm:w-2/5 flex flex-col flex-wrap  ">
+                                    <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Codigo postal</label>
+                                    <asp:TextBox CssClass="bg-gray-50 h-[24px] border border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" ClientIDMode="Static" ID="txtCodigoPostal" OnTextChanged="TextAddressChanged"  runat="server"></asp:TextBox>
+                                </div>
+                            </div>
+                            <asp:CheckBox runat="server" ID="chkGuardarDireccion" Text="Guardar dirección en el cliente" CssClass="mt-5 text-sm font-medium text-gray-900 dark:text-white flex gap-2 items-center">
+                            </asp:CheckBox>
                         </div>
                     <% } %>
 

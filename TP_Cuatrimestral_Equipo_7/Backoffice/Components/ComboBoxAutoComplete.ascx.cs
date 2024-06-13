@@ -38,7 +38,7 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Components
 
         private DropDownList cboAutoComplete;
 
-        public void InicializarComboBox(Action<DropDownList> initComboBox)
+        public void InicializarComboBox(Action<DropDownList> initComboBox, EventHandler OnSelectedIndexChanged = null, bool AutoPostBack = false)
         {
             if (ComboID == null)
             {
@@ -50,6 +50,7 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Components
                 cboAutoComplete = new DropDownList();
                 cboAutoComplete.Attributes.Add("id", ComboID);
                 cboAutoComplete.Attributes.Add("class", "chzn-select ");
+                cboAutoComplete.AutoPostBack = AutoPostBack;
                 initComboBox(cboAutoComplete);
                 Session[ComboID] = cboAutoComplete;
             }
@@ -61,6 +62,8 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Components
                 }
             }
             phComboBox.Controls.Add(cboAutoComplete);
+            if (OnSelectedIndexChanged != null)
+                cboAutoComplete.SelectedIndexChanged += OnSelectedIndexChanged;
             ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "InitChosen();", true);
         }
     }

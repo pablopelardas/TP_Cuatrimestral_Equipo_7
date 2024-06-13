@@ -89,6 +89,7 @@
 </head>
 <body>
     <form id="form1" runat="server">
+        <a href="/Backoffice/Dashboard.aspx" class="text-primary-500">Backoffice</a>
         <div>
             <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
             </asp:ContentPlaceHolder>

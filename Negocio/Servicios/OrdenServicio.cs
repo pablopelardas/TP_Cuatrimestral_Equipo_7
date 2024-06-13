@@ -27,9 +27,9 @@ namespace Negocio.Servicios
             return ordenRepositorio.ObtenerPorId(id);
         }
 
-        public void GuardarOrden(Dominio.Modelos.OrdenModelo orden)
+        public void GuardarOrden(Dominio.Modelos.OrdenModelo orden, bool guardarDireccionEnCliente = false)
         {
-            ordenRepositorio.GuardarOrdenTx(orden);
+            ordenRepositorio.GuardarOrdenTx(orden, guardarDireccionEnCliente);
         }
 
         public void Eliminar(int id)

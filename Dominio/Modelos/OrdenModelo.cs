@@ -43,8 +43,7 @@ namespace Dominio.Modelos
         {
             get
             {
-                // last 4 digits of the id
-                return IdOrden.ToString().Substring(IdOrden.ToString().Length - 4);
+                return IdOrden.ToString().Substring(0, 8);
             }
         }
 

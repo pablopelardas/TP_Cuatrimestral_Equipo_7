@@ -32,10 +32,7 @@ namespace Datos.EF
 
         [StringLength(100)]
         public string fuente { get; set; }
-
-        [StringLength(200)]
-        public string direccion { get; set; }
-
+        
         [StringLength(100)]
         public string producto_que_provee { get; set; }
 
@@ -50,5 +47,8 @@ namespace Datos.EF
 
         [ForeignKey("id_cliente")]
         public virtual ICollection<ORDEN> ORDENES { get; set; }
+        
+        [ForeignKey("id_cliente")]
+        public virtual ICollection<DIRECCION> DIRECCIONES { get; set; } 
     }
 }

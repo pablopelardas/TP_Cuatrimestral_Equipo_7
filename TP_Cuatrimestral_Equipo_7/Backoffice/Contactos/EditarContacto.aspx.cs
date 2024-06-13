@@ -37,7 +37,7 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Contactos
                                 txtNombreApellido.Text = contacto.NombreApellido;
                                 txtCorreo.Text = contacto.Email;
                                 txtTelefono.Text = contacto.Telefono;
-                                txtDireccion.Text = contacto.Direccion;
+                                txtDireccion.Text = contacto.Direcciones.FirstOrDefault()?.CalleNumero;
                                 txtFuente.Text = contacto.Fuente;
                                 chkDeseaRecibirCorreos.Checked = contacto.DeseaRecibirCorreos;
                                 chkDeseaRecibirWhatsapps.Checked = contacto.DeseaRecibirWhatsapp;
@@ -67,7 +67,13 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Contactos
                 NombreApellido = txtNombreApellido.Text,
                 Email = txtCorreo.Text,
                 Telefono = txtTelefono.Text,
-                Direccion = txtDireccion.Text,
+                Direcciones = new List<DireccionModelo>
+                {
+                    new DireccionModelo
+                    {
+                        CalleNumero = txtDireccion.Text
+                    }
+                },
                 Rol = ddlTipo.SelectedValue == "1" ? "Cliente" : "Proveedor",
                 Fuente = txtFuente.Text,
                 DeseaRecibirCorreos = chkDeseaRecibirCorreos.Checked,

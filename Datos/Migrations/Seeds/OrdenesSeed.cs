@@ -35,7 +35,6 @@ public static class OrdenesSeed
                 tipo_entrega = Configuration.GlobalRandom.Next(0, 5) < 4 ? "Delivery" : "Retiro",
                 id_orden_pago_estado = 1,
                 id_orden_estado = 1,
-                id_direccion = direccionesContext[Configuration.GlobalRandom.Next(0, direccionesContext.Count)].id_direccion,
             };
         }
 

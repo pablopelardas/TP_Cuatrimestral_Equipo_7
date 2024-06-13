@@ -3,16 +3,16 @@ using Datos.EF;
 using System.Collections.Generic;
 using System.Linq;
 
-public static class DireccionesSeed
+public static class OrdenesDireccionesSeed
 {
 
-    public static List<DIRECCION> getDirecciones(Entities context)
+    public static List<ORDENDIRECCION> getDirecciones(Entities context)
     {
         List<ORDEN> ordenesContext = context.ORDENES.ToList();
         
-        return new List<DIRECCION>
+        return new List<ORDENDIRECCION>
         {
-            new DIRECCION()
+            new ORDENDIRECCION()
             {
                 calle_numero = "Av Triunvirato 3749",
                 piso = "1",
@@ -20,9 +20,9 @@ public static class DireccionesSeed
                 localidad = "Villa Urquiza",
                 provincia = "CABA",
                 codigo_postal = "1431",
-                id_cliente = ordenesContext[0].id_cliente,
+                id_orden_direccion = ordenesContext[0].id_orden,
             },
-            new DIRECCION()
+            new ORDENDIRECCION()
             {
                 calle_numero = "Presidente Peron 1234",
                 piso = "2",
@@ -30,10 +30,10 @@ public static class DireccionesSeed
                 localidad = "San Miguel",
                 provincia = "Buenos Aires",
                 codigo_postal = "1663",
-                id_cliente = ordenesContext[1].id_cliente,
+                id_orden_direccion = ordenesContext[1].id_orden,
                 
             },
-            new DIRECCION()
+            new ORDENDIRECCION()
             {
                 calle_numero = "Av. Rivadavia 1234",
                 piso = "3",
@@ -41,7 +41,7 @@ public static class DireccionesSeed
                 localidad = "Caballito",
                 provincia = "CABA",
                 codigo_postal = "1406",
-                id_cliente = ordenesContext[2].id_cliente,
+                id_orden_direccion = ordenesContext[2].id_orden,
             },
         };
     }

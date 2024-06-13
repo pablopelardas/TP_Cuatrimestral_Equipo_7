@@ -13,5 +13,9 @@ namespace Dominio.Modelos
         public string CodigoPostal { get; set; }
         public string Piso { get; set; }
         public string Departamento { get; set; }
+        
+        public ContactoModelo Cliente { get; set; }
+
+        public OrdenModelo Orden { get; set; }
     }
 }

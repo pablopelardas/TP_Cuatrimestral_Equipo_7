@@ -49,11 +49,11 @@
                         </div>
                         <div class="mt-5 flex flex-col flex-wrap">
                             <dt class="text-base font-medium text-gray-900 dark:text-white">Piso y Departamento</dt>
-                            <dd class="mt-1 text-base font-normal text-gray-500 dark:text-gray-400"><%: $"{orden.DireccionEntrega.Piso} - {orden.DireccionEntrega.Departamento}" %></dd>
+                            <dd class="mt-1 text-base font-normal text-gray-500 dark:text-gray-400"><%: $"{orden.DireccionEntrega.Piso} {orden.DireccionEntrega.Departamento}" %></dd>
                         </div>
                         <div class="mt-5 flex flex-col flex-wrap">
                             <dt class=" text-base font-medium text-gray-900 dark:text-white">Localidad</dt>
-                            <dd class="mt-1 text-base font-normal text-gray-500 dark:text-gray-400"><%: $"{orden.DireccionEntrega.Localidad} - {orden.DireccionEntrega.CodigoPostal}" %></dd>
+                            <dd class="mt-1 text-base font-normal text-gray-500 dark:text-gray-400"><%: $"{orden.DireccionEntrega.Localidad} {orden.DireccionEntrega.CodigoPostal}" %></dd>
                         </div>                        
                         <div class="mt-5 flex  flex-col flex-wrap">
                             <dt class=" text-base font-medium text-gray-900 dark:text-white">Provincia</dt>

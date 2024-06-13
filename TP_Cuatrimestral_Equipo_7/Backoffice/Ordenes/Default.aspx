@@ -62,33 +62,36 @@
                                 <dt class="text-base font-medium text-gray-500 dark:text-gray-400">Orden</dt>
                                 <dd class="mt-1.5 text-base font-semibold text-gray-900 dark:text-white">
                                     <%-- show last part of id concat with #...id --%>
-                                    <a href="DetalleOrden.aspx?id=<%: orden.IdOrden %>" title="<%: orden.IdOrden%>" class="hover:underline"><%: $"#...{orden.ShortId}"%></a>
+                                    <a href="DetalleOrden.aspx?id=<%: orden.IdOrden %>" title="<%: orden.IdOrden%>" class="hover:underline"><%: $"{orden.ShortId}..."%></a>
+                                </dd>
+                            </dl>                            
+                            <dl class="w-1/2 sm:w-1/4 lg:w-auto lg:flex-1">
+                                <dt class="text-base font-medium text-gray-500 dark:text-gray-400">Fecha</dt>
+                                <dd class="mt-1.5 text-base font-semibold text-gray-900 dark:text-white">
+                                    <%-- show last part of id concat with #...id --%>
+                                    <dd class="mt-1.5 text-base font-semibold text-gray-900 dark:text-white"><%: $"{orden.Evento.Fecha.ToShortDateString()}"%></dd>
                                 </dd>
                             </dl>
 
                             <dl class="w-1/2 sm:w-1/4 lg:w-auto lg:flex-1">
                                 <dt class="text-base font-medium text-gray-500 dark:text-gray-400">Cliente</dt>
-                                <dd class="mt-1.5 text-base font-semibold text-gray-900 dark:text-white"><%: $"#{orden.Cliente.NombreApellido}"%></dd>
+                                <dd class="mt-1.5 text-base font-semibold text-gray-900 dark:text-white"><%: $"{orden.Cliente.NombreApellido}"%></dd>
                             </dl>
 
-                            <dl class="w-1/2 sm:w-1/4 lg:w-auto lg:flex-1">
-                                <dt class="text-base font-medium text-gray-500 dark:text-gray-400">Estado Pago</dt>
-                                <dd class="<%: orden.Estado.PillClass%>">
-                                   <%: orden.Estado.Nombre%>
-                                </dd>
-                            </dl>
-
-
-                            <%--                            <dl class="w-1/2 sm:w-1/4 lg:w-auto lg:flex-1">
-                                <dt class="text-base font-medium text-gray-500 dark:text-gray-400">Fecha</dt>
-                                <dd class="mt-1.5 text-base font-semibold text-gray-900 dark:text-white"><%: orden.Evento.Fecha.ToShortDateString() %></dd>
-                            </dl>--%>
-                            <dl class="w-1/2 sm:w-1/4 lg:w-auto lg:flex-1">
-                                <dt class="text-base font-medium text-gray-500 dark:text-gray-400">Estado Pago</dt>
-                                <dd class="<%: orden.EstadoPago.PillClass%>">
-                                   <%: orden.EstadoPago.Nombre%>
-                                </dd>
-                            </dl>
+                            <div class="flex mr-4">
+                                <dl class="w-auto lg:flex-1">
+                                    <dt class="text-base font-medium text-gray-500 dark:text-gray-400">Estado</dt>
+                                    <dd class="<%: orden.Estado.PillClass%>">
+                                       <%: orden.Estado.Nombre%>
+                                    </dd>
+                                </dl>
+                                <dl class="w-auto lg:flex-1">
+                                    <dt class="text-base font-medium text-gray-500 dark:text-gray-400">Estado Pago</dt>
+                                    <dd class="<%: orden.EstadoPago.PillClass%>">
+                                       <%: orden.EstadoPago.Nombre%>
+                                    </dd>
+                                </dl>
+                            </div>
                             <dl class="w-1/2 sm:w-1/4 lg:w-auto lg:flex-1">
                                 <a href="DetalleOrden.aspx?id=<%: orden.IdOrden %>" class="w-full inline-flex justify-center rounded-lg  border border-gray-200 bg-white px-3 py-2 lg:py-4 text-sm font-medium text-gray-900 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-700 lg:w-auto">Ver Detalle</a>
                             </dl>

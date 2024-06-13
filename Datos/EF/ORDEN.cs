@@ -12,10 +12,7 @@ namespace Datos.EF
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid id_orden { get; set; }
-
         public Guid id_cliente { get; set; }
-        
-        public Guid? id_direccion { get; set; }
 
         [Required]
         [StringLength(50)]
@@ -35,8 +32,7 @@ namespace Datos.EF
 
         public Guid? id_evento { get; set; }
         
-        [ForeignKey("id_direccion")]
-        public virtual DIRECCION DIRECCION { get; set; }
+        public virtual ORDENDIRECCION ORDENDIRECCION { get; set; }
         
         [ForeignKey("id_cliente")]
         public virtual CONTACTO CLIENTE { get; set; }

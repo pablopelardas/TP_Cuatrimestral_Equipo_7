@@ -21,7 +21,10 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
         public Guid id = Guid.Empty;
         public string redirect_to = "/Backoffice/Ordenes";
         private string OrdenActual = "editorOrden_OrdenActual";
-
+        private string ListaTipoEvento = "editorOrden_ListaTipoEvento";
+        private string ListaClientes = "editorOrden_ListaClientes";
+        private string ListaProductos = "editorOrden_ListaProductos";
+        private string ClienteListaDirecciones = "editorOrden_ClienteListaDirecciones";
         
         private Negocio.Servicios.OrdenServicio servicioOrden;
         private Negocio.Servicios.EventoServicio servicioEvento;
@@ -79,6 +82,14 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
                     }
                 }
                 Session[OrdenActual] = orden;
+                
+                Session[ListaTipoEvento] = servicioEvento.ListarTipoDeEventos();
+                Session[ListaClientes] = servicioContacto.Listar().Where(contacto => contacto.Rol == "Cliente");
+                Session[ListaProductos] = servicioProducto.Listar();
+                if (orden.Cliente != null)
+                {
+                    Session[ClienteListaDirecciones] = orden.Cliente.Direcciones;
+                }
                 CargarComponentes();
                 if (orden.IdOrden != Guid.Empty)
                 {
@@ -105,11 +116,11 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
             {
                 CargarRepeaterDetalle();
             }
+            CargarListaDirecciones();
         }
         private void _initComboBoxTipo(DropDownList comboBox)
         {
-            comboBox.DataSource = 
-                new List<TipoEventoModelo> { new TipoEventoModelo { IdTipoEvento = Guid.Empty, Nombre = "Seleccione un tipo de evento" } }.Concat(servicioEvento.ListarTipoDeEventos());
+            comboBox.DataSource = new List<TipoEventoModelo> { new TipoEventoModelo { IdTipoEvento = Guid.Empty, Nombre = "Seleccione un tipo de evento" } }.Concat((IEnumerable<TipoEventoModelo>)Session[ListaTipoEvento]);
             comboBox.DataTextField = "Nombre";
             comboBox.DataValueField = "IdTipoEvento";
             comboBox.DataBind();
@@ -118,7 +129,7 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
         private void _initComboBoxCliente(DropDownList comboBox)
         {
             comboBox.DataSource = 
-                new List<ContactoModelo> { new ContactoModelo { Id = Guid.Empty, NombreApellido = "Seleccione un cliente" } }.Concat(servicioContacto.Listar().Where(contacto => contacto.Rol == "Cliente"));
+                new List<ContactoModelo> { new ContactoModelo { Id = Guid.Empty, NombreApellido = "Seleccione un cliente" } }.Concat((IEnumerable<ContactoModelo>)Session[ListaClientes]);
             comboBox.DataTextField = "NombreApellido";
             comboBox.DataValueField = "Id";
             comboBox.DataBind();
@@ -127,7 +138,7 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
         private void _initComboBoxProducto(DropDownList comboBox)
         {
             comboBox.DataSource = 
-                new List<ProductoModelo> { new ProductoModelo { IdProducto = Guid.Empty, Nombre = "Seleccione un producto" } }.Concat(servicioProducto.Listar());
+                new List<ProductoModelo> { new ProductoModelo { IdProducto = Guid.Empty, Nombre = "Seleccione un producto" } }.Concat((IEnumerable<ProductoModelo>)Session[ListaProductos]);
             comboBox.DataTextField = "Nombre";
             comboBox.DataValueField = "IdProducto";
             comboBox.DataBind();
@@ -141,13 +152,27 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
             phComboBoxTipo.Controls.Add(cboTipo);
             cboTipo.InicializarComboBox(_initComboBoxTipo);
         }
+        
+        private void OnClienteChanged(object sender, EventArgs e)
+        {
+            DropDownList cbo = (DropDownList)sender;
+            Guid idCliente = Guid.TryParse(cbo.SelectedValue, out Guid id) ? id : Guid.Empty;
+            
+            if (idCliente != Guid.Empty)
+            {
+                orden.Cliente = Session[ListaClientes] != null ? ((IEnumerable<ContactoModelo>)Session[ListaClientes]).FirstOrDefault(x => x.Id == idCliente) : null;
+                Session[OrdenActual] = orden;
+                Session[ClienteListaDirecciones] = orden.Cliente?.Direcciones;
+            }
+            
+        }
 
         private void CargarComboBoxCliente()
         {
             cboCliente = (Components.ComboBoxAutoComplete)LoadControl("~/Backoffice/Components/ComboBoxAutoComplete.ascx");
             cboCliente.ComboID = "cboCliente";
             phComboBoxCliente.Controls.Add(cboCliente);
-            cboCliente.InicializarComboBox(_initComboBoxCliente);
+            cboCliente.InicializarComboBox(_initComboBoxCliente, OnSelectedIndexChanged: OnClienteChanged, AutoPostBack: true);
         }
 
         private void CargarComboBoxProducto()
@@ -175,6 +200,60 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
             phCalendario.Controls.Add(calendario);
             calendario.InicializarCalendario(OnDayClick);
             FechaSeleccionada = calendario.FechaCalendario.ToShortDateString();
+        }
+        
+        private void CargarListaDirecciones()
+        {
+            if (Session[ClienteListaDirecciones] == null)
+            {
+                phDirecciones.Controls.Clear();
+                // add empty label
+                Label lbl = new Label();
+                lbl.Text = "Seleccione un cliente para ver sus direcciones";
+                phDirecciones.Controls.Add(lbl);
+                return;
+            }
+            List<DireccionModelo> direcciones = new List<DireccionModelo> { new DireccionModelo { IdDireccion = Guid.Empty, CalleNumero = "Nueva dirección" } }.Concat((IEnumerable<DireccionModelo>)Session[ClienteListaDirecciones]).ToList();
+            phDirecciones.Controls.Clear();
+            foreach (DireccionModelo direccion in direcciones)
+            {
+                Button btn = new Button();
+                btn.Text = direccion.CalleNumero;
+                btn.CommandArgument = direccion.IdDireccion.ToString();
+                btn.CssClass = "text-left w-100 my-1 hover:bg-primary-600 p-2 cursor-pointer";
+                btn.Click += OnDireccionClick;
+                phDirecciones.Controls.Add(btn);
+            }
+        }
+        
+        private void OnDireccionClick(object sender, EventArgs e)
+        {
+            Button btn = (Button)sender;
+            DireccionModelo direccion = ((IEnumerable<DireccionModelo>)Session[ClienteListaDirecciones]).FirstOrDefault(x => x.IdDireccion == Guid.Parse(btn.CommandArgument));
+            if (direccion != null)
+            {
+                txtCalleYNumero.Text = direccion.CalleNumero;
+                txtLocalidad.Text = direccion.Localidad;
+                txtProvincia.Text = direccion.Provincia;
+                txtDepartamento.Text = direccion.Departamento;
+                txtPiso.Text = direccion.Piso;
+                txtCodigoPostal.Text = direccion.CodigoPostal;
+
+                orden.DireccionEntrega = direccion;
+
+                chkGuardarDireccion.Text = "Modificar dirección del cliente";
+            }
+            else
+            {
+                orden.DireccionEntrega = new DireccionModelo();
+                txtCalleYNumero.Text = "";
+                txtLocalidad.Text = "";
+                txtProvincia.Text = "";
+                txtDepartamento.Text = "";
+                txtPiso.Text = "";
+                txtCodigoPostal.Text = "";
+                chkGuardarDireccion.Text = "Guardar dirección en cliente";
+            }
         }
 
         public void OnAceptarAgregarProducto(object sender, EventArgs e)
@@ -240,7 +319,12 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
             
             if (orden.TipoEntrega == "D")
             {
-                txtDireccion.Text = orden.DireccionEntrega.CalleNumero;
+                txtCalleYNumero.Text = orden.DireccionEntrega.CalleNumero;
+                txtLocalidad.Text = orden.DireccionEntrega.Localidad;
+                txtProvincia.Text = orden.DireccionEntrega.Provincia;
+                txtDepartamento.Text = orden.DireccionEntrega.Departamento;
+                txtPiso.Text = orden.DireccionEntrega.Piso;
+                txtCodigoPostal.Text = orden.DireccionEntrega.CodigoPostal;
                 FirePostBackEvent("rbtnTipoEntrega_SelectedIndexChanged");
             }
         }
@@ -257,6 +341,21 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
 
         }
         
+        protected void rbtnTipoEntrega_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            orden.TipoEntrega = rbtnTipoEntrega.SelectedValue;
+        }
+        
+        protected void TextAddressChanged(object sender, EventArgs e)
+        {
+            orden.DireccionEntrega.CalleNumero = txtCalleYNumero.Text;
+            orden.DireccionEntrega.Localidad = txtLocalidad.Text;
+            orden.DireccionEntrega.Provincia = txtProvincia.Text;
+            orden.DireccionEntrega.Departamento = txtDepartamento.Text;
+            orden.DireccionEntrega.Piso = txtPiso.Text;
+            orden.DireccionEntrega.CodigoPostal = txtCodigoPostal.Text;
+        }
+        
         private OrdenModelo ObtenerModeloDesdeFormulario()
         {
             orden.TipoEntrega = rbtnTipoEntrega.SelectedValue ?? "R";
@@ -264,7 +363,7 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
             
             if (orden.TipoEntrega == "D") // Delivery
             {
-                if (string.IsNullOrEmpty(orden.DireccionEntrega.CalleNumero))
+                if (string.IsNullOrEmpty(orden.DireccionEntrega.CalleNumero) || string.IsNullOrEmpty(orden.DireccionEntrega.Localidad))
                 {
                     throw  new Exception("Debe ingresar una dirección de entrega");
                 }
@@ -326,10 +425,7 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
             return orden;
         }
 
-        protected void rbtnTipoEntrega_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            orden.TipoEntrega = rbtnTipoEntrega.SelectedValue;
-        }
+
 
         protected void btnGuardar_Click(object sender, EventArgs e)
         {
@@ -338,7 +434,9 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
             {
                 Ob.IdOrden = id;
             }
-            servicioOrden.GuardarOrden(Ob);
+            
+            bool guardarDireccionEnContacto = chkGuardarDireccion.Checked;
+            servicioOrden.GuardarOrden(Ob, guardarDireccionEnContacto);
             Response.Redirect(redirect_to);
         }
 
