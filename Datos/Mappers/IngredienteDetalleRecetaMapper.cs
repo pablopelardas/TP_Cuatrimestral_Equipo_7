@@ -13,7 +13,7 @@ namespace Datos.Mappers
         {
             Dominio.Modelos.IngredienteDetalleRecetaModelo modelo = new Dominio.Modelos.IngredienteDetalleRecetaModelo
             {
-                Cantidad = entidad.cantidad != 0 ? entidad.cantidad : 1
+                Cantidad = decimal.Round(entidad.cantidad, 2)
             };
 
             if (entidad.INGREDIENTE != null)

@@ -42,6 +42,15 @@ namespace Dominio.Modelos
                 return 100;
             }
         }
+        
+        public string ShortId
+        {
+            get
+            {
+                // return last 4 characters of IdProducto
+                return $"...{IdProducto.ToString().Substring(IdProducto.ToString().Length - 4)}";
+            }
+        }
 
         public ProductoModelo()
         {

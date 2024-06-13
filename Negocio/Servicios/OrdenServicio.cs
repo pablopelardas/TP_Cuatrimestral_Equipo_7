@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Dominio.Modelos;
 
 namespace Negocio.Servicios
 {
@@ -35,8 +36,15 @@ namespace Negocio.Servicios
         {
             //ordenRepositorio.Eliminar(id);
         }
-
         
+        public OrdenModelo CambiarEstado(Guid idOrden, int idEstado)
+        {
+            return ordenRepositorio.CambiarEstado(idOrden, idEstado);
+        }
 
+        public List<OrdenEstadoModelo> ListarEstadosDeOrden()
+        {
+            return ordenRepositorio.ListarEstados();
+        }
     }
 }

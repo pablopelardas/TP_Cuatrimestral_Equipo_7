@@ -18,7 +18,7 @@ namespace Datos.EF
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public Guid id_ingrediente { get; set; }
 
-        public double cantidad { get; set; }
+        public decimal cantidad { get; set; }
 
         [ForeignKey("id_ingrediente")]
         public virtual INGREDIENTE INGREDIENTE { get; set; }

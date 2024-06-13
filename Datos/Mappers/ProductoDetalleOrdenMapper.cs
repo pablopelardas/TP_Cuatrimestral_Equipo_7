@@ -16,8 +16,8 @@ namespace Datos.Mappers
             {
                 IdOrden = entidad.id_orden,
                 Cantidad = entidad.cantidad,
-                CostoUnitarioActual = entidad.producto_costo,
-                PrecioUnitarioActual = entidad.producto_precio,
+                CostoUnitarioActual = decimal.Round(entidad.producto_costo, 2),
+                PrecioUnitarioActual = decimal.Round(entidad.producto_precio, 2),
                 Porciones = entidad.producto_porciones
             };
 

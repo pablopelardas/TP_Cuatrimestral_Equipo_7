@@ -5,7 +5,7 @@ using System.Linq;
 
 public static class IngredientesSeed
 {
-    private static Random random = new Random();
+    public static Random random = new Random();
     public static List<INGREDIENTE> getIngredientes(Datos.EF.Entities context)
     {
 

@@ -2,10 +2,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Datos.Migrations;
 
 public static class DetalleOrdenesSeed
 {
-    private static Random random = new Random();
     public static List<DETALLEORDEN> getDetalleOrdenes(Datos.EF.Entities context)
     {
         List<PRODUCTO> productosContext = context.PRODUCTOS.ToList();
@@ -13,7 +13,7 @@ public static class DetalleOrdenesSeed
 
         DETALLEORDEN getRandomDetalleOrden(Guid id_orden)
         {
-           PRODUCTO producto = productosContext[random.Next(0, productosContext.Count)];
+           PRODUCTO producto = productosContext[Configuration.GlobalRandom.Next(0, productosContext.Count)];
 
            decimal producto_costo = producto.DETALLE_PRODUCTOS.Sum(x =>
            {
@@ -34,7 +34,7 @@ public static class DetalleOrdenesSeed
             {
                 id_orden = id_orden,
                 id_producto = producto.id_producto,
-                cantidad = random.Next(1, 10),
+                cantidad = Configuration.GlobalRandom.Next(1, 10),
                 producto_costo = producto_costo,
                 producto_porciones = producto.porciones,
                 producto_precio = producto_precio
@@ -47,7 +47,7 @@ public static class DetalleOrdenesSeed
         foreach (ORDEN orden in ordenesContext)
         {
             List<Guid> productosEnOrden = new List<Guid>();
-            int cantidadDetalle = random.Next(1, 10);
+            int cantidadDetalle = Configuration.GlobalRandom.Next(1, 10);
             for (int i = 0; i < cantidadDetalle; i++)
             {
                 DETALLEORDEN detalleOrden = getRandomDetalleOrden(orden.id_orden);

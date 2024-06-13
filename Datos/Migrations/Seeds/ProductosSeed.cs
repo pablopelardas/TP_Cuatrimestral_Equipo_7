@@ -3,17 +3,17 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Remoting.Contexts;
+using Datos.Migrations;
 
 public static class ProductosSeed
 {
-    private static Random random = new Random();
     public static List<PRODUCTO> getProductos(Datos.EF.Entities context)
     {
         List<CATEGORIA> categorias = context.CATEGORIAS.ToList();
 
         Guid randomCategoryGuid()
         {
-            int index = random.Next(0, categorias.Count);
+            int index = Configuration.GlobalRandom.Next(0, categorias.Count);
             return categorias[index].id_categoria;
         }
         return new List<PRODUCTO>

@@ -11,7 +11,6 @@ namespace Dominio.Modelos
         public Guid IdOrden { get; set; }
         public string TipoEntrega { get; set; }
         public TimeSpan HoraEntrega { get; set; }
-        public string DireccionEntrega { get; set; }
         public decimal DescuentoPorcentaje { get; set; }
         public decimal CostoEnvio { get; set; }
         public string Descripcion { get; set; }
@@ -20,7 +19,7 @@ namespace Dominio.Modelos
         {
             get
             {
-                return DetalleProductos.Sum(x => x.Subtotal);
+                return decimal.Round(DetalleProductos.Sum(x => x.Subtotal), 2);
             }
         }
 
@@ -28,7 +27,7 @@ namespace Dominio.Modelos
         {
             get
             {
-                return Subtotal - (Subtotal * DescuentoPorcentaje / 100) + CostoEnvio;
+                return decimal.Round(Subtotal - (Subtotal * DescuentoPorcentaje / 100) + CostoEnvio, 2);
             }
         }
         
@@ -36,16 +35,7 @@ namespace Dominio.Modelos
         {
             get
             {
-                // time format HH:MM
-                string horario = HoraEntrega.ToString("hh\\:mm");
-                if (TipoEntrega == "Delivery")
-                {
-                    return $"{TipoEntrega} - {DireccionEntrega} - {horario}";
-                }
-                else
-                {
-                    return $"{TipoEntrega} - {horario}";
-                }
+                    return $"{TipoEntrega} - {HoraEntrega:hh\\:mm}";
             }
         }
         
@@ -61,10 +51,18 @@ namespace Dominio.Modelos
         public ContactoModelo Cliente { get; set; }
         public OrdenEstadoModelo Estado { get; set; }
         public OrdenEstadoPagoModelo EstadoPago { get; set; }
-
+        
+        public DireccionModelo DireccionEntrega { get; set; }
 
 
         public List<ProductoDetalleOrdenModelo> DetalleProductos { get; set; } = new List<ProductoDetalleOrdenModelo>();
         public EventoModelo Evento { get; set; }
+
+        public OrdenModelo()
+        {
+            DireccionEntrega = new DireccionModelo();
+        }
+
+
     }
 }

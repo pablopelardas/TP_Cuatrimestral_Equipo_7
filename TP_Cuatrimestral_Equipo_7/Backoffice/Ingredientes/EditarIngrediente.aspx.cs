@@ -80,9 +80,9 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ingredientes
             return new IngredienteModelo
             {
                 Nombre = txtNombre.Text,
-                Cantidad = Convert.ToDouble(txtCantidad.Text),
+                Cantidad = decimal.TryParse(txtCantidad.Text, out decimal cantidad) ? cantidad : 0,
 
-                Costo = Convert.ToDecimal(txtCosto.Text),
+                Costo = decimal.TryParse(txtCosto.Text, out decimal costo) ? costo : 0,
                 Proveedor = txtProveedor.Text,
                 Unidad = unidadesMedida.Find(x => x.Id.ToString() == ddlUnidad.SelectedValue)
             };

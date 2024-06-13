@@ -17,7 +17,7 @@ namespace Datos.EF
         [StringLength(50)]
         public string nombre { get; set; }
 
-        public double cantidad { get; set; }
+        public decimal cantidad { get; set; }
 
         public Guid id_unidad { get; set; }
 

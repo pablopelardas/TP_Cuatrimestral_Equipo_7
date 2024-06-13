@@ -2,17 +2,17 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Datos.Migrations;
 
 public static class SuministrosSeed
 {
-    private static Random random = new Random(); 
     public static List<SUMINISTRO> getSuministros(Datos.EF.Entities context)
     {
         List<CATEGORIA> categorias = context.CATEGORIAS.ToList();
 
         Guid randomCategoryGuid()
         {
-            int index = random.Next(0, categorias.Count);
+            int index = Configuration.GlobalRandom.Next(0, categorias.Count);
             return categorias[index].id_categoria;
         }
         return new List<SUMINISTRO>

@@ -2,10 +2,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Datos.Migrations;
 
 public static class RecetasSeed
 {
-    private static Random random = new Random(); // Move the random variable outside the method
 
     public static List<RECETA> getRecetas(Datos.EF.Entities context)
     {
@@ -13,7 +13,7 @@ public static class RecetasSeed
 
         Guid randomCategoryGuid()
         {
-            int index = random.Next(0, categorias.Count);
+            int index = Configuration.GlobalRandom.Next(0, categorias.Count);
             return categorias[index].id_categoria;
         }
 

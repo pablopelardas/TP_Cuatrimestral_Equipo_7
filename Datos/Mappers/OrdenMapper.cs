@@ -18,11 +18,10 @@ namespace Datos.Mappers
                 // ATRIBUTOS DE ENTIDAD
                 IdOrden = orden.id_orden,
                 TipoEntrega = orden.tipo_entrega,
-                DescuentoPorcentaje = orden.descuento_porcentaje ?? 0,
-                CostoEnvio = orden.costo_envio ?? 0,
+                DescuentoPorcentaje = decimal.Round(orden.descuento_porcentaje ?? 0, 2),
+                CostoEnvio = decimal.Round(orden.costo_envio ?? 0, 2),
                 Descripcion = orden.descripcion,
                 HoraEntrega = orden.hora_entrega,
-                DireccionEntrega = orden.direccion_entrega,
             };
 
             if (orden.CLIENTE != null)
@@ -52,6 +51,11 @@ namespace Datos.Mappers
                 }
             }
 
+            if (orden.DIRECCION != null)
+            {
+                modelo.DireccionEntrega = DireccionMapper.EntidadAModelo(orden.DIRECCION);
+            }
+
             return modelo;
         }
 
@@ -69,23 +73,8 @@ namespace Datos.Mappers
 
         internal static ORDEN ModeloAEntidad(Dominio.Modelos.OrdenModelo ordenModelo)
         {
-            ORDEN entidad = new ORDEN
-            {
-                // ATRIBUTOS DE MODELO
-                id_orden = ordenModelo.IdOrden,
-                tipo_entrega = ordenModelo.TipoEntrega,
-                descuento_porcentaje = ordenModelo.DescuentoPorcentaje,
-                costo_envio = ordenModelo.CostoEnvio,
-                descripcion = ordenModelo.Descripcion,
-                direccion_entrega = ordenModelo.DireccionEntrega,
-                id_cliente = ordenModelo.Cliente.Id,
-                id_orden_estado = ordenModelo.Estado != null ? ordenModelo.Estado.IdOrdenEstado : 1,
-                id_orden_pago_estado = ordenModelo.EstadoPago != null ? ordenModelo.EstadoPago.IdOrdenPagoEstado : 1
-            };
-
-            TimeSpan hora = ordenModelo.HoraEntrega;
-            entidad.hora_entrega = hora;
-
+            ORDEN entidad = new ORDEN();
+            ActualizarEntidad(ref entidad, ordenModelo);
             return entidad;
         }
 
@@ -97,10 +86,10 @@ namespace Datos.Mappers
             entidad.costo_envio = modelo.CostoEnvio;
             entidad.descripcion = modelo.Descripcion;
             entidad.hora_entrega = modelo.HoraEntrega;
-            entidad.direccion_entrega = modelo.DireccionEntrega;
             entidad.id_cliente = modelo.Cliente.Id;
-            entidad.id_orden_estado = modelo.Estado != null ? modelo.Estado.IdOrdenEstado : 1;
-            entidad.id_orden_pago_estado = modelo.EstadoPago != null ? modelo.EstadoPago.IdOrdenPagoEstado : 1;
+            entidad.id_orden_estado = modelo.Estado?.IdOrdenEstado ?? 1;
+            entidad.id_orden_pago_estado = modelo.EstadoPago?.IdOrdenPagoEstado ?? 1;
+            entidad.id_direccion = modelo.DireccionEntrega.IdDireccion != Guid.Empty ? modelo.DireccionEntrega.IdDireccion : (Guid?)null;
         }
     }
 }
