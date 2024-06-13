@@ -94,7 +94,7 @@
                         <div class="w-full mt-3 flex flex-col flex-wrap justify-end MAP">
                                    
                             <label class="block mb-5 text-sm font-medium text-gray-900 dark:text-white">Direccion</label>
-                            <asp:TextBox CssClass="bg-gray-50 h-[24px] border border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" ClientIDMode="Static" ID="txtDireccion" OnTextChanged="txtDireccion_TextChanged" runat="server"></asp:TextBox>
+                            <asp:TextBox CssClass="bg-gray-50 h-[24px] border border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" ClientIDMode="Static" ID="txtDireccion"  runat="server"></asp:TextBox>
                             <% if (!string.IsNullOrEmpty(orden.DireccionEntrega.GoogleUrl))
                                { %>
                                 <a href="<%: orden.DireccionEntrega.GoogleUrl %>" target="_blank" class="w-20 text-xs mt-3 font-medium text-gray-900 dark:text-white">Abrir en maps</a>

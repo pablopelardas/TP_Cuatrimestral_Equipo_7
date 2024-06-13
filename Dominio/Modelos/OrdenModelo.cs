@@ -35,16 +35,7 @@ namespace Dominio.Modelos
         {
             get
             {
-                // time format HH:MM
-                string horario = HoraEntrega.ToString("hh\\:mm");
-                if (TipoEntrega == "Delivery")
-                {
-                    return $"{TipoEntrega} - {DireccionEntrega} - {horario}";
-                }
-                else
-                {
-                    return $"{TipoEntrega} - {horario}";
-                }
+                    return $"{TipoEntrega} - {HoraEntrega:hh\\:mm}";
             }
         }
         

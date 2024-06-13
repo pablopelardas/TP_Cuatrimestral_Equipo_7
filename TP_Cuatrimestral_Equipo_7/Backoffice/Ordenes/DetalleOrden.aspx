@@ -1,5 +1,70 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/LayoutTailwind.Master" AutoEventWireup="true" CodeBehind="DetalleOrden.aspx.cs" Inherits="TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes.DetalleOrden" %>
+<%@ Import Namespace="Newtonsoft.Json" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+        <script>
+          let map;
+    
+          /**
+           * Creates a control that recenters the map on Chicago.
+           */
+          function createCenterControl(map, center) {
+            const controlButton = document.createElement("button");
+            // Set CSS for the control.
+            controlButton.classList.add("bg-gray-900", "border", "border-gray-300", "rounded-lg", "shadow-sm", "py-2", "px-4", "text-sm", "font-medium", "text-gray-700", "dark:text-gray-200", "hover:bg-gray-50", "dark:hover:bg-gray-700", "focus:outline-none", "focus:ring-2", "focus:ring-primary-500", "focus:ring-offset-2", "focus:ring-offset-gray-100", "dark:focus:ring-offset-gray-800");
+    
+            controlButton.textContent = "Center Map";
+            controlButton.title = "Click to recenter the map";
+            controlButton.type = "button";
+            // Setup the click event listeners: simply set the map to Chicago.
+            controlButton.addEventListener("click", () => {
+              map.setCenter(center);
+            });
+            return controlButton;
+          }
+    
+          function initMap() {
+            if (!document.getElementById("map")) return;
+            let jsonAddress = '<%: JsonConvert.SerializeObject(orden.DireccionEntrega) %>';
+            let address = JSON.parse(jsonAddress.replace(/&quot;/g, '"'));
+            let lat = parseFloat(address.GoogleLat);
+            let lng = parseFloat(address.GoogleLng);
+            let center = { lat, lng };
+            console.log(address);
+            map = new google.maps.Map(document.getElementById("map"), {
+              zoom: 16,
+              center,
+              mapTypeControl: false,
+            });
+    
+            // Create the DIV to hold the control.
+            const centerControlDiv = document.createElement("div");
+            // Create the control.
+            const centerControl = createCenterControl(map, center);
+    
+            // Append the control to the DIV.
+            centerControlDiv.appendChild(centerControl);
+            map.controls[google.maps.ControlPosition.TOP_CENTER].push(
+              centerControlDiv
+            );
+            
+            // Create a marker and set its position.
+            const marker = new google.maps.Marker({
+              map,
+              title: "Dirección de entrega",
+                position: center,
+            });
+            
+            // Create an info window to display the address.
+            
+          }
+    
+          window.initMap = initMap;
+        </script>
+        <script
+          src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCX-aSbeownsNhxGBHsilxLmtqATAtAuP8&callback=initMap&v=weekly&solution_channel=GMP_CCS_customcontrols_v1"
+          defer
+        ></script>
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
@@ -38,7 +103,20 @@
 
                     </dl>
                 </div>
+                <% if (orden.TipoEntrega == "Delivery")
+                   { %>
                 <div class="space-y-4 border-b py-8 dark:border-gray-700">
+                    <h4 class="text-lg font-semibold text-gray-900 dark:text-white">Dirección</h4>
+                    <dl class="w-full flex justify-between text-start flex-wrap flex-col lg:flex-row">
+                        <div class="w-full mt-5 flex flex-col flex-wrap">
+                            <dt class=" text-base font-medium text-gray-900 dark:text-white">Dirección</dt>
+                            <a href="<%: orden.DireccionEntrega.GoogleUrl%>" target="_blank" class=" mt-1 text-base font-normal text-blue-500 hover:text-blue-400"><%: orden.DireccionEntrega.GoogleFormattedAddress %></a>
+                        </div>
+                    </dl>
+                    <div id="map" class="h-[350px]"></div>
+                </div>
+                    <% } %>
+                   <div class="space-y-4 border-b py-8 dark:border-gray-700">
                     <h4 class="text-lg font-semibold flex flex-wrap text-gray-900 dark:text-white">
                         <span class="mr-4">Información de la orden</span>
                         <div class="relative <%: orden.Estado.PillClass %> !pr-8">

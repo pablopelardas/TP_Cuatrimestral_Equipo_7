@@ -274,16 +274,10 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
 
         }
         
-        protected void txtDireccion_TextChanged(object sender, EventArgs e)
-        {
-            orden.DireccionEntrega.GoogleFormattedAddress = txtDireccion.Text;
-        }
-        
         private OrdenModelo ObtenerModeloDesdeFormulario()
         {
             orden.TipoEntrega = rbtnTipoEntrega.SelectedValue ?? "R";
             orden.HoraEntrega = TimeSpan.TryParse(inputHora.Value, out TimeSpan hora) ? hora : TimeSpan.Zero;
-            orden.DireccionEntrega.GoogleFormattedAddress = txtDireccion.Text;
             
             if (orden.TipoEntrega == "D") // Delivery
             {

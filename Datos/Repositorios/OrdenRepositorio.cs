@@ -95,6 +95,13 @@ namespace Datos.Repositorios
                                 db.SaveChanges();
                             }
                         }
+                        else
+                        {
+                            // Update direccion
+                            DIRECCION direccionEntidad = db.DIRECCIONES.Find(orden.DireccionEntrega.IdDireccion);
+                            Mappers.DireccionMapper.ActualizarEntidad(ref direccionEntidad, orden.DireccionEntrega);
+                            db.SaveChanges();
+                        }
                         Mappers.OrdenMapper.ActualizarEntidad(ref ordenEntidad, orden);
                     }
                     else

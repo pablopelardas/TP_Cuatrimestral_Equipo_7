@@ -39,5 +39,18 @@ namespace Datos.Mappers
 
             return direccion;
         }
+        
+        internal static void ActualizarEntidad(ref DIRECCION direccion, Dominio.Modelos.DireccionModelo modelo)
+        {
+            // ATRIBUTOS DE MODELO
+            direccion.id_direccion = modelo.IdDireccion;
+            direccion.descripcion = modelo.Descripcion;
+            direccion.google_name = modelo.GoogleName;
+            direccion.google_lat = modelo.GoogleLat;
+            direccion.google_lng = modelo.GoogleLng;
+            direccion.google_place_id = modelo.GooglePlaceId;
+            direccion.google_formatted_address = modelo.GoogleFormattedAddress;
+            direccion.google_url = modelo.GoogleUrl;
+        }
     }
 }

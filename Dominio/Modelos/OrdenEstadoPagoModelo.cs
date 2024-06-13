@@ -17,14 +17,16 @@ namespace Dominio.Modelos
             {
                 switch (Nombre)
                 {
-                    case "Sin Pagos":
-                        return "status-pill status-pill--danger";
-                    case "PARCIALMENTE PAGADO":
-                        return "status-pill status-pill--warning";
-                    case "PAGADO":
-                        return "status-pill status-pill--success";
+                    case "Sin pagos":
+                        return "status-pill status-pill--canceled";
+                    case "Parcialmente pagado":
+                        return "status-pill status-pill--doing";
+                    case "Pagado":
+                        return "status-pill status-pill--delivered";
+                    case "Cancelado":
+                        return "status-pill status-pill--pending";
                     default:
-                        return "status-pill status-pill--default";
+                        return "status-pill";
                 }
             }
         }
