@@ -19,18 +19,6 @@ namespace Datos.Repositorios
             List<RecetaModelo> recetas = new List<RecetaModelo>();
             try
             {
-                ////var query = from r in db.RECETAS
-                ////            select new
-                ////            {
-                ////                Receta = r
-                ////            };
-
-
-                //foreach (var row in query)
-                //{
-                //    recetas.Add(Mappers.RecetaMapper.EntidadAModelo(row.Receta));
-                //}
-
                 List<RECETA> recetasEntidad = db.RECETAS.ToList();
                 foreach (var recetaEntidad in recetasEntidad)
                 {
@@ -50,17 +38,10 @@ namespace Datos.Repositorios
             Entities db = new Entities();
             try
             {
-                var query = from r in db.RECETAS
-                            where r.id_receta == id
-                            select new
-                            {
-                                Receta = r
-                            };
-
-                var row = query.FirstOrDefault();
-                if (row != null)
+                RECETA recetaEntidad = db.RECETAS.Find(id);
+                if (recetaEntidad != null)
                 {
-                    return Mappers.RecetaMapper.EntidadAModelo(row.Receta);
+                    return Mappers.RecetaMapper.EntidadAModelo(recetaEntidad);
                 }
                 return null;
             }
@@ -70,66 +51,89 @@ namespace Datos.Repositorios
             }
         }
 
-        //public void Guardar(RecetaModelo receta)
-        //{
-        //    Entities db = new Entities();
-        //    using (var transaction = db.Database.BeginTransaction())
-        //    {
-        //        try
-        //        {
-        //            RECETAS recetaEntidad = Mappers.RecetaMapper.ModeloAEntidad(receta);
-        //            db.RECETAS.Add(recetaEntidad);
-        //            db.SaveChanges();
+        public void Agregar(RecetaModelo receta)
+        {
+            using (Entities db = new Entities())
+            using (var transaction = db.Database.BeginTransaction())
+            {
+                try
+                {
+                    RECETA recetaEntidad = Mappers.RecetaMapper.ModeloAEntidad(receta);
+                    db.RECETAS.Add(recetaEntidad);
+                    //db.SaveChanges();
+                    foreach (var detalleReceta in receta.DetalleRecetas)
+                    {
+                        detalleReceta.IdReceta = recetaEntidad.id_receta;
+                        DETALLERECETA detalleRecetaEntidad = Mappers.IngredienteDetalleRecetaMapper.ModeloAEntidad(detalleReceta);
+                        db.DETALLE_RECETAS.Add(detalleRecetaEntidad);
+                    }
 
-        //            foreach (var detalleReceta in receta.DetalleRecetas)
-        //            {
-        //                detalleReceta.IdReceta = recetaEntidad.id_receta;
-        //                DETALLE_RECETAS detalleRecetaEntidad = Mappers.IngredienteDetalleRecetaMapper.ModeloAEntidad(detalleReceta);
-        //                db.DETALLE_RECETAS.Add(detalleRecetaEntidad);
-        //            }
+                    db.SaveChanges();
+                    transaction.Commit();
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+                    throw ex;
+                }
+            }
+        }
 
-        //            db.SaveChanges();
-        //            transaction.Commit();
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            transaction.Rollback();
-        //            throw ex;
-        //        }
-        //    }
-        //}
+        public void Modificar(RecetaModelo receta)
+        {
+            using (Entities db = new Entities())
+            using (var transaction = db.Database.BeginTransaction())
+            {
+                try
+                {
+                    RECETA recetaEntidad = Mappers.RecetaMapper.ModeloAEntidad(receta);
+                    RECETA RecetaEntidadDB = db.RECETAS.Find(recetaEntidad.id_receta);
+                    
+                    if (RecetaEntidadDB == null)
+                        throw new Exception("Receta no encontrada");
 
-        //public void Actualizar(RecetaModelo receta)
-        //{
-        //    Entities db = new Entities();
-        //    using (var transaction = db.Database.BeginTransaction())
-        //    {
-        //        try
-        //        {
-        //            RECETAS recetaEntidad = Mappers.RecetaMapper.ModeloAEntidad(receta);
-        //            db.Entry(recetaEntidad).State = EntityState.Modified;
-        //            db.SaveChanges();
+                    db.Entry(RecetaEntidadDB).CurrentValues.SetValues(recetaEntidad);
+                    //db.SaveChanges();
 
-        //            foreach (var detalleReceta in receta.DetalleRecetas)
-        //            {
-        //                DETALLE_RECETAS detalleRecetaEntidad = Mappers.IngredienteDetalleRecetaMapper.ModeloAEntidad(detalleReceta);
-        //                db.Entry(detalleRecetaEntidad).State = EntityState.Modified;
-        //            }
+                    List<DETALLERECETA> detallesDB = db.DETALLE_RECETAS.Where(x => x.id_receta == receta.IdReceta).ToList();
+                    foreach (var detalle in detallesDB) 
+                    {
+                        db.DETALLE_RECETAS.Remove(detalle);
+                    }
 
-        //            db.SaveChanges();
-        //            transaction.Commit();
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            transaction.Rollback();
-        //            throw ex;
-        //        }
-        //    }
-        //}
 
-        //public void Eliminar(int id)
-        //{
-        //}
+                    foreach (var detalleReceta in receta.DetalleRecetas)
+                    {
+                        DETALLERECETA detalleRecetaEntidad = Mappers.IngredienteDetalleRecetaMapper.ModeloAEntidad(detalleReceta);
+                        db.DETALLE_RECETAS.Add(detalleRecetaEntidad);
+                    }
+
+                    db.SaveChanges();
+                    transaction.Commit();
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+                    throw ex;
+                }
+            }
+        }
+
+        public void Eliminar(Guid id)
+        {
+            using (Entities db = new Entities())
+            using (var transaction = db.Database.BeginTransaction())
+            {
+                try
+                {
+                    RECETA recetaEntidad = db.RECETAS.Find(id);
+                    db.RECETAS.Remove(recetaEntidad);
+                    db.SaveChanges();
+                    transaction.Commit();
+                }
+                catch (Exception ex) { transaction.Rollback(); throw ex; }
+            }
+        }
 
     }
 }

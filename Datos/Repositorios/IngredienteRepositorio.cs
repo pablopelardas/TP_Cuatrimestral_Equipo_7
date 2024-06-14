@@ -32,7 +32,7 @@ namespace Datos.Repositorios
             Entities db = new Entities();
             try
             {
-                INGREDIENTE ingrediente = db.INGREDIENTES.FirstOrDefault(x => x.id_ingrediente == id);
+                INGREDIENTE ingrediente = db.INGREDIENTES.Find(id);
                 return Mappers.IngredienteMapper.EntidadAModelo(ingrediente);
             }
             catch (Exception)
@@ -86,7 +86,7 @@ namespace Datos.Repositorios
             Entities db = new Entities();
             try
             {
-                INGREDIENTE entidad = db.INGREDIENTES.FirstOrDefault(x => x.id_ingrediente == id);
+                INGREDIENTE entidad = db.INGREDIENTES.Find(id);
                 db.INGREDIENTES.Remove(entidad);
                 db.SaveChanges();
             }
