@@ -52,6 +52,16 @@
         .chzn-container-single .chzn-single div{
         display: none !important;
         }
+        
+        .chzn-container .chzn-single {
+            background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg aria-hidden='true' xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 10 6'%3E%3Cpath stroke='%236B7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m1 1 4 4 4-4'/%3E%3C/svg%3E") !important;
+            background-position: right .75rem center !important;
+            background-repeat: no-repeat !important;
+            background-size: .75em .75em !important;
+            padding-right: 2.5rem !important;
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
+        }
     </style>
       <style type="text/tailwindcss">
         @layer utilities {
@@ -84,6 +94,10 @@
            .chzn-container-single, .chzn-single,  .chzn-drop,  .chzn-container-single .chzn-search input, .chzn-container-single .chzn-results .no-results, .chzn-results, .chzn-container-single, .chzn-single{
               @apply bg-gray-200 text-gray-900 focus:ring-blue-500 focus:border-blue-500 block dark:bg-gray-700 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 !important;
             }
+           
+         select:not([size]):disabled {
+             @apply bg-none pl-2 text-white bg-gray-800 !important;
+         }
         }
       </style>
 </head>

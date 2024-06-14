@@ -5,7 +5,11 @@
     <link href="/Css/chosen.css" rel="stylesheet"/>
     <script src="/Js/jquery-3.7.1.min.js"></script>
     <script src="/Js/chosen.jquery.js" type="text/javascript"></script>
-    <script src="https://cdn.tiny.cloud/1/valwbezytp23wuvlb68adt6hx9ggw67661q3p79cvj23ai0p/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
+    <%-- <script src="https://cdn.tiny.cloud/1/valwbezytp23wuvlb68adt6hx9ggw67661q3p79cvj23ai0p/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script> --%>
+
+    <link rel="stylesheet" href="/Js/richtexteditor/rte_theme_default.css" />
+    <script type="text/javascript" src="/Js/richtexteditor/rte.js"></script>
+    <script type="text/javascript" src='/Js/richtexteditor/plugins/all_plugins.js'></script>
 
     <style type="text/tailwindcss">
         @layer base {
@@ -237,7 +241,9 @@
             <div class="space-y-4 py-8 dark:border-gray-700">
                 <h4 class="text-lg font-semibold text-gray-900 dark:text-white">Información Extra</h4>
                 <div>
-                    <asp:TextBox TextMode="MultiLine" id="tiny" ClientIDMode="Static" runat="server" OnLoad="OnTinyLoad"></asp:TextBox>
+                    <%-- <asp:TextBox TextMode="MultiLine" id="tiny" ClientIDMode="Static" runat="server" OnLoad="OnTinyLoad"></asp:TextBox> --%>
+                    <div class="max-w-full" id="tinyEditor" ></div>
+                    <asp:TextBox CssClass="hidden" id="tiny" ClientIDMode="Static" runat="server" OnLoad="OnTinyLoad"></asp:TextBox>
                 </div>
             </div>
             <div class="flex justify-between">
@@ -338,21 +344,19 @@
 
 <script type="text/javascript" language="javascript">
         function LoadTiny() {
-            tinymce.init({
-                selector: 'textarea#tiny',
-                height: 500,
-                plugins: [
-                    'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
-                    'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
-                    'insertdatetime', 'media', 'table', 'help', 'wordcount'
-                ],
-                toolbar: 'undo redo | blocks | ' +
-                    'bold italic backcolor | alignleft aligncenter ' +
-                    'alignright alignjustify | bullist numlist outdent indent | ' +
-                    'removeformat',
-                content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:16px }',
-              skin: 'oxide-dark',
-              content_css: 'dark'
+            let options = {
+                toolbar: "basic",
+                editorResizeMode: "height",
+                showPlusButton: false,
+                showTagList: false,
+                showStatistics: false, 
+                toggleBorder: true,
+            };
+            let rte = new RichTextEditor("#tinyEditor", options);
+            let tiny = document.getElementById("tiny");
+            rte.setHTMLCode(tiny.value);
+            rte.attachEvent("change", function (e) {
+                tiny.value = rte.getHTMLCode();
             });
         }
 

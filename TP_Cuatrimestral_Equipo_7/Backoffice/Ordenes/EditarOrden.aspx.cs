@@ -173,6 +173,7 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
             cboCliente.ComboID = "cboCliente";
             phComboBoxCliente.Controls.Add(cboCliente);
             cboCliente.InicializarComboBox(_initComboBoxCliente, OnSelectedIndexChanged: OnClienteChanged, AutoPostBack: true);
+            if (id != Guid.Empty) cboCliente.Enabled = false;
         }
 
         private void CargarComboBoxProducto()
@@ -273,7 +274,7 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
             {
                 if (orden.DetalleProductos.Exists(x => x.Producto.IdProducto == IdProducto))
                 {
-                    orden.DetalleProductos.Find(x => x.Producto.IdProducto == IdProducto).Cantidad = Cantidad;
+                    orden.DetalleProductos.Find(x => x.Producto.IdProducto == IdProducto).Cantidad += Cantidad;
                     CargarRepeaterDetalle();
                     return;
                 }
