@@ -9,83 +9,88 @@
     <asp:ContentPlaceHolder ID="head" runat="server">
     </asp:ContentPlaceHolder>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css" rel="stylesheet" />
-    
+
     <script src="/Js/tailwind.js"></script>
-      <script>
+    <script>
         tailwind.config = {
-          darkMode: 'class',
-          theme: {
-            extend: {
-              colors: {
-                primary:{
-                    100: '#F0F4FF',
-                    200: '#D9E6FF',
-                    300: '#A6C1FF',
-                    400: '#598BFF',
-                    500: '#3366FF',
-                    600: '#274BDB',
-                    700: '#1A34B8',
-                    800: '#102694',
-                    900: '#091A7A',
-                    },
-              }
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            100: '#F0F4FF',
+                            200: '#D9E6FF',
+                            300: '#A6C1FF',
+                            400: '#598BFF',
+                            500: '#3366FF',
+                            600: '#274BDB',
+                            700: '#1A34B8',
+                            800: '#102694',
+                            900: '#091A7A',
+                        },
+                    }
+                }
             }
-          }
         }
-      </script>
+    </script>
     <!-- Tailwind CSS -->
     <style>
-        .chzn-container-single .chzn-search input, .chzn-single{
-        background: none !important;
-        background-image: none !important;
-        border: none !important;
-        width: 100% !important;
+        .chzn-container-single .chzn-search input, .chzn-single {
+            background: none !important;
+            background-image: none !important;
+            border: none !important;
+            width: 100% !important;
         }
-        
-        .chzn-container-single .chzn-single, .chzn-container .chzn-drop{
-                background: none !important;
-                background-image: none !important;
-                border: none !important;
-                box-shadow: none !important;
-                border-radius: 0 !important;
-        }
-        .chzn-container-single .chzn-single div{
-        display: none !important;
-        }
-    </style>
-      <style type="text/tailwindcss">
-        @layer utilities {
-        
-          .link-active {
-              @apply text-blue-500 !important;
-          }
-          
-          .status-pill{
-              /*@apply inline-block py-2  px-4 rounded-full text-sm;*/
-              @apply min-w-24 justify-center me-2 mt-1.5 inline-flex items-center rounded  px-2.5 py-1 text-xs font-medium;
-          }
-          
-          .status-pill--pending{
-              @apply bg-yellow-200 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-100;
-          }
-          .status-pill--doing{
-              @apply bg-orange-200 text-orange-800 dark:bg-orange-900 dark:text-orange-100;
-          }
-          .status-pill--done{
-              @apply bg-purple-200 text-purple-800 dark:bg-purple-900 dark:text-purple-100;
-          }
-          .status-pill--delivered{
-              @apply bg-green-200 text-green-800 dark:bg-green-900 dark:text-green-100;
-          }
-          .status-pill--canceled{
-             @apply bg-red-200 text-red-800 dark:bg-red-900 dark:text-red-100;
-          }
 
-           .chzn-container-single, .chzn-single,  .chzn-drop,  .chzn-container-single .chzn-search input, .chzn-container-single .chzn-results .no-results, .chzn-results, .chzn-container-single, .chzn-single{
-              @apply bg-gray-200 text-gray-900 focus:ring-blue-500 focus:border-blue-500 block dark:bg-gray-700 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 !important;
+        .chzn-container-single .chzn-single, .chzn-container .chzn-drop {
+            background: none !important;
+            background-image: none !important;
+            border: none !important;
+            box-shadow: none !important;
+            border-radius: 0 !important;
+        }
+
+            .chzn-container-single .chzn-single div {
+                display: none !important;
+            }
+    </style>
+    <style type="text/tailwindcss">
+        @layer utilities {
+
+            .link-active {
+                @apply text-blue-500 !important;
+            }
+
+            .status-pill {
+                /*@apply inline-block py-2  px-4 rounded-full text-sm;*/
+                @apply min-w-24 justify-center me-2 mt-1.5 inline-flex items-center rounded px-2.5 py-1 text-xs font-medium;
+            }
+
+            .status-pill--pending {
+                @apply bg-yellow-200 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-100;
+            }
+
+            .status-pill--doing {
+                @apply bg-orange-200 text-orange-800 dark:bg-orange-900 dark:text-orange-100;
+            }
+
+            .status-pill--done {
+                @apply bg-purple-200 text-purple-800 dark:bg-purple-900 dark:text-purple-100;
+            }
+
+            .status-pill--delivered {
+                @apply bg-green-200 text-green-800 dark:bg-green-900 dark:text-green-100;
+            }
+
+            .status-pill--canceled {
+                @apply bg-red-200 text-red-800 dark:bg-red-900 dark:text-red-100;
+            }
+
+            .chzn-container-single, .chzn-single, .chzn-drop, .chzn-container-single .chzn-search input, .chzn-container-single .chzn-results .no-results, .chzn-results, .chzn-container-single, .chzn-single {
+                @apply bg-gray-200 text-gray-900 focus:ring-blue-500 focus:border-blue-500 block dark:bg-gray-700 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 !important;
             }
         }
-      </style>
+    </style>
 </head>
 
 <body class="antialiased dark:bg-gray-700">
@@ -188,10 +193,32 @@
                 </li>
                 <li>
                     <a href="#" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-                        <svg class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 20">
+                        <svg class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
                             <path d="M17 5.923A1 1 0 0 0 16 5h-3V4a4 4 0 1 0-8 0v1H2a1 1 0 0 0-1 .923L.086 17.846A2 2 0 0 0 2.08 20h13.84a2 2 0 0 0 1.994-2.153L17 5.923ZM7 9a1 1 0 0 1-2 0V7h2v2Zm0-5a2 2 0 1 1 4 0v1H7V4Zm6 5a1 1 0 1 1-2 0V7h2v2Z" />
                         </svg>
                         <span class="flex-1 ms-3 whitespace-nowrap">Products</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/Backoffice/Recetas" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                        <%--                        <svg class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 20">
+                            <path d="M17 5.923A1 1 0 0 0 16 5h-3V4a4 4 0 1 0-8 0v1H2a1 1 0 0 0-1 .923L.086 17.846A2 2 0 0 0 2.08 20h13.84a2 2 0 0 0 1.994-2.153L17 5.923ZM7 9a1 1 0 0 1-2 0V7h2v2Zm0-5a2 2 0 1 1 4 0v1H7V4Zm6 5a1 1 0 1 1-2 0V7h2v2Z" />
+                        </svg>--%>
+                        <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                            <path fill-rule="evenodd" d="M6 2a2 2 0 0 0-2 2v15a3 3 0 0 0 3 3h12a1 1 0 1 0 0-2h-2v-2h2a1 1 0 0 0 1-1V4a2 2 0 0 0-2-2h-8v16h5v2H7a1 1 0 1 1 0-2h1V2H6Z" clip-rule="evenodd" />
+                        </svg>
+
+
+                        <span class="flex-1 ms-3 whitespace-nowrap">Recetas</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/Backoffice/Ingredientes" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                        <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 7.205c4.418 0 8-1.165 8-2.602C20 3.165 16.418 2 12 2S4 3.165 4 4.603c0 1.437 3.582 2.602 8 2.602ZM12 22c4.963 0 8-1.686 8-2.603v-4.404c-.052.032-.112.06-.165.09a7.75 7.75 0 0 1-.745.387c-.193.088-.394.173-.6.253-.063.024-.124.05-.189.073a18.934 18.934 0 0 1-6.3.998c-2.135.027-4.26-.31-6.3-.998-.065-.024-.126-.05-.189-.073a10.143 10.143 0 0 1-.852-.373 7.75 7.75 0 0 1-.493-.267c-.053-.03-.113-.058-.165-.09v4.404C4 20.315 7.037 22 12 22Zm7.09-13.928a9.91 9.91 0 0 1-.6.253c-.063.025-.124.05-.189.074a18.935 18.935 0 0 1-6.3.998c-2.135.027-4.26-.31-6.3-.998-.065-.024-.126-.05-.189-.074a10.163 10.163 0 0 1-.852-.372 7.816 7.816 0 0 1-.493-.268c-.055-.03-.115-.058-.167-.09V12c0 .917 3.037 2.603 8 2.603s8-1.686 8-2.603V7.596c-.052.031-.112.059-.165.09a7.816 7.816 0 0 1-.745.386Z" />
+                        </svg>
+
+                        <span class="flex-1 ms-3 whitespace-nowrap">Ingredientes</span>
                     </a>
                 </li>
                 <li>
@@ -238,8 +265,7 @@
         });
     </script>
 
-<asp:ContentPlaceHolder ID="SCRIPTS_PLACEHOLDER" runat="server">
-
-</asp:ContentPlaceHolder>
+    <asp:ContentPlaceHolder ID="SCRIPTS_PLACEHOLDER" runat="server">
+    </asp:ContentPlaceHolder>
 </body>
 </html>
