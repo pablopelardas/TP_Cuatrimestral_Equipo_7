@@ -25,8 +25,8 @@
                     <h4 class="text-lg font-semibold text-gray-900 dark:text-white">Información General</h4>
                     <dl class="w-full flex justify-between text-start flex-wrap flex-col lg:flex-row">
                         <div class="w-full mt-5 flex flex-col flex-wra">
-                            <dt class=" text-base font-medium text-gray-900 dark:text-white">Descripcion</dt>
-                            <dd class=" mt-1 text-base font-normal text-gray-500 dark:text-gray-400"><%: receta.Descripcion %></dd>
+                            <dt class=" text-base font-medium text-gray-900 dark:text-white">Nombre</dt>
+                            <dd class=" mt-1 text-base font-normal text-gray-500 dark:text-gray-400"><%: receta.Nombre %></dd>
                         </div>
                         <div class="mt-5 flex flex-col flex-wrap">
                             <dt class="text-base font-medium text-gray-900 dark:text-white">Categoria</dt>
@@ -55,10 +55,6 @@
                                         <div class="flex items center gap-4">
                                             <a href="#" class="flex gap-4 align-items-center">
                                                 <div class="flex items-center aspect-square w-20 shrink-0 relative">
-                                                    <div class="w-36 fill-primary-600 category-svg">
-<%--                                                        <object type="image/svg+xml" data="<%: /*detalle.Producto.Categoria.ImagenPath*/ %>"></object>--%>
-                                                    </div>
-<%--                                                    <div class="absolute bg-primary-300  w-6 h-6 rounded-full text-primary-900 text-center place-content-center text-sm top-1/2 right-4"><%: detalle.Cantidad %></div>--%>
                                                 </div>
                                                 <a href="../Ingredientes/DetalleIngrediente.aspx?id=<%: receta.Ingrediente.IdIngrediente %>" class="content-center hover:underline"><%: receta.Ingrediente.Nombre %></a>
                                             </a>
