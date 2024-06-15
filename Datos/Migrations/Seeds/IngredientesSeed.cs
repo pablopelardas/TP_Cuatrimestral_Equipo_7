@@ -24,19 +24,22 @@ public static class IngredientesSeed
                 nombre = "Harina",
                 // pick random unit of measure with Random class
                 id_unidad = randomUnitId(),
-                cantidad = 1
+                cantidad = 1,
+                costo = 10,
             },
             new INGREDIENTE
             {
                 nombre = "Azucar",
                 id_unidad = randomUnitId(),
-                cantidad = 1
+                cantidad = 1,
+                costo = 165,
             },
             new INGREDIENTE
             {
                 nombre = "Huevos",
                 id_unidad = randomUnitId(),
-                cantidad = 2
+                cantidad = 2,
+                costo = 20,
             }
         };
     }
