@@ -49,16 +49,10 @@
                             <dt class="text-base font-medium text-gray-500 dark:text-gray-400">Nombre</dt>
                             <dd class="mt-1.5 text-base font-semibold text-gray-900 dark:text-white">
                                 <%----show last part of id concat with #...id--%>
-                                <a href="DetalleOrden.aspx?id=<%: receta.IdReceta %>" title="<%: receta.Nombre%>" class="hover:underline"><%: $"{receta.Nombre}..."%></a>
+                                <a href="DetalleReceta.aspx?id=<%: receta.IdReceta %>" title="<%: receta.Nombre%>" class="hover:underline"><%: $"{receta.Nombre}"%></a>
                                 <%--<dd class="mt-1.5 text-base font-semibold text-gray-900 dark:text-white"><%: $"{receta.Nombre}"%></dd>--%>
                             </dd>
                         </dl>
-
-                        <dl class="w-1/2 sm:w-1/4 lg:w-auto lg:flex-1">
-                            <dt class="text-base font-medium text-gray-500 dark:text-gray-400">Descripcion</dt>
-                            <dd class="mt-1.5 text-base font-semibold text-gray-900 dark:text-white"><%: $"{receta.Descripcion}"%></dd>
-                        </dl>
-
                         <dl class="w-1/2 sm:w-1/4 lg:w-auto lg:flex-1">
                             <dt class="text-base font-medium text-gray-500 dark:text-gray-400">Categoria</dt>
                             <dd class="mt-1.5 text-base font-semibold text-gray-900 dark:text-white"><%: $"{receta.Categoria.Nombre}"%></dd>
