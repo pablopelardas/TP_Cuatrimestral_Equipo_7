@@ -48,6 +48,7 @@
     <Compile Include="Modelos\IngredienteModelo.cs" />
     <Compile Include="Modelos\EventoModelo.cs" />
     <Compile Include="Modelos\ItemDetalleProductoModelo.cs" />
+    <Compile Include="Modelos\ListaCompra.cs" />
     <Compile Include="Modelos\OrdenEstadoModelo.cs" />
     <Compile Include="Modelos\OrdenEstadoPagoModelo.cs" />
     <Compile Include="Modelos\OrdenModelo.cs" />

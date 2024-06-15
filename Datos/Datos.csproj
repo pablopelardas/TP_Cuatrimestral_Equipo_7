@@ -80,6 +80,7 @@
     <Compile Include="Mappers\IngredienteDetalleRecetaMapper.cs" />
     <Compile Include="Mappers\IngredienteMapper.cs" />
     <Compile Include="Mappers\EventoMapper.cs" />
+    <Compile Include="Mappers\ItemDetalleProductoMapper.cs" />
     <Compile Include="Mappers\OrdenDireccionMapper.cs" />
     <Compile Include="Mappers\OrdenEstadoMapper.cs" />
     <Compile Include="Mappers\OrdenEstadoPagoMapper.cs" />

@@ -16,6 +16,7 @@ namespace Dominio.Modelos
         {
             get
             {
+                // TODO: Implementar lógica de cálculo de subtotal de ingrediente en base a cantidad y costo
                 return Cantidad * Ingrediente.Costo;
             }
         }

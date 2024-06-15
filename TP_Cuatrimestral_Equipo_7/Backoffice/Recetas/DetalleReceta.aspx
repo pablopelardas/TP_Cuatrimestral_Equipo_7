@@ -81,14 +81,21 @@
                             <div class="space-y-2">
                                 <dl class="flex items-center justify-between gap-4">
                                     <dt class="text-gray-500 dark:text-gray-400">Costo</dt>
-                                    <dd class="text-base font-medium text-gray-900 dark:text-white">$<%: receta.Costo %></dd>
+                                    <dd class="text-base font-medium text-gray-900 dark:text-white">$<%: receta.CostoIngredientes %></dd>
                                 </dl>
                             </div>
 
                                 <dl class="flex items-center justify-between gap-4">
                                     <dt class="text-gray-500 dark:text-gray-400">Precio Personalizado</dt>
                                     <dd class="text-base font-medium text-gray-900 dark:text-white">$<%:receta.PrecioPersonalizado %></dd>
-                                </dl>
+                                </dl>                                
+                            
+                            <dl class="flex items-center justify-between gap-4">
+                                    <dt class="text-gray-500 dark:text-gray-400">Costo Total</dt>
+                                    <dd class="text-base font-medium text-gray-900 dark:text-white">$<%:receta.CostoTotal %></dd>
+                            </dl>
+                            
+                                
                         </div>
 
                         <div class="gap-4 sm:flex sm:items-center">

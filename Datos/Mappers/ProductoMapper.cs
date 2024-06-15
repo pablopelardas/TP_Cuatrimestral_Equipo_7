@@ -28,6 +28,17 @@ namespace Datos.Mappers
             {
                 producto.Categoria = CategoriaMapper.EntidadAModelo(productoEntidad.CATEGORIA);
             }
+            
+            // TODO: Implementar mapeo de Items y ListaCompra
+            if (productoEntidad.DETALLE_PRODUCTOS != null)
+            {
+                foreach (var item in productoEntidad.DETALLE_PRODUCTOS)
+                {
+                    producto.Items.Add(ItemDetalleProductoMapper.EntidadAModelo(item));
+                }
+
+                producto.ListaCompra = new ListaCompra(producto.Items);
+            }
 
             return producto;
         }

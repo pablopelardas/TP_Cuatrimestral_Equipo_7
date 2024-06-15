@@ -12,8 +12,9 @@ public static class DetalleProductosSeed
         List<RECETA> recetasContext = context.RECETAS.ToList();
         List<PRODUCTO> productosContext = context.PRODUCTOS.ToList();
 
-        DETALLEPRODUCTO getRandomProductoDetalle(Guid id_producto, bool esReceta)
+        DETALLEPRODUCTO getRandomProductoDetalle(Guid id_producto)
         {
+            bool esReceta = Configuration.GlobalRandom.Next(0, 2) == 0;
             if (esReceta)
             {
                 RECETA receta = recetasContext[Configuration.GlobalRandom.Next(0, recetasContext.Count)];
@@ -48,7 +49,7 @@ public static class DetalleProductosSeed
             int cantidadDetalles = Configuration.GlobalRandom.Next(1, 20);
             for (int i = 0; i < cantidadDetalles; i++)
             {
-                DETALLEPRODUCTO detalleProducto = getRandomProductoDetalle(producto.id_producto, cantidadDetalles % 2 == 0);
+                DETALLEPRODUCTO detalleProducto = getRandomProductoDetalle(producto.id_producto);
                 if (suministrosEnProducto.Contains(detalleProducto.id_suministro ?? Guid.Empty) || recetasEnProducto.Contains(detalleProducto.id_receta ?? Guid.Empty))
                 {
                     continue;

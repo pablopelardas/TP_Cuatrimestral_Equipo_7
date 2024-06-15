@@ -27,6 +27,11 @@ namespace Dominio.Modelos
             get { return $"{NombreApellido} - {Telefono} - {Email}"; }
         }
         
+        public string ShortId
+        {
+            get { return Id.ToString().Substring(0, 8); }
+        }
+        
         public List<DireccionModelo> Direcciones { get; set; }
     }
 }

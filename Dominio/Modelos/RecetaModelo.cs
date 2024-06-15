@@ -11,7 +11,7 @@ namespace Dominio.Modelos
         public Guid IdReceta { get; set; }
         public string Nombre { get; set; }
         public string Descripcion { get; set; }
-        public decimal Costo{
+        public decimal CostoIngredientes{
             get
             {
                 decimal total = 0;
@@ -23,6 +23,15 @@ namespace Dominio.Modelos
             }
         }
         public decimal PrecioPersonalizado {  get; set; }
+
+        public decimal CostoTotal
+        {
+            get
+            {
+                return decimal.Round(PrecioPersonalizado == 0 ? CostoIngredientes : PrecioPersonalizado, 2);
+            }
+        }
+
         public CategoriaModelo Categoria { get; set; }
         public List<IngredienteDetalleRecetaModelo> DetalleRecetas { get; set; }
         public RecetaModelo() { }

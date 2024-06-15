@@ -24,6 +24,8 @@ namespace Dominio.Modelos
         public CategoriaModelo Categoria { get; set; }
 
         public List<ItemDetalleProductoModelo> Items { get; set; }
+        
+        public ListaCompra ListaCompra { get; set; }
 
         public decimal Precio
         {
@@ -51,9 +53,11 @@ namespace Dominio.Modelos
                 return $"...{IdProducto.ToString().Substring(IdProducto.ToString().Length - 4)}";
             }
         }
-
+        
         public ProductoModelo()
         {
+            Items = new List<ItemDetalleProductoModelo>();
         }
+        
     }
 }

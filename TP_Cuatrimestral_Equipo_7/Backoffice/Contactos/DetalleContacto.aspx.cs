@@ -23,19 +23,19 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Contactos
                     if (id != Guid.Empty)
                     {
                         contacto = negocio.ObtenerPorId(id);
-                        if (contacto != null)
-                        {
-                            lblTipo.Text = contacto.Rol;
-                            lblNombreApellido.Text = contacto.NombreApellido;
-                            lblCorreo.Text = contacto.Email;
-                            lblTelefono.Text = contacto.Telefono;
-                            lblFuente.Text = contacto.Fuente;
-                            lblDireccion.Text = contacto.Direcciones.FirstOrDefault()?.CalleNumero;
-                            lblDeseaRecibirCorreos.Text = contacto.DeseaRecibirCorreos ? "Sí" : "No";
-                            lblDeseaRecibirWhatsapps.Text = contacto.DeseaRecibirWhatsapp ? "Sí" : "No";
-                            
-                            litInformacionPersonal.Text = contacto.InformacionPersonal;
-                        }
+                        // if (contacto != null)
+                        // {
+                        //     lblTipo.Text = contacto.Rol;
+                        //     lblNombreApellido.Text = contacto.NombreApellido;
+                        //     lblCorreo.Text = contacto.Email;
+                        //     lblTelefono.Text = contacto.Telefono;
+                        //     lblFuente.Text = contacto.Fuente;
+                        //     lblDireccion.Text = contacto.Direcciones.FirstOrDefault()?.CalleNumero;
+                        //     lblDeseaRecibirCorreos.Text = contacto.DeseaRecibirCorreos ? "Sí" : "No";
+                        //     lblDeseaRecibirWhatsapps.Text = contacto.DeseaRecibirWhatsapp ? "Sí" : "No";
+                        //     
+                        //     litInformacionPersonal.Text = contacto.InformacionPersonal;
+                        // }
                     }
                 }
                 catch (Exception ex)

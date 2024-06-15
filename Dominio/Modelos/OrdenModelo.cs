@@ -54,12 +54,15 @@ namespace Dominio.Modelos
         public DireccionModelo DireccionEntrega { get; set; }
 
 
-        public List<ProductoDetalleOrdenModelo> DetalleProductos { get; set; } = new List<ProductoDetalleOrdenModelo>();
+        public List<ProductoDetalleOrdenModelo> DetalleProductos { get; set; }
         public EventoModelo Evento { get; set; }
+        
+        public ListaCompra ListaCompra { get; set; }
 
         public OrdenModelo()
         {
             DireccionEntrega = new DireccionModelo();
+            DetalleProductos = new List<ProductoDetalleOrdenModelo>();
         }
 
 
