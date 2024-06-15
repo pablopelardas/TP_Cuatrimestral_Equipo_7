@@ -53,6 +53,8 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
             if (Session[OrdenActual] != null)
             {
                 orden = (OrdenModelo)Session[OrdenActual];
+                // FirePostBackEvent("rbtnTipoEntrega_SelectedIndexChanged");
+                // }
             }
 
 
@@ -98,7 +100,6 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
                 else
                 {
                     rbtnTipoEntrega.SelectedValue = "R";                    
-                    
                 }
             }
             else
@@ -150,7 +151,17 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
             cboTipo = (Components.ComboBoxAutoComplete)LoadControl("~/Backoffice/Components/ComboBoxAutoComplete.ascx");
             cboTipo.ComboID = "cboTipo";
             phComboBoxTipo.Controls.Add(cboTipo);
-            cboTipo.InicializarComboBox(_initComboBoxTipo);
+            cboTipo.InicializarComboBox(_initComboBoxTipo, OnSelectedIndexChanged: OnTipoChanged, AutoPostBack:true);
+        }
+        
+        private void OnTipoChanged(object sender, EventArgs e)
+        {
+            DropDownList cbo = (DropDownList)sender;
+            Guid idTipo = Guid.TryParse(cbo.SelectedValue, out Guid id) ? id : Guid.Empty;
+            if (idTipo != Guid.Empty)
+            {
+                cboTipo.CssClass = cboTipo.CssClass.Replace("input-error", "");
+            }
         }
         
         private void OnClienteChanged(object sender, EventArgs e)
@@ -163,6 +174,7 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
                 orden.Cliente = Session[ListaClientes] != null ? ((IEnumerable<ContactoModelo>)Session[ListaClientes]).FirstOrDefault(x => x.Id == idCliente) : null;
                 Session[OrdenActual] = orden;
                 Session[ClienteListaDirecciones] = orden.Cliente?.Direcciones;
+                cboCliente.CssClass = cboCliente.CssClass.Replace("input-error", "");
             }
             
         }
@@ -173,6 +185,7 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
             cboCliente.ComboID = "cboCliente";
             phComboBoxCliente.Controls.Add(cboCliente);
             cboCliente.InicializarComboBox(_initComboBoxCliente, OnSelectedIndexChanged: OnClienteChanged, AutoPostBack: true);
+            if (id != Guid.Empty) cboCliente.Enabled = false;
         }
 
         private void CargarComboBoxProducto()
@@ -273,7 +286,7 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
             {
                 if (orden.DetalleProductos.Exists(x => x.Producto.IdProducto == IdProducto))
                 {
-                    orden.DetalleProductos.Find(x => x.Producto.IdProducto == IdProducto).Cantidad = Cantidad;
+                    orden.DetalleProductos.Find(x => x.Producto.IdProducto == IdProducto).Cantidad += Cantidad;
                     CargarRepeaterDetalle();
                     return;
                 }
@@ -358,6 +371,7 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
         
         private OrdenModelo ObtenerModeloDesdeFormulario()
         {
+            bool hayError = false;
             orden.TipoEntrega = rbtnTipoEntrega.SelectedValue ?? "R";
             orden.HoraEntrega = TimeSpan.TryParse(inputHora.Value, out TimeSpan hora) ? hora : TimeSpan.Zero;
             
@@ -365,20 +379,45 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
             {
                 if (string.IsNullOrEmpty(orden.DireccionEntrega.CalleNumero) || string.IsNullOrEmpty(orden.DireccionEntrega.Localidad))
                 {
-                    throw  new Exception("Debe ingresar una dirección de entrega");
+                    Master.Toasts?.Add(new Toast
+                    {
+                        Message = "Debe ingresar una dirección de entrega",
+                        Type = "error"
+                    });
+                    // add class error
+                    if (string.IsNullOrEmpty(orden.DireccionEntrega.CalleNumero))
+                    {
+                        // keep old class
+                        txtCalleYNumero.CssClass = "input-error";
+                    }
+                    if (string.IsNullOrEmpty(orden.DireccionEntrega.Localidad))
+                    {
+                        txtLocalidad.CssClass = "input-error";
+                    }
+
+                    hayError = true;
+                }
+                else
+                {
+                    orden.TipoEntrega = "Delivery";
                 }
             }
             else
             {
                 // limpiar dirección    
                 orden.DireccionEntrega = new DireccionModelo();
+                orden.TipoEntrega = "Retiro";
             }
             
-            orden.TipoEntrega = orden.TipoEntrega == "D" ? "Delivery" : "Retiro";
             
             if (orden.HoraEntrega == TimeSpan.Zero)
             {
-                throw  new Exception("Debe seleccionar una hora de entrega");
+                Master.Toasts?.Add(new Toast
+                {
+                    Message = "Debe seleccionar una hora de entrega",
+                    Type = "error"
+                });
+                hayError = true;
             }
 
             Guid idTipoEvento = Guid.TryParse((string)cboTipo.SelectedValue, out Guid _idTipoEvento) ? _idTipoEvento : Guid.Empty;
@@ -386,22 +425,44 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
 
             if (idCliente == Guid.Empty)
             {
-                throw  new Exception("Debe seleccionar un cliente");
+                Master.Toasts?.Add(new Toast
+                {
+                    Message = "Debe seleccionar un cliente",
+                    Type = "error"
+                });
+                cboCliente.CssClass += " input-error";
+                hayError = true;
             }
             
             if (idTipoEvento == Guid.Empty)
             {
-                throw  new Exception("Debe seleccionar un tipo de evento");
+                Master.Toasts?.Add(new Toast
+                {
+                    Message = "Debe seleccionar un tipo de evento",
+                    Type = "error"
+                });
+                cboTipo.CssClass += " input-error";
+                hayError = true;
             }
             
-            if (orden.DetalleProductos == null)
+            if (orden.DetalleProductos == null || orden.DetalleProductos.Count == 0)
             {
-                throw  new Exception("Debe agregar productos a la orden");
+                Master.Toasts?.Add(new Toast
+                {
+                    Message = "Debe agregar productos a la orden",
+                    Type = "error"
+                });
+                hayError = true;
             }
             
             if (calendario.FechaCalendario == DateTime.MaxValue || calendario.FechaCalendario == DateTime.MinValue)
             {
-                throw  new Exception("Debe seleccionar una fecha");
+                Master.Toasts?.Add(new Toast
+                {
+                    Message = "Debe seleccionar una fecha de entrega",
+                    Type = "error"
+                });
+                hayError = true;
             }
             orden.Evento = new EventoModelo
             {
@@ -422,6 +483,11 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
             
             orden.Descripcion = tiny.Text;
             
+            if (hayError)
+            {
+                throw new Exception("Error al guardar la orden");
+            }
+            
             return orden;
         }
 
@@ -429,15 +495,24 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
 
         protected void btnGuardar_Click(object sender, EventArgs e)
         {
-            OrdenModelo Ob = ObtenerModeloDesdeFormulario();
-            if (id != Guid.Empty)
+            try
             {
-                Ob.IdOrden = id;
+                OrdenModelo Ob = ObtenerModeloDesdeFormulario();
+                if (id != Guid.Empty)
+                {
+                    Ob.IdOrden = id;
+                }
+                
+                bool guardarDireccionEnContacto = chkGuardarDireccion.Checked;
+                servicioOrden.GuardarOrden(Ob, guardarDireccionEnContacto);
+                Response.Redirect(redirect_to);
             }
-            
-            bool guardarDireccionEnContacto = chkGuardarDireccion.Checked;
-            servicioOrden.GuardarOrden(Ob, guardarDireccionEnContacto);
-            Response.Redirect(redirect_to);
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception);
+                Master.FireToasts();
+            }
+
         }
 
         protected void btnCancelar_Click(object sender, EventArgs e)

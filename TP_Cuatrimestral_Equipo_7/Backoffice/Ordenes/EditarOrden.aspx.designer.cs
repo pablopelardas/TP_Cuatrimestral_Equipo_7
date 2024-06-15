@@ -15,6 +15,15 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
     {
 
         /// <summary>
+        /// lblCliente control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl lblCliente;
+
+        /// <summary>
         /// phComboBoxCliente control.
         /// </summary>
         /// <remarks>
@@ -22,6 +31,15 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.PlaceHolder phComboBoxCliente;
+
+        /// <summary>
+        /// lblTipoEvento control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl lblTipoEvento;
 
         /// <summary>
         /// phComboBoxTipo control.
@@ -33,6 +51,15 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
         protected global::System.Web.UI.WebControls.PlaceHolder phComboBoxTipo;
 
         /// <summary>
+        /// lblFecha control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl lblFecha;
+
+        /// <summary>
         /// phCalendario control.
         /// </summary>
         /// <remarks>
@@ -42,6 +69,15 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
         protected global::System.Web.UI.WebControls.PlaceHolder phCalendario;
 
         /// <summary>
+        /// lblTipoEntrega control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl lblTipoEntrega;
+
+        /// <summary>
         /// rbtnTipoEntrega control.
         /// </summary>
         /// <remarks>
@@ -49,6 +85,15 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RadioButtonList rbtnTipoEntrega;
+
+        /// <summary>
+        /// lblInputhora control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl lblInputhora;
 
         /// <summary>
         /// inputHora control.
@@ -69,6 +114,15 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
         protected global::System.Web.UI.WebControls.PlaceHolder phDirecciones;
 
         /// <summary>
+        /// lblCalleYnumero control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl lblCalleYnumero;
+
+        /// <summary>
         /// txtCalleYNumero control.
         /// </summary>
         /// <remarks>
@@ -76,6 +130,15 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtCalleYNumero;
+
+        /// <summary>
+        /// lblLocalidad control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl lblLocalidad;
 
         /// <summary>
         /// txtLocalidad control.
@@ -130,6 +193,15 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.CheckBox chkGuardarDireccion;
+
+        /// <summary>
+        /// lblDetalleProductos control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblDetalleProductos;
 
         /// <summary>
         /// rptDetalleOrden control.
