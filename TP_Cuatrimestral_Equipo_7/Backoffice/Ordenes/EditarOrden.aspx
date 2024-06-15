@@ -61,19 +61,19 @@
                 <h4 class="text-lg font-semibold text-gray-900 dark:text-white">Información General</h4>
                 <div class="w-full flex justify-between text-start flex-wrap gap-4">
                     <div class="w-full mt-3 sm:mt-0 sm:w-2/5 flex flex-col flex-wrap  ">
-                        <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Cliente <span class="text-red-500">*</span></label>
+                        <label id="lblCliente" runat="server" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Cliente <span class="text-red-500">*</span></label>
                         <asp:PlaceHolder ID="phComboBoxCliente" runat="server"></asp:PlaceHolder>
                     </div>
                     <div class="w-full mt-3 sm:mt-0 sm:w-2/5 flex flex-col flex-wrap  ">
-                        <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Tipo de evento <span class="text-red-500">*</span> </label>
+                        <label id="lblTipoEvento" runat="server" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Tipo de evento <span class="text-red-500">*</span> </label>
                         <asp:PlaceHolder ID="phComboBoxTipo" runat="server"></asp:PlaceHolder>
                     </div>
                     <div class="w-full mt-3 flex flex-col flex-wrap justify-end">
-                        <label class="block mb-5 text-sm font-medium text-gray-900 dark:text-white">Fecha: <%: FechaSeleccionada != null ? FechaSeleccionada : "" %>  <span class="text-red-500">*</span></label>
+                        <label id="lblFecha" runat="server" class="block mb-5 text-sm font-medium text-gray-900 dark:text-white">Fecha: <%: FechaSeleccionada != null ? FechaSeleccionada : "" %>  <span class="text-red-500">*</span></label>
                         <asp:PlaceHolder ID="phCalendario" runat="server"></asp:PlaceHolder>
                     </div>
                     <div class="w-full mt-5 sm:mt-0 sm:w-2/5 flex flex-col flex-wrap">
-                        <label class="block mb-5 text-sm font-medium text-gray-900 dark:text-white">Tipo de entrega <span class="text-red-500">*</span></label>
+                        <label id="lblTipoEntrega" runat="server" class="block mb-5 text-sm font-medium text-gray-900 dark:text-white">Tipo de entrega <span class="text-red-500">*</span></label>
                         <asp:RadioButtonList CssClass="radioEntrega" ID="rbtnTipoEntrega" AutoPostBack="true" OnSelectedIndexChanged="rbtnTipoEntrega_SelectedIndexChanged" runat="server">
                             <asp:ListItem Text="Retira" Value="R"></asp:ListItem>
                             <asp:ListItem Text="Delivery" Value="D"></asp:ListItem>
@@ -81,7 +81,7 @@
                     </div>
                     <div class="w-full mt-3 sm:mt-0 sm:w-2/5 flex flex-col flex-wrap">
                         <div class="w-full mb-3">
-                            <label for="inputHora" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Hora <span class="text-red-500">*</span></label>
+                            <label id="lblInputhora" runat="server" for="inputHora" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Hora <span class="text-red-500">*</span></label>
                             <div class="relative">
                                 <div class="absolute inset-y-0 end-0 top-0 flex items-center pe-3.5 pointer-events-none">
                                     <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
@@ -110,11 +110,11 @@
                                 </div>
                              <div class="w-full pt-5 flex justify-between text-start flex-wrap gap-4">
                                 <div class="w-full sm:w-2/5 flex flex-col flex-wrap  ">
-                                    <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Direccion <span class="text-red-500">*</span></label>
+                                    <label id="lblCalleYnumero" runat="server" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Calle y Número <span class="text-red-500">*</span></label>
                                     <asp:TextBox CssClass="bg-gray-50 h-[24px] border border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" ClientIDMode="Static" ID="txtCalleYNumero" OnTextChanged="TextAddressChanged" runat="server"></asp:TextBox>
                                 </div>                                
                                  <div class="w-full sm:w-2/5 flex flex-col flex-wrap  ">
-                                    <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Localidad <span class="text-red-500">*</span></label>
+                                    <label id="lblLocalidad" runat="server" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Localidad <span class="text-red-500">*</span></label>
                                     <asp:TextBox CssClass="bg-gray-50 h-[24px] border border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" ClientIDMode="Static" ID="txtLocalidad" OnTextChanged="TextAddressChanged" runat="server"></asp:TextBox>
                                 </div>                                 
                                  <div class="w-full sm:w-2/5 flex flex-col flex-wrap  ">
@@ -144,7 +144,7 @@
             <div class="space-y-4 border-b border-gray-200 py-8 dark:border-gray-700">
                 <%-- <asp:PlaceHolder ID="phDetalleOrden" runat="server"></asp:PlaceHolder> --%>
                 <div class="flex justify-between items center mb-4">
-                    <h4 class="text-lg font-semibold text-gray-900 dark:text-white">Detalle de la orden</h4>
+                    <asp:Label ID="lblDetalleProductos" CssClass="text-lg font-semibold text-gray-900 dark:text-white" runat="server">Detalle de la orden <span class="text-red-500">*</span></asp:Label>
                     <asp:Button runat="server" Text="Agregar Producto" CssClass="inline-flex items-center justify-center rounded-lg bg-primary-700 px-5 text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 cursor-pointer" type="button" OnClick="btnAgregarProducto_Click"/>
 
                 </div>
@@ -359,6 +359,13 @@
                 tiny.value = rte.getHTMLCode();
             });
         }
+        
+        document.querySelectorAll('.input-error').forEach((input) => {
+            input.addEventListener('input', () => {
+                input.classList.remove('input-error');
+                input.classList.add('input-default');
+            });
+        });
 
         $(".chzn-select").chosen(); $(".chzn-select-deselect").chosen({ allow_single_deselect: true });
     </script>

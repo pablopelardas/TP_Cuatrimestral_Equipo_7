@@ -20,7 +20,8 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Components
             }
             set
             {
-                cboAutoComplete.Enabled = value;
+                if (cboAutoComplete != null)
+                    cboAutoComplete.Enabled = value;
             }
         }
 
@@ -33,6 +34,18 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Components
             set
             {
                cboAutoComplete.SelectedValue = value.ToString();
+            }
+        }
+        
+        public string CssClass
+        {
+            get
+            {
+                return cboAutoComplete.CssClass;
+            }
+            set
+            {
+                cboAutoComplete.CssClass = value;
             }
         }
 
@@ -49,7 +62,7 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Components
             {
                 cboAutoComplete = new DropDownList();
                 cboAutoComplete.Attributes.Add("id", ComboID);
-                cboAutoComplete.Attributes.Add("class", "chzn-select ");
+                cboAutoComplete.CssClass = "chzn-select";
                 cboAutoComplete.AutoPostBack = AutoPostBack;
                 initComboBox(cboAutoComplete);
                 Session[ComboID] = cboAutoComplete;
@@ -61,9 +74,13 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Components
                     cboAutoComplete = (DropDownList)Session[ComboID];
                 }
             }
-            phComboBox.Controls.Add(cboAutoComplete);
-            if (OnSelectedIndexChanged != null)
-                cboAutoComplete.SelectedIndexChanged += OnSelectedIndexChanged;
+
+            if (cboAutoComplete != null)
+            {
+                phComboBox.Controls.Add(cboAutoComplete);
+                if (OnSelectedIndexChanged != null)
+                    cboAutoComplete.SelectedIndexChanged += OnSelectedIndexChanged;
+            }
             ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "InitChosen();", true);
         }
     }
