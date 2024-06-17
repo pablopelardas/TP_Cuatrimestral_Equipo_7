@@ -24,49 +24,43 @@ public static class RecetasSeed
                 nombre = "Torta de Vainilla",
                 id_categoria = randomCategoryGuid(),
                 descripcion = "Torta de vainilla con crema y frutillas",
-                precio_personalizado = 200,
             },
             new RECETA
             {
                 nombre = "Torta de Chocolate",
                 id_categoria = randomCategoryGuid(),
                 descripcion = "Torta de chocolate con crema y frutillas",
-                precio_personalizado = 150,
             },
             new RECETA
             {
                 nombre = "Torta de Dulce de Leche",
                 id_categoria = randomCategoryGuid(),
                 descripcion = "Torta de dulce de leche con crema y frutillas",
-                precio_personalizado = 250,
             },
             new RECETA
             {
                 nombre = "Galletas de Vainilla",
                 id_categoria = randomCategoryGuid(),
                 descripcion = "Galletas de vainilla con azucar",
-                precio_personalizado = 1000,
             },
             new RECETA
             {
                 nombre = "Galletas de Chocolate",
                 id_categoria = randomCategoryGuid(),
                 descripcion = "Galletas de chocolate con azucar",
-                precio_personalizado = 450,
             },
             new RECETA
             {
                 nombre = "Galletas de Limon",
                 id_categoria = randomCategoryGuid(),
                 descripcion = "Galletas de limon con azucar",
-                precio_personalizado = 25000,
             },
             new RECETA
             {
                 nombre = "Pan de Vainilla",
                 id_categoria = randomCategoryGuid(),
                 descripcion = "Pan de vainilla con azucar",
-                precio_personalizado = 549,
+                precio_personalizado = 5,
             }
         };
     }

@@ -105,6 +105,7 @@
     <Content Include="Backoffice\Productos\EditarProducto.aspx" />
     <Content Include="Backoffice\Recetas\Default.aspx" />
     <Content Include="Backoffice\Recetas\DetalleReceta.aspx" />
+    <Content Include="Backoffice\Recetas\EditarReceta.aspx" />
     <Content Include="Css\bootstrap.min.css" />
     <Content Include="Backoffice\Dashboard.aspx" />
     <Content Include="Css\chosen.css" />
@@ -285,6 +286,13 @@
     </Compile>
     <Compile Include="Backoffice\Recetas\DetalleReceta.aspx.designer.cs">
       <DependentUpon>DetalleReceta.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Backoffice\Recetas\EditarReceta.aspx.cs">
+      <DependentUpon>EditarReceta.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Backoffice\Recetas\EditarReceta.aspx.designer.cs">
+      <DependentUpon>EditarReceta.aspx</DependentUpon>
     </Compile>
     <Compile Include="Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
