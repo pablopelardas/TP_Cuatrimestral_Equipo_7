@@ -5,7 +5,13 @@
 <script src="/Js/jquery-3.7.1.min.js"></script>
 <script src="/Js/chosen.jquery.js" type="text/javascript"></script>
 
-<asp:PlaceHolder ID="phComboBox" runat="server"></asp:PlaceHolder>
+<%-- <asp:PlaceHolder ID="phComboBox" runat="server"></asp:PlaceHolder> --%>
+
+<asp:DropDownList ID="ddAutocomplete" CssClass="chzn-select" AppendDataBoundItems="True" runat="server">
+    <asp:ListItem Text="Seleccione una opción" Value=""></asp:ListItem>
+</asp:DropDownList>
+<asp:PlaceHolder ID="phDataSource" runat="server"></asp:PlaceHolder>
+
 
 <script type="text/javascript" language="javascript">
     function InitChosen() {

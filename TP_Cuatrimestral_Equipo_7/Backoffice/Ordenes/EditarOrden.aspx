@@ -63,10 +63,12 @@
                     <div class="w-full mt-3 sm:mt-0 sm:w-2/5 flex flex-col flex-wrap  ">
                         <label id="lblCliente" runat="server" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Cliente <span class="text-red-500">*</span></label>
                         <asp:PlaceHolder ID="phComboBoxCliente" runat="server"></asp:PlaceHolder>
+                        <asp:ObjectDataSource ID="odsCliente" runat="server" SelectMethod="ListarClientes" TypeName="Negocio.Servicios.ContactoServicio"></asp:ObjectDataSource>
                     </div>
                     <div class="w-full mt-3 sm:mt-0 sm:w-2/5 flex flex-col flex-wrap  ">
                         <label id="lblTipoEvento" runat="server" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Tipo de evento <span class="text-red-500">*</span> </label>
                         <asp:PlaceHolder ID="phComboBoxTipo" runat="server"></asp:PlaceHolder>
+                        <asp:ObjectDataSource ID="odsTipoEvento" runat="server" SelectMethod="ListarTipoDeEventos" TypeName="Negocio.Servicios.EventoServicio"></asp:ObjectDataSource>
                     </div>
                     <div class="w-full mt-3 flex flex-col flex-wrap justify-end">
                         <label id="lblFecha" runat="server" class="block mb-5 text-sm font-medium text-gray-900 dark:text-white">Fecha: <%: FechaSeleccionada != null ? FechaSeleccionada : "" %>  <span class="text-red-500">*</span></label>
@@ -194,7 +196,7 @@
                                         <div id="dropdown<%# Eval("Producto.IdProducto") %>" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-auto dark:bg-gray-700">
                                             <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
                                                 <li>
-                                                    <asp:Button ID="btnEditar" runat="server" Text="Editar" CssClass="block w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" OnClick="btnAbrirModalEditar_Click" CommandArgument='<%# Eval("Producto.IdProducto") %>'/>
+                                                    <asp:Button ID="btnEditar" runat="server" Text="Editar" CssClass="block w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" OnClick="editarCantidadProducto_Click" CommandArgument='<%# Eval("Producto.IdProducto") %>'/>
                                                 </li>
                                                 <li>
                                                     <asp:Button ID="btnEliminar" runat="server" Text="Eliminar" CssClass="block w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" OnClick="btnEliminarProducto_Click" CommandArgument='<%# Eval("Producto.IdProducto") %>'/>
@@ -290,6 +292,7 @@
                         <div class="w-full mt-3 lg:mt-0 lg:w-2/5 flex flex-col flex-wrap">
                             <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Producto</label>
                             <asp:PlaceHolder ID="phComboBoxProducto" runat="server"></asp:PlaceHolder>
+                            <asp:ObjectDataSource ID="odsProductos" runat="server" SelectMethod="Listar" TypeName="Negocio.Servicios.ProductoServicio"></asp:ObjectDataSource>
                         </div>
                         <div class="w-full mt-3 lg:mt-0 lg:w-2/5 flex flex-col flex-wrap">
                             <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Cantidad</label>

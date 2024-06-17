@@ -26,6 +26,18 @@ namespace Datos.Mappers
                 Direcciones = contactoEntidad.DIRECCIONES.Select(d => DireccionMapper.EntidadAModelo(d, false)).ToList()
             };
         }
+        
+        internal static List<Dominio.Modelos.ContactoModelo> EntidadesAModelos(List<CONTACTO> contactosEntidad)
+        {
+            List<Dominio.Modelos.ContactoModelo> contactos = new List<Dominio.Modelos.ContactoModelo>();
+
+            foreach (var contactoEntidad in contactosEntidad)
+            {
+                contactos.Add(EntidadAModelo(contactoEntidad));
+            }
+
+            return contactos;
+        }
 
         internal static CONTACTO ModeloAEntidad(Dominio.Modelos.ContactoModelo contacto)
         {

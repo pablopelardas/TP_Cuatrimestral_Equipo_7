@@ -19,6 +19,11 @@ namespace Negocio.Servicios
         {
             return contactosRepositorio.Listar();
         }
+        
+        public List<Dominio.Modelos.ContactoModelo> ListarClientes()
+        {
+            return contactosRepositorio.ListarClientes();
+        }
 
         public Dominio.Modelos.ContactoModelo ObtenerPorId(Guid id)
         {

@@ -9,79 +9,42 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Components
 {
     public partial class ComboBoxAutoComplete : System.Web.UI.UserControl
     {
-
-        public string ComboID { get; set; }
+        
+        public EventHandler OnSelectedIndexChanged { get; set; }
         
         public bool Enabled
         {
-            get
-            {
-                return cboAutoComplete.Enabled;
-            }
+            get => ddAutocomplete.Enabled;
             set
             {
-                if (cboAutoComplete != null)
-                    cboAutoComplete.Enabled = value;
+                if (ddAutocomplete != null)
+                    ddAutocomplete.Enabled = value;
             }
         }
 
         public object SelectedValue
         {
-            get
-            {
-                return cboAutoComplete.SelectedValue;
-            }
-            set
-            {
-               cboAutoComplete.SelectedValue = value.ToString();
-            }
+            get => ddAutocomplete.SelectedValue;
+            set => ddAutocomplete.SelectedValue = value.ToString();
         }
         
         public string CssClass
         {
-            get
-            {
-                return cboAutoComplete.CssClass;
-            }
-            set
-            {
-                cboAutoComplete.CssClass = value;
-            }
+            get => ddAutocomplete.CssClass;
+            set => ddAutocomplete.CssClass = value;
         }
 
-        private DropDownList cboAutoComplete;
 
-        public void InicializarComboBox(Action<DropDownList> initComboBox, EventHandler OnSelectedIndexChanged = null, bool AutoPostBack = false)
+        public void InicializarComboBox(DataSourceControl dataSource, Action<DropDownList> initDd, EventHandler _OnSelectedIndexChanged = null, bool AutoPostBack = false)
         {
-            if (ComboID == null)
-            {
-                ComboID = "cboAutoComplete" + Guid.NewGuid().ToString().Replace("-", "");
-            }
-
+            OnSelectedIndexChanged = _OnSelectedIndexChanged;
             if (!IsPostBack)
             {
-                cboAutoComplete = new DropDownList();
-                cboAutoComplete.Attributes.Add("id", ComboID);
-                cboAutoComplete.CssClass = "chzn-select";
-                cboAutoComplete.AutoPostBack = AutoPostBack;
-                initComboBox(cboAutoComplete);
-                Session[ComboID] = cboAutoComplete;
+                ddAutocomplete.DataSourceID = dataSource.ID;
+                ddAutocomplete.AutoPostBack = AutoPostBack;
+                initDd(ddAutocomplete);
             }
-            else
-            {
-                if (Session[ComboID] != null)
-                {
-                    cboAutoComplete = (DropDownList)Session[ComboID];
-                }
-            }
-
-            if (cboAutoComplete != null)
-            {
-                phComboBox.Controls.Add(cboAutoComplete);
-                if (OnSelectedIndexChanged != null)
-                    cboAutoComplete.SelectedIndexChanged += OnSelectedIndexChanged;
-            }
-            ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "InitChosen();", true);
+                ddAutocomplete.SelectedIndexChanged += OnSelectedIndexChanged;
         }
     }
 }

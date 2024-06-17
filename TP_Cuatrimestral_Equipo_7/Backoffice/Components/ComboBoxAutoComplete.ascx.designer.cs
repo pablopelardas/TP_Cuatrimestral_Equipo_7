@@ -15,12 +15,21 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Components
     {
 
         /// <summary>
-        /// phComboBox control.
+        /// ddAutocomplete control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.PlaceHolder phComboBox;
+        protected global::System.Web.UI.WebControls.DropDownList ddAutocomplete;
+
+        /// <summary>
+        /// phDataSource control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.PlaceHolder phDataSource;
     }
 }
