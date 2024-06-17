@@ -15,6 +15,15 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
     {
 
         /// <summary>
+        /// sm control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.ScriptManager sm;
+
+        /// <summary>
         /// lblCliente control.
         /// </summary>
         /// <remarks>
@@ -24,13 +33,13 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl lblCliente;
 
         /// <summary>
-        /// phComboBoxCliente control.
+        /// ddCliente control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.PlaceHolder phComboBoxCliente;
+        protected global::System.Web.UI.WebControls.DropDownList ddCliente;
 
         /// <summary>
         /// odsCliente control.
@@ -51,13 +60,13 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl lblTipoEvento;
 
         /// <summary>
-        /// phComboBoxTipo control.
+        /// ddTipoEvento control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.PlaceHolder phComboBoxTipo;
+        protected global::System.Web.UI.WebControls.DropDownList ddTipoEvento;
 
         /// <summary>
         /// odsTipoEvento control.
@@ -285,13 +294,13 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
         protected global::System.Web.UI.WebControls.Button btnGuardar;
 
         /// <summary>
-        /// phComboBoxProducto control.
+        /// ddProductos control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.PlaceHolder phComboBoxProducto;
+        protected global::System.Web.UI.WebControls.DropDownList ddProductos;
 
         /// <summary>
         /// odsProductos control.

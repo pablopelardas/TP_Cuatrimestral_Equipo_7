@@ -32,10 +32,7 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
         private Negocio.Servicios.ProductoServicio servicioProducto;
 
         private Components.Calendario calendario;
-        private Components.ComboBoxAutoComplete cboTipo;
-        private Components.ComboBoxAutoComplete cboCliente;
 
-        private Components.ComboBoxAutoComplete cboProducto;
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -43,6 +40,8 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
             servicioEvento = new Negocio.Servicios.EventoServicio();
             servicioContacto = new Negocio.Servicios.ContactoServicio();
             servicioProducto = new Negocio.Servicios.ProductoServicio();
+            
+            // add script to page
 
             id = Guid.TryParse(Request.QueryString["id"], out id) ? id : Guid.Empty;
             if (Request.QueryString["redirect_to"] != null)
@@ -54,7 +53,6 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
             {
                 orden = (OrdenModelo)Session[OrdenActual];
             }
-
 
             if (!IsPostBack)
             {
@@ -68,6 +66,7 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
                     {
                         if (id != Guid.Empty)
                         {
+                            ddCliente.Enabled = false;
                             orden = servicioOrden.ObtenerPorId(id);
                             if (orden == null)
                             {
@@ -108,52 +107,22 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
         private void CargarComponentes()
         {
             CargarCalendario();
-            CargarComboBoxCliente();
-            CargarComboBoxProducto();
-            CargarComboBoxTipo();
             if (!IsPostBack)
             {
                 CargarRepeaterDetalle();
             }
+            if (sm.IsInAsyncPostBack)
+            {
+                if (orden != null && orden.Cliente != null)
+                {
+                    Session[ClienteListaDirecciones] = orden.Cliente.Direcciones;
+                }
+            }
             CargarListaDirecciones();
         }
-        private void _initComboBoxTipo(DropDownList comboBox)
-        {
-            comboBox.DataTextField = "Nombre";
-            comboBox.DataValueField = "IdTipoEvento";
-        }
-
-        private void _initComboBoxCliente(DropDownList comboBox)
-        {
-            comboBox.DataTextField = "NombreApellido";
-            comboBox.DataValueField = "Id";
-        }
-
-        private void _initComboBoxProducto(DropDownList comboBox)
-        {
-            comboBox.DataTextField = "Nombre";
-            comboBox.DataValueField = "IdProducto";
-        }
         
         
-        private void CargarComboBoxTipo()
-        {
-            cboTipo = (Components.ComboBoxAutoComplete)LoadControl("~/Backoffice/Components/ComboBoxAutoComplete.ascx");
-            phComboBoxTipo.Controls.Add(cboTipo);
-            cboTipo.InicializarComboBox(odsTipoEvento, _initComboBoxTipo, _OnSelectedIndexChanged: OnTipoChanged, AutoPostBack:true);
-        }
-        
-        private void OnTipoChanged(object sender, EventArgs e)
-        {
-            DropDownList cbo = (DropDownList)sender;
-            Guid idTipo = Guid.TryParse(cbo.SelectedValue, out Guid id) ? id : Guid.Empty;
-            if (idTipo != Guid.Empty)
-            {
-                cboTipo.CssClass = cboTipo.CssClass.Replace("input-error", "");
-            }
-        }
-        
-        private void OnClienteChanged(object sender, EventArgs e)
+        protected void OnClienteChanged(object sender, EventArgs e)
         {
             DropDownList cbo = (DropDownList)sender;
             Guid idCliente = Guid.TryParse(cbo.SelectedValue, out Guid id) ? id : Guid.Empty;
@@ -163,25 +132,13 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
                 orden.Cliente = Session[ListaClientes] != null ? ((IEnumerable<ContactoModelo>)Session[ListaClientes]).FirstOrDefault(x => x.Id == idCliente) : null;
                 Session[OrdenActual] = orden;
                 Session[ClienteListaDirecciones] = orden.Cliente?.Direcciones;
-                cboCliente.CssClass = cboCliente.CssClass.Replace("input-error", "");
+                ddCliente.CssClass = ddCliente.CssClass.Replace("input-error", "");
+                CargarListaDirecciones();
             }
             
         }
-
-        private void CargarComboBoxCliente()
-        {
-            cboCliente = (Components.ComboBoxAutoComplete)LoadControl("~/Backoffice/Components/ComboBoxAutoComplete.ascx");
-            phComboBoxCliente.Controls.Add(cboCliente);
-            cboCliente.InicializarComboBox(odsCliente ,_initComboBoxCliente, _OnSelectedIndexChanged: OnClienteChanged, AutoPostBack: true);
-            if (id != Guid.Empty) cboCliente.Enabled = false;
-        }
-
-        private void CargarComboBoxProducto()
-        {
-            cboProducto = (Components.ComboBoxAutoComplete)LoadControl("~/Backoffice/Components/ComboBoxAutoComplete.ascx");
-            phComboBoxProducto.Controls.Add(cboProducto);
-            cboProducto.InicializarComboBox(odsProductos, _initComboBoxProducto);
-        }
+        
+        
         
         private void CargarRepeaterDetalle()
         {
@@ -259,44 +216,62 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
         public void OnAceptarAgregarProducto(object sender, EventArgs e)
         {
             // Agregar producto a la orden
-            Guid IdProducto = Guid.TryParse((string)cboProducto.SelectedValue, out Guid idProducto) ? idProducto : Guid.Empty;
-            int Cantidad = int.TryParse(txtCantidad.Text, out int cantidad) ? cantidad : 0;
-            if (Cantidad == 0 || IdProducto == Guid.Empty)
+            try
             {
-                return;
-            }
-            if (orden.DetalleProductos == null)
-            {
-                orden.DetalleProductos = new List<ProductoDetalleOrdenModelo>();
-            }
-            else
-            {
-                if (orden.DetalleProductos.Exists(x => x.Producto.IdProducto == IdProducto))
+                Guid IdProducto = Guid.TryParse((string)ddProductos.SelectedValue, out Guid idProducto)
+                    ? idProducto
+                    : Guid.Empty;
+                int Cantidad = int.TryParse(txtCantidad.Text, out int cantidad) ? cantidad : 0;
+                if (Cantidad == 0 || IdProducto == Guid.Empty)
                 {
-                    if ((bool)ViewState["updatingProduct"])
+                    return;
+                }
+
+                if (orden.DetalleProductos == null)
+                {
+                    orden.DetalleProductos = new List<ProductoDetalleOrdenModelo>();
+                }
+                else
+                {
+                    if (orden.DetalleProductos.Exists(x => x.Producto.IdProducto == IdProducto))
                     {
-                        orden.DetalleProductos.Find(x => x.Producto.IdProducto == IdProducto).Cantidad = Cantidad;
+                        if ((bool)ViewState["updatingProduct"])
+                        {
+                            orden.DetalleProductos.Find(x => x.Producto.IdProducto == IdProducto).Cantidad = Cantidad;
+                            CargarRepeaterDetalle();
+                            return;
+                        }
+
+                        orden.DetalleProductos.Find(x => x.Producto.IdProducto == IdProducto).Cantidad += Cantidad;
                         CargarRepeaterDetalle();
                         return;
                     }
-                    orden.DetalleProductos.Find(x => x.Producto.IdProducto == IdProducto).Cantidad += Cantidad;
-                    CargarRepeaterDetalle();
-                    return;
                 }
-            }
-            ProductoModelo producto = servicioProducto.ObtenerPorId(IdProducto);
-            ProductoDetalleOrdenModelo detalle = new ProductoDetalleOrdenModelo
-            {
-                IdOrden = orden.IdOrden,
-                Producto = producto,
-                Cantidad = Cantidad,
-                PrecioUnitarioActual = producto.Precio,
-                CostoUnitarioActual = producto.Costo,
-                Porciones = producto.Porciones
-            };
 
-            orden.DetalleProductos.Add(detalle);
-            CargarRepeaterDetalle();
+                ProductoModelo producto = servicioProducto.ObtenerPorId(IdProducto);
+                ProductoDetalleOrdenModelo detalle = new ProductoDetalleOrdenModelo
+                {
+                    IdOrden = orden.IdOrden,
+                    Producto = producto,
+                    Cantidad = Cantidad,
+                    PrecioUnitarioActual = producto.Precio,
+                    CostoUnitarioActual = producto.Costo,
+                    Porciones = producto.Porciones
+                };
+
+                orden.DetalleProductos.Add(detalle);
+                CargarRepeaterDetalle();
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception);
+                throw;
+            }
+            finally
+            {
+                hideModal(null, null);
+            }
+           
         }
         private void CargarDatos()
         {
@@ -316,8 +291,8 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
             txtCostoEnvio.Text = orden.CostoEnvio.ToString();
 
             // COMPONENTES
-            cboTipo.SelectedValue = orden.Evento.TipoEvento.IdTipoEvento.ToString();
-            cboCliente.SelectedValue = orden.Cliente.Id.ToString();
+            ddTipoEvento.SelectedValue = orden.Evento.TipoEvento.IdTipoEvento.ToString();
+            ddCliente.SelectedValue = orden.Cliente.Id.ToString();
             calendario.FechaCalendario = orden.Evento.Fecha;
 
             // EDITOR
@@ -414,8 +389,8 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
                 hayError = true;
             }
 
-            Guid idTipoEvento = Guid.TryParse((string)cboTipo.SelectedValue, out Guid _idTipoEvento) ? _idTipoEvento : Guid.Empty;
-            Guid idCliente = Guid.TryParse((string)cboCliente.SelectedValue, out Guid _idCliente) ? _idCliente : Guid.Empty;
+            Guid idTipoEvento = Guid.TryParse((string)ddTipoEvento.SelectedValue, out Guid _idTipoEvento) ? _idTipoEvento : Guid.Empty;
+            Guid idCliente = Guid.TryParse((string)ddCliente.SelectedValue, out Guid _idCliente) ? _idCliente : Guid.Empty;
 
             if (idCliente == Guid.Empty)
             {
@@ -424,7 +399,7 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
                     Message = "Debe seleccionar un cliente",
                     Type = "error"
                 });
-                cboCliente.CssClass += " input-error";
+                ddCliente.CssClass += " input-error";
                 hayError = true;
             }
             
@@ -435,7 +410,7 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
                     Message = "Debe seleccionar un tipo de evento",
                     Type = "error"
                 });
-                cboTipo.CssClass += " input-error";
+                ddTipoEvento.CssClass += " input-error";
                 hayError = true;
             }
             
@@ -519,8 +494,8 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
             // Recuperar id de producto commandArgument
             string idProducto = ((Button)sender).CommandArgument;
             // Guardar id de producto en sesión
-            cboProducto.SelectedValue = idProducto;
-            cboProducto.Enabled = false;
+            ddProductos.SelectedValue = idProducto;
+            ddProductos.Enabled = false;
             txtCantidad.Text = orden.DetalleProductos.Find(x => x.Producto.IdProducto == Guid.Parse(idProducto)).Cantidad.ToString();
             ViewState["updatingProduct"] = true;
             AbrirModal();
@@ -535,12 +510,11 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
             CargarRepeaterDetalle();
         }
         
-        
         protected void btnAgregarProducto_Click(object sender, EventArgs e)
         {
             // Limpiar campos
-            cboProducto.Enabled = true;
-            cboProducto.SelectedValue = "";
+            ddProductos.Enabled = true;
+            ddProductos.SelectedValue = "";
             txtCantidad.Text = "";
             // add updatingProduct to viewstate
             
@@ -554,14 +528,24 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
             ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "ShowModal();", true);
         }
         
-        private void FirePostBackEvent(string eventTarget)
+        private void FirePostBackEvent(string eventTarget, bool async = false)
         {
+            if (async)
+            {
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "PostBack", "__doPostBack('" + eventTarget + "','async');", true);
+                return;
+            }
             ScriptManager.RegisterStartupScript(this, this.GetType(), "PostBack", "__doPostBack('" + eventTarget + "','');", true);
         }
         
         protected void OnTinyLoad(object sender, EventArgs e)
         {
             ScriptManager.RegisterStartupScript(this, GetType(), "text", "LoadTiny();", true);
+        }
+        
+        public void hideModal(object sender, EventArgs e)
+        {
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "HideModal();", true);
         }
 
         

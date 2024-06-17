@@ -99,6 +99,7 @@
     <Content Include="Backoffice\Contactos\Default.aspx" />
     <Content Include="Backoffice\Contactos\EditarContacto.aspx" />
     <Content Include="Backoffice\Contactos\DetalleContacto.aspx" />
+    <Content Include="Backoffice\Ordenes\Scripts\EditarOrdenes.js" />
     <Content Include="Backoffice\Productos\Default.aspx" />
     <Content Include="Backoffice\Productos\DetalleProducto.aspx" />
     <Content Include="Backoffice\Productos\EditarProducto.aspx" />

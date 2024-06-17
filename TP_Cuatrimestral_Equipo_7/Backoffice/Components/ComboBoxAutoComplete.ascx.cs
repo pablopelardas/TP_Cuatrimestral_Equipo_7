@@ -45,6 +45,10 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Components
                 initDd(ddAutocomplete);
             }
                 ddAutocomplete.SelectedIndexChanged += OnSelectedIndexChanged;
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "InitChosen", "InitChosen();", true);
+                
+
+                
         }
     }
 }
