@@ -81,10 +81,6 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
                     }
                 }
                 Session[OrdenActual] = orden;
-                
-                Session[ListaTipoEvento] = servicioEvento.ListarTipoDeEventos();
-                Session[ListaClientes] = servicioContacto.Listar().Where(contacto => contacto.Rol == "Cliente");
-                Session[ListaProductos] = servicioProducto.Listar();
                 if (orden.Cliente != null)
                 {
                     Session[ClienteListaDirecciones] = orden.Cliente.Direcciones;

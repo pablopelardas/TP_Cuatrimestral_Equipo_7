@@ -20,9 +20,19 @@ namespace Negocio.Servicios
             return contactosRepositorio.Listar();
         }
         
-        public List<Dominio.Modelos.ContactoModelo> ListarClientes()
+        
+        public List<Dominio.Modelos.ContactoModelo> ObtenerPorTipo(string tipo)
         {
-            return contactosRepositorio.ListarClientes();
+            List<string> tipos = new List<string>
+            {
+                "Cliente",
+                "Proveedor"
+            };
+            if (tipos.Contains(tipo))
+            {
+                return contactosRepositorio.ListarPorTipo(tipo);
+            }
+            return Listar();
         }
 
         public Dominio.Modelos.ContactoModelo ObtenerPorId(Guid id)

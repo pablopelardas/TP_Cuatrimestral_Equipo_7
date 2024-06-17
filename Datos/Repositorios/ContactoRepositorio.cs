@@ -38,14 +38,15 @@ namespace Datos.Repositorios
             }
             
         }
-
-        public List<Dominio.Modelos.ContactoModelo> ListarClientes()
+        
+        
+        public List<Dominio.Modelos.ContactoModelo> ListarPorTipo(string tipo)
         {
             try
             {
                 using (Entities db = new Entities())
                 {
-                   return Mappers.ContactoMapper.EntidadesAModelos(db.CONTACTOS.Where(c => c.tipo == "Cliente").ToList());
+                    return Mappers.ContactoMapper.EntidadesAModelos(db.CONTACTOS.Where(c => c.tipo == tipo).ToList());
                 }
             }
             catch (Exception e)

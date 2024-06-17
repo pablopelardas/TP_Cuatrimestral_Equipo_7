@@ -77,7 +77,11 @@
                     <asp:DropDownList ID="ddCliente" CssClass="chzn-select" AutoPostBack="True" AppendDataBoundItems="True" DataTextField="NombreApellido" DataValueField="Id" DataSourceID="odsCliente" OnSelectedIndexChanged="OnClienteChanged" runat="server">
                         <asp:ListItem Text="Seleccione una opción" Value=""></asp:ListItem>
                     </asp:DropDownList>
-                    <asp:ObjectDataSource ID="odsCliente" runat="server" SelectMethod="ListarClientes" TypeName="Negocio.Servicios.ContactoServicio"></asp:ObjectDataSource>
+                    <asp:ObjectDataSource ID="odsCliente" runat="server" SelectMethod="ObtenerPorTipo" TypeName="Negocio.Servicios.ContactoServicio">
+                        <SelectParameters>
+                            <asp:QueryStringParameter Name="tipo" QueryStringField="type" Type="String" DefaultValue="Cliente" />
+                        </SelectParameters>
+                    </asp:ObjectDataSource>
                 </div>
                 <div class="w-full mt-3 sm:mt-0 sm:w-2/5 flex flex-col flex-wrap  ">
                     <label id="lblTipoEvento" runat="server" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Tipo de evento <span class="text-red-500">*</span> </label>
@@ -307,7 +311,7 @@
                                     <asp:DropDownList ID="ddProductos" CssClass="chzn-select" AppendDataBoundItems="True" DataTextField="Nombre" DataValueField="IdProducto" DataSourceID="odsProductos" runat="server">
                                         <asp:ListItem Text="Seleccione una opción" Value=""></asp:ListItem>
                                     </asp:DropDownList>
-                                    <asp:ObjectDataSource ID="odsProductos" runat="server" SelectMethod="Listar" TypeName="Negocio.Servicios.ProductoServicio"></asp:ObjectDataSource>
+                                    <asp:ObjectDataSource ID="odsProductos" runat="server" SelectMethod="Listar" TypeName="Negocio.Servicios.ProductoServicio" ></asp:ObjectDataSource>
                                 </div>
                                 <div class="w-full mt-3 lg:mt-0 lg:w-2/5 flex flex-col flex-wrap">
                                     <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Cantidad</label>
@@ -351,9 +355,5 @@
 <% } %>
 
 <script type="text/javascript" src="Scripts/EditarOrdenes.js"></script>
-
-<script type="text/javascript">
-
-</script>
 
 </asp:Content>

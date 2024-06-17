@@ -37,22 +37,22 @@ function pageLoad() {
         initFlowbite();
 }
 
-var prm = Sys.WebForms.PageRequestManager.getInstance();
-if (prm != null) {
-    prm.add_endRequest(function (sender, e) {
-        if (sender._postBackSettings.panelsToUpdate != null) {
-            $(".chzn-select").chosen();
-            $(".chzn-select-deselect").chosen({ allow_single_deselect: true });
-            console.log("Recargando")
-            initFlowbite();
-        }
-    });
-    prm.add_beginRequest(function (sender, e) {
-        console.log("Comenzando")
-        initFlowbite();
-        
-    });
-}
+// var prm = Sys.WebForms.PageRequestManager.getInstance();
+// if (prm != null) {
+//     prm.add_endRequest(function (sender, e) {
+//         if (sender._postBackSettings.panelsToUpdate != null) {
+//             $(".chzn-select").chosen();
+//             $(".chzn-select-deselect").chosen({ allow_single_deselect: true });
+//             console.log("Recargando")
+//             // initFlowbite();
+//         }
+//     });
+//     prm.add_beginRequest(function (sender, e) {
+//         console.log("Comenzando")
+//         // initFlowbite();
+//        
+//     });
+// }
 
 
 
