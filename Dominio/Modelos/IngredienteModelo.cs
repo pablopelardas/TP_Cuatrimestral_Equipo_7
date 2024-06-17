@@ -13,6 +13,13 @@ namespace Dominio.Modelos
         public decimal Cantidad { get; set; }
         public UnidadMedidaModelo Unidad { get; set; }
         public decimal Costo { get; set; }
+        public decimal CostoNormalizado 
+        { 
+            get 
+            {
+                return Costo / Cantidad;
+            } 
+        }
         public string Proveedor { get; set; }
         public IngredienteModelo() { }
     }

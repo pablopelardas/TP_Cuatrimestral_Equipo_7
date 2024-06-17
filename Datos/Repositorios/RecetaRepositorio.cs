@@ -93,7 +93,7 @@ namespace Datos.Repositorios
                         throw new Exception("Receta no encontrada");
 
                     db.Entry(RecetaEntidadDB).CurrentValues.SetValues(recetaEntidad);
-                    //db.SaveChanges();
+                    db.SaveChanges();
 
                     List<DETALLERECETA> detallesDB = db.DETALLE_RECETAS.Where(x => x.id_receta == receta.IdReceta).ToList();
                     foreach (var detalle in detallesDB) 
