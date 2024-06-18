@@ -19,14 +19,5 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ingredientes
             }
         }
 
-        protected void txtBuscar_TextChanged(object sender, EventArgs e)
-        {
-            Negocio.Servicios.IngredienteServicio servicio = new Negocio.Servicios.IngredienteServicio();
-            ingredientes = servicio.Listar();
-            if (txtBuscar.Text != "")
-            {
-                ingredientes = ingredientes.Where(c => c.Nombre.Contains(txtBuscar.Text)).ToList();
-            }
-        }
     }
 }

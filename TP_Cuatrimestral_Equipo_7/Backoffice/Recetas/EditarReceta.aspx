@@ -47,7 +47,7 @@
             <div class="flex justify-between align-items-center">
                 <% if (id != Guid.Empty)
                     { %>
-                <h2 class="text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl">Editando Receta<%: receta.Nombre %></h2>
+                <h2 class="text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl">Editando <%: receta.Nombre %></h2>
                 <% }
                     else
                     { %>
