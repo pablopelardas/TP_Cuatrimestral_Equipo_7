@@ -266,8 +266,7 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
             finally
             {
                 hideModal(null, null);
-            }
-           
+            } 
         }
         private void CargarDatos()
         {

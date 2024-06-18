@@ -193,38 +193,43 @@
         <div class="relative p-4 w-full max-w-2xl max-h-full">
             <!-- Modal content -->
             <div class="relative bg-white rounded-lg shadow dark:bg-gray-800">
-                <contenttemplate>
-                    <!-- Modal header -->
-                    <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
-                        <h3 class="text-xl font-semibold text-gray-900 dark:text-white">Modificar Detalle
-                        </h3>
-                        <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="agregarIngredienteModal">
-                            <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
-                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
-                            </svg>
-                            <span class="sr-only">Close modal</span>
-                        </button>
-                    </div>
-                    <!-- Modal body -->
-                    <div class="modal-body p-5">
-                        <div class="w-full flex justify-between text-start flex-wrap gap-4">
-                            <div class="w-full mt-3 lg:mt-0 lg:w-2/5 flex flex-col flex-wrap">
-                                <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Ingrediente</label>
-                                <asp:PlaceHolder ID="phComboBoxIngrediente" runat="server"></asp:PlaceHolder>
-                                <asp:ObjectDataSource ID="odsIngredientes" runat="server" SelectMethod="Listar" TypeName="Negocio.Servicios.IngredienteServicio"></asp:ObjectDataSource>
-                            </div>
-                            <div class="w-full mt-3 lg:mt-0 lg:w-2/5 flex flex-col flex-wrap">
-                                <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Cantidad</label>
-                                <asp:TextBox ID="txtCantidad" runat="server" CssClass="bg-gray-50 h-[24px] border border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" TextMode="Number" min="1"></asp:TextBox>
+                <asp:UpdatePanel runat="server">
+                    <ContentTemplate>
+                        <!-- Modal header -->
+                        <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
+                            <h3 class="text-xl font-semibold text-gray-900 dark:text-white">Modificar Detalle
+                            </h3>
+                            <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="agregarIngredienteModal">
+                                <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                                </svg>
+                                <span class="sr-only">Close modal</span>
+                            </button>
+                        </div>
+                        <!-- Modal body -->
+                        <div class="modal-body p-5">
+                            <div class="w-full flex justify-between text-start flex-wrap gap-4">
+                                <div class="w-full mt-3 lg:mt-0 lg:w-2/5 flex flex-col flex-wrap">
+                                    <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Ingrediente</label>
+                                    <asp:PlaceHolder ID="phComboBoxIngrediente" runat="server"></asp:PlaceHolder>
+                                    <asp:ObjectDataSource ID="odsIngredientes" runat="server" SelectMethod="Listar" TypeName="Negocio.Servicios.IngredienteServicio"></asp:ObjectDataSource>
+                                </div>
+                                <div class="w-full mt-3 lg:mt-0 lg:w-2/5 flex flex-col flex-wrap">
+                                    <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Cantidad</label>
+                                    <asp:TextBox ID="txtCantidad" runat="server" CssClass="bg-gray-50 h-[24px] border border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" TextMode="Number" min="1"></asp:TextBox>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <!-- Modal footer -->
-                    <div class="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
-                        <asp:Button ID="btnCancelarModal" runat="server" Text="Cerrar" data-bs-dismiss="modal" CssClass="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" />
-                        <asp:Button ID="btnGuardarModal" runat="server" Text="Guardar" CssClass="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" OnClick="OnAceptarAgregarIngrediente" />
-                    </div>
-                </contenttemplate>
+                        <!-- Modal footer -->
+                        <div class="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
+                            <asp:Button ID="btnCancelarModal" runat="server" Text="Cerrar" data-bs-dismiss="modal" CssClass="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" />
+                            <asp:Button ID="btnGuardarModal" runat="server" Text="Guardar" CssClass="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" OnClick="OnAceptarAgregarIngrediente" />
+                        </div>
+                    </ContentTemplate>
+                    <Triggers>
+                        <asp:AsyncPostBackTrigger ControlID="btnGuardarModal" EventName="Click"></asp:AsyncPostBackTrigger>
+                    </Triggers>
+                </asp:UpdatePanel>
             </div>
         </div>
     </div>
@@ -232,17 +237,20 @@
 
 
     <script type="text/javascript">
-        var loading = false;
-        var loader = document.getElementById('loader');
 
-
-        function ShowLoader() {
-            loader.classList.remove('hidden');
+        function ShowModal() {
+            console.log("Mostrando modal")
+            const button = document.querySelector('[data-modal-toggle="agregarIngredienteModal"]');
+            // setTimeout(() => button.click(), 1000);
+            console.log(button)
+            button.click();
         }
 
-        function HideLoader() {
-            loader.classList.add('hidden');
+        function HideModal() {
+            const button = document.querySelector('[data-modal-hide="agregarIngredienteModal"]');
+            setTimeout(() => button.click(), 1);
         }
+
 
         function LoadTiny() {
             console.log("Cargando Tiny")
@@ -262,24 +270,11 @@
             });
         }
 
-        function ShowModal() {
+        function pageLoad() {
+            $(".chzn-select").chosen();
+            $(".chzn-select-deselect").chosen({ allow_single_deselect: true });
 
-            if (loading) {
-                return;
-            }
-
-            loading = true;
-            ShowLoader();
-
-            setTimeout(() => {
-                const button = document.querySelector('[data-modal-toggle="agregarIngredienteModal"]');
-                // show modal
-                button.click();
-                loading = false;
-                HideLoader();
-            }, 1000);
-
-            // wait for modal to be rendered with observer
+            initFlowbite();
         }
     </script>
 

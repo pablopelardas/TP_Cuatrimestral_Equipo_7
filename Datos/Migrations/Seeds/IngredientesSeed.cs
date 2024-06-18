@@ -26,6 +26,7 @@ public static class IngredientesSeed
                 id_unidad = randomUnitId(),
                 cantidad = 1,
                 costo = 10,
+                proveedor = "Coto"
             },
             new INGREDIENTE
             {
@@ -33,6 +34,7 @@ public static class IngredientesSeed
                 id_unidad = randomUnitId(),
                 cantidad = 1,
                 costo = 165,
+                proveedor = "Verduleria Pablo"
             },
             new INGREDIENTE
             {

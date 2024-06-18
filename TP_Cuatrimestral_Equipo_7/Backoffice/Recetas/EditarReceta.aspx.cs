@@ -122,42 +122,52 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Recetas
 
         public void OnAceptarAgregarIngrediente(object sender, EventArgs e)
         {
-            // Agregar producto a la orden
-            Guid IdIngrediente = Guid.TryParse((string)cboIngrediente.SelectedValue, out Guid idIngrediente) ? idIngrediente : Guid.Empty;
-            int Cantidad = int.TryParse(txtCantidad.Text, out int cantidad) ? cantidad : 0;
-            if (Cantidad == 0 || IdIngrediente == Guid.Empty)
+            try
             {
-                return;
-            }
-            if (receta.DetalleRecetas == null)
-            {
-                receta.DetalleRecetas = new List<IngredienteDetalleRecetaModelo>();
-            }
-            else
-            {
-                if (receta.DetalleRecetas.Exists(x => x.Ingrediente.IdIngrediente == IdIngrediente))
+                Guid IdIngrediente = Guid.TryParse((string)cboIngrediente.SelectedValue, out Guid idIngrediente) ? idIngrediente : Guid.Empty;
+                int Cantidad = int.TryParse(txtCantidad.Text, out int cantidad) ? cantidad : 0;
+                if (Cantidad == 0 || IdIngrediente == Guid.Empty)
                 {
-                    if ((bool)ViewState["updatingProduct"])
+                    return;
+                }
+                if (receta.DetalleRecetas == null)
+                {
+                    receta.DetalleRecetas = new List<IngredienteDetalleRecetaModelo>();
+                }
+                else
+                {
+                    if (receta.DetalleRecetas.Exists(x => x.Ingrediente.IdIngrediente == IdIngrediente))
                     {
-                        receta.DetalleRecetas.Find(x => x.Ingrediente.IdIngrediente == IdIngrediente).Cantidad = Cantidad;
+                        if ((bool)ViewState["updatingIngrediente"])
+                        {
+                            receta.DetalleRecetas.Find(x => x.Ingrediente.IdIngrediente == IdIngrediente).Cantidad = Cantidad;
+                            CargarRepeaterDetalle();
+                            return;
+                        }
+                        receta.DetalleRecetas.Find(x => x.Ingrediente.IdIngrediente == IdIngrediente).Cantidad += Cantidad;
                         CargarRepeaterDetalle();
                         return;
                     }
-                    receta.DetalleRecetas.Find(x => x.Ingrediente.IdIngrediente == IdIngrediente).Cantidad += Cantidad;
-                    CargarRepeaterDetalle();
-                    return;
                 }
-            }
-            IngredienteModelo ingrediente = servicioIngrediente.ObtenerPorId(IdIngrediente);
-            IngredienteDetalleRecetaModelo detalle = new IngredienteDetalleRecetaModelo
-            {
-                IdReceta = receta.IdReceta,
-                Ingrediente = ingrediente,
-                Cantidad = Cantidad,
-            };
+                IngredienteModelo ingrediente = servicioIngrediente.ObtenerPorId(IdIngrediente);
+                IngredienteDetalleRecetaModelo detalle = new IngredienteDetalleRecetaModelo
+                {
+                    IdReceta = receta.IdReceta,
+                    Ingrediente = ingrediente,
+                    Cantidad = Cantidad,
+                };
 
-            receta.DetalleRecetas.Add(detalle);
-            CargarRepeaterDetalle();
+                receta.DetalleRecetas.Add(detalle);
+                CargarRepeaterDetalle();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+            finally
+            {
+                hideModal(null, null);
+            }
         }
         private void CargarDatos()
         {
@@ -270,7 +280,7 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Recetas
             cboIngrediente.SelectedValue = idIngrediente;
             cboIngrediente.Enabled = false;
             txtCantidad.Text = receta.DetalleRecetas.Find(x => x.Ingrediente.IdIngrediente == Guid.Parse(idIngrediente)).Cantidad.ToString();
-            ViewState["updatingProduct"] = true;
+            ViewState["updatingIngrediente"] = true;
             AbrirModal();
         }
 
@@ -311,5 +321,10 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Recetas
         {
             ScriptManager.RegisterStartupScript(this, GetType(), "text", "LoadTiny();", true);
         }
+        public void hideModal(object sender, EventArgs e)
+        {
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "HideModal();", true);
+        }
+
     }
 }
