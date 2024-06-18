@@ -15,148 +15,76 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Recetas
     {
 
         /// <summary>
-        /// lblCliente control.
+        /// sm control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl lblCliente;
+        protected global::System.Web.UI.ScriptManager sm;
 
         /// <summary>
-        /// phComboBoxCliente control.
+        /// lblNombre control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.PlaceHolder phComboBoxCliente;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl lblNombre;
 
         /// <summary>
-        /// odsCliente control.
+        /// txtNombre control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ObjectDataSource odsCliente;
+        protected global::System.Web.UI.WebControls.TextBox txtNombre;
 
         /// <summary>
-        /// lblTipoEvento control.
+        /// lblCategoria control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl lblTipoEvento;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl lblCategoria;
 
         /// <summary>
-        /// phComboBoxTipo control.
+        /// ddCategoria control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.PlaceHolder phComboBoxTipo;
+        protected global::System.Web.UI.WebControls.DropDownList ddCategoria;
 
         /// <summary>
-        /// odsTipoEvento control.
+        /// odsCategoria control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ObjectDataSource odsTipoEvento;
+        protected global::System.Web.UI.WebControls.ObjectDataSource odsCategoria;
 
         /// <summary>
-        /// lblFecha control.
+        /// lblDetalleIngredientes control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl lblFecha;
+        protected global::System.Web.UI.WebControls.Label lblDetalleIngredientes;
 
         /// <summary>
-        /// phCalendario control.
+        /// rptDetalleReceta control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.PlaceHolder phCalendario;
-
-        /// <summary>
-        /// lblTipoEntrega control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl lblTipoEntrega;
-
-        /// <summary>
-        /// lblInputhora control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl lblInputhora;
-
-        /// <summary>
-        /// inputHora control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputGenericControl inputHora;
-
-        /// <summary>
-        /// lblDetalleProductos control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblDetalleProductos;
-
-        /// <summary>
-        /// rptDetalleOrden control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater rptDetalleOrden;
-
-        /// <summary>
-        /// txtDescuento control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtDescuento;
-
-        /// <summary>
-        /// txtCostoEnvio control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtCostoEnvio;
-
-        /// <summary>
-        /// btnAplicarDescuento control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnAplicarDescuento;
+        protected global::System.Web.UI.WebControls.Repeater rptDetalleReceta;
 
         /// <summary>
         /// tiny control.
@@ -166,6 +94,7 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Recetas
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox tiny;
+
 
         /// <summary>
         /// btnCancelar control.
@@ -186,22 +115,22 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Recetas
         protected global::System.Web.UI.WebControls.Button btnGuardar;
 
         /// <summary>
-        /// phComboBoxProducto control.
+        /// phComboBoxIngrediente control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.PlaceHolder phComboBoxProducto;
+        protected global::System.Web.UI.WebControls.PlaceHolder phComboBoxIngrediente;
 
         /// <summary>
-        /// odsProductos control.
+        /// odsIngredientes control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ObjectDataSource odsProductos;
+        protected global::System.Web.UI.WebControls.ObjectDataSource odsIngredientes;
 
         /// <summary>
         /// txtCantidad control.

@@ -105,6 +105,7 @@ namespace Datos.Repositorios
                     foreach (var detalleReceta in receta.DetalleRecetas)
                     {
                         DETALLERECETA detalleRecetaEntidad = Mappers.IngredienteDetalleRecetaMapper.ModeloAEntidad(detalleReceta);
+                        detalleRecetaEntidad.id_receta = receta.IdReceta;
                         db.DETALLE_RECETAS.Add(detalleRecetaEntidad);
                     }
 

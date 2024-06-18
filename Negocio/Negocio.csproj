@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Servicios\CategoriaServicio.cs" />
     <Compile Include="Servicios\IngredienteServicio.cs" />
     <Compile Include="Servicios\EventoServicio.cs" />
     <Compile Include="Servicios\OrdenServicio.cs" />

@@ -11,18 +11,22 @@ namespace Dominio.Modelos
         public Guid IdReceta { get; set; }
         public string Nombre { get; set; }
         public string Descripcion { get; set; }
-        public decimal CostoIngredientes{
+        public List<IngredienteDetalleRecetaModelo> DetalleRecetas { get; set; }
+        public decimal CostoIngredientes
+        {
             get
             {
                 decimal total = 0;
+
                 foreach (var detalle in DetalleRecetas)
                 {
                     total += detalle.Subtotal;
                 }
+
                 return total;
             }
         }
-        public decimal PrecioPersonalizado {  get; set; }
+        public decimal PrecioPersonalizado { get; set; }
 
         public decimal CostoTotal
         {
@@ -33,7 +37,6 @@ namespace Dominio.Modelos
         }
 
         public CategoriaModelo Categoria { get; set; }
-        public List<IngredienteDetalleRecetaModelo> DetalleRecetas { get; set; }
         public RecetaModelo() { }
     }
 }

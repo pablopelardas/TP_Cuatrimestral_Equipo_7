@@ -21,17 +21,27 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Recetas
         public string redirect_to = "/Backoffice/Recetas";
         private string RecetaActual = "editorReceta_RecetaActual";
         private string ListaIngredientes = "editorReceta_ListaIngredientes";
+        private string Categorias = "editorReceta_Categorias";
 
         private Negocio.Servicios.RecetaServicio servicioReceta;
         private Negocio.Servicios.IngredienteServicio servicioIngrediente;
+        private Negocio.Servicios.CategoriaServicio servicioCategoria;
 
         private Components.ComboBoxAutoComplete cboIngrediente;
+
+        private void CargarRepeaterDetalle()
+        {
+            rptDetalleReceta.DataSource = null;
+            rptDetalleReceta.DataSource = receta.DetalleRecetas;
+            rptDetalleReceta.DataBind();
+        }
 
         protected void Page_Load(object sender, EventArgs e)
         {
             servicioReceta = new Negocio.Servicios.RecetaServicio();
             servicioIngrediente = new Negocio.Servicios.IngredienteServicio();
-
+            servicioCategoria = new Negocio.Servicios.CategoriaServicio();
+         
             id = Guid.TryParse(Request.QueryString["id"], out id) ? id : Guid.Empty;
             if (Request.QueryString["redirect_to"] != null)
             {
@@ -49,6 +59,7 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Recetas
                 if (id == Guid.Empty)
                 {
                     receta = new Dominio.Modelos.RecetaModelo();
+                    receta.DetalleRecetas = new List<Dominio.Modelos.IngredienteDetalleRecetaModelo>();
                 }
                 else
                 {
@@ -69,17 +80,16 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Recetas
                         return;
                     }
                 }
-                Session[RecetaActual] = receta;
 
+                Session[RecetaActual] = receta;
                 Session[ListaIngredientes] = servicioIngrediente.Listar();
+                Session[Categorias] = servicioCategoria.Listar();
+
                 CargarComponentes();
+
                 if (receta.IdReceta != Guid.Empty)
                 {
                     CargarDatos();
-                }
-                else
-                {
-                    //rbtnTipoEntrega.SelectedValue = "R";
                 }
             }
             else
@@ -89,28 +99,28 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Recetas
         }
         private void CargarComponentes()
         {
-            //CargarComboBoxProducto();
+            CargarComboBoxIngrediente();
             if (!IsPostBack)
             {
-                //CargarRepeaterDetalle();
+                CargarRepeaterDetalle();
             }
         }
 
-
-        private void _initComboBoxProducto(DropDownList comboBox)
+        
+        private void _initComboBoxIngrediente(DropDownList comboBox)
         {
             comboBox.DataTextField = "Nombre";
             comboBox.DataValueField = "IdIngrediente";
         }
 
-        private void CargarComboBoxProducto()
+        private void CargarComboBoxIngrediente()
         {
             cboIngrediente = (Components.ComboBoxAutoComplete)LoadControl("~/Backoffice/Components/ComboBoxAutoComplete.ascx");
-            //phComboBoxIngrediente.Controls.Add(cboIngrediente);
-            //cboIngrediente.InicializarComboBox(odsIngredientes, _initComboBoxProducto);
+            phComboBoxIngrediente.Controls.Add(cboIngrediente);
+            cboIngrediente.InicializarComboBox(odsIngredientes, _initComboBoxIngrediente);
         }
 
-        public void OnAceptarAgregarProducto(object sender, EventArgs e)
+        public void OnAceptarAgregarIngrediente(object sender, EventArgs e)
         {
             // Agregar producto a la orden
             Guid IdIngrediente = Guid.TryParse((string)cboIngrediente.SelectedValue, out Guid idIngrediente) ? idIngrediente : Guid.Empty;
@@ -130,11 +140,11 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Recetas
                     if ((bool)ViewState["updatingProduct"])
                     {
                         receta.DetalleRecetas.Find(x => x.Ingrediente.IdIngrediente == IdIngrediente).Cantidad = Cantidad;
-                        //CargarRepeaterDetalle();
+                        CargarRepeaterDetalle();
                         return;
                     }
                     receta.DetalleRecetas.Find(x => x.Ingrediente.IdIngrediente == IdIngrediente).Cantidad += Cantidad;
-                    //CargarRepeaterDetalle();
+                    CargarRepeaterDetalle();
                     return;
                 }
             }
@@ -147,7 +157,7 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Recetas
             };
 
             receta.DetalleRecetas.Add(detalle);
-            //CargarRepeaterDetalle();
+            CargarRepeaterDetalle();
         }
         private void CargarDatos()
         {
@@ -155,9 +165,10 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Recetas
             {
                 return;
             }
-
+            txtNombre.Text = receta.Nombre;
+            ddCategoria.SelectedValue = receta.Categoria.Id.ToString();
+            tiny.Text = receta.Descripcion;
             Session[RecetaActual] = receta;
-
         }
 
         protected void TotalChanged(object sender, EventArgs e)
@@ -169,6 +180,16 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Recetas
 
             //orden.DescuentoPorcentaje = descuento;
             //orden.CostoEnvio = costoEnvio;
+        }
+
+        protected void NameChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        protected void OnCategoriaChanged(object sender, EventArgs e)
+        {
+
 
         }
 
@@ -186,16 +207,21 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Recetas
                 hayError = true;
             }
 
-            //receta.Descripcion = txtDescripcion.Text;
+            Guid idCategoria = Guid.TryParse((string)ddCategoria.SelectedValue, out Guid _idTipoEvento) ? _idTipoEvento : Guid.Empty;
 
-            decimal descuento = 0;
-            decimal costoEnvio = 0;
-            //decimal.TryParse(txtDescuento.Text, NumberStyles.Any, CultureInfo.InvariantCulture, out descuento);
-            //decimal.TryParse(txtCostoEnvio.Text, NumberStyles.Any, CultureInfo.InvariantCulture, out costoEnvio);
-
-            //orden.DescuentoPorcentaje = descuento;
-            //orden.CostoEnvio = costoEnvio;
-
+            if (idCategoria == Guid.Empty)
+            {
+                ((LayoutTailwind)Master)?.Toasts?.Add(new Toast
+                {
+                    Message = "Debe seleccionar un tipo de evento",
+                    Type = "error"
+                });
+                ddCategoria.CssClass += " input-error";
+                hayError = true;
+            }
+            List<CategoriaModelo> categorias = (List<CategoriaModelo>)Session[Categorias];
+            receta.Nombre = txtNombre.Text;
+            receta.Categoria = categorias.Find(x => x.Id == idCategoria);
 
             if (hayError)
             {
@@ -236,34 +262,34 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Recetas
             Response.Redirect("Default.aspx");
         }
 
-        protected void editarCantidadProducto_Click(object sender, EventArgs e)
+        protected void editarCantidadIngrediente_Click(object sender, EventArgs e)
         {
             // Recuperar id de producto commandArgument
             string idIngrediente = ((Button)sender).CommandArgument;
             // Guardar id de producto en sesión
             cboIngrediente.SelectedValue = idIngrediente;
             cboIngrediente.Enabled = false;
-            //txtCantidad.Text = receta.DetalleRecetas.Find(x => x.Ingrediente.IdIngrediente == Guid.Parse(idIngrediente)).Cantidad.ToString();
+            txtCantidad.Text = receta.DetalleRecetas.Find(x => x.Ingrediente.IdIngrediente == Guid.Parse(idIngrediente)).Cantidad.ToString();
             ViewState["updatingProduct"] = true;
             AbrirModal();
         }
 
-        protected void btnEliminarProducto_Click(object sender, EventArgs e)
+        protected void btnEliminarIngrediente_Click(object sender, EventArgs e)
         {
             // Recuperar id de producto commandArgument
             string idIngrediente = ((Button)sender).CommandArgument;
             // Eliminar producto de la orden
             receta.DetalleRecetas.RemoveAll(x => x.Ingrediente.IdIngrediente == Guid.Parse(idIngrediente));
-            //CargarRepeaterDetalle();
+            CargarRepeaterDetalle();
         }
 
 
-        protected void btnAgregarProducto_Click(object sender, EventArgs e)
+        protected void btnAgregarIngrediente_Click(object sender, EventArgs e)
         {
             // Limpiar campos
             cboIngrediente.Enabled = true;
             cboIngrediente.SelectedValue = "";
-            //txtCantidad.Text = "";
+            txtCantidad.Text = "";
             // add updatingProduct to viewstate
 
             ViewState["updatingIngrediente"] = false;
@@ -285,7 +311,5 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Recetas
         {
             ScriptManager.RegisterStartupScript(this, GetType(), "text", "LoadTiny();", true);
         }
-
-
     }
 }

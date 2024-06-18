@@ -114,6 +114,7 @@
     <Compile Include="Migrations\Seeds\UnidadesMedidaSeed.cs" />
     <Compile Include="Migrations\Seeds\CategoriasSeed.cs" />
     <Compile Include="Migrations\Seeds\ContactosSeed.cs" />
+    <Compile Include="Repositorios\CategoriaRepositorio.cs" />
     <Compile Include="Repositorios\ContactoRepositorio.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositorios\IngredienteRepositorio.cs" />
