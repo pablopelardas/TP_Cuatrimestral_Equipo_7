@@ -164,7 +164,7 @@
                         </div>
 
                         <dl class="flex items-center justify-between gap-4">
-                            <dt class="text-gray-500 dark:text-gray-400">Precio Personalizado</dt>
+                            <dt class="text-gray-500 dark:text-gray-400">Precio</dt>
                             <dd class="text-base font-medium text-gray-900 dark:text-white">$<%: producto.Precio %></dd>
                         </dl>
 
