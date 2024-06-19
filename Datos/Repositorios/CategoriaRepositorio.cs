@@ -10,7 +10,7 @@ namespace Datos.Repositorios
 {
     public class CategoriaRepositorio
     {
-        public List<CategoriaModelo> Listar()
+        public List<CategoriaModelo> Listar(string tipo = "")
         {
             Entities db = new Entities();
             List<CategoriaModelo> categorias = new List<CategoriaModelo>();
@@ -18,7 +18,14 @@ namespace Datos.Repositorios
             {
                 foreach (CATEGORIA categoria in db.CATEGORIAS)
                 {
-                    categorias.Add(Mappers.CategoriaMapper.EntidadAModelo(categoria));
+                    if (tipo == categoria.tipo)
+                    {
+                        categorias.Add(Mappers.CategoriaMapper.EntidadAModelo(categoria));
+                    }
+                    if (tipo == "")
+                    {
+                        categorias.Add(Mappers.CategoriaMapper.EntidadAModelo(categoria));
+                    }
                 }
                 return categorias;
             }

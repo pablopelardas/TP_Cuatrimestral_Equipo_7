@@ -68,14 +68,18 @@
                         <div class="w-full flex justify-between text-start flex-wrap gap-4">
                             <div class="w-full mt-3 sm:mt-0 sm:w-2/5 flex flex-col flex-wrap  ">
                                 <label id="lblNombre" runat="server" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nombre <span class="text-red-500">*</span></label>
-                                <asp:TextBox CssClass="bg-gray-50 h-[24px] border border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" ClientIDMode="Static" ID="txtNombre" OnTextChanged="NameChanged" runat="server"></asp:TextBox>
+                                <asp:TextBox CssClass="bg-gray-50 h-[24px] border border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" ClientIDMode="Static" ID="txtNombre" runat="server"></asp:TextBox>
                             </div>
                             <div class="w-full mt-3 sm:mt-0 sm:w-2/5 flex flex-col flex-wrap  ">
                                 <label id="lblCategoria" runat="server" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Categoria<span class="text-red-500">*</span> </label>
-                                <asp:DropDownList ID="ddCategoria" CssClass="chzn-select" AutoPostBack="True" AppendDataBoundItems="True" DataTextField="Nombre" DataValueField="Id" DataSourceID="odsCategoria" OnSelectedIndexChanged="OnCategoriaChanged" runat="server">
+                                <asp:DropDownList ID="ddCategoria" CssClass="chzn-select" AutoPostBack="True" AppendDataBoundItems="True" DataTextField="Nombre" DataValueField="Id" DataSourceID="odsCategoria" runat="server">
                                     <asp:ListItem Text="Seleccione una opción" Value=""></asp:ListItem>
                                 </asp:DropDownList>
-                                <asp:ObjectDataSource ID="odsCategoria" runat="server" SelectMethod="Listar" TypeName="Negocio.Servicios.CategoriaServicio"></asp:ObjectDataSource>
+                                <asp:ObjectDataSource ID="odsCategoria" runat="server" SelectMethod="Listar" TypeName="Negocio.Servicios.CategoriaServicio">
+                                <selectparameters>
+                                    <asp:QueryStringParameter Name="tipo" QueryStringField="type" Type="String" DefaultValue="Receta" />
+                                </selectparameters>
+                                </asp:ObjectDataSource>
                             </div>
                             <div class="space-y-4 py-8 dark:border-gray-700">
                                 <h4 class="text-lg font-semibold text-gray-900 dark:text-white">Descripcion</h4>

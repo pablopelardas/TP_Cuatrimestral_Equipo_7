@@ -15,9 +15,9 @@ namespace Negocio.Servicios
             categoriaRepositorio = new Datos.Repositorios.CategoriaRepositorio();
         }
 
-        public List<Dominio.Modelos.CategoriaModelo> Listar()
+        public List<Dominio.Modelos.CategoriaModelo> Listar(string tipo)
         {
-            return categoriaRepositorio.Listar();
+            return categoriaRepositorio.Listar(tipo);
         }
 
         public Dominio.Modelos.CategoriaModelo ObtenerPorId(Guid id)

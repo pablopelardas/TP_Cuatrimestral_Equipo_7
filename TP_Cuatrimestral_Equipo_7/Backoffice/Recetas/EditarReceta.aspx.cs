@@ -83,7 +83,7 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Recetas
 
                 Session[RecetaActual] = receta;
                 Session[ListaIngredientes] = servicioIngrediente.Listar();
-                Session[Categorias] = servicioCategoria.Listar();
+                Session[Categorias] = servicioCategoria.Listar("Receta");
 
                 CargarComponentes();
 
@@ -181,27 +181,6 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Recetas
             Session[RecetaActual] = receta;
         }
 
-        protected void TotalChanged(object sender, EventArgs e)
-        {
-            decimal descuento = 0;
-            decimal costoEnvio = 0;
-            //decimal.TryParse(txtDescuento.Text, NumberStyles.Any, CultureInfo.InvariantCulture, out descuento);
-            //decimal.TryParse(txtCostoEnvio.Text, NumberStyles.Any, CultureInfo.InvariantCulture, out costoEnvio);
-
-            //orden.DescuentoPorcentaje = descuento;
-            //orden.CostoEnvio = costoEnvio;
-        }
-
-        protected void NameChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        protected void OnCategoriaChanged(object sender, EventArgs e)
-        {
-
-
-        }
 
         private RecetaModelo ObtenerModeloDesdeFormulario()
         {
