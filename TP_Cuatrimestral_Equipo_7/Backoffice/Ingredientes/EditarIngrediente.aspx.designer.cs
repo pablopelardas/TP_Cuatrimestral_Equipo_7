@@ -15,6 +15,24 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ingredientes
     {
 
         /// <summary>
+        /// sm control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.ScriptManager sm;
+
+        /// <summary>
+        /// lblNombre control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl lblNombre;
+
+        /// <summary>
         /// txtNombre control.
         /// </summary>
         /// <remarks>
@@ -22,6 +40,42 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ingredientes
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtNombre;
+
+        /// <summary>
+        /// lblUnidad control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl lblUnidad;
+
+        /// <summary>
+        /// ddUnidad control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddUnidad;
+
+        /// <summary>
+        /// odsUnidad control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ObjectDataSource odsUnidad;
+
+        /// <summary>
+        /// Label1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl Label1;
 
         /// <summary>
         /// txtCantidad control.
@@ -33,13 +87,13 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ingredientes
         protected global::System.Web.UI.WebControls.TextBox txtCantidad;
 
         /// <summary>
-        /// ddlUnidad control.
+        /// Label2 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlUnidad;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl Label2;
 
         /// <summary>
         /// txtCosto control.
@@ -51,6 +105,15 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ingredientes
         protected global::System.Web.UI.WebControls.TextBox txtCosto;
 
         /// <summary>
+        /// Label3 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl Label3;
+
+        /// <summary>
         /// txtProveedor control.
         /// </summary>
         /// <remarks>
@@ -58,6 +121,15 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ingredientes
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtProveedor;
+
+        /// <summary>
+        /// btnCancelar control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnCancelar;
 
         /// <summary>
         /// btnGuardar control.

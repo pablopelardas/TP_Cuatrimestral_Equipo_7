@@ -29,7 +29,7 @@
                     </div>
                     <div class="w-full mt-5 flex flex-col flex-wra">
                         <dt class=" text-base font-medium text-gray-900 dark:text-white">Cantidad</dt>
-                        <dd class=" mt-1 text-base font-normal text-gray-500 dark:text-gray-400"><%: ingrediente.Cantidad %></dd>
+                        <dd class=" mt-1 text-base font-normal text-gray-500 dark:text-gray-400"><%: ingrediente.Cantidad + " " + ingrediente.Unidad.Abreviatura%></dd>
                     </div>
                     <div class="w-full mt-5 flex flex-col flex-wra">
                         <dt class=" text-base font-medium text-gray-900 dark:text-white">Costo</dt>

@@ -12,21 +12,28 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ingredientes
     public partial class EditarIngrediente : System.Web.UI.Page
     {
         public Dominio.Modelos.IngredienteModelo ingrediente;
-        private Negocio.Servicios.IngredienteServicio negocioIngrediente;
-
-        public List<UnidadMedidaModelo> unidadesMedida;
-        private Negocio.Servicios.UnidadMedidaServicio negocioUnidad;
         public Guid id = Guid.Empty;
+        
+        private Negocio.Servicios.UnidadMedidaServicio negocioUnidad;
+        private Negocio.Servicios.IngredienteServicio negocioIngrediente;
+        
+        public List<UnidadMedidaModelo> unidadesMedida;
+
+        public string redirect_to = "/Backoffice/Ingredientes";
         protected void Page_Load(object sender, EventArgs e)
         {
             negocioUnidad = new Negocio.Servicios.UnidadMedidaServicio();
             negocioIngrediente = new Negocio.Servicios.IngredienteServicio();
-            id = Guid.TryParse(Request.QueryString["id"], out id) ? id : Guid.Empty; ;
+
+            id = Guid.TryParse(Request.QueryString["id"], out id) ? id : Guid.Empty;
+            if (Request.QueryString["redirect_to"] != null)
+            {
+                redirect_to = Request.QueryString["redirect_to"];
+            }
 
             if (!IsPostBack)
             {
                 cargarUnidadesMedida();
-                BindDDL();
                 if (id == null)
                 {
                     ingrediente = new Dominio.Modelos.IngredienteModelo();
@@ -46,8 +53,12 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ingredientes
                                 txtCosto.Text = ingrediente.Costo.ToString();
                                 txtProveedor.Text = ingrediente.Proveedor;
 
-                                ddlUnidad.SelectedValue = unidadesMedida.Find(x => x.Id == ingrediente.Unidad.Id).Id.ToString();
+                                ddUnidad.SelectedValue = unidadesMedida.Find(x => x.Id == ingrediente.Unidad.Id).Id.ToString();
                             }
+                        }
+                        else
+                        {
+                            ingrediente = new Dominio.Modelos.IngredienteModelo();
                         }
                     }
                     catch (Exception ex)
@@ -67,13 +78,6 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ingredientes
             unidadesMedida = negocioUnidad.Listar();
             Session["UnidadesMedida"] = unidadesMedida;
         }
-        private void BindDDL()
-        {
-            ddlUnidad.DataSource = unidadesMedida;
-            ddlUnidad.DataTextField = "Nombre";
-            ddlUnidad.DataValueField = "Id";
-            ddlUnidad.DataBind();
-        }
 
         private IngredienteModelo ObtenerModeloDesdeFormulario()
         {
@@ -84,7 +88,7 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ingredientes
 
                 Costo = decimal.TryParse(txtCosto.Text, out decimal costo) ? costo : 0,
                 Proveedor = txtProveedor.Text,
-                Unidad = unidadesMedida.Find(x => x.Id.ToString() == ddlUnidad.SelectedValue)
+                Unidad = unidadesMedida.Find(x => x.Id.ToString() == ddUnidad.SelectedValue)
             };
         }
 
@@ -100,6 +104,11 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ingredientes
             {
                 negocioIngrediente.Agregar(ObtenerModeloDesdeFormulario());
             }
+            Response.Redirect(redirect_to);
+        }
+        protected void btnCancelar_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("Default.aspx");
         }
     }
 }
