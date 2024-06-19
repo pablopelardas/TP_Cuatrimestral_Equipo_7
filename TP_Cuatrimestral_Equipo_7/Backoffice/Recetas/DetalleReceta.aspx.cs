@@ -15,8 +15,6 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Recetas
         public string redirect_to = "/Backoffice/Recetas";
         
         private Negocio.Servicios.RecetaServicio servicio;
-        //private string RecetaActual = "dtl_receta_actual";
-        //private string Ingredientes = "dtl_ingredientes";
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -24,16 +22,6 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Recetas
             {
                 redirect_to = Request.QueryString["redirect_to"];
             }
-
-            //if (Session[RecetaActual] != null)
-            //{
-            //    receta = (Dominio.Modelos.RecetaModelo)Session[RecetaActual];
-            //}
-
-            //if (Session[Ingredientes] != null)
-            //{
-            //    ingredientes = (List<IngredienteDetalleRecetaModelo>)Session[Ingredientes];
-            //}
 
             if (!IsPostBack)
             {
@@ -54,19 +42,7 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Recetas
                 {
                     Response.Redirect(redirect_to, false);
                 }
-
             }
-                
-            //foreach (IngredienteDetalleRecetaModelo ingrediente in ingredientes)
-            //{     
-
-            //    {
-            //        Text = ingrediente.Ingrediente.Nombre,
-            //        CssClass = $"w-full justify-center {receta.PillClass} cursor-pointer",
-            //        CommandName = "CambiarEstado",
-            //        CommandArgument = estado.IdOrdenEstado.ToString(),
-            //    };
-            //}
         }
     }
 }

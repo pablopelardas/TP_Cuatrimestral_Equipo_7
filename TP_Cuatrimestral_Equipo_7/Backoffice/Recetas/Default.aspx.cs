@@ -13,11 +13,9 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Recetas
 
         protected void Page_Load(object sender, EventArgs e)
         {
-
             if (!IsPostBack)
             {
                 ListarRecetas();
-
             }
         }
 
