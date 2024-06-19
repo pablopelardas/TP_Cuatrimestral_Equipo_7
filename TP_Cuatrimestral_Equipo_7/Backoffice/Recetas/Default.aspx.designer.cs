@@ -15,6 +15,15 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Recetas
     {
 
         /// <summary>
+        /// sm control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.ScriptManager sm;
+
+        /// <summary>
         /// ddCategoria control.
         /// </summary>
         /// <remarks>
@@ -31,5 +40,14 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Recetas
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.ObjectDataSource odsCategoria;
+
+        /// <summary>
+        /// updateRecetas control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.UpdatePanel updateRecetas;
     }
 }
