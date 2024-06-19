@@ -15,9 +15,9 @@ namespace Negocio.Servicios
             recetaRepositorio = new Datos.Repositorios.RecetaRepositorio();
         }
 
-        public List<Dominio.Modelos.RecetaModelo> Listar()
+        public List<Dominio.Modelos.RecetaModelo> Listar(string categoria)
         {
-            return recetaRepositorio.Listar();
+            return recetaRepositorio.Listar(categoria);
         }
 
         public Dominio.Modelos.RecetaModelo ObtenerPorId(Guid id)

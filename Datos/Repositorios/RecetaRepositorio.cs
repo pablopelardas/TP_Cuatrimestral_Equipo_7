@@ -13,16 +13,22 @@ namespace Datos.Repositorios
     public class RecetaRepositorio
     {
 
-        public List<RecetaModelo> Listar()
+        public List<RecetaModelo> Listar(string categoria = "")
         {
             Entities db = new Entities();
             List<RecetaModelo> recetas = new List<RecetaModelo>();
+            Guid id;
+            id = Guid.TryParse(categoria, out id) ? id : Guid.Empty;
             try
             {
                 List<RECETA> recetasEntidad = db.RECETAS.ToList();
                 foreach (var recetaEntidad in recetasEntidad)
                 {
-                    recetas.Add(Mappers.RecetaMapper.EntidadAModelo(recetaEntidad));
+                    if(recetaEntidad.CATEGORIA.id_categoria == id)
+                        recetas.Add(Mappers.RecetaMapper.EntidadAModelo(recetaEntidad));
+
+                    if (id == Guid.Empty)
+                        recetas.Add(Mappers.RecetaMapper.EntidadAModelo(recetaEntidad));
                 }
 
                 return recetas;

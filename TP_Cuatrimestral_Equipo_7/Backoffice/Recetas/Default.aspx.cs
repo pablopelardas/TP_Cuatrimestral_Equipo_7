@@ -21,15 +21,14 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Recetas
             }
         }
 
-        private void ListarRecetas()
+        private void ListarRecetas(string categoria = "")
         {
             Negocio.Servicios.RecetaServicio servicio = new Negocio.Servicios.RecetaServicio();
-            recetas = servicio.Listar();
+            recetas = servicio.Listar(categoria);
         }
-        protected void ddlFiltro_SelectedIndexChanged(object sender, EventArgs e)
+        protected void ddCategoria_SelectedIndexChanged(object sender, EventArgs e)
         {
-
-            ListarRecetas();
+            ListarRecetas(ddCategoria.SelectedValue);
         }
     }
 }
