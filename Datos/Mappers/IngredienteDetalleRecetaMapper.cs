@@ -26,17 +26,13 @@ namespace Datos.Mappers
 
         internal static DETALLERECETA ModeloAEntidad(Dominio.Modelos.IngredienteDetalleRecetaModelo modelo)
         {
-            DETALLERECETA entidad = new DETALLERECETA
+            return new DETALLERECETA
             {
-                cantidad = modelo.Cantidad != 0 ? modelo.Cantidad : 1
+                cantidad = modelo.Cantidad,
+                id_ingrediente = modelo.Ingrediente.IdIngrediente,
+                id_receta = modelo.IdReceta,
             };
 
-            if (modelo.Ingrediente != null)
-            {
-                entidad.id_ingrediente = modelo.Ingrediente.IdIngrediente;
-            }
-
-            return entidad;
         }
     }
 }
