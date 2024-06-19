@@ -14,19 +14,20 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Productos
         {
             if (!IsPostBack)
             {
-                Negocio.Servicios.ProductoServicio servicio = new Negocio.Servicios.ProductoServicio();
-                productos = servicio.Listar();
+                ListarProductos();
             }
         }
 
-        protected void txtBuscar_TextChanged(object sender, EventArgs e)
+        private void ListarProductos(string categoria = "")
         {
             Negocio.Servicios.ProductoServicio servicio = new Negocio.Servicios.ProductoServicio();
             productos = servicio.Listar();
-            if (txtBuscar.Text != "")
-            {
-                productos = productos.Where(c => c.Nombre.Contains(txtBuscar.Text)).ToList();
-            }
         }
+
+        protected void ddCategoria_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ListarProductos(ddCategoria.SelectedValue);
+        }
+
     }
 }

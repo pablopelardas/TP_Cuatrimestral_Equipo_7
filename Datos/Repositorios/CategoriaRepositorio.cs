@@ -22,7 +22,7 @@ namespace Datos.Repositorios
                     {
                         categorias.Add(Mappers.CategoriaMapper.EntidadAModelo(categoria));
                     }
-                    if (tipo == "")
+                    if (tipo == null)
                     {
                         categorias.Add(Mappers.CategoriaMapper.EntidadAModelo(categoria));
                     }

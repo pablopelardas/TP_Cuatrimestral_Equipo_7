@@ -24,27 +24,37 @@ namespace Dominio.Modelos
         public CategoriaModelo Categoria { get; set; }
 
         public List<ItemDetalleProductoModelo> Items { get; set; }
-        
+
         public ListaCompra ListaCompra { get; set; }
 
         public decimal Precio
         {
             get
             {
-                // TODO: Implementar lógica de cálculo de precio de producto en base a los items
-                return 200;
+                return Items
+                            .Where(item => item.Receta != null)
+                            .Sum(item => item.Receta.CostoIngredientes)
+                            +
+                            Items
+                            .Where(item => item.Receta == null)
+                            .Sum(item => item.Suministro.Costo * item.Suministro.Cantidad);
             }
         }
 
         public decimal Costo
         {
-            // TODO: Implementar lógica de cálculo de costo de producto en base a los items
             get
             {
-                return 100;
+                return Items
+                            .Where(item => item.Receta != null)
+                            .Sum(item => item.Receta.CostoIngredientes)
+                            +
+                            Items
+                            .Where(item => item.Receta == null)
+                            .Sum(item => item.Suministro.Costo * item.Suministro.Cantidad);
             }
         }
-        
+
         public string ShortId
         {
             get
@@ -53,11 +63,11 @@ namespace Dominio.Modelos
                 return $"...{IdProducto.ToString().Substring(IdProducto.ToString().Length - 4)}";
             }
         }
-        
+
         public ProductoModelo()
         {
             Items = new List<ItemDetalleProductoModelo>();
         }
-        
+
     }
 }
