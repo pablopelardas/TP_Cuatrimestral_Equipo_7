@@ -82,13 +82,16 @@
                             <asp:QueryStringParameter Name="tipo" QueryStringField="type" Type="String" DefaultValue="Cliente" />
                         </SelectParameters>
                     </asp:ObjectDataSource>
+                    <!-- add validation for ddCliente -->
+                    <asp:RequiredFieldValidator ID="rfvCliente" runat="server" ControlToValidate="ddCliente"  ErrorMessage="Debe seleccionar un cliente" Display="Dynamic" CssClass="text-red-500 text-sm" />
                 </div>
                 <div class="w-full mt-3 sm:mt-0 sm:w-2/5 flex flex-col flex-wrap  ">
                     <label id="lblTipoEvento" runat="server" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Tipo de evento <span class="text-red-500">*</span> </label>
-                    <asp:DropDownList ID="ddTipoEvento" CssClass="chzn-select" AppendDataBoundItems="True" DataTextField="Nombre" DataValueField="IdTipoEvento" DataSourceID="odsTipoEvento" runat="server">
+                    <asp:DropDownList ID="ddTipoEvento" CssClass="chzn-select"  AppendDataBoundItems="True" DataTextField="Nombre" DataValueField="IdTipoEvento" DataSourceID="odsTipoEvento" runat="server">
                         <asp:ListItem Text="Seleccione una opción" Value=""></asp:ListItem>
                     </asp:DropDownList>
                     <asp:ObjectDataSource ID="odsTipoEvento" runat="server" SelectMethod="ListarTipoDeEventos" TypeName="Negocio.Servicios.EventoServicio"></asp:ObjectDataSource>
+                    <asp:RequiredFieldValidator runat="server" ID="rfvTipo" ControlToValidate="ddTipoEvento" ErrorMessage="Debe seleccionar un tipo de evento" Display="Dynamic" CssClass="text-red-500 text-sm"></asp:RequiredFieldValidator>
                 </div>
                 <div class="w-full flex justify-between text-start flex-wrap gap-4">
 

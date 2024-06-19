@@ -49,13 +49,9 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
                 redirect_to = Request.QueryString["redirect_to"];
             }
 
-            if (Session[OrdenActual] != null)
-            {
-                orden = (OrdenModelo)Session[OrdenActual];
-            }
-
             if (!IsPostBack)
             {
+                Session[ClienteListaDirecciones] = null;
                 if (id == Guid.Empty)
                 {
                     orden = new Dominio.Modelos.OrdenModelo();
@@ -97,6 +93,10 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
             }
             else
             {
+                if (Session[OrdenActual] != null)
+                {
+                    orden = (OrdenModelo)Session[OrdenActual];
+                }
                 CargarComponentes();
             }
         }
@@ -125,10 +125,9 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
             
             if (idCliente != Guid.Empty)
             {
-                orden.Cliente = Session[ListaClientes] != null ? ((IEnumerable<ContactoModelo>)Session[ListaClientes]).FirstOrDefault(x => x.Id == idCliente) : null;
+                orden.Cliente = odsCliente.Select()?.Cast<ContactoModelo>().FirstOrDefault(x => x.Id == idCliente);
                 Session[OrdenActual] = orden;
                 Session[ClienteListaDirecciones] = orden.Cliente?.Direcciones;
-                ddCliente.CssClass = ddCliente.CssClass.Replace("input-error", "");
                 CargarListaDirecciones();
             }
             
@@ -394,7 +393,6 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
                     Message = "Debe seleccionar un cliente",
                     Type = "error"
                 });
-                ddCliente.CssClass += " input-error";
                 hayError = true;
             }
             
@@ -405,7 +403,6 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
                     Message = "Debe seleccionar un tipo de evento",
                     Type = "error"
                 });
-                ddTipoEvento.CssClass += " input-error";
                 hayError = true;
             }
             
