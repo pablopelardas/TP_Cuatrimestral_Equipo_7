@@ -60,13 +60,13 @@ namespace Datos.Repositorios
                 {
                     RECETA recetaEntidad = Mappers.RecetaMapper.ModeloAEntidad(receta);
                     db.RECETAS.Add(recetaEntidad);
-                    //db.SaveChanges();
-                    foreach (var detalleReceta in receta.DetalleRecetas)
-                    {
-                        detalleReceta.IdReceta = recetaEntidad.id_receta;
-                        DETALLERECETA detalleRecetaEntidad = Mappers.IngredienteDetalleRecetaMapper.ModeloAEntidad(detalleReceta);
-                        db.DETALLE_RECETAS.Add(detalleRecetaEntidad);
-                    }
+                    db.SaveChanges();
+                    //foreach (var detalleReceta in receta.DetalleRecetas)
+                    //{
+                    //    detalleReceta.IdReceta = recetaEntidad.id_receta;
+                    //    DETALLERECETA detalleRecetaEntidad = Mappers.IngredienteDetalleRecetaMapper.ModeloAEntidad(detalleReceta);
+                    //    db.DETALLE_RECETAS.Add(detalleRecetaEntidad);
+                    //}
 
                     db.SaveChanges();
                     transaction.Commit();
