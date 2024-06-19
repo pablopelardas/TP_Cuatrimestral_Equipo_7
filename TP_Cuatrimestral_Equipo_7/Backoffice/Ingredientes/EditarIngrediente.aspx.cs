@@ -13,10 +13,10 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ingredientes
     {
         public Dominio.Modelos.IngredienteModelo ingrediente;
         public Guid id = Guid.Empty;
-        
+
         private Negocio.Servicios.UnidadMedidaServicio negocioUnidad;
         private Negocio.Servicios.IngredienteServicio negocioIngrediente;
-        
+
         public List<UnidadMedidaModelo> unidadesMedida;
 
         public string redirect_to = "/Backoffice/Ingredientes";
@@ -42,7 +42,7 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ingredientes
                 {
                     try
                     {
-                       
+
                         if (id != Guid.Empty)
                         {
                             ingrediente = negocioIngrediente.ObtenerPorId(id);
@@ -94,17 +94,25 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ingredientes
 
         protected void btnGuardar_Click(object sender, EventArgs e)
         {
-            if (id != Guid.Empty)
+            try
             {
-                IngredienteModelo ingrediente = ObtenerModeloDesdeFormulario();
-                ingrediente.IdIngrediente = id;
-                negocioIngrediente.Modificar(ingrediente);
+                if (id != Guid.Empty)
+                {
+                    IngredienteModelo ingrediente = ObtenerModeloDesdeFormulario();
+                    ingrediente.IdIngrediente = id;
+                    negocioIngrediente.Modificar(ingrediente);
+                }
+                else
+                {
+                    negocioIngrediente.Agregar(ObtenerModeloDesdeFormulario());
+                }
+                Response.Redirect(redirect_to);
             }
-            else
+            catch (Exception exception)
             {
-                negocioIngrediente.Agregar(ObtenerModeloDesdeFormulario());
+                Console.WriteLine(exception);
+                ((LayoutTailwind)Master)?.FireToasts();
             }
-            Response.Redirect(redirect_to);
         }
         protected void btnCancelar_Click(object sender, EventArgs e)
         {
