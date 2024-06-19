@@ -35,12 +35,11 @@
             </div>
             <div class="mt-6 sm:mt-8">
                 <div class="relative overflow-x-auto border-b border-gray-200 dark:border-gray-800">
-                    <h4 class="text-lg font-semibold text-gray-900 dark:text-white">Ingredientes</h4>
+
                     <table class="w-full mt-5 text-left font-medium text-gray-900 dark:text-white md:table-fixed">
                         <thead class="">
                             <tr>
-                                <th class="py-4">Ingrediente</th>
-                                <th class="p-4 text-center hidden md:table-cell">Precio</th>
+                                <th class="text-lg font-semibold text-gray-900 dark:text-white">Ingredientes</th>
                                 <th class="p-4 text-right">Subtotal</th>
                             </tr>
                         </thead>
@@ -53,17 +52,13 @@
                                 <td class="whitespace nowrap py-4">
                                     <div class="flex items-center gap-4">
                                         <div class="relative flex items-center justify-center aspect-square w-20 shrink-0">
-                                            <a href="../Ingredientes/DetalleIngrediente.aspx?id=<%: receta.Ingrediente.IdIngrediente %>" class="flex items-center justify-center gap-4">
-                                                <div class="absolute bg-primary-300 w-10 h-10 rounded-full text-primary-900 text-center flex items-center justify-center text-lg">
-                                                    <%: receta.Cantidad %>
-                                                </div>
-                                            </a>
+                                                    <%: receta.Cantidad + " " + receta.Ingrediente.Unidad.Abreviatura %>
                                         </div>
                                         <a href="../Ingredientes/DetalleIngrediente.aspx?id=<%: receta.Ingrediente.IdIngrediente %>" class="content-center hover:underline"><%: receta.Ingrediente.Nombre %></a>
                                     </div>
                                 </td>
 
-                                <td class="p-4 text-center text-base font-bold text-gray-900 dark:text-white hidden md:table-cell">$<%: receta.Ingrediente.CostoNormalizado.ToString("F2") %></td>
+
 
                                 <td class="p-4 text-right text-base font-bold text-gray-900 dark:text-white">$<%: receta.Subtotal.ToString("F2") %></td>
                             </tr>
@@ -87,12 +82,6 @@
                             <dt class="text-gray-500 dark:text-gray-400">Precio Personalizado</dt>
                             <dd class="text-base font-medium text-gray-900 dark:text-white">$<%:receta.PrecioPersonalizado %></dd>
                         </dl>
-
-                        <dl class="flex items-center justify-between gap-4">
-                            <dt class="text-gray-500 dark:text-gray-400">Costo Total</dt>
-                            <dd class="text-base font-medium text-gray-900 dark:text-white">$<%:receta.CostoTotal %></dd>
-                        </dl>
-
 
                     </div>
 

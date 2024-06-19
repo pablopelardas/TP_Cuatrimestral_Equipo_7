@@ -69,6 +69,15 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Recetas
         protected global::System.Web.UI.WebControls.ObjectDataSource odsCategoria;
 
         /// <summary>
+        /// tiny control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox tiny;
+
+        /// <summary>
         /// lblDetalleIngredientes control.
         /// </summary>
         /// <remarks>
@@ -85,16 +94,6 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Recetas
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Repeater rptDetalleReceta;
-
-        /// <summary>
-        /// tiny control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox tiny;
-
 
         /// <summary>
         /// btnCancelar control.

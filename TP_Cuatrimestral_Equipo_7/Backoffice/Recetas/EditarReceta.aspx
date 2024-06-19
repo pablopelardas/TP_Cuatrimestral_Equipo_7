@@ -77,6 +77,14 @@
                                 </asp:DropDownList>
                                 <asp:ObjectDataSource ID="odsCategoria" runat="server" SelectMethod="Listar" TypeName="Negocio.Servicios.CategoriaServicio"></asp:ObjectDataSource>
                             </div>
+                            <div class="space-y-4 py-8 dark:border-gray-700">
+                                <h4 class="text-lg font-semibold text-gray-900 dark:text-white">Descripcion</h4>
+                                <div>
+                                    <%--<asp:TextBox TextMode="MultiLine" id="tiny" ClientIDMode="Static" runat="server" OnLoad="OnTinyLoad"></asp:TextBox>--%>
+                                    <div class="max-w-full" id="tinyEditor"></div>
+                                    <asp:TextBox CssClass="hidden" ID="tiny" ClientIDMode="Static" runat="server" OnLoad="OnTinyLoad"></asp:TextBox>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="space-y-4 border-b border-gray-200 py-8 dark:border-gray-700">
@@ -88,10 +96,8 @@
                         <table class="w-full mt-5 text-left font-medium text-gray-900 dark:text-white md:table-fixed">
                             <thead class="">
                                 <tr>
-                                    <th class="py-4">Ingrediente</th>
-                                    <th class="p-4 text-center hidden md:table-cell">Precio</th>
+                                    <th class="p-4">Ingrediente</th>
                                     <th class="p-4 text-right">Subtotal</th>
-
                                 </tr>
                             </thead>
 
@@ -103,17 +109,14 @@
                                         <tr>
                                             <td class="whitespace nowrap py-4">
                                                 <div class="flex items center gap-4">
-                                                    <a href="#" class="flex gap-4 align-items-center">
-                                                        <div class="flex items center aspect-square w-20 shrink-0 relative">
-                                                            <div class="absolute bg-primary-300  w-6 h-6 rounded-full text-primary-900 text-center place-content-center text-sm top-1/2 right-4"><%# Eval("Cantidad") %></div>
-                                                        </div>
-                                                        <a href="#" class="content-center hover:underline"><%# Eval("Ingrediente.Nombre") %></a>
-                                                    </a>
+                                                    <div class="relative flex items-center justify-center aspect-square w-20 shrink-0">
+                                                        <%# Eval("Cantidad") + " " + Eval("Ingrediente.Unidad.Abreviatura") %>
+                                                    </div>
+                                                    <a href="#" class="content-center hover:underline"><%# Eval("Ingrediente.Nombre") %></a>
                                                 </div>
                                             </td>
 
 
-                                            <td class="p-4 text-right text-base font-bold text-gray-900 dark:text-white">$<%# Eval("Ingrediente.CostoNormalizado") %></td>
                                             <td class="p-4 text-right text-base font-bold text-gray-900 dark:text-white">$<%# Eval("Subtotal") %></td>
 
                                             <td class="p-4 text-right">
@@ -143,27 +146,7 @@
                             </tbody>
                         </table>
                     </div>
-                    <%--<h4 class="text-xl font-semibold text-gray-900 dark:text-white">Resumen</h4>--%>
-                    <div class="space-y-4">
-                        <%--<div class="space-y-2">
-                                <dl class="flex items-center justify-between gap-4">
-                                    <dt class="text-gray-500 dark:text-gray-400">Subtotal</dt>
-                                    <dd class="text-base font-medium text-gray-900 dark:text-white">$<%: receta.CostoIngredientes %></dd>
-                                </dl>
-                            </div>--%>
-
-                        <dl class="flex items-center justify-between gap-4 border-t border-gray-200 pt-2 dark:border-gray-700">
-                            <dt class="text-lg font-bold text-gray-900 dark:text-white">Total</dt>
-                            <dd class="text-lg font-bold text-gray-900 dark:text-white">$<%: receta.CostoTotal %></dd>
-                        </dl>
-                    </div>
                     <div class="space-y-4 py-8 dark:border-gray-700">
-                        <h4 class="text-lg font-semibold text-gray-900 dark:text-white">Descripcion</h4>
-                        <div>
-                            <%--<asp:TextBox TextMode="MultiLine" id="tiny" ClientIDMode="Static" runat="server" OnLoad="OnTinyLoad"></asp:TextBox>--%>
-                            <div class="max-w-full" id="tinyEditor"></div>
-                            <asp:TextBox CssClass="hidden" ID="tiny" ClientIDMode="Static" runat="server" OnLoad="OnTinyLoad"></asp:TextBox>
-                        </div>
                     </div>
                 </ContentTemplate>
             </asp:UpdatePanel>

@@ -232,6 +232,7 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Recetas
             List<CategoriaModelo> categorias = (List<CategoriaModelo>)Session[Categorias];
             receta.Nombre = txtNombre.Text;
             receta.Categoria = categorias.Find(x => x.Id == idCategoria);
+            receta.Descripcion = tiny.Text;
 
             if (hayError)
             {
