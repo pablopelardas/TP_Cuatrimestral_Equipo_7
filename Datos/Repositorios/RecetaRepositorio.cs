@@ -3,6 +3,7 @@ using Dominio.Modelos;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Entity;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
@@ -17,19 +18,12 @@ namespace Datos.Repositorios
         {
             Entities db = new Entities();
             List<RecetaModelo> recetas = new List<RecetaModelo>();
-            Guid id;
-            id = Guid.TryParse(categoria, out id) ? id : Guid.Empty;
+            Guid idCategoria;
+            idCategoria = Guid.TryParse(categoria, out idCategoria) ? idCategoria : Guid.Empty;
             try
             {
-                List<RECETA> recetasEntidad = db.RECETAS.ToList();
-                foreach (var recetaEntidad in recetasEntidad)
-                {
-                    if(recetaEntidad.CATEGORIA.id_categoria == id)
-                        recetas.Add(Mappers.RecetaMapper.EntidadAModelo(recetaEntidad));
-
-                    if (id == Guid.Empty)
-                        recetas.Add(Mappers.RecetaMapper.EntidadAModelo(recetaEntidad));
-                }
+                List<RECETA> recetasEntidad = idCategoria == Guid.Empty ? db.RECETAS.ToList() : db.RECETAS.Where(c => c.id_categoria == idCategoria).ToList();
+                recetasEntidad.ForEach(r => recetas.Add(Mappers.RecetaMapper.EntidadAModelo(r)));
 
                 return recetas;
             }
@@ -39,7 +33,7 @@ namespace Datos.Repositorios
             }
         }
 
-       public RecetaModelo ObtenerPorId(Guid id)
+        public RecetaModelo ObtenerPorId(Guid id)
         {
             Entities db = new Entities();
             try
@@ -94,7 +88,7 @@ namespace Datos.Repositorios
                 {
                     RECETA recetaEntidad = Mappers.RecetaMapper.ModeloAEntidad(receta);
                     RECETA RecetaEntidadDB = db.RECETAS.Find(recetaEntidad.id_receta);
-                    
+
                     if (RecetaEntidadDB == null)
                         throw new Exception("Receta no encontrada");
 
@@ -102,7 +96,7 @@ namespace Datos.Repositorios
                     db.SaveChanges();
 
                     List<DETALLERECETA> detallesDB = db.DETALLE_RECETAS.Where(x => x.id_receta == receta.IdReceta).ToList();
-                    foreach (var detalle in detallesDB) 
+                    foreach (var detalle in detallesDB)
                     {
                         db.DETALLE_RECETAS.Remove(detalle);
                     }

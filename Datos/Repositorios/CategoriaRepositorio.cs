@@ -14,18 +14,12 @@ namespace Datos.Repositorios
         {
             Entities db = new Entities();
             List<CategoriaModelo> categorias = new List<CategoriaModelo>();
+            List<CATEGORIA> categoriasdb = string.IsNullOrEmpty(tipo) ? db.CATEGORIAS.ToList() : db.CATEGORIAS.Where(c => c.tipo == tipo).ToList();
             try
             {
-                foreach (CATEGORIA categoria in db.CATEGORIAS)
+                foreach (CATEGORIA categoria in categoriasdb)
                 {
-                    if (tipo == categoria.tipo)
-                    {
-                        categorias.Add(Mappers.CategoriaMapper.EntidadAModelo(categoria));
-                    }
-                    if (tipo == null)
-                    {
-                        categorias.Add(Mappers.CategoriaMapper.EntidadAModelo(categoria));
-                    }
+                    categorias.Add(Mappers.CategoriaMapper.EntidadAModelo(categoria));
                 }
                 return categorias;
             }
