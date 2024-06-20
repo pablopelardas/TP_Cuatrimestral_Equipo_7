@@ -8,7 +8,7 @@ public static class SuministrosSeed
 {
     public static List<SUMINISTRO> getSuministros(Datos.EF.Entities context)
     {
-        List<CATEGORIA> categorias = context.CATEGORIAS.ToList();
+        List<CATEGORIA> categorias = context.CATEGORIAS.Where(c => c.tipo == "Suministro").ToList();
 
         Guid randomCategoryGuid()
         {

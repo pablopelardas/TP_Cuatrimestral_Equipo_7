@@ -8,9 +8,44 @@ namespace Dominio.Modelos
         public List<IngredienteDetalleRecetaModelo> Ingredientes { get; set; }
         public List<ItemDetalleProductoModelo> Suministros { get; set; }
         
+        public decimal TotalSuministros
+        {
+            get
+            {
+                return decimal.Round(Suministros.Sum(x => x.SubTotal), 2);
+            }
+        }
+        
+        public decimal TotalIngredientes
+        {
+            get
+            {
+                return decimal.Round(Ingredientes.Sum(x => x.Subtotal), 2);
+            }
+        }
+        
+        public decimal Total
+        {
+            get
+            {
+                return decimal.Round(TotalIngredientes + TotalSuministros, 2);
+            }
+        }
+        
         public ListaCompra(List<ItemDetalleProductoModelo> items)
         {
             Suministros = items.Where(x => x.Suministro != null).ToList();
+            
+            // Ingredientes = items.Where(x => x.Receta != null)
+            //     .SelectMany(item => item.Receta.DetalleRecetas)
+            //     .GroupBy(detalle => detalle.Ingrediente.IdIngrediente)
+            //     .Select(group => new IngredienteDetalleRecetaModelo
+            //     {
+            //         Ingrediente = group.First().Ingrediente,
+            //         Cantidad = group.Sum(detalle => detalle.Cantidad)
+            //     })
+            //     .ToList();
+            
             List<ItemDetalleProductoModelo> itemsRecetas = items.Where(x => x.Receta != null).ToList();
             Ingredientes = new List<IngredienteDetalleRecetaModelo>();
             
@@ -33,42 +68,31 @@ namespace Dominio.Modelos
         
         public ListaCompra(List<ListaCompra> listas)
         {
-            Ingredientes = new List<IngredienteDetalleRecetaModelo>();
-            Suministros = new List<ItemDetalleProductoModelo>();
+            Ingredientes = listas.SelectMany(lista => lista.Ingredientes)
+                .GroupBy(ingrediente => ingrediente.Ingrediente.IdIngrediente)
+                .Select(group => new IngredienteDetalleRecetaModelo
+                {
+                    Ingrediente = group.First().Ingrediente,
+                    Cantidad = group.Sum(ingrediente => ingrediente.Cantidad)
+                })
+                .ToList();
             
-            foreach (var lista in listas)
-            {
-                // Sumar ingredientes
-                foreach (var ingrediente in lista.Ingredientes)
+            Suministros = listas.SelectMany(lista => lista.Suministros)
+                .GroupBy(suministro => suministro.Suministro.IdSuministro)
+                .Select(group => new ItemDetalleProductoModelo
                 {
-                    IngredienteDetalleRecetaModelo ingredienteActual = Ingredientes.FirstOrDefault(x => x.Ingrediente.IdIngrediente == ingrediente.Ingrediente.IdIngrediente);
-                    if (ingredienteActual == null)
-                    {
-                        Ingredientes.Add(ingrediente);
-                    }
-                    else
-                    {
-                        ingredienteActual.Cantidad += ingrediente.Cantidad;
-                    }
-                }
-                
-                // Sumar suministros
-                foreach (var suministro in lista.Suministros)
-                {
-                    ItemDetalleProductoModelo suministroActual = Suministros.FirstOrDefault(x => x.Suministro.IdSuministro == suministro.Suministro.IdSuministro);
-                    if (suministroActual == null)
-                    {
-                        Suministros.Add(suministro);
-                    }
-                    else
-                    {
-                        suministroActual.Cantidad += suministro.Cantidad;
-                    }
-                }
-            }
+                    Suministro = group.First().Suministro,
+                    Cantidad = group.Sum(suministro => suministro.Cantidad)
+                })
+                .ToList();
         }
-        
-        
-        
+
+
+        public string GenerateHTML()
+        {
+            throw new System.NotImplementedException();
+        }
+
+
     }
 }

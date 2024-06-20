@@ -70,11 +70,11 @@
                                             </div>
                                             <%if (item.Receta != null)
                                                 {%>
-                                            <a href="/Recetas/DetalleReceta.aspx?id=<%: item.Receta.IdReceta %>" class="content-center hover:underline"><%: item.Receta.Nombre %></a>
+                                            <a href="/Backoffice/Recetas/DetalleReceta.aspx?id=<%: item.Receta.IdReceta %>" class="content-center hover:underline"><%: item.Receta.Nombre %></a>
                                             <%}
                                                 else
                                                 {%>
-                                            <a href="/Recetas/DetalleReceta.aspx?id=<%: item.Suministro.IdSuministro %>" class="content-center hover:underline"><%: item.Suministro.Nombre %></a>
+                                            <a href="/Backoffice/Recetas/DetalleReceta.aspx?id=<%: item.Suministro.IdSuministro %>" class="content-center hover:underline"><%: item.Suministro.Nombre %></a>
                                             <%} %>
                                             
 
@@ -151,6 +151,7 @@
                             <dt class="text-base font-medium text-gray-900 dark:text-white">Ganancia Bruta</dt>
                             <dd class="mt-1 text-base font-normal text-gray-500 dark:text-gray-400"><%: (producto.Precio - producto.Costo) %></dd>
                         </div>
+                    </dl>
                 </div>
                 <div class="mt-4 space-y-6">
                     <h4 class="text-xl font-semibold text-gray-900 dark:text-white">Resumen</h4>

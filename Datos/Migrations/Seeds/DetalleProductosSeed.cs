@@ -21,7 +21,7 @@ public static class DetalleProductosSeed
                 return new DETALLEPRODUCTO()
                 {
                     id_producto = id_producto,
-                    cantidad = Configuration.GlobalRandom.Next(1, 10),
+                    cantidad = 1,
                     id_receta = receta.id_receta,
                     id_suministro = null
                 };
@@ -32,7 +32,7 @@ public static class DetalleProductosSeed
                 return new DETALLEPRODUCTO()
                 {
                     id_producto = id_producto,
-                    cantidad = Configuration.GlobalRandom.Next(1, 10),
+                    cantidad = Configuration.GlobalRandom.Next(1, 3),
                     id_receta = null,
                     id_suministro = suministro.id_suministro
                 };
@@ -46,7 +46,7 @@ public static class DetalleProductosSeed
         {
             List<Guid> suministrosEnProducto = new List<Guid>();
             List<Guid> recetasEnProducto = new List<Guid>();
-            int cantidadDetalles = Configuration.GlobalRandom.Next(1, 20);
+            int cantidadDetalles = Configuration.GlobalRandom.Next(1, 3);
             for (int i = 0; i < cantidadDetalles; i++)
             {
                 DETALLEPRODUCTO detalleProducto = getRandomProductoDetalle(producto.id_producto);

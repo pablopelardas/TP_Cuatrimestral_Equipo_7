@@ -13,5 +13,19 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Productos
 
     public partial class DetalleProducto
     {
+
+        /// <summary>
+        /// Master property.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated property.
+        /// </remarks>
+        public new TP_Cuatrimestral_Equipo_7.LayoutTailwind Master
+        {
+            get
+            {
+                return ((TP_Cuatrimestral_Equipo_7.LayoutTailwind)(base.Master));
+            }
+        }
     }
 }

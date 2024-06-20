@@ -42,6 +42,15 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
         protected global::System.Web.UI.WebControls.Button btnAgregarPago;
 
         /// <summary>
+        /// btnGenerateShoppingList control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnGenerateShoppingList;
+
+        /// <summary>
         /// Master property.
         /// </summary>
         /// <remarks>

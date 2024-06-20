@@ -9,7 +9,7 @@ public static class ProductosSeed
 {
     public static List<PRODUCTO> getProductos(Datos.EF.Entities context)
     {
-        List<CATEGORIA> categorias = context.CATEGORIAS.ToList();
+        List<CATEGORIA> categorias = context.CATEGORIAS.Where(c => c.tipo == "Receta").ToList();
 
         Guid randomCategoryGuid()
         {

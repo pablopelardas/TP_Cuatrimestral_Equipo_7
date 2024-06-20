@@ -30,7 +30,7 @@ public static class DetalleRecetasSeed
         foreach (RECETA receta in recetasContext )
         {
             List<Guid> ingredientesEnReceta = new List<Guid>();
-            int cantidadDetalleRecetas = Configuration.GlobalRandom.Next(1, 10);
+            int cantidadDetalleRecetas = Configuration.GlobalRandom.Next(1, 2);
             for (int i = 0; i < cantidadDetalleRecetas; i++)
             {
                 DETALLERECETA detalleReceta = getRandomDetalleReceta(receta.id_receta);

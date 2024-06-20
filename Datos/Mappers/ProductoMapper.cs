@@ -20,8 +20,11 @@ namespace Datos.Mappers
                 IdProducto = productoEntidad.id_producto,
                 Nombre = productoEntidad.nombre,
                 Porciones = productoEntidad.porciones,
-                TipoPrecio = productoEntidad.tipo_precio,
-                ValorPrecio = decimal.Round(productoEntidad.valor_precio, 2)
+                TipoPrecio = productoEntidad.tipo_precio, // fijo, margen, por porcion
+                // margen = costo * margen / 100
+                // precio venta por porcion = valor_precio * porciones
+                // fijo = valor_precio
+                ValorPrecio = decimal.Round(productoEntidad.valor_precio, 2) // fijo, margen %, por porcion el valor por porcion
             };  
 
             if (productoEntidad.CATEGORIA != null)

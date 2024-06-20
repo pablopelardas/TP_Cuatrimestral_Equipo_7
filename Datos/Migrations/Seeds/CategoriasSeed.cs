@@ -28,7 +28,7 @@ public static class CategoriasSeed
             new CATEGORIA
             {
                 nombre = "Tarta",
-                tipo = "Producto",
+                tipo = "Receta",
                 imagen = "tarta.svg"
             },
             new CATEGORIA

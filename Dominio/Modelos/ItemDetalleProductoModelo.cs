@@ -11,6 +11,23 @@ namespace Dominio.Modelos
         public int Cantidad {  get; set; }
         public RecetaModelo Receta { get; set; }
         public SuministroModelo Suministro { get; set; }
+        
+        public decimal SubTotal
+        {
+            get
+            {
+                if (Receta != null)
+                {
+                    return Receta.CostoTotal * Cantidad;
+                }
+                else if (Suministro != null)
+                {
+                    return Suministro.CostoNormalizado * Cantidad;
+                }
+
+                return 0;
+            }
+        }
         public ItemDetalleProductoModelo() { }
 
     }

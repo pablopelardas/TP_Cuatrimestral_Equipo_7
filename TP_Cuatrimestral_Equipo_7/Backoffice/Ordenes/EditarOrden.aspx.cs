@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Text;
 using System.Web;
 using System.Web.Configuration;
 using System.Web.Services.Description;
@@ -539,7 +540,6 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
         {
             ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "HideModal();", true);
         }
-
         
     }
 }
