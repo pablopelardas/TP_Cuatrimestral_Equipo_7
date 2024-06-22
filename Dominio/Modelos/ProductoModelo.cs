@@ -32,12 +32,7 @@ namespace Dominio.Modelos
             get
             {
                 return Items
-                            .Where(item => item.Receta != null)
-                            .Sum(item => item.Receta.CostoIngredientes)
-                            +
-                            Items
-                            .Where(item => item.Receta == null)
-                            .Sum(item => item.Suministro.Costo * item.Suministro.Cantidad);
+                    .Sum(item => item.SubTotal);
                 // TODO: Implementar lógica de cálculo de precio de producto en base a los items
                 
                 // si es por margen

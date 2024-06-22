@@ -468,21 +468,22 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
                 // TODO: ask for justificacion
                 
                 servicioHistorico.GeneraryGuardarHistorico(orden.IdOrden, justificacion);
+                Master?.FireToasts("success", "Orden guardada correctamente", "");
+                Session["FIRE_TOASTS"] = new LayoutTailwind.Toast
+                {
+                    type = "success",
+                    title = "Orden guardada correctamente",
+                    html = ""
+                };
                 
                 Response.Redirect(redirect_to, false);
-                Master?.FireToasts("success", "Orden guardada correctamente", "");
                 Context.ApplicationInstance.CompleteRequest();
 
             }
             catch (Exception exception)
             {
                 Console.WriteLine(exception);
-                // string htmlFromToast = @"<ul class=""list-disc list-inside"">";
-                // foreach (string message in ToastMessages)
-                // {
-                //     htmlFromToast += @"<li class=""text-sm""><span class=""font-semibold"">" + message + "</span></li>";
-                // }
-                // htmlFromToast += "</ul>";
+
                 
                 Master?.FireToasts("error", "Error al guardar la orden", ToastMessages);
                 ToastMessages.Clear();

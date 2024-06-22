@@ -9,6 +9,25 @@ namespace TP_Cuatrimestral_Equipo_7
 {
     public partial class LayoutTailwind : System.Web.UI.MasterPage
     {
+        public class Toast
+        {
+            public string type { get; set; }
+            public string title { get; set; }
+            public string html { get; set; }
+        }
+        
+        public void Page_Load(object sender, EventArgs e)
+        {
+            if (Session["FIRE_TOASTS"] != null)
+            {
+                // FIRE_TOASTS contain object with type, title and html
+                string type = ((Toast)Session["FIRE_TOASTS"]).type;
+                string title =((Toast)Session["FIRE_TOASTS"]).title;
+                string html = ((Toast)Session["FIRE_TOASTS"]).html;
+                FireToasts(type, title, html);
+                Session["FIRE_TOASTS"] = null;
+            }
+        }
         
         public void FireToasts(string type, string title, string html = "")
         {

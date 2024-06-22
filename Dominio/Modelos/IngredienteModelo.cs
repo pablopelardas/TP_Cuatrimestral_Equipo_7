@@ -15,9 +15,9 @@ namespace Dominio.Modelos
         public decimal Costo { get; set; }
         public decimal CostoNormalizado 
         { 
-            get 
+            get
             {
-                return Costo / Cantidad;
+                return decimal.Round(Costo / Cantidad, 2);
             } 
         }
         public string Proveedor { get; set; }
