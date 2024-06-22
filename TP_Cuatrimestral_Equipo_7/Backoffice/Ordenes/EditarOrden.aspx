@@ -271,10 +271,20 @@
             <h4 class="text-lg font-semibold text-gray-900 dark:text-white">Información Extra</h4>
             <div>
                 <%-- <asp:TextBox TextMode="MultiLine" id="tiny" ClientIDMode="Static" runat="server" OnLoad="OnTinyLoad"></asp:TextBox> --%>
-                <div class="max-w-full" id="tinyEditor"></div>
-                <asp:TextBox CssClass="hidden" id="tiny" ClientIDMode="Static" runat="server" OnLoad="OnTinyLoad"></asp:TextBox>
+                <div class="max-w-full" id="infoExtraEditor"></div>
+                <asp:TextBox CssClass="hidden" id="txtInfoExtra" ClientIDMode="Static" runat="server" OnLoad="OnInfoExtraLoad"></asp:TextBox>
             </div>
         </div>
+       <% if (id != Guid.Empty) {%>
+        <div class="space-y-4 py-8 dark:border-gray-700">
+            <h4 class="text-lg font-semibold text-gray-900 dark:text-white">Justificación de la modificación <span class="text-red-500">*</span></h4>
+            <div>
+                <asp:TextBox runat="server" TextMode="MultiLine" ID="txtJustificacion" CssClass="bg-gray-50 h-[24px] border border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" Height="150px"></asp:TextBox>
+                <asp:RequiredFieldValidator runat="server" ID="rfvJustificacion" ControlToValidate="txtJustificacion" ErrorMessage="Debe justificar la modificación" Display="Dynamic" CssClass="text-red-500 text-sm" />
+                <asp:CustomValidator runat="server" ID="cvJustificacion" ControlToValidate="txtJustificacion" ErrorMessage="La justificación debe tener al menos 10 caracteres" Display="Dynamic" CssClass="text-red-500 text-sm" OnServerValidate="validateJustificacion"></asp:CustomValidator>
+            </div>
+        </div>
+        <% } %>
 
     </ContentTemplate>
     </asp:UpdatePanel>

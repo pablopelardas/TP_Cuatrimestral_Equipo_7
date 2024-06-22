@@ -151,6 +151,7 @@
                         id_receta = c.Guid(nullable: false, identity: true),
                         nombre = c.String(nullable: false, maxLength: 50),
                         descripcion = c.String(nullable: false, maxLength: 200),
+                        rendimiento = c.String(),
                         id_categoria = c.Guid(nullable: false),
                         precio_personalizado = c.Decimal(storeType: "money"),
                     })
@@ -284,6 +285,17 @@
                     })
                 .PrimaryKey(t => t.id_tipo_evento);
             
+            CreateTable(
+                "dbo.Historico_Entidades",
+                c => new
+                    {
+                        id_historico = c.Guid(nullable: false, identity: true),
+                        id_entidad = c.Guid(nullable: false),
+                        fecha = c.DateTime(nullable: false),
+                        justificacion = c.String(),
+                    })
+                .PrimaryKey(t => t.id_historico);
+            
         }
         
         public override void Down()
@@ -332,6 +344,7 @@
             DropIndex("dbo.Eventos", new[] { "id_tipo_evento" });
             DropIndex("dbo.Eventos", new[] { "id_cliente" });
             DropIndex("dbo.Direcciones", new[] { "id_cliente" });
+            DropTable("dbo.Historico_Entidades");
             DropTable("dbo.Tipos_Eventos");
             DropTable("dbo.Pagos");
             DropTable("dbo.Ordenes_Direcciones");

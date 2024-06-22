@@ -8,7 +8,7 @@ public static class DireccionesSeed
 
     public static List<DIRECCION> getDirecciones(Entities context)
     {
-        List<ORDEN> ordenesContext = context.ORDENES.ToList();
+        List<CONTACTO> clientes = context.CONTACTOS.ToList();
         
         return new List<DIRECCION>
         {
@@ -20,7 +20,7 @@ public static class DireccionesSeed
                 localidad = "Villa Urquiza",
                 provincia = "CABA",
                 codigo_postal = "1431",
-                id_cliente = ordenesContext[0].id_cliente,
+                id_cliente = clientes[0].id_contacto,
             },
             new DIRECCION()
             {
@@ -30,7 +30,7 @@ public static class DireccionesSeed
                 localidad = "San Miguel",
                 provincia = "Buenos Aires",
                 codigo_postal = "1663",
-                id_cliente = ordenesContext[1].id_cliente,
+                id_cliente = clientes[1].id_contacto,
                 
             },
             new DIRECCION()
@@ -41,7 +41,7 @@ public static class DireccionesSeed
                 localidad = "Caballito",
                 provincia = "CABA",
                 codigo_postal = "1406",
-                id_cliente = ordenesContext[2].id_cliente,
+                id_cliente = clientes[2].id_contacto,
             },
         };
     }

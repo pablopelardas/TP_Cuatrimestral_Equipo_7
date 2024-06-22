@@ -22,7 +22,7 @@ namespace Dominio.Modelos
                 return Cantidad * PrecioUnitarioActual;
             }
         }
-
+        
         public ProductoDetalleOrdenModelo() { }
 
     }

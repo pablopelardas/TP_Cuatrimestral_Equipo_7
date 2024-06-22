@@ -1,4 +1,7 @@
+using System;
 using System.Data.Entity;
+using System.Linq;
+using EntityFramework.DynamicFilters;
 
 namespace Datos.EF
 {
@@ -31,7 +34,9 @@ namespace Datos.EF
         public virtual DbSet<DIRECCION> DIRECCIONES { get; set; }
         
         public virtual DbSet<ORDENDIRECCION> ORDENES_DIRECCIONES { get; set; }
-
+        
+        public virtual DbSet<HISTORICOENTIDAD> HISTORICO_ENTIDADES { get; set; }
+        
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
 
@@ -54,6 +59,7 @@ namespace Datos.EF
             modelBuilder.Entity<PAGO>().ToTable("Pagos");
             modelBuilder.Entity<DIRECCION>().ToTable("Direcciones");
             modelBuilder.Entity<ORDENDIRECCION>().ToTable("Ordenes_Direcciones");
+            modelBuilder.Entity<HISTORICOENTIDAD>().ToTable("Historico_Entidades");
 
 
             modelBuilder.Entity<PAGO>()

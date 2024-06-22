@@ -19,6 +19,7 @@ namespace Datos.Mappers
                 Descripcion = recetaEntidad.descripcion,
                 IdReceta = recetaEntidad.id_receta,
                 Nombre = recetaEntidad.nombre,
+                Rendimiento = recetaEntidad.rendimiento,
             };
 
             if (recetaEntidad.precio_personalizado != null)
@@ -51,6 +52,7 @@ namespace Datos.Mappers
                 descripcion = recetaModelo.Descripcion,
                 id_receta = recetaModelo.IdReceta,
                 nombre = recetaModelo.Nombre,
+                rendimiento = recetaModelo.Rendimiento,
             };
 
             if (recetaModelo.PrecioPersonalizado != 0)

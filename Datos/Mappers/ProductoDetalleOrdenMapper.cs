@@ -18,7 +18,7 @@ namespace Datos.Mappers
                 Cantidad = entidad.cantidad,
                 CostoUnitarioActual = decimal.Round(entidad.producto_costo, 2),
                 PrecioUnitarioActual = decimal.Round(entidad.producto_precio, 2),
-                Porciones = entidad.producto_porciones
+                Porciones = entidad.producto_porciones,
             };
 
             if (entidad.PRODUCTO != null)
@@ -29,6 +29,10 @@ namespace Datos.Mappers
             return modelo;
         }
 
+        internal static List<Dominio.Modelos.ProductoDetalleOrdenModelo> EntidadesAModelos(List<DETALLEORDEN> entidades)
+        {
+            return entidades.Select(entidad => EntidadAModelo(entidad)).ToList();
+        }
         internal static DETALLEORDEN ModeloAEntidad(Dominio.Modelos.ProductoDetalleOrdenModelo modelo)
         {
             return new DETALLEORDEN
@@ -38,8 +42,24 @@ namespace Datos.Mappers
                 cantidad = modelo.Cantidad,
                 producto_costo = modelo.CostoUnitarioActual,
                 producto_precio = modelo.PrecioUnitarioActual,
-                producto_porciones = modelo.Porciones
+                producto_porciones = modelo.Porciones,
             };
+        }
+
+        internal static List<DETALLEORDEN> ModelosAEntidades(List<Dominio.Modelos.ProductoDetalleOrdenModelo> modelos)
+        {
+            return modelos.Select(modelo => ModeloAEntidad(modelo)).ToList();
+        }
+
+        internal static void ActualizarEntidad(ref DETALLEORDEN entidad,
+            Dominio.Modelos.ProductoDetalleOrdenModelo modelo)
+        {
+            entidad.id_orden = modelo.IdOrden;
+            entidad.id_producto = modelo.Producto.IdProducto;
+            entidad.cantidad = modelo.Cantidad;
+            entidad.producto_costo = modelo.CostoUnitarioActual;
+            entidad.producto_precio = modelo.PrecioUnitarioActual;
+            entidad.producto_porciones = modelo.Porciones;
         }
     }
 }

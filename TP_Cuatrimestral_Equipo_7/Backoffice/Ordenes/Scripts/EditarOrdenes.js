@@ -12,7 +12,7 @@ function HideModal() {
 }
 
 
-function LoadTiny() {
+function LoadInfoExtra() {
     console.log("Cargando Tiny")
     let options = {
         toolbar: "basic",
@@ -22,37 +22,16 @@ function LoadTiny() {
         showStatistics: false,
         toggleBorder: true,
     };
-    let rte = new RichTextEditor("#tinyEditor", options);
-    let tiny = document.getElementById("tiny");
+    let rte = new RichTextEditor("#infoExtraEditor", options);
+    let tiny = document.getElementById("txtInfoExtra");
     rte.setHTMLCode(tiny.value);
     rte.attachEvent("change", function (e) {
         tiny.value = rte.getHTMLCode();
     });
 }
 
-function pageLoad() {
-        $(".chzn-select").chosen();
-        $(".chzn-select-deselect").chosen({ allow_single_deselect: true });
 
-        initFlowbite();
-}
-
-// var prm = Sys.WebForms.PageRequestManager.getInstance();
-// if (prm != null) {
-//     prm.add_endRequest(function (sender, e) {
-//         if (sender._postBackSettings.panelsToUpdate != null) {
-//             $(".chzn-select").chosen();
-//             $(".chzn-select-deselect").chosen({ allow_single_deselect: true });
-//             console.log("Recargando")
-//             // initFlowbite();
-//         }
-//     });
-//     prm.add_beginRequest(function (sender, e) {
-//         console.log("Comenzando")
-//         // initFlowbite();
-//        
-//     });
-// }
+ 
 
 
 

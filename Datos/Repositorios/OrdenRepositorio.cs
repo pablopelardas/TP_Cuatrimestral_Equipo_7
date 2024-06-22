@@ -58,9 +58,10 @@ namespace Datos.Repositorios
             }
         }
 
-        public void GuardarOrdenTx(OrdenModelo orden, bool guardarDireccionEnCliente = false)
+        public OrdenModelo GuardarOrdenTx(OrdenModelo orden, bool guardarDireccionEnCliente = false)
         {
-            
+
+            ORDEN entidadADevolver;
             using (Entities db = new Entities())
             using (var scope = new System.Transactions.TransactionScope())
             {
@@ -70,29 +71,29 @@ namespace Datos.Repositorios
                     if (orden.IdOrden != Guid.Empty)
                     {
                         ordenEntidad = db.ORDENES.Find(orden.IdOrden);
-                        
+
                         // Check if orden exists
                         if (ordenEntidad == null)
                         {
                             throw new Exception("La orden no existe");
                         }
-                        
+
                         // Check if contact is different
                         if (ordenEntidad.id_cliente != orden.Cliente.Id)
                         {
                             throw new Exception("No se puede cambiar el cliente de la orden");
                         }
-                        
+
                         Mappers.OrdenMapper.ActualizarEntidad(ref ordenEntidad, orden);
                     }
                     else
                     {
                         ordenEntidad = Mappers.OrdenMapper.ModeloAEntidad(orden);
                     }
-                    
+
                     db.ORDENES.AddOrUpdate(ordenEntidad);
                     db.SaveChanges();
-                    
+
                     if (orden.TipoEntrega == "Retiro")
                     {
                         ordenEntidad.ORDENDIRECCION = null;
@@ -108,7 +109,7 @@ namespace Datos.Repositorios
                     {
                         // Check if direccion is different
                         ORDENDIRECCION direccionEntidad = db.ORDENES_DIRECCIONES.Find(ordenEntidad.id_orden);
-                        
+
                         if (guardarDireccionEnCliente)
                         {
                             // check if direccion exists
@@ -124,45 +125,39 @@ namespace Datos.Repositorios
                             {
                                 Mappers.DireccionMapper.ActualizarEntidad(ref direccionCliente, orden.DireccionEntrega);
                             }
+
                             db.SaveChanges();
                         }
-                        
+
                         orden.DireccionEntrega.IdDireccion = ordenEntidad.id_orden;
                         // Check if direccion exists
                         if (direccionEntidad == null)
                         {
-                            db.ORDENES_DIRECCIONES.Add(Mappers.OrdenDireccionMapper.ModeloAEntidad(orden.DireccionEntrega));
+                            db.ORDENES_DIRECCIONES.Add(
+                                Mappers.OrdenDireccionMapper.ModeloAEntidad(orden.DireccionEntrega));
                             db.SaveChanges();
                         }
                         else
                         {
                             // Update direccion
-                            Mappers.OrdenDireccionMapper.ActualizarEntidad(ref direccionEntidad, orden.DireccionEntrega);
+                            Mappers.OrdenDireccionMapper.ActualizarEntidad(ref direccionEntidad,
+                                orden.DireccionEntrega);
                             db.SaveChanges();
                         }
                     }
 
-                    
-                    // Encontrar y eliminar detalles
+                    // Eliminar detalles anteriores de la orden with linq
+                    db.DETALLE_ORDENES.RemoveRange(db.DETALLE_ORDENES.Where(x => x.id_orden == ordenEntidad.id_orden));
 
-                    List<DETALLEORDEN> detallesViejos = db.DETALLE_ORDENES.Where(x => x.id_orden == orden.IdOrden).ToList();
-                    foreach (DETALLEORDEN detalle in detallesViejos)
+                    // Agregar detalles nuevos linq
+                    db.DETALLE_ORDENES.AddRange(orden.DetalleProductos.Select(x =>
                     {
-                        db.DETALLE_ORDENES.Remove(detalle);
-                    }
-
-                    // Agregar detalles nuevos
-                    foreach (ProductoDetalleOrdenModelo detalle in orden.DetalleProductos)
-                    {
-                        DETALLEORDEN detalleEntidad = Mappers.ProductoDetalleOrdenMapper.ModeloAEntidad(detalle);
+                        DETALLEORDEN detalleEntidad = Mappers.ProductoDetalleOrdenMapper.ModeloAEntidad(x);
                         detalleEntidad.id_orden = ordenEntidad.id_orden;
-                        db.DETALLE_ORDENES.Add(detalleEntidad);
-                    }
-
-
+                        return detalleEntidad;
+                    }));
 
                     db.SaveChanges();
-
 
                     // Eliminar evento anterior
                     if (orden.IdOrden != Guid.Empty)
@@ -185,24 +180,23 @@ namespace Datos.Repositorios
                         };
                         evento = db.EVENTOS.Add(evento);
                         db.SaveChanges();
-                        
-                        ordenEntidad.id_evento = evento.id_evento;
 
+                        ordenEntidad.id_evento = evento.id_evento;
                         db.SaveChanges();
                     }
 
+                    orden.IdOrden = ordenEntidad.id_orden;
                     scope.Complete();
+                    return orden;
                 }
                 catch (Exception ex)
                 {
                     throw ex;
                 }
-
             }
-
         }
-        
-        public OrdenModelo CambiarEstado(Guid idOrden, int idEstado)
+
+    public OrdenModelo CambiarEstado(Guid idOrden, int idEstado)
         {
             Entities db = new Entities();
             try

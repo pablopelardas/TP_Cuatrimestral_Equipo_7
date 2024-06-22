@@ -1,3 +1,5 @@
+using System.ComponentModel;
+
 namespace Datos.EF
 {
     using System;
@@ -51,6 +53,7 @@ namespace Datos.EF
 
         [ForeignKey("id_orden")]
         public virtual ICollection<PAGO> PAGOS { get; set; }
+        
         
     }
 }

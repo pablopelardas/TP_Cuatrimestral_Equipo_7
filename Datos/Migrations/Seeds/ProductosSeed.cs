@@ -20,64 +20,24 @@ public static class ProductosSeed
         {
             new PRODUCTO
             {
-                nombre = "Tarta de Frutillas",
-                id_categoria = randomCategoryGuid(),
-                descripcion = "Tarta de frutillas con crema",
-                horas_trabajo = 3,
+                nombre = "Chocotorta",
+                id_categoria = categorias.Find(c => c.nombre == "Tortas").id_categoria,
+                descripcion = "Torta chocotorta",
+                horas_trabajo = 1,
                 porciones = 8,
                 tipo_precio = "Margen",
                 valor_precio = 30,
             },
             new PRODUCTO
             {
-                nombre = "Tarta de Chocolate",
-                id_categoria = randomCategoryGuid(),
-                descripcion = "Tarta de chocolate con crema",
-                horas_trabajo = 3,
-                porciones = 8,
+                nombre = "Alfajores de Maicena x10",
+                id_categoria = categorias.Find(c => c.nombre == "Alfajores").id_categoria,
+                descripcion = "Alfajores de maicena x10",
+                horas_trabajo = 2,
+                porciones = 10,
                 tipo_precio = "Margen",
-                valor_precio = 30,
+                valor_precio = 50,
             },
-            new PRODUCTO
-            {
-                nombre = "Tarta de Dulce de Leche",
-                id_categoria = randomCategoryGuid(),
-                descripcion = "Tarta de dulce de leche con crema",
-                horas_trabajo = 3,
-                porciones = 8,
-                tipo_precio = "Margen",
-                valor_precio = 30,
-            },
-            new PRODUCTO
-            {
-                nombre = "Galletas de Vainilla",
-                id_categoria = randomCategoryGuid(),
-                descripcion = "Galletas de vainilla con azucar",
-                horas_trabajo = 1,
-                porciones = 12,
-                tipo_precio = "Margen",
-                valor_precio = 20,
-            },
-            new PRODUCTO
-            {
-                nombre = "Galletas de Chocolate",
-                id_categoria = randomCategoryGuid(),
-                descripcion = "Galletas de chocolate con azucar",
-                horas_trabajo = 1,
-                porciones = 12,
-                tipo_precio = "Margen",
-                valor_precio = 20,
-            },
-            new PRODUCTO
-            {
-                nombre = "Galletas de Limon",
-                id_categoria = randomCategoryGuid(),
-                descripcion = "Galletas de limon con azucar",
-                horas_trabajo = 1,
-                porciones = 12,
-                tipo_precio = "Margen",
-                valor_precio = 20,
-            }
         };
     }
 }

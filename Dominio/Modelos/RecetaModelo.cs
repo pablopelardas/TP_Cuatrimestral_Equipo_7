@@ -11,6 +11,8 @@ namespace Dominio.Modelos
         public Guid IdReceta { get; set; }
         public string Nombre { get; set; }
         public string Descripcion { get; set; }
+        
+        public string Rendimiento { get; set; }
         public List<IngredienteDetalleRecetaModelo> DetalleRecetas { get; set; }
         public decimal CostoIngredientes
         {

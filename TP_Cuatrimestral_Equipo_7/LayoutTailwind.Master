@@ -6,12 +6,16 @@
 <head runat="server">
     <title>Pastelería</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css" rel="stylesheet" />
-
-
-    
+    <%-- <link href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@4/dark.css" rel="stylesheet"> --%>
+    <link href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-borderless/borderless.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
     <script src="/Js/tailwind.js"></script>
+      <script type="text/javascript">  
+    if(performance.navigation.type == 2){
+       location.reload(true);
+    }
+      </script>
     <script>
         tailwind.config = {
             darkMode: 'class',
@@ -198,15 +202,32 @@
                             
             
          }
-            function FireToast(toasts) {
-                let container = document.createElement('div');
-                container.classList.add('fixed', 'left-0', 'right-0', 'z-50', 'mx-auto', 'max-w-xs', 'w-full', 'bottom-8', 'flex', 'flex-col', 'items-center', 'justify-center');
-                document.body.appendChild(container);
-                
-                toasts.forEach((toast, index) => {
-                    const { Type, Message } = toast;
-                    CreateToast(container, Type, Message, index);
+            function FireToast(_json) {
+                console.log("firetoast",_json);
+                const { type, title, html } = _json;
+                const Toast = Swal.mixin({
+                  toast: true,
+                  position: "top-end",
+                  showConfirmButton: false,
+                  timer: 3000,
+                  timerProgressBar: true,
+                  didOpen: (toast) => {
+                    toast.onmouseenter = Swal.stopTimer;
+                    toast.onmouseleave = Swal.resumeTimer;
+                  }
                 });
+                
+                Toast.fire({
+                  icon: type,
+                  title: title,
+                  html: html                  
+                });
+                // html: `
+                // <ul class="list-disc list-inside">
+                //   ${toasts.map((toast) => `<li class="text-sm"><span class="font-semibold">${toast.Message}</span></li>`).join('')}
+                // </ul>
+                // `
+
             }
     </script>
 </head>
@@ -384,7 +405,11 @@
 
             }
         });
-        
+        function pageLoad() {
+                initFlowbite();
+               $(".chzn-select")?.chosen();
+               $(".chzn-select-deselect")?.chosen({ allow_single_deselect: true });
+        }
     </script>
 
     <asp:ContentPlaceHolder ID="SCRIPTS_PLACEHOLDER" runat="server">

@@ -44,6 +44,7 @@
     <Compile Include="Modelos\CategoriaModelo.cs" />
     <Compile Include="Modelos\ContactoModelo.cs" />
     <Compile Include="Modelos\DireccionModelo.cs" />
+    <Compile Include="Modelos\HistoricoModelo.cs" />
     <Compile Include="Modelos\IngredienteDetalleRecetaModelo.cs" />
     <Compile Include="Modelos\IngredienteModelo.cs" />
     <Compile Include="Modelos\EventoModelo.cs" />

@@ -10,6 +10,7 @@ using System.Web.Configuration;
 using System.Web.Services.Description;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using Negocio.Servicios;
 using Newtonsoft.Json;
 using TP_Cuatrimestral_Equipo_7.Backoffice.Productos;
 
@@ -27,10 +28,13 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
         private string ListaProductos = "editorOrden_ListaProductos";
         private string ClienteListaDirecciones = "editorOrden_ClienteListaDirecciones";
         
+        private List<string> ToastMessages = new List<string>();
+        
         private Negocio.Servicios.OrdenServicio servicioOrden;
         private Negocio.Servicios.EventoServicio servicioEvento;
         private Negocio.Servicios.ContactoServicio servicioContacto;
         private Negocio.Servicios.ProductoServicio servicioProducto;
+        private Negocio.Servicios.HistoricoServicio servicioHistorico;
 
         private Components.Calendario calendario;
 
@@ -41,6 +45,7 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
             servicioEvento = new Negocio.Servicios.EventoServicio();
             servicioContacto = new Negocio.Servicios.ContactoServicio();
             servicioProducto = new Negocio.Servicios.ProductoServicio();
+            servicioHistorico = new Negocio.Servicios.HistoricoServicio();
             
             // add script to page
 
@@ -291,7 +296,7 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
             calendario.FechaCalendario = orden.Evento.Fecha;
 
             // EDITOR
-            tiny.Text = orden.Descripcion;
+            txtInfoExtra.Text = orden.Descripcion;
             
             if (orden.TipoEntrega == "D")
             {
@@ -334,20 +339,23 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
         
         private OrdenModelo ObtenerModeloDesdeFormulario()
         {
-            bool hayError = false;
+
+            bool hayError = id != Guid.Empty && !Page.IsValid;
             orden.TipoEntrega = rbtnTipoEntrega.SelectedValue ?? "R";
             orden.HoraEntrega = TimeSpan.TryParse(inputHora.Value, out TimeSpan hora) ? hora : TimeSpan.Zero;
+
+            if (id != Guid.Empty && string.IsNullOrEmpty(txtJustificacion.Text))
+            {
+                ToastMessages.Add("Debe justificar la modificación de la orden");
+                hayError = true;
+            }
             
             if (orden.TipoEntrega == "D") // Delivery
             {
                 if (string.IsNullOrEmpty(orden.DireccionEntrega.CalleNumero) || string.IsNullOrEmpty(orden.DireccionEntrega.Localidad))
                 {
-
-                    ((LayoutTailwind)Master)?.Toasts?.Add(new Toast
-                    {
-                        Message = "Debe ingresar una dirección de entrega",
-                        Type = "error"
-                    });
+                    
+                    ToastMessages.Add("Debe ingresar una dirección de entrega");
                     // add class error
                     if (string.IsNullOrEmpty(orden.DireccionEntrega.CalleNumero))
                     {
@@ -376,11 +384,7 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
             
             if (orden.HoraEntrega == TimeSpan.Zero)
             {
-                ((LayoutTailwind)Master)?.Toasts?.Add(new Toast
-                {
-                    Message = "Debe seleccionar una hora de entrega",
-                    Type = "error"
-                });
+                ToastMessages.Add("Debe seleccionar una hora de entrega");
                 hayError = true;
             }
 
@@ -389,41 +393,25 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
 
             if (idCliente == Guid.Empty)
             {
-                ((LayoutTailwind)Master)?.Toasts?.Add(new Toast
-                {
-                    Message = "Debe seleccionar un cliente",
-                    Type = "error"
-                });
+                ToastMessages.Add("Debe seleccionar un cliente");
                 hayError = true;
             }
             
             if (idTipoEvento == Guid.Empty)
             {
-                ((LayoutTailwind)Master)?.Toasts?.Add(new Toast
-                {
-                    Message = "Debe seleccionar un tipo de evento",
-                    Type = "error"
-                });
+                ToastMessages.Add("Debe seleccionar un tipo de evento");
                 hayError = true;
             }
             
             if (orden.DetalleProductos == null || orden.DetalleProductos.Count == 0)
             {
-                ((LayoutTailwind)Master)?.Toasts?.Add(new Toast
-                {
-                    Message = "Debe agregar productos a la orden",
-                    Type = "error"
-                });
+                ToastMessages.Add("Debe agregar productos a la orden");
                 hayError = true;
             }
             
             if (calendario.FechaCalendario == DateTime.MaxValue || calendario.FechaCalendario == DateTime.MinValue)
             {
-                ((LayoutTailwind)Master)?.Toasts?.Add(new Toast
-                {
-                    Message = "Debe seleccionar una fecha de entrega",
-                    Type = "error"
-                });
+                ToastMessages.Add("Debe seleccionar una fecha de entrega");
                 hayError = true;
             }
             orden.Evento = new EventoModelo
@@ -433,7 +421,7 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
             };
 
             orden.Cliente = new ContactoModelo { Id = idCliente };
-            orden.Descripcion = tiny.Text;
+            orden.Descripcion = txtInfoExtra.Text;
 
             decimal descuento = 0;
             decimal costoEnvio = 0;
@@ -442,8 +430,6 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
 
             orden.DescuentoPorcentaje = descuento;
             orden.CostoEnvio = costoEnvio;
-            
-            orden.Descripcion = tiny.Text;
             
             if (hayError)
             {
@@ -454,7 +440,14 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
         }
 
 
-
+        public void validateJustificacion(object sender, ServerValidateEventArgs e)
+        {
+            e.IsValid = !string.IsNullOrEmpty(txtJustificacion.Text) && txtJustificacion.Text.Length > 10;
+            if (!e.IsValid)
+            {
+                ToastMessages.Add("La justificación debe tener al menos 10 caracteres");
+            }
+        }
         protected void btnGuardar_Click(object sender, EventArgs e)
         {
             try
@@ -466,15 +459,36 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
                 }
                 
                 bool guardarDireccionEnContacto = chkGuardarDireccion.Checked;
-                servicioOrden.GuardarOrden(Ob, guardarDireccionEnContacto);
-                Response.Redirect(redirect_to);
+                OrdenModelo updatedOrder = servicioOrden.GuardarOrden(Ob, guardarDireccionEnContacto);
+                orden.IdOrden = updatedOrder.IdOrden;
+                
+                
+                
+                string justificacion = id == Guid.Empty ? "Creación de orden" : txtJustificacion.Text;
+                // TODO: ask for justificacion
+                
+                servicioHistorico.GeneraryGuardarHistorico(orden.IdOrden, justificacion);
+                
+                Response.Redirect(redirect_to, false);
+                Master?.FireToasts("success", "Orden guardada correctamente", "");
+                Context.ApplicationInstance.CompleteRequest();
+
             }
             catch (Exception exception)
             {
                 Console.WriteLine(exception);
-                ((LayoutTailwind)Master)?.FireToasts();
+                // string htmlFromToast = @"<ul class=""list-disc list-inside"">";
+                // foreach (string message in ToastMessages)
+                // {
+                //     htmlFromToast += @"<li class=""text-sm""><span class=""font-semibold"">" + message + "</span></li>";
+                // }
+                // htmlFromToast += "</ul>";
+                
+                Master?.FireToasts("error", "Error al guardar la orden", ToastMessages);
+                ToastMessages.Clear();
             }
-
+            
+            
         }
 
         protected void btnCancelar_Click(object sender, EventArgs e)
@@ -531,10 +545,10 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
             ScriptManager.RegisterStartupScript(this, this.GetType(), "PostBack", "__doPostBack('" + eventTarget + "','');", true);
         }
         
-        protected void OnTinyLoad(object sender, EventArgs e)
+        protected void OnInfoExtraLoad(object sender, EventArgs e)
         {
-            ScriptManager.RegisterStartupScript(this, GetType(), "text", "LoadTiny();", true);
-        }
+            ScriptManager.RegisterStartupScript(this, GetType(), "text", "LoadInfoExtra();", true);
+        }       
         
         public void hideModal(object sender, EventArgs e)
         {

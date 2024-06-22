@@ -20,7 +20,8 @@ namespace Datos.EF
         [Required]
         [StringLength(200)]
         public string descripcion { get; set; }
-
+        
+        public string rendimiento { get; set; }
         public Guid id_categoria { get; set; }
 
         [Column(TypeName = "money")]

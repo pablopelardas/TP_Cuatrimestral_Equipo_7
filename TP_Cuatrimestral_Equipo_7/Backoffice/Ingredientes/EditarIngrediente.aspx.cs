@@ -111,7 +111,7 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ingredientes
             catch (Exception exception)
             {
                 Console.WriteLine(exception);
-                ((LayoutTailwind)Master)?.FireToasts();
+                Master?.FireToasts("error", "Error al guardar el ingrediente");
             }
         }
         protected void btnCancelar_Click(object sender, EventArgs e)

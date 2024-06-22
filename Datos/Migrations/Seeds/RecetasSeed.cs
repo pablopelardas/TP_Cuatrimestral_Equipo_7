@@ -21,47 +21,18 @@ public static class RecetasSeed
         {
             new RECETA
             {
-                nombre = "Torta de Vainilla",
-                id_categoria = randomCategoryGuid(),
-                descripcion = "Torta de vainilla con crema y frutillas",
+                nombre = "Alfajores de maicena",
+                id_categoria = categorias.Find(c => c.nombre == "Alfajores").id_categoria,
+                descripcion = "Alfajores de maicena",
+                rendimiento = "10 unidades",
             },
             new RECETA
             {
-                nombre = "Torta de Chocolate",
-                id_categoria = randomCategoryGuid(),
-                descripcion = "Torta de chocolate con crema y frutillas",
+                nombre = "Chocotorta",
+                id_categoria = categorias.Find(c => c.nombre == "Tortas").id_categoria,
+                descripcion = "chocolate y galletitas",
+                rendimiento = "1 torta",
             },
-            new RECETA
-            {
-                nombre = "Torta de Dulce de Leche",
-                id_categoria = randomCategoryGuid(),
-                descripcion = "Torta de dulce de leche con crema y frutillas",
-            },
-            new RECETA
-            {
-                nombre = "Galletas de Vainilla",
-                id_categoria = randomCategoryGuid(),
-                descripcion = "Galletas de vainilla con azucar",
-            },
-            new RECETA
-            {
-                nombre = "Galletas de Chocolate",
-                id_categoria = randomCategoryGuid(),
-                descripcion = "Galletas de chocolate con azucar",
-            },
-            new RECETA
-            {
-                nombre = "Galletas de Limon",
-                id_categoria = randomCategoryGuid(),
-                descripcion = "Galletas de limon con azucar",
-            },
-            new RECETA
-            {
-                nombre = "Pan de Vainilla",
-                id_categoria = randomCategoryGuid(),
-                descripcion = "Pan de vainilla con azucar",
-                precio_personalizado = 5,
-            }
         };
     }
 }

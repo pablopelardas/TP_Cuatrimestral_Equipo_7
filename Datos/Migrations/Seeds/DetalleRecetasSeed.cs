@@ -13,35 +13,109 @@ public static class DetalleRecetasSeed
     {
         List<INGREDIENTE> ingredientesContext = context.INGREDIENTES.ToList();
         List<RECETA> recetasContext = context.RECETAS.ToList();
-
-        DETALLERECETA getRandomDetalleReceta(Guid id_receta)
-        {
-            INGREDIENTE ingrediente = ingredientesContext[Configuration.GlobalRandom.Next(0, ingredientesContext.Count)];
-            return new DETALLERECETA
-            {
-                cantidad = Configuration.GlobalRandom.Next(1, 10),
-                id_ingrediente = ingrediente.id_ingrediente,
-                id_receta = id_receta
-            };
-        }
-
+        
         List<DETALLERECETA> detalleRecetas = new List<DETALLERECETA>();
-
-        foreach (RECETA receta in recetasContext )
+        
+        Guid idAlfajoresDeMaicena = recetasContext.Find(r => r.nombre == "Alfajores de maicena").id_receta;
+        
+        // RECETA ALFAJORES DE MAICENA
+        detalleRecetas.AddRange(new List<DETALLERECETA>
         {
-            List<Guid> ingredientesEnReceta = new List<Guid>();
-            int cantidadDetalleRecetas = Configuration.GlobalRandom.Next(1, 2);
-            for (int i = 0; i < cantidadDetalleRecetas; i++)
+            new DETALLERECETA
             {
-                DETALLERECETA detalleReceta = getRandomDetalleReceta(receta.id_receta);
-                if (ingredientesEnReceta.Contains(detalleReceta.id_ingrediente))
-                {
-                    continue;
-                }
-                ingredientesEnReceta.Add(detalleReceta.id_ingrediente);
-                detalleRecetas.Add(detalleReceta);
+                cantidad = 200,
+                id_receta = idAlfajoresDeMaicena,
+                id_ingrediente = ingredientesContext.Find(i => i.nombre == "Harina").id_ingrediente
+            },
+            new DETALLERECETA
+            {
+                cantidad = 300,
+                id_receta = idAlfajoresDeMaicena,
+                id_ingrediente = ingredientesContext.Find(i => i.nombre == "Almidon de maiz").id_ingrediente
+            },
+            new DETALLERECETA
+            {
+                cantidad = 10,
+                id_receta = idAlfajoresDeMaicena,
+                id_ingrediente = ingredientesContext.Find(i => i.nombre == "Bicarbonato de sodio").id_ingrediente
+            },
+            new DETALLERECETA
+            {
+                cantidad = 200,
+                id_receta = idAlfajoresDeMaicena,
+                id_ingrediente = ingredientesContext.Find(i => i.nombre == "Manteca").id_ingrediente
+            },
+            new DETALLERECETA
+            {
+                cantidad = 150,
+                id_receta = idAlfajoresDeMaicena,
+                id_ingrediente = ingredientesContext.Find(i => i.nombre == "Azucar impalpable").id_ingrediente
+            },
+            new DETALLERECETA
+            {
+                cantidad = 60,
+                id_receta = idAlfajoresDeMaicena,
+                id_ingrediente = ingredientesContext.Find(i => i.nombre == "Yemas").id_ingrediente
+            },
+            new DETALLERECETA
+            {
+                cantidad = 16,
+                id_receta = idAlfajoresDeMaicena,
+                id_ingrediente = ingredientesContext.Find(i => i.nombre == "Esencia de vainilla").id_ingrediente
+            },
+            new DETALLERECETA
+            {
+                cantidad = 1,
+                id_receta = idAlfajoresDeMaicena,
+                id_ingrediente = ingredientesContext.Find(i => i.nombre == "Rayadura de limon").id_ingrediente
+            },
+            new DETALLERECETA
+            {
+                cantidad = 550,
+                id_receta = idAlfajoresDeMaicena,
+                id_ingrediente = ingredientesContext.Find(i => i.nombre == "Dulce de leche").id_ingrediente
+            },
+            new DETALLERECETA
+            {
+                cantidad = 100,
+                id_receta = idAlfajoresDeMaicena,
+                id_ingrediente = ingredientesContext.Find(i => i.nombre == "Coco rallado").id_ingrediente
             }
-        }
+        });
+        
+        Guid idChocotorta = recetasContext.Find(r => r.nombre == "Chocotorta").id_receta;
+        
+        // RECETA CHOCOTORTA
+        detalleRecetas.AddRange(new List<DETALLERECETA>
+        {
+            new DETALLERECETA
+            {
+                cantidad = 250,
+                id_receta = idChocotorta,
+                id_ingrediente = ingredientesContext.Find(i => i.nombre == "Chocolinas").id_ingrediente
+            },
+            new DETALLERECETA
+            {
+                cantidad = 400,
+                id_receta = idChocotorta,
+                id_ingrediente = ingredientesContext.Find(i => i.nombre == "Casancrem Clasico").id_ingrediente
+            },
+            new DETALLERECETA
+            {
+                cantidad = 400,
+                id_receta = idChocotorta,
+                id_ingrediente = ingredientesContext.Find(i => i.nombre == "Dulce de leche Repostero").id_ingrediente
+            },
+            new DETALLERECETA
+            {
+                cantidad = 200,
+                id_receta = idChocotorta,
+                id_ingrediente = ingredientesContext.Find(i => i.nombre == "Leche Clasica").id_ingrediente
+            },
+        });
+        
+        
+
 
         return detalleRecetas;
     }

@@ -2,23 +2,32 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
+using System.Web;
+using System.Web.UI;
 using System.Web.UI.WebControls;
 using Dominio.Modelos;
 
 namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
 {
+    
     public partial class DetalleOrden : System.Web.UI.Page
     {
         public Dominio.Modelos.OrdenModelo orden;
         public List<Dominio.Modelos.OrdenEstadoModelo> estados;
+        public List<HistoricoModelo> historicos;
         public string redirect_to = "/Backoffice/Ordenes";
         
         private Negocio.Servicios.OrdenServicio servicioOrden;
+        private Negocio.Servicios.HistoricoServicio servicioHistorico;
         private string OrdenActual = "dtl_orden_actual";
         private string Estados = "dtl_estados";
-
+        
+        
         protected void Page_Load(object sender, EventArgs e)
         {
+            ClientScript.GetPostBackEventReference(this, string.Empty);
+            servicioHistorico = new Negocio.Servicios.HistoricoServicio();
+            
             if (Request.QueryString["redirect_to"] != null)
             {
                 redirect_to = Request.QueryString["redirect_to"];
@@ -33,11 +42,45 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
             {
                 estados = (List<Dominio.Modelos.OrdenEstadoModelo>)Session[Estados];
             }
+            if (Session["historicos"] != null)
+            {
+                historicos = (List<HistoricoModelo>)Session["historicos"];
+            }
             
+            
+            if (IsPostBack && Request.Form["__EVENTTARGET"] == "btnCancelarOrden")
+            {
+                try
+                {
+                    if (orden.Estado.IdOrdenEstado != 5)
+                    {
+                        servicioOrden = new Negocio.Servicios.OrdenServicio();
+                        orden = servicioOrden.CambiarEstado(orden.IdOrden, 5);
+                        Session[OrdenActual] = orden;
+                        Master?.FireToasts("success", "Orden cancelada correctamente");
+                    }
+                }
+                catch (Exception exception)
+                {
+                    Console.WriteLine(exception);
+                    Master?.FireToasts("error", "Error al cancelar la orden");
+                }
+            }
 
-            btnGenerateShoppingList.Text = "Generar lista de compras";
-            
-        if (!IsPostBack)
+            if (IsPostBack && Request.Form["__EVENTTARGET"] == "abrirHistorial")
+            {
+                try
+                {
+                    // HOLA
+                }
+                catch (Exception exception)
+                {
+                    Console.WriteLine(exception);
+                    Master?.FireToasts("error", "Error al abrir el historial de la orden");
+                }
+            }
+
+            if (!IsPostBack)
             {
                 Guid id = Guid.TryParse(Request.QueryString["id"], out id) ? id : Guid.Empty;
                 servicioOrden = new Negocio.Servicios.OrdenServicio();
@@ -48,6 +91,7 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
                     {
                         orden = servicioOrden.ObtenerPorId(id);
                         estados = servicioOrden.ListarEstadosDeOrden();
+                        historicos = servicioHistorico.ListarPorEntidad(orden.IdOrden);
                         if (orden == null) throw new Exception();
                         Session[OrdenActual] = orden;
                         Session[Estados] = estados;
@@ -63,18 +107,20 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
             litOrdenExtra.Text = orden?.Descripcion ?? "";
             
             phEstados.Controls.Clear();
-                
-            foreach (OrdenEstadoModelo estado in estados)
-            {     
-                Button btn = new Button
-                {
-                    Text = estado.Nombre,
-                    CssClass = $"w-full justify-center {estado.PillClass} cursor-pointer",
-                    CommandName = "CambiarEstado",
-                    CommandArgument = estado.IdOrdenEstado.ToString(),
-                };
-                btn.Click += Btn_Click;
-                phEstados.Controls.Add(btn);
+            if (estados != null && estados.Count > 0)
+            {
+                foreach (OrdenEstadoModelo estado in estados)
+                {     
+                    Button btn = new Button
+                    {
+                        Text = estado.Nombre,
+                        CssClass = $"w-full justify-center {estado.PillClass} cursor-pointer",
+                        CommandName = "CambiarEstado",
+                        CommandArgument = estado.IdOrdenEstado.ToString(),
+                    };
+                    btn.Click += Btn_Click;
+                    phEstados.Controls.Add(btn);
+                }
             }
         }
         
@@ -86,10 +132,6 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
             orden = servicioOrden.CambiarEstado(orden.IdOrden, estado);
             Session[OrdenActual] = orden;
         }
-        
-        
-        // generate printable pdf from order ListaCompra
-
         protected void GenerateShoppingList(object sender, EventArgs e)
         {
             try
@@ -101,7 +143,29 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
             catch (Exception exception)
             {
                 Console.WriteLine(exception);
-                ((LayoutTailwind)Master)?.FireToasts();
+                Master?.FireToasts("error", "Error al generar la lista de compras" );
+            }
+        }
+        
+        protected void AvanzarEstado(object sender, EventArgs e)
+        {
+            try
+            {
+                servicioOrden = new Negocio.Servicios.OrdenServicio();
+                orden = servicioOrden.CambiarEstado(orden.IdOrden, orden.Estado.IdOrdenEstado + 1);
+                Session[OrdenActual] = orden;
+                string message = $"La orden paso al estado {orden.Estado.Nombre}";
+                Master?.FireToasts("success", "Estado avanzado correctamente", message);
+                servicioHistorico.GeneraryGuardarHistorico(orden.IdOrden, message);
+                if (sm.IsInAsyncPostBack)
+                {
+                    historicos = servicioHistorico.ListarPorEntidad(orden.IdOrden);
+                }
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception);
+                Master?.FireToasts("error", "Error al avanzar el estado de la orden");
             }
         }
     }

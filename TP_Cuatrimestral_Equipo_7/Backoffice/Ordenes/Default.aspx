@@ -91,13 +91,13 @@
                             <div class="flex mr-4">
                                 <dl class="w-auto lg:flex-1">
                                     <dt class="text-base font-medium text-gray-500 dark:text-gray-400">Estado</dt>
-                                    <dd class="<%: orden.Estado.PillClass %>">
+                                    <dd class="<%: orden.Estado.PillClass %> whitespace-nowrap">
                                         <%: orden.Estado.Nombre %>
                                     </dd>
                                 </dl>
                                 <dl class="w-auto lg:flex-1">
                                     <dt class="text-base font-medium text-gray-500 dark:text-gray-400">Estado Pago</dt>
-                                    <dd class="<%: orden.EstadoPago.PillClass %>">
+                                    <dd class="<%: orden.EstadoPago.PillClass %> whitespace-nowrap">
                                         <%: orden.EstadoPago.Nombre %>
                                     </dd>
                                 </dl>

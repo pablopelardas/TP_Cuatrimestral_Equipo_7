@@ -32,5 +32,27 @@ namespace Dominio.Modelos
                 }
             }
         }
+        
+        public OrdenEstadoModelo SiguienteEstado
+        {
+            get
+            {
+                switch (Nombre)
+                {
+                    case "Pendiente":
+                        return new OrdenEstadoModelo { IdOrdenEstado = 2, Nombre = "En preparación" };
+                    case "En preparación":
+                        return new OrdenEstadoModelo { IdOrdenEstado = 3, Nombre = "Finalizada" };
+                    case "Finalizada":
+                        return new OrdenEstadoModelo { IdOrdenEstado = 4, Nombre = "Entregada" };
+                    case "Entregada":
+                        return new OrdenEstadoModelo { IdOrdenEstado = 5, Nombre = "Cancelada" };
+                    case "Cancelada":
+                        return new OrdenEstadoModelo { IdOrdenEstado = 5, Nombre = "Cancelada" };
+                    default:
+                        return new OrdenEstadoModelo { IdOrdenEstado = 1, Nombre = "Pendiente" };
+                }
+            }
+        }
     }
 }

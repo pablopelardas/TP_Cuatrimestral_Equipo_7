@@ -37,8 +37,14 @@
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
+    <Reference Include="EntityFramework.DynamicFilters, Version=3.2.4.0, Culture=neutral, PublicKeyToken=59b66d028979105b, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.DynamicFilters.3.2.4\lib\net40\EntityFramework.DynamicFilters.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -62,6 +68,7 @@
     <Compile Include="EF\DIRECCION.cs" />
     <Compile Include="EF\Entities.cs" />
     <Compile Include="EF\EVENTO.cs" />
+    <Compile Include="EF\HISTORICOENTIDAD.cs" />
     <Compile Include="EF\IMAGENPRODUCTO.cs" />
     <Compile Include="EF\INGREDIENTE.cs" />
     <Compile Include="EF\ORDEN.cs" />
@@ -77,6 +84,7 @@
     <Compile Include="Mappers\CategoriaMapper.cs" />
     <Compile Include="Mappers\ContactoMapper.cs" />
     <Compile Include="Mappers\DireccionMapper.cs" />
+    <Compile Include="Mappers\HistoricoMapper.cs" />
     <Compile Include="Mappers\IngredienteDetalleRecetaMapper.cs" />
     <Compile Include="Mappers\IngredienteMapper.cs" />
     <Compile Include="Mappers\EventoMapper.cs" />
@@ -91,9 +99,9 @@
     <Compile Include="Mappers\SuministroMapper.cs" />
     <Compile Include="Mappers\TipoEventoMapper.cs" />
     <Compile Include="Mappers\UnidadMedidaMapper.cs" />
-    <Compile Include="Migrations\202406132048257_init.cs" />
-    <Compile Include="Migrations\202406132048257_init.Designer.cs">
-      <DependentUpon>202406132048257_init.cs</DependentUpon>
+    <Compile Include="Migrations\202406222219008_init.cs" />
+    <Compile Include="Migrations\202406222219008_init.Designer.cs">
+      <DependentUpon>202406222219008_init.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Migrations\Seeds\DireccionesSeed.cs" />
@@ -117,6 +125,7 @@
     <Compile Include="Repositorios\CategoriaRepositorio.cs" />
     <Compile Include="Repositorios\ContactoRepositorio.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositorios\HistoricoRepositorio.cs" />
     <Compile Include="Repositorios\IngredienteRepositorio.cs" />
     <Compile Include="Repositorios\EventoRepositorio.cs" />
     <Compile Include="Repositorios\OrdenRepositorio.cs" />
@@ -145,8 +154,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202406132048257_init.resx">
-      <DependentUpon>202406132048257_init.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202406222219008_init.resx">
+      <DependentUpon>202406222219008_init.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

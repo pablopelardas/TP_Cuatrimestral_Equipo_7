@@ -7,34 +7,29 @@ using System.Web.UI.WebControls;
 
 namespace TP_Cuatrimestral_Equipo_7
 {
-    
-    public class Toast
-    {
-        public string Message { get; set; }
-        public string Type { get; set; }
-    }
     public partial class LayoutTailwind : System.Web.UI.MasterPage
     {
-        public List<Toast> Toasts;
-        protected void Page_Load(object sender, EventArgs e)
+        
+        public void FireToasts(string type, string title, string html = "")
         {
-            if (!IsPostBack)
+            string JSON = Newtonsoft.Json.JsonConvert.SerializeObject(new
             {
-                Toasts = new List<Toast>();
-                Session["Toasts"] = Toasts;
-            }
-            else
-            {
-                Toasts = (List<Toast>)Session["Toasts"];
-            }
+                type = type,
+                title = title,
+                html = html
+            });
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "toasts", "FireToast(" + JSON + ")", true);
         }
         
-        public void FireToasts()
+        public void FireToasts(string type, string title, List<string> messages)
         {
-            string JSONList = Newtonsoft.Json.JsonConvert.SerializeObject(Toasts);
-            JSONList = JSONList.Replace("\"", "'");
-            ScriptManager.RegisterStartupScript(this, this.GetType(), "toasts", "FireToast(" + JSONList + ")", true);
-            Toasts.Clear();
+            string html = @"<ul class='list-disc list-inside'>";
+            foreach (string message in messages)
+            {
+                html += @"<li class='text-sm'><span class='font-semibold'>" + message + "</span></li>";
+            }
+            html += "</ul>";
+            FireToasts(type, title, html);
         }
     }
 }

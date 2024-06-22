@@ -17,11 +17,27 @@ public static class UnidadesMedidaSeed
                 nombre = "Kilogramo",
                 abreviatura = "KG"
             },
+            new UNIDAD_MEDIDA()
+            {
+                nombre = "Gramo",
+                abreviatura = "GR"
+            },
             new UNIDAD_MEDIDA
             {
                 nombre = "Litro",
                 abreviatura = "LT"
-            }
+            },
+            new UNIDAD_MEDIDA
+            {
+                nombre = "Mililitro",
+                abreviatura = "ML"
+            },
+            new UNIDAD_MEDIDA
+            {
+                nombre = "Centimetros cubicos",
+                abreviatura = "CC"
+            },
+            
         };
     }
 

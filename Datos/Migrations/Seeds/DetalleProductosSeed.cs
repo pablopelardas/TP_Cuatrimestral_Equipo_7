@@ -12,60 +12,42 @@ public static class DetalleProductosSeed
         List<RECETA> recetasContext = context.RECETAS.ToList();
         List<PRODUCTO> productosContext = context.PRODUCTOS.ToList();
 
-        DETALLEPRODUCTO getRandomProductoDetalle(Guid id_producto)
-        {
-            bool esReceta = Configuration.GlobalRandom.Next(0, 2) == 0;
-            if (esReceta)
-            {
-                RECETA receta = recetasContext[Configuration.GlobalRandom.Next(0, recetasContext.Count)];
-                return new DETALLEPRODUCTO()
-                {
-                    id_producto = id_producto,
-                    cantidad = 1,
-                    id_receta = receta.id_receta,
-                    id_suministro = null
-                };
-            }
-            else
-            {
-                SUMINISTRO suministro = suministrosContext[Configuration.GlobalRandom.Next(0, suministrosContext.Count)];
-                return new DETALLEPRODUCTO()
-                {
-                    id_producto = id_producto,
-                    cantidad = Configuration.GlobalRandom.Next(1, 3),
-                    id_receta = null,
-                    id_suministro = suministro.id_suministro
-                };
-            }
-
-        }
-
         List<DETALLEPRODUCTO> detalleProductos = new List<DETALLEPRODUCTO>();
-
-        foreach (PRODUCTO producto in productosContext)
+        
+        // DetalleProducto de Producto Chocotorta
+        detalleProductos.AddRange(new List<DETALLEPRODUCTO>
         {
-            List<Guid> suministrosEnProducto = new List<Guid>();
-            List<Guid> recetasEnProducto = new List<Guid>();
-            int cantidadDetalles = Configuration.GlobalRandom.Next(1, 3);
-            for (int i = 0; i < cantidadDetalles; i++)
+            new DETALLEPRODUCTO
             {
-                DETALLEPRODUCTO detalleProducto = getRandomProductoDetalle(producto.id_producto);
-                if (suministrosEnProducto.Contains(detalleProducto.id_suministro ?? Guid.Empty) || recetasEnProducto.Contains(detalleProducto.id_receta ?? Guid.Empty))
-                {
-                    continue;
-                }
-                if (detalleProducto.id_suministro != null)
-                {
-                    suministrosEnProducto.Add(detalleProducto.id_suministro ?? Guid.Empty);
-                }
-                else
-                {
-                    recetasEnProducto.Add(detalleProducto.id_receta ?? Guid.Empty);
-                }
-                detalleProductos.Add(detalleProducto);
+                id_producto = productosContext.Find(p => p.nombre == "Chocotorta").id_producto,
+                id_receta = recetasContext.Find(r => r.nombre == "Chocotorta").id_receta,
+                cantidad = 1,
+            },
+            new DETALLEPRODUCTO
+            {
+                id_producto = productosContext.Find(p => p.nombre == "Chocotorta").id_producto,
+                id_suministro = suministrosContext.Find(s => s.nombre == "Caja Torta 25x25x20 s/v").id_suministro,
+                cantidad = 1
             }
-        }
-
+        });
+        
+        // DetalleProducto de Producto Alfajores de Maicena x10
+        detalleProductos.AddRange(new List<DETALLEPRODUCTO>
+        {
+            new DETALLEPRODUCTO
+            {
+                id_producto = productosContext.Find(p => p.nombre == "Alfajores de Maicena x10").id_producto,
+                id_receta = recetasContext.Find(r => r.nombre == "Alfajores de maicena").id_receta,
+                cantidad = 1,
+            },
+            new DETALLEPRODUCTO
+            {
+                id_producto = productosContext.Find(p => p.nombre == "Alfajores de Maicena x10").id_producto,
+                id_suministro = suministrosContext.Find(s => s.nombre == "Caja de alfajores").id_suministro,
+                cantidad = 1
+            }
+        });
+           
         return detalleProductos;
 
     }

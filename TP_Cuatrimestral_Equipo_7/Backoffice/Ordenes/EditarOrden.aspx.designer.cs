@@ -285,13 +285,40 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
         protected global::System.Web.UI.WebControls.Button btnAplicarDescuento;
 
         /// <summary>
-        /// tiny control.
+        /// txtInfoExtra control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox tiny;
+        protected global::System.Web.UI.WebControls.TextBox txtInfoExtra;
+
+        /// <summary>
+        /// txtJustificacion control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtJustificacion;
+
+        /// <summary>
+        /// rfvJustificacion control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator rfvJustificacion;
+
+        /// <summary>
+        /// cvJustificacion control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CustomValidator cvJustificacion;
 
         /// <summary>
         /// btnCancelar control.

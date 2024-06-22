@@ -77,6 +77,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\Categorias\alfajores.svg" />
     <Content Include="Assets\Categorias\cajasybolsas.svg" />
     <Content Include="Assets\Categorias\decoracion.svg" />
     <Content Include="Assets\Categorias\galleta.png" />

@@ -15,13 +15,22 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
     {
 
         /// <summary>
-        /// phEstados control.
+        /// sm control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.PlaceHolder phEstados;
+        protected global::System.Web.UI.ScriptManager sm;
+
+        /// <summary>
+        /// btnAvanzarEstado control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton btnAvanzarEstado;
 
         /// <summary>
         /// litOrdenExtra control.
@@ -48,7 +57,16 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnGenerateShoppingList;
+        protected global::System.Web.UI.WebControls.LinkButton btnGenerateShoppingList;
+
+        /// <summary>
+        /// phEstados control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.PlaceHolder phEstados;
 
         /// <summary>
         /// Master property.

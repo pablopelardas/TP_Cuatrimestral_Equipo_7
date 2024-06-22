@@ -22,6 +22,7 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Recetas
         private string RecetaActual = "editorReceta_RecetaActual";
         private string ListaIngredientes = "editorReceta_ListaIngredientes";
         private string Categorias = "editorReceta_Categorias";
+        private List<string> ToastMessages = new List<string>();
 
         private Negocio.Servicios.RecetaServicio servicioReceta;
         private Negocio.Servicios.IngredienteServicio servicioIngrediente;
@@ -188,11 +189,7 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Recetas
 
             if (receta.DetalleRecetas == null || receta.DetalleRecetas.Count == 0)
             {
-                ((LayoutTailwind)Master)?.Toasts?.Add(new Toast
-                {
-                    Message = "Debe agregar Ingredientes a la receta",
-                    Type = "error"
-                });
+                ToastMessages.Add("Debe agregar Ingredientes a la receta");
                 hayError = true;
             }
 
@@ -200,11 +197,7 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Recetas
 
             if (idCategoria == Guid.Empty)
             {
-                ((LayoutTailwind)Master)?.Toasts?.Add(new Toast
-                {
-                    Message = "Debe seleccionar un tipo de evento",
-                    Type = "error"
-                });
+                ToastMessages.Add("Debe seleccionar una categoria");
                 ddCategoria.CssClass += " input-error";
                 hayError = true;
             }
@@ -243,7 +236,7 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Recetas
             catch (Exception exception)
             {
                 Console.WriteLine(exception);
-                ((LayoutTailwind)Master)?.FireToasts();
+                ((LayoutTailwind)Master)?.FireToasts("error", "Error al guardar la receta");
             }
         }
 

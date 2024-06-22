@@ -9,25 +9,31 @@ public static class CategoriasSeed
         {
             new CATEGORIA
             {
-                nombre = "Torta",
+                nombre = "Tortas",
                 tipo = "Receta",
                 imagen = "torta.svg"
             },
             new CATEGORIA
             {
-                nombre = "Galleta",
+                nombre = "Galletas",
                 tipo = "Receta",
                 imagen = "galleta.svg"
+            },            
+            new CATEGORIA
+            {
+                nombre = "Alfajores",
+                tipo = "Receta",
+                imagen = "alfajores.svg"
             },
             new CATEGORIA
             {
-                nombre = "Pan",
+                nombre = "Panes",
                 tipo = "Receta",
                 imagen = "pan.svg"
             },
             new CATEGORIA
             {
-                nombre = "Tarta",
+                nombre = "Tartas",
                 tipo = "Receta",
                 imagen = "tarta.svg"
             },

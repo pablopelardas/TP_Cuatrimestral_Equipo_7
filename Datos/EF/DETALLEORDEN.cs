@@ -1,3 +1,5 @@
+using System.ComponentModel;
+
 namespace Datos.EF
 {
     using System;
@@ -22,16 +24,12 @@ namespace Datos.EF
 
         public int producto_porciones { get; set; }
 
-        [Column(TypeName = "money")]
-        public decimal producto_costo { get; set; }
+        [Column(TypeName = "money")] public decimal producto_costo { get; set; }
 
-        [Column(TypeName = "money")]
-        public decimal producto_precio { get; set; }
+        [Column(TypeName = "money")] public decimal producto_precio { get; set; }
 
-        [ForeignKey("id_orden")]
-        public virtual ORDEN ORDEN { get; set; }
+        [ForeignKey("id_orden")] public virtual ORDEN ORDEN { get; set; }
 
-        [ForeignKey("id_producto")]
-        public virtual PRODUCTO PRODUCTO { get; set; }
+        [ForeignKey("id_producto")] public virtual PRODUCTO PRODUCTO { get; set; }
     }
-}
+};
