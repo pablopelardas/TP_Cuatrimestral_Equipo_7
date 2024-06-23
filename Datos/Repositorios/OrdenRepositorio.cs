@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity.Migrations;
+using System.Data.Entity.SqlServer;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Net.NetworkInformation;
@@ -35,6 +36,100 @@ namespace Datos.Repositorios
             {
                 throw ex;
             }
+        }
+        
+        public int GetTotalCount()
+        {
+            Entities db = new Entities();
+            return db.ORDENES.Count();
+        }
+        
+        public int GetFilteredTotalCount(int semanas, int estado)
+        {
+            Entities db = new Entities();
+            if (semanas == 0 && estado == 0)
+            {
+                return db.ORDENES.Count();
+            }
+            if (semanas == 0)
+            {
+                return db.ORDENES.Count(x => x.id_orden_estado == estado);
+            }
+            if (estado == 0)
+            {
+                return db.ORDENES.Count(x => x.EVENTO.fecha < DateTime.Now ?
+                    SqlFunctions.DateDiff("week", x.EVENTO.fecha, DateTime.Now) <= semanas 
+                    : SqlFunctions.DateDiff("week", DateTime.Now, x.EVENTO.fecha) <= semanas);
+            }
+            return db.ORDENES.Count(x => x.EVENTO.fecha < DateTime.Now ?
+                SqlFunctions.DateDiff("week", x.EVENTO.fecha, DateTime.Now) <= semanas 
+                : SqlFunctions.DateDiff("week", DateTime.Now, x.EVENTO.fecha) <= semanas
+                && x.id_orden_estado == estado);
+
+        }
+
+        public List<Dominio.Modelos.OrdenModelo> GetPage(int pageNumber, int pageSize)
+        {
+            Entities db = new Entities();
+            List<ORDEN> ordenes = db.ORDENES
+                .OrderByDescending(x => x.EVENTO.fecha)
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToList();
+            return ordenes.Select(x => Mappers.OrdenMapper.EntidadAModelo(x)).ToList();
+        }
+        
+        public List<Dominio.Modelos.OrdenModelo> GetFilteredPage(int pageNumber, int pageSize, int semanas, int estado)
+        {
+            Entities db = new Entities();
+            List<ORDEN> ordenes;
+            if (GetFilteredTotalCount(semanas, estado) < (pageNumber - 1) * pageSize || pageNumber < 1)
+            {
+                return new List<OrdenModelo>();
+            }
+            if (semanas == 0 && estado == 0)
+            {
+                ordenes = db.ORDENES
+                    .OrderByDescending(x => x.EVENTO.fecha)
+                    .Skip((pageNumber - 1) * pageSize)
+                    .Take(pageSize)
+                    .ToList();
+                return ordenes.Select(x => Mappers.OrdenMapper.EntidadAModelo(x)).ToList();
+            }
+            if (semanas == 0)
+            {
+                ordenes = db.ORDENES
+                    .Where(x => x.id_orden_estado == estado)
+                    .OrderByDescending(x => x.EVENTO.fecha)
+                    .Skip((pageNumber - 1) * pageSize)
+                    .Take(pageSize)
+                    .ToList();
+                return ordenes.Select(x => Mappers.OrdenMapper.EntidadAModelo(x)).ToList();
+            }
+            
+            if (estado == 0)
+            {
+                ordenes = db.ORDENES
+                    .Where(x => x.EVENTO.fecha < DateTime.Now ?
+                        SqlFunctions.DateDiff("week", x.EVENTO.fecha, DateTime.Now) <= semanas 
+                        : SqlFunctions.DateDiff("week", DateTime.Now, x.EVENTO.fecha) <= semanas)
+                    .OrderByDescending(x => x.EVENTO.fecha)
+                    .Skip((pageNumber - 1) * pageSize)
+                    .Take(pageSize)
+                    .ToList();
+                return ordenes.Select(x => Mappers.OrdenMapper.EntidadAModelo(x)).ToList();
+            }
+            
+            ordenes = db.ORDENES
+                .Where(x => (x.EVENTO.fecha < DateTime.Now
+                                ? SqlFunctions.DateDiff("week", x.EVENTO.fecha, DateTime.Now) <= semanas
+                                : SqlFunctions.DateDiff("week", DateTime.Now, x.EVENTO.fecha) <= semanas)
+                            && x.id_orden_estado == estado)
+                .OrderByDescending(x => x.EVENTO.fecha)
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToList();
+            return ordenes.Select(x => Mappers.OrdenMapper.EntidadAModelo(x)).ToList();
         }
 
         public Dominio.Modelos.OrdenModelo ObtenerPorId(Guid id)
@@ -195,7 +290,7 @@ namespace Datos.Repositorios
                 }
             }
         }
-
+        
     public OrdenModelo CambiarEstado(Guid idOrden, int idEstado)
         {
             Entities db = new Entities();

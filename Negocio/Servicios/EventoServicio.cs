@@ -17,9 +17,9 @@ namespace Negocio.Servicios
             return tipoEventoRepositorio.Listar();
         }
 
-        public List<EventoModelo> ListarEventos()
+        public List<EventoModelo> ListarEventos(bool soloActivos = true)
         {
-            return eventoRepositorio.Listar();
+            return eventoRepositorio.Listar(soloActivos);
         }
 
     }

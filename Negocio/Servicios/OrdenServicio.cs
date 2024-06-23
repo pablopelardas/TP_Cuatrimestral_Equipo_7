@@ -21,6 +21,26 @@ namespace Negocio.Servicios
         {
             return ordenRepositorio.Listar();
         }
+        
+        public int GetTotalCount()
+        {
+            return ordenRepositorio.GetTotalCount();
+        }
+        
+        public int GetFilteredTotalCount(int semanas = 0, int estado = 0)
+        {
+            return ordenRepositorio.GetFilteredTotalCount(semanas, estado);
+        }
+        
+        public List<Dominio.Modelos.OrdenModelo> GetFilteredPage(int pageNumber, int pageSize, int semanas = 0, int estado = 0)
+        {
+            return ordenRepositorio.GetFilteredPage(pageNumber, pageSize, semanas, estado);
+        }
+
+        public List<Dominio.Modelos.OrdenModelo> GetPage(int pageNumber, int pageSize)
+        {
+            return ordenRepositorio.GetPage(pageNumber, pageSize);
+        }
 
         public Dominio.Modelos.OrdenModelo ObtenerPorId(Guid id)
         {

@@ -12,7 +12,7 @@ namespace Datos.Repositorios
 {
     public class EventoRepositorio
     {
-        public List<Dominio.Modelos.EventoModelo> Listar()
+        public List<Dominio.Modelos.EventoModelo> Listar(bool soloActivos = true)
         {
             Entities db = new Entities();
             List<Dominio.Modelos.EventoModelo> eventos = new List<Dominio.Modelos.EventoModelo>();
@@ -23,6 +23,9 @@ namespace Datos.Repositorios
                 {
                     eventos.Add(Mappers.EventoMapper.EntidadAModelo(item));
                 }
+                // filter cancelled events
+                if (soloActivos)
+                    return eventos.Where(x => x.Orden.Estado.IdOrdenEstado != 5).ToList();
                 return eventos;
             }
             catch (Exception ex)

@@ -15,6 +15,33 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
     {
 
         /// <summary>
+        /// ddEstado control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddEstado;
+
+        /// <summary>
+        /// ddIntervalo control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddIntervalo;
+
+        /// <summary>
+        /// phPaginado control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.PlaceHolder phPaginado;
+
+        /// <summary>
         /// Master property.
         /// </summary>
         /// <remarks>

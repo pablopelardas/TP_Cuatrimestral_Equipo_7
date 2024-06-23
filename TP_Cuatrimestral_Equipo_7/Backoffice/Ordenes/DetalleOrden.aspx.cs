@@ -58,6 +58,8 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
                         orden = servicioOrden.CambiarEstado(orden.IdOrden, 5);
                         Session[OrdenActual] = orden;
                         Master?.FireToasts("success", "Orden cancelada correctamente");
+                        servicioHistorico.GeneraryGuardarHistorico(orden.IdOrden, "Orden cancelada");
+                        historicos = servicioHistorico.ListarPorEntidad(orden.IdOrden);
                     }
                 }
                 catch (Exception exception)
@@ -106,22 +108,6 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
             
             litOrdenExtra.Text = orden?.Descripcion ?? "";
             
-            phEstados.Controls.Clear();
-            if (estados != null && estados.Count > 0)
-            {
-                foreach (OrdenEstadoModelo estado in estados)
-                {     
-                    Button btn = new Button
-                    {
-                        Text = estado.Nombre,
-                        CssClass = $"w-full justify-center {estado.PillClass} cursor-pointer",
-                        CommandName = "CambiarEstado",
-                        CommandArgument = estado.IdOrdenEstado.ToString(),
-                    };
-                    btn.Click += Btn_Click;
-                    phEstados.Controls.Add(btn);
-                }
-            }
         }
         
         private void Btn_Click(object sender, EventArgs e)
