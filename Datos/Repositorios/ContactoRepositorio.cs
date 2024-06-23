@@ -42,6 +42,7 @@ namespace Datos.Repositorios
         public List<Dominio.Modelos.ContactoModelo> GetFilteredPage(int pageNumber, int pageSize, string tipo, string filtro)
         {
             Entities db = new Entities();
+            
             if (pageNumber < 1)
             {
                 return new List<Dominio.Modelos.ContactoModelo>();

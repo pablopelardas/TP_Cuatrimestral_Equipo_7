@@ -11,8 +11,13 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Contactos
     {
         public Dominio.Modelos.ContactoModelo contacto;
         private Negocio.Servicios.ContactoServicio negocio;
+        private Components.Calendario calendario;
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (Session["contacto"] != null)
+            {
+                contacto = (Dominio.Modelos.ContactoModelo)Session["contacto"];
+            }
             if (!IsPostBack)
             {
                 Guid id = Guid.TryParse(Request.QueryString["id"], out id) ? id : Guid.Empty;
@@ -23,28 +28,26 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Contactos
                     if (id != Guid.Empty)
                     {
                         contacto = negocio.ObtenerPorId(id);
-                        // if (contacto != null)
-                        // {
-                        //     lblTipo.Text = contacto.Rol;
-                        //     lblNombreApellido.Text = contacto.NombreApellido;
-                        //     lblCorreo.Text = contacto.Email;
-                        //     lblTelefono.Text = contacto.Telefono;
-                        //     lblFuente.Text = contacto.Fuente;
-                        //     lblDireccion.Text = contacto.Direcciones.FirstOrDefault()?.CalleNumero;
-                        //     lblDeseaRecibirCorreos.Text = contacto.DeseaRecibirCorreos ? "Sí" : "No";
-                        //     lblDeseaRecibirWhatsapps.Text = contacto.DeseaRecibirWhatsapp ? "Sí" : "No";
-                        //     
-                        //     litInformacionPersonal.Text = contacto.InformacionPersonal;
-                        // }
+                        Session["contacto"] = contacto;
                     }
                 }
                 catch (Exception ex)
                 {
                     Response.Redirect("/Backoffice/Contactos", false);
                 }
-
             }
+            litInformacionPersonal.Text = contacto?.InformacionPersonal ?? "";
 
+            // cargar calendario
+            calendario = (Backoffice.Components.Calendario)LoadControl("~/Backoffice/Components/Calendario.ascx");
+            phCalendario.Controls.Add(calendario);
+            calendario.InicializarCalendario(null);
+
+        }
+        
+        private void OnDayClick(object sender, EventArgs e)
+        {
+            // do something
         }
     }
 }

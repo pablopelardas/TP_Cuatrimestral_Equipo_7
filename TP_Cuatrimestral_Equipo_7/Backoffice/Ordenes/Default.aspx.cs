@@ -15,7 +15,6 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
         private int paginaActual = 1;
         private int ordenesPorPagina = 5;
         private int totalPaginas = 0;
-        private int totalOrdenes = 0;
         private int semanas = 1;
         private int estado = 0;
         protected void Page_Load(object sender, EventArgs e)
@@ -70,7 +69,7 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
 
         private void ListarOrdenes()
         {
-            ordenes = ordenServicio.ListarOrdenes(semanas, estado, paginaActual, ordenesPorPagina, out totalOrdenes, out totalPaginas);
+            ordenes = ordenServicio.ListarOrdenes(semanas, estado, paginaActual, ordenesPorPagina, out totalPaginas);
         }
         
         protected void ddIntervaloChanged(object sender, EventArgs e)

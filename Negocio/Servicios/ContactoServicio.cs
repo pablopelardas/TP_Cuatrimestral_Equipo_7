@@ -15,9 +15,9 @@ namespace Negocio.Servicios
             contactosRepositorio = new Datos.Repositorios.ContactoRepositorio();
         }
         
-        public List<Dominio.Modelos.ContactoModelo> ListarContactos(string tipo, string filtro, int paginaActual, int contactosPorPagina, out int totalContactos, out int totalPaginas)
+        public List<Dominio.Modelos.ContactoModelo> ListarContactos(string tipo, string filtro, int paginaActual, int contactosPorPagina, out int totalPaginas)
         {
-            totalContactos = contactosRepositorio.GetFilteredTotalCount(tipo, filtro);
+            int totalContactos = contactosRepositorio.GetFilteredTotalCount(tipo, filtro);
             totalPaginas = (int)Math.Ceiling((double)totalContactos / contactosPorPagina);
             return contactosRepositorio.GetFilteredPage(paginaActual, contactosPorPagina, tipo, filtro);
         }

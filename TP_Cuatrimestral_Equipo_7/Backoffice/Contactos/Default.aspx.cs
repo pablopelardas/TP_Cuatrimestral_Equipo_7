@@ -14,7 +14,6 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Contactos
         private int paginaActual = 1;
         private int contactosPorPagina = 5;
         private int totalPaginas = 0;
-        private int totalContactos = 0;
         private string tipo = "";
         private string filtro = "";
         protected void Page_Load(object sender, EventArgs e)
@@ -67,7 +66,7 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Contactos
         private void ListarContactos()
         {
             Negocio.Servicios.ContactoServicio contactoServicio = new Negocio.Servicios.ContactoServicio();
-            contactos = contactoServicio.ListarContactos(tipo, filtro, paginaActual, contactosPorPagina, out totalContactos, out totalPaginas);
+            contactos = contactoServicio.ListarContactos(tipo, filtro, paginaActual, contactosPorPagina, out totalPaginas);
         }
 
         protected void ddlFiltro_SelectedIndexChanged (object sender, EventArgs e)

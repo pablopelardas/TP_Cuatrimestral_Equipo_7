@@ -37,9 +37,9 @@ namespace Negocio.Servicios
             return ordenRepositorio.GetFilteredPage(pageNumber, pageSize, semanas, estado);
         }
         
-        public List<Dominio.Modelos.OrdenModelo> ListarOrdenes(int semanas, int estado, int paginaActual, int contactosPorPagina, out int totalOrdenes, out int totalPaginas)
+        public List<Dominio.Modelos.OrdenModelo> ListarOrdenes(int semanas, int estado, int paginaActual, int contactosPorPagina, out int totalPaginas)
         {
-            totalOrdenes = ordenRepositorio.GetFilteredTotalCount(semanas, estado);
+            int totalOrdenes = ordenRepositorio.GetFilteredTotalCount(semanas, estado);
             totalPaginas = (int)Math.Ceiling((double)totalOrdenes / contactosPorPagina);
             return ordenRepositorio.GetFilteredPage(paginaActual, contactosPorPagina, semanas, estado);
         }

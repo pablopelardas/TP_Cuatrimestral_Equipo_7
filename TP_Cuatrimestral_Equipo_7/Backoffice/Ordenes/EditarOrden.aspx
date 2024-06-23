@@ -49,21 +49,20 @@
     </div>
     <form action="#" class="mx-auto max-w-screen-xl px-4">
     <div class="mx-auto max-w-3xl px-4">
-    <div class="flex justify-between align-items-center">
+    <div class="flex-col">
         <% if (id != Guid.Empty)
            { %>
-            <h2 class="text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl">Editando Orden #<%: orden.IdOrden %></h2>
+            <h2 class="text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl sm:mb-4">Editando Orden #<%: orden.IdOrden %></h2>
         <% }
            else
            { %>
-            <h2 class="text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl">Nueva Orden</h2>
+            <h2 class="text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl sm:mb-4">Nueva Orden</h2>
         <% } %>
-        <a href="<%: redirect_to %>" class="flex align-items-center gap-2 text-gray-800 dark:text-white hover:text-primary-600 hover:dark:text-primary-600 ">
+        <a href="<%: redirect_to %>" class="flex align-items-center gap-2 text-gray-800 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200">
             <svg class="w-6 h-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M5 12l4-4m-4 4 4 4"/>
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M5 12l4-4m-4 4 4 4" />
             </svg>
-            <span>
-                VOLVER
+            <span>VOLVER
             </span>
         </a>
     </div>

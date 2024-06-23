@@ -9,7 +9,7 @@ namespace Datos.Mappers
 {
     internal class EventoMapper
     {
-        public static Dominio.Modelos.EventoModelo EntidadAModelo(EVENTO entidad, bool ListarOrdenes = true)
+        public static Dominio.Modelos.EventoModelo EntidadAModelo(EVENTO entidad, bool ListarOrdenes = true, bool ListarContactos = false)
         {
             Dominio.Modelos.EventoModelo modelo = new Dominio.Modelos.EventoModelo
             {
@@ -21,7 +21,7 @@ namespace Datos.Mappers
             {
                 modelo.TipoEvento = TipoEventoMapper.EntidadAModelo(entidad.TIPO_EVENTO);
             }
-            if (entidad.CLIENTE != null)
+            if (entidad.CLIENTE != null && ListarContactos)
             {
                 modelo.Cliente = ContactoMapper.EntidadAModelo(entidad.CLIENTE);
             }

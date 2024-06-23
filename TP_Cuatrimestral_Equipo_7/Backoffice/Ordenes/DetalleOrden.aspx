@@ -35,10 +35,19 @@
     <div class="mx-auto max-w-3xl px-4">
     <asp:UpdatePanel runat="server">
     <ContentTemplate>
-        <div class="flex justify-between align-items-center">
-            <h2 class="text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl">Orden #<%: orden.IdOrden %></h2>
+        <div class="flex justify-between items-start">
+            <div class="flex-col ">
+                <h2 class="text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl sm:mb-4">Orden #<%: orden.IdOrden %></h2>
+                <a href="Default.aspx" class="flex align-items-center gap-2 text-gray-800 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200">
+                    <svg class="w-6 h-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M5 12l4-4m-4 4 4 4" />
+                    </svg>
+                    <span>VOLVER
+                    </span>
+                </a>
+            </div>
 
-                <button id="dropdownActionsBtn" data-dropdown-toggle="dropdownActions" class="text-gray-100 font-medium text-sm" type="button">
+                <button id="dropdownActionsBtn" data-dropdown-toggle="dropdownActions" class="mt-1 text-gray-100 font-medium text-sm" type="button">
                     <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                         <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M12 6h.01M12 12h.01M12 18h.01"/>
                     </svg>
@@ -50,16 +59,16 @@
                     <ul class="py-4 px-2 flex flex-col gap-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownActionsBtn">
                     <% if (orden.Estado.IdOrdenEstado < 4)
                        { %>
-                        <li class="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-800">
-                            <a href="EditarOrden.aspx?id=<%: orden.IdOrden %>&redirect_to=DetalleOrden.aspx?id=<%: orden.IdOrden %>" class="flex items center gap-2">Editar orden</a>
+                        <li class=" hover:bg-gray-100 dark:hover:bg-gray-800">
+                            <a href="EditarOrden.aspx?id=<%: orden.IdOrden %>&redirect_to=DetalleOrden.aspx?id=<%: orden.IdOrden %>" class=" px-4 py-2 flex items center gap-2">Editar orden</a>
                         </li>
-                        <li class="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-800">
-                            <a href="javascript:confirmarCancelarOrden()" class="flex items center gap-2">Cancelar orden</a>
+                        <li class="hover:bg-gray-100 dark:hover:bg-gray-800">
+                            <a href="javascript:confirmarCancelarOrden()" class="px-4 py-2 flex items center gap-2">Cancelar orden</a>
                         </li>
                     <% } %>
-                        <li class="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-800">
+                        <li class="hover:bg-gray-100 dark:hover:bg-gray-800">
                             <%-- <a href="javascript:__doPostBack('abrirHistorial', 'async')" class="flex items center gap-2">Historial de la orden</a> --%>
-                            <button type="button" data-modal-target="timeline-modal" data-modal-toggle="timeline-modal" class="flex items center gap-2">Historial de la orden</button>
+                            <button type="button" data-modal-target="timeline-modal" data-modal-toggle="timeline-modal" class="px-4 py-2 flex items center gap-2">Historial de la orden</button>
                         </li>
                     </ul>
                 </div>

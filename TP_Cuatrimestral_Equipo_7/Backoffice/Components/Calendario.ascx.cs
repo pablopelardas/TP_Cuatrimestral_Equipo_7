@@ -43,12 +43,13 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Components
             }
         }
        
-        public void InicializarCalendario(Action<object, EventArgs> onDayClick)
+        public void InicializarCalendario(Action<object, EventArgs> onDayClick, List<EventoModelo> eventos = null)
         {
+            
             if (!IsPostBack)
             {
                 Session[CLDFECHASELECCIONADA] = null;
-                CargarCalendario();
+                CargarCalendario(eventos);
             }
 
 
@@ -68,9 +69,12 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Components
             OnDayClick = onDayClick != null ? onDayClick : null;
         }
 
-        private void CargarCalendario()
+        private void CargarCalendario(List<EventoModelo> eventos = null)
         {
-            List<EventoModelo> eventos = eventoServicio.ListarEventos();
+            if (eventos == null)
+            {
+                eventos = eventoServicio.ListarEventos();
+            }
             if (ListaDeEventos == null)
             {
                 ListaDeEventos = new Hashtable();

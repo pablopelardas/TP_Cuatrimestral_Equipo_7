@@ -15,6 +15,24 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Contactos
     {
 
         /// <summary>
+        /// litInformacionPersonal control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal litInformacionPersonal;
+
+        /// <summary>
+        /// phCalendario control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.PlaceHolder phCalendario;
+
+        /// <summary>
         /// Master property.
         /// </summary>
         /// <remarks>
