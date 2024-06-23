@@ -47,88 +47,46 @@ namespace Datos.Repositorios
         public int GetFilteredTotalCount(int semanas, int estado)
         {
             Entities db = new Entities();
-            if (semanas == 0 && estado == 0)
+            IQueryable<ORDEN> query = db.ORDENES.AsQueryable();
+
+            if (semanas != 0)
             {
-                return db.ORDENES.Count();
-            }
-            if (semanas == 0)
-            {
-                return db.ORDENES.Count(x => x.id_orden_estado == estado);
-            }
-            if (estado == 0)
-            {
-                return db.ORDENES.Count(x => x.EVENTO.fecha < DateTime.Now ?
-                    SqlFunctions.DateDiff("week", x.EVENTO.fecha, DateTime.Now) <= semanas 
+                query = query.Where(x => x.EVENTO.fecha < DateTime.Now
+                    ? SqlFunctions.DateDiff("week", x.EVENTO.fecha, DateTime.Now) <= semanas
                     : SqlFunctions.DateDiff("week", DateTime.Now, x.EVENTO.fecha) <= semanas);
             }
-            return db.ORDENES.Count(x => x.EVENTO.fecha < DateTime.Now ?
-                SqlFunctions.DateDiff("week", x.EVENTO.fecha, DateTime.Now) <= semanas 
-                : SqlFunctions.DateDiff("week", DateTime.Now, x.EVENTO.fecha) <= semanas
-                && x.id_orden_estado == estado);
 
+            if (estado != 0)
+            {
+                query = query.Where(x => x.id_orden_estado == estado);
+            }
+
+            return query.Count();
         }
 
-        public List<Dominio.Modelos.OrdenModelo> GetPage(int pageNumber, int pageSize)
-        {
-            Entities db = new Entities();
-            List<ORDEN> ordenes = db.ORDENES
-                .OrderByDescending(x => x.EVENTO.fecha)
-                .Skip((pageNumber - 1) * pageSize)
-                .Take(pageSize)
-                .ToList();
-            return ordenes.Select(x => Mappers.OrdenMapper.EntidadAModelo(x)).ToList();
-        }
-        
         public List<Dominio.Modelos.OrdenModelo> GetFilteredPage(int pageNumber, int pageSize, int semanas, int estado)
         {
             Entities db = new Entities();
-            List<ORDEN> ordenes;
-            if (GetFilteredTotalCount(semanas, estado) < (pageNumber - 1) * pageSize || pageNumber < 1)
+            IQueryable<ORDEN> query = db.ORDENES.AsQueryable();
+
+            if (semanas != 0)
             {
-                return new List<OrdenModelo>();
+                query = query.Where(x => x.EVENTO.fecha < DateTime.Now
+                    ? SqlFunctions.DateDiff("week", x.EVENTO.fecha, DateTime.Now) <= semanas
+                    : SqlFunctions.DateDiff("week", DateTime.Now, x.EVENTO.fecha) <= semanas);
             }
-            if (semanas == 0 && estado == 0)
+
+            if (estado != 0)
             {
-                ordenes = db.ORDENES
-                    .OrderByDescending(x => x.EVENTO.fecha)
-                    .Skip((pageNumber - 1) * pageSize)
-                    .Take(pageSize)
-                    .ToList();
-                return ordenes.Select(x => Mappers.OrdenMapper.EntidadAModelo(x)).ToList();
+                query = query.Where(x => x.id_orden_estado == estado);
             }
-            if (semanas == 0)
-            {
-                ordenes = db.ORDENES
-                    .Where(x => x.id_orden_estado == estado)
-                    .OrderByDescending(x => x.EVENTO.fecha)
-                    .Skip((pageNumber - 1) * pageSize)
-                    .Take(pageSize)
-                    .ToList();
-                return ordenes.Select(x => Mappers.OrdenMapper.EntidadAModelo(x)).ToList();
-            }
-            
-            if (estado == 0)
-            {
-                ordenes = db.ORDENES
-                    .Where(x => x.EVENTO.fecha < DateTime.Now ?
-                        SqlFunctions.DateDiff("week", x.EVENTO.fecha, DateTime.Now) <= semanas 
-                        : SqlFunctions.DateDiff("week", DateTime.Now, x.EVENTO.fecha) <= semanas)
-                    .OrderByDescending(x => x.EVENTO.fecha)
-                    .Skip((pageNumber - 1) * pageSize)
-                    .Take(pageSize)
-                    .ToList();
-                return ordenes.Select(x => Mappers.OrdenMapper.EntidadAModelo(x)).ToList();
-            }
-            
-            ordenes = db.ORDENES
-                .Where(x => (x.EVENTO.fecha < DateTime.Now
-                                ? SqlFunctions.DateDiff("week", x.EVENTO.fecha, DateTime.Now) <= semanas
-                                : SqlFunctions.DateDiff("week", DateTime.Now, x.EVENTO.fecha) <= semanas)
-                            && x.id_orden_estado == estado)
+
+            List<ORDEN> ordenes = query
                 .OrderByDescending(x => x.EVENTO.fecha)
                 .Skip((pageNumber - 1) * pageSize)
                 .Take(pageSize)
                 .ToList();
+
             return ordenes.Select(x => Mappers.OrdenMapper.EntidadAModelo(x)).ToList();
         }
 

@@ -39,6 +39,33 @@ namespace Datos.Repositorios
             
         }
         
+        public List<Dominio.Modelos.ContactoModelo> GetFilteredPage(int pageNumber, int pageSize, string tipo, string filtro)
+        {
+            Entities db = new Entities();
+            if (pageNumber < 1)
+            {
+                return new List<Dominio.Modelos.ContactoModelo>();
+            }
+            return db.CONTACTOS
+                .Where(c => string.IsNullOrEmpty(tipo) || c.tipo == tipo)
+                .Where(c => string.IsNullOrEmpty(filtro) || c.nombre_apellido.Contains(filtro) || c.correo.Contains(filtro) || c.telefono.Contains(filtro))
+                .OrderBy(c => c.nombre_apellido)
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToList()
+                .Select(c => Mappers.ContactoMapper.EntidadAModelo(c))
+                .ToList();
+        }
+        
+        public int GetFilteredTotalCount(string tipo, string filtro)
+        {
+            Entities db = new Entities();
+            return db.CONTACTOS
+                .Where(c => string.IsNullOrEmpty(tipo) || c.tipo == tipo)
+                .Where(c => string.IsNullOrEmpty(filtro) || c.nombre_apellido.Contains(filtro) || c.correo.Contains(filtro) || c.telefono.Contains(filtro))
+                .Count();
+        }
+        
         
         public List<Dominio.Modelos.ContactoModelo> ListarPorTipo(string tipo)
         {

@@ -14,12 +14,13 @@ namespace Negocio.Servicios
         {
             contactosRepositorio = new Datos.Repositorios.ContactoRepositorio();
         }
-
-        public List<Dominio.Modelos.ContactoModelo> Listar()
-        {
-            return contactosRepositorio.Listar();
-        }
         
+        public List<Dominio.Modelos.ContactoModelo> ListarContactos(string tipo, string filtro, int paginaActual, int contactosPorPagina, out int totalContactos, out int totalPaginas)
+        {
+            totalContactos = contactosRepositorio.GetFilteredTotalCount(tipo, filtro);
+            totalPaginas = (int)Math.Ceiling((double)totalContactos / contactosPorPagina);
+            return contactosRepositorio.GetFilteredPage(paginaActual, contactosPorPagina, tipo, filtro);
+        }
         
         public List<Dominio.Modelos.ContactoModelo> ObtenerPorTipo(string tipo)
         {
@@ -32,7 +33,7 @@ namespace Negocio.Servicios
             {
                 return contactosRepositorio.ListarPorTipo(tipo);
             }
-            return Listar();
+            return contactosRepositorio.Listar();
         }
 
         public Dominio.Modelos.ContactoModelo ObtenerPorId(Guid id)

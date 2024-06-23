@@ -36,11 +36,14 @@ namespace Negocio.Servicios
         {
             return ordenRepositorio.GetFilteredPage(pageNumber, pageSize, semanas, estado);
         }
-
-        public List<Dominio.Modelos.OrdenModelo> GetPage(int pageNumber, int pageSize)
+        
+        public List<Dominio.Modelos.OrdenModelo> ListarOrdenes(int semanas, int estado, int paginaActual, int contactosPorPagina, out int totalOrdenes, out int totalPaginas)
         {
-            return ordenRepositorio.GetPage(pageNumber, pageSize);
+            totalOrdenes = ordenRepositorio.GetFilteredTotalCount(semanas, estado);
+            totalPaginas = (int)Math.Ceiling((double)totalOrdenes / contactosPorPagina);
+            return ordenRepositorio.GetFilteredPage(paginaActual, contactosPorPagina, semanas, estado);
         }
+        
 
         public Dominio.Modelos.OrdenModelo ObtenerPorId(Guid id)
         {

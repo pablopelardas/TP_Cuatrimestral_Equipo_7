@@ -70,20 +70,7 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
 
         private void ListarOrdenes()
         {
-            // Get the total number of orders
-            totalOrdenes = ordenServicio.GetFilteredTotalCount(semanas: semanas, estado: estado);
-
-            // Calculate the total number of pages
-            totalPaginas = (int)Math.Ceiling((double)totalOrdenes / ordenesPorPagina);
-            
-            if (paginaActual > totalPaginas)
-            {
-                paginaActual = totalPaginas;
-            }
-
-            // Get the orders for the current page
-            ordenes = ordenServicio.GetFilteredPage(paginaActual, ordenesPorPagina, semanas, estado);
-            
+            ordenes = ordenServicio.ListarOrdenes(semanas, estado, paginaActual, ordenesPorPagina, out totalOrdenes, out totalPaginas);
         }
         
         protected void ddIntervaloChanged(object sender, EventArgs e)
