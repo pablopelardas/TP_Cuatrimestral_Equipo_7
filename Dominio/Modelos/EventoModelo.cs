@@ -14,6 +14,8 @@ namespace Dominio.Modelos
 
         public TipoEventoModelo TipoEvento { get; set; }
         public ContactoModelo Cliente { get; set; }
+        
+        public string Descripcion { get; set; }
 
         public OrdenModelo Orden { get; set; }
         public string DescripcionEventoOrden

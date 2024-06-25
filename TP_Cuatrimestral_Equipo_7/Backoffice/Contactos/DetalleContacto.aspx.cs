@@ -10,24 +10,34 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Contactos
     public partial class DetalleContacto : System.Web.UI.Page
     {
         public Dominio.Modelos.ContactoModelo contacto;
+        public List<Dominio.Modelos.EventoModelo> eventos;
         private Negocio.Servicios.ContactoServicio negocio;
-        private Components.Calendario calendario;
+        private Negocio.Servicios.EventoServicio eventoServicio;
+        
+        private Components.ListaDeOrdenes listaDeOrdenes;
         protected void Page_Load(object sender, EventArgs e)
         {
             if (Session["contacto"] != null)
             {
                 contacto = (Dominio.Modelos.ContactoModelo)Session["contacto"];
             }
+            if (Session["eventosDelContacto"] != null)
+            {
+               eventos = (List<Dominio.Modelos.EventoModelo>)Session["eventosDelContacto"];
+            }
             if (!IsPostBack)
             {
                 Guid id = Guid.TryParse(Request.QueryString["id"], out id) ? id : Guid.Empty;
                 negocio = new Negocio.Servicios.ContactoServicio();
+                eventoServicio = new Negocio.Servicios.EventoServicio();
                 if (id == Guid.Empty) Response.Redirect("/Backoffice/Contactos", false);
                 try
                 { ;
                     if (id != Guid.Empty)
                     {
                         contacto = negocio.ObtenerPorId(id);
+                        eventos = eventoServicio.ListarEventosPorCliente(id);
+                        Session["eventosDelContacto"] = eventos;
                         Session["contacto"] = contacto;
                     }
                 }
@@ -37,17 +47,11 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Contactos
                 }
             }
             litInformacionPersonal.Text = contacto?.InformacionPersonal ?? "";
+            
+            listaDeOrdenes = (Components.ListaDeOrdenes)LoadControl("~/Backoffice/Components/ListaDeOrdenes.ascx");
+            phListaDeOrdenes.Controls.Add(listaDeOrdenes);
+            listaDeOrdenes.InicializarGrilla(contacto, 2);
 
-            // cargar calendario
-            calendario = (Backoffice.Components.Calendario)LoadControl("~/Backoffice/Components/Calendario.ascx");
-            phCalendario.Controls.Add(calendario);
-            calendario.InicializarCalendario(null);
-
-        }
-        
-        private void OnDayClick(object sender, EventArgs e)
-        {
-            // do something
         }
     }
 }

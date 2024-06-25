@@ -42,14 +42,29 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Components
                 cldFecha.VisibleDate = Convert.ToDateTime(value);
             }
         }
+        
+        
+        public List<EventoModelo> EventosDelDia
+        {
+            get
+            {
+                if (ListaDeEventos != null && ListaDeEventos[FechaSeleccionada] != null)
+                {
+                    return (List<EventoModelo>)ListaDeEventos[FechaSeleccionada];
+                }
+                return null;
+            }
+        }
        
-        public void InicializarCalendario(Action<object, EventArgs> onDayClick, List<EventoModelo> eventos = null)
+        public void InicializarCalendario(Action<object, EventArgs> onDayClick, List<EventoModelo> eventos = null, DateTime? fechaInicial = null)
         {
             
             if (!IsPostBack)
             {
                 Session[CLDFECHASELECCIONADA] = null;
-                CargarCalendario(eventos);
+                CargarCalendario(eventos, fechaInicial);
+                Populate_MonthList();
+                Populate_YearList();
             }
 
 
@@ -69,7 +84,7 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Components
             OnDayClick = onDayClick != null ? onDayClick : null;
         }
 
-        private void CargarCalendario(List<EventoModelo> eventos = null)
+        private void CargarCalendario(List<EventoModelo> eventos = null, DateTime? fechaInicial = null)
         {
             if (eventos == null)
             {
@@ -90,35 +105,22 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Components
             }
             Session[CLDLISTADEEVENTOS] = ListaDeEventos;
 
-
+            cldFecha.Font.Name = "Verdana";
+            cldFecha.Font.Size = FontUnit.Point(8);
             cldFecha.FirstDayOfWeek = FirstDayOfWeek.Monday;
             cldFecha.NextPrevFormat = NextPrevFormat.ShortMonth;
             cldFecha.TitleFormat = TitleFormat.MonthYear;
-            cldFecha.DayStyle.Height = new Unit(50);
-            cldFecha.DayStyle.Width = new Unit(100);
-            cldFecha.OtherMonthDayStyle.BackColor = System.Drawing.Color.AliceBlue;
+            cldFecha.VisibleDate = fechaInicial ?? DateTime.Now;
+            cldFecha.CssClass = "w-full";
+            cldFecha.TitleStyle.CssClass = "bg-gray-700 text-white";
+            cldFecha.Style.Add("border", "1px solid #374151");
+            cldFecha.TitleStyle.BackColor = ColorTranslator.FromHtml("#374151");
+            cldFecha.NextPrevStyle.ForeColor = ColorTranslator.FromHtml("#FFFFCC");
+            cldFecha.DayHeaderStyle.CssClass = "bg-gray-700 text-white";
+            cldFecha.DayHeaderStyle.BorderStyle = BorderStyle.None;
 
         }
-        protected void OpenModal()
-        {
-            cldFecha.SelectedDates.Clear();
-            if (ListaDeEventos != null && ListaDeEventos[FechaSeleccionada] != null)
-            {
-                var _ListaEventos = (List<EventoModelo>)ListaDeEventos[FechaSeleccionada];
-                if (_ListaEventos.Count > 0)
-                {
-                    rptEventos.DataSource = _ListaEventos;
-                    rptEventos.DataBind();
-                }
-            }
-            else
-            {
-                rptEventos.DataSource = null;
-                rptEventos.DataBind();
-            }
-            ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "ShowPopup();", true);
 
-        }
 
         protected void cldFechaClicked(object sender, EventArgs e)
         {
@@ -129,62 +131,60 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Components
                 OnDayClick(sender, e);
                 return;
             }
-            OpenModal();
         }
 
         protected void cldFecha_DayRender(object sender, DayRenderEventArgs e)
         {
             // target cell link to style
-            e.Cell.BorderColor = ColorTranslator.FromHtml("#ccc");
+            e.Cell.BorderColor = ColorTranslator.FromHtml("#111827");
             e.Cell.BorderWidth = 1;
-
-
-            // EVENTOS EN GRILLA
-            //Panel div = new Panel();
-            //div.CssClass = "day";
-            //e.Cell.Controls.Add(div);
-
-            //if (ListaDeEventos != null && ListaDeEventos[e.Day.Date.ToShortDateString()] != null)
-            //{
-            //    var _ListaEventosTest = (List<EventoModelo>)ListaDeEventos[e.Day.Date.ToShortDateString()];
-            //    List<EventoModelo> _ListaEventos = (List<EventoModelo>)ListaDeEventos[e.Day.Date.ToShortDateString()];
-            //    foreach (EventoModelo evento in _ListaEventos)
-            //    {
-            //        Literal literalEvento = new Literal();
-            //        string OrdenId = evento.Orden != null && evento.Orden.IdOrden > 0 
-            //            ? $@"<div class='event-order'>#{evento.Orden.IdOrden}</div>" 
-            //            : "";
-            //        literalEvento.Text = $@"
-            //            <a class='event' href='./Ordenes/DetalleOrden.aspx?id={evento.Orden.IdOrden}&redirect_back=/Backoffice/Dashboard.aspx'>
-            //                <div class='event-title'>{evento.Descripcion}</div>
-            //                {OrdenId}
-            //            </a>
-            //            ";
-            //        div.Controls.Add(literalEvento);
-            //    }
-            //}
+            e.Cell.ForeColor = ColorTranslator.FromHtml("#FFF");
+            // tailwind cell
+            e.Cell.CssClass = "h-8 sm:h-12 lg:h-20 bg-[#2B4450]";
+            if (e.Day.IsOtherMonth)
+            {
+                e.Cell.CssClass = "h-8 sm:h-12 lg:h-20 bg-[#1f2937]";
+            }
+            if (e.Day.IsToday)
+            {
+                e.Cell.CssClass = "h-8 sm:h-12 lg:h-20 bg-blue-400";
+            }
 
             // WARMMAP EN GRILLA
             if (ListaDeEventos != null && ListaDeEventos[e.Day.Date.ToShortDateString()] != null)
             {
-                var _ListaEventos = (List<EventoModelo>)ListaDeEventos[e.Day.Date.ToShortDateString()];
-                if (_ListaEventos.Count > 0)
+                var _listaEventos = (List<EventoModelo>)ListaDeEventos[e.Day.Date.ToShortDateString()];
+                
+                var _ListaEventosClientes = _listaEventos.Where(x => x.Orden == null).ToList();
+                if (_ListaEventosClientes.Count > 0)
+                {
+                    e.Cell.ForeColor = ColorTranslator.FromHtml("#111827");
+                    e.Cell.BackColor = ColorTranslator.FromHtml("#c3f7ff");
+                    e.Cell.ToolTip += _ListaEventosClientes.Count + " evento" +
+                                      (_ListaEventosClientes.Count > 1 ? "s" : "") + Environment.NewLine;
+                }
+                
+                var _listaOrdenes = _listaEventos.OrderBy(x => x.Fecha).Where(x => x.Orden != null).ToList();
+                if (_listaOrdenes.Count > 0)
                 {
                     e.Cell.BackColor = ColorTranslator.FromHtml("#fffec3");
-                    e.Cell.ToolTip = _ListaEventos.Count + " evento" + (_ListaEventos.Count > 1 ? "s" : "");
+                    e.Cell.ForeColor = ColorTranslator.FromHtml("#111827");
+                    e.Cell.ToolTip += _listaOrdenes.Count + " orden" + (_listaOrdenes.Count > 1 ? "es" : "");
                 }
-                if (_ListaEventos.Count > 1)
+                if (_listaOrdenes.Count > 1)
                 {
                     e.Cell.BackColor = ColorTranslator.FromHtml("#f5eea5");
                 }
-                if (_ListaEventos.Count > 2)
+                if (_listaOrdenes.Count > 2)
                 {
                     e.Cell.BackColor = ColorTranslator.FromHtml("#ff9288");
                 }
-                if (_ListaEventos.Count > 3)
+                if (_listaOrdenes.Count > 3)
                 {
                     e.Cell.BackColor = ColorTranslator.FromHtml("#ff625e");
                 }
+                
+
             }
         }
 
@@ -193,6 +193,37 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Components
         {
             FechaSeleccionada = null;
             Session[CLDFECHASELECCIONADA] = null;
+            string newmonth = e.NewDate.Month.ToString();
+            string newyear = e.NewDate.Year.ToString();
+            
+            ddlMonth.SelectedValue = newmonth;
+            ddlYear.SelectedValue = newyear;
+            
+        }
+        
+
+        protected void Set_Calendar(object Sender, EventArgs e)
+        {
+            int year = int.Parse(ddlYear.SelectedValue);
+            int month = int.Parse(ddlMonth.SelectedValue);
+            cldFecha.VisibleDate = new DateTime(year, month, 1);
+        }
+        
+        protected void Populate_MonthList()
+        {
+            for (int month = 1; month <= 12; month++)
+            {
+                ddlMonth.Items.Add(new ListItem(new DateTime(1900, month, 1).ToString("MMMM"), month.ToString()));
+            }
+            ddlMonth.Items.FindByValue(DateTime.Now.Month.ToString()).Selected = true;
+        }
+        protected void Populate_YearList()
+        {
+            for (int year = DateTime.Now.Year - 10; year <= DateTime.Now.Year + 10; year++)
+            {
+                ddlYear.Items.Add(new ListItem(year.ToString(), year.ToString()));
+            }
+            ddlYear.Items.FindByValue(DateTime.Now.Year.ToString()).Selected = true;
         }
     }
 }

@@ -15,6 +15,7 @@ namespace Datos.Mappers
             {
                 IdEvento = entidad.id_evento,
                 Fecha = entidad.fecha,
+                Descripcion = entidad.descripcion
 
             };
             if (entidad.TIPO_EVENTO != null)
@@ -40,7 +41,8 @@ namespace Datos.Mappers
                 id_evento = modelo.IdEvento,
                 fecha = modelo.Fecha,
                 id_cliente = modelo.Cliente.Id,
-                id_tipo_evento = modelo.TipoEvento.IdTipoEvento
+                id_tipo_evento = modelo.TipoEvento.IdTipoEvento,
+                descripcion = modelo.Descripcion
             };
 
             return entidad;

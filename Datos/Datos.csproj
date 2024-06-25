@@ -103,6 +103,10 @@
     <Compile Include="Migrations\202406222219008_init.Designer.cs">
       <DependentUpon>202406222219008_init.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202406231910208_descripcion_evento.cs" />
+    <Compile Include="Migrations\202406231910208_descripcion_evento.Designer.cs">
+      <DependentUpon>202406231910208_descripcion_evento.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Migrations\Seeds\DireccionesSeed.cs" />
     <Compile Include="Migrations\Seeds\IngredientesSeed.cs" />
@@ -156,6 +160,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202406222219008_init.resx">
       <DependentUpon>202406222219008_init.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202406231910208_descripcion_evento.resx">
+      <DependentUpon>202406231910208_descripcion_evento.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

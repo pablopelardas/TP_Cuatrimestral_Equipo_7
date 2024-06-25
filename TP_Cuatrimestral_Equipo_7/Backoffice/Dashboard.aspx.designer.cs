@@ -15,6 +15,15 @@ namespace TP_Cuatrimestral_Equipo_7
     {
 
         /// <summary>
+        /// sp control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.ScriptManager sp;
+
+        /// <summary>
         /// phCalendario control.
         /// </summary>
         /// <remarks>
@@ -22,6 +31,42 @@ namespace TP_Cuatrimestral_Equipo_7
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.PlaceHolder phCalendario;
+
+        /// <summary>
+        /// lblOrdenes control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblOrdenes;
+
+        /// <summary>
+        /// rptOrdenes control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Repeater rptOrdenes;
+
+        /// <summary>
+        /// lblEventos control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblEventos;
+
+        /// <summary>
+        /// rptEventos control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Repeater rptEventos;
 
         /// <summary>
         /// Master property.

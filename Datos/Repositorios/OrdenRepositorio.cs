@@ -44,7 +44,7 @@ namespace Datos.Repositorios
             return db.ORDENES.Count();
         }
         
-        public int GetFilteredTotalCount(int semanas, int estado)
+        public int GetFilteredTotalCount(int semanas, int estado, ContactoModelo contacto = null)
         {
             Entities db = new Entities();
             IQueryable<ORDEN> query = db.ORDENES.AsQueryable();
@@ -59,12 +59,17 @@ namespace Datos.Repositorios
             if (estado != 0)
             {
                 query = query.Where(x => x.id_orden_estado == estado);
+            }
+            
+            if (contacto != null)
+            {
+                query = query.Where(x => x.id_cliente == contacto.Id);
             }
 
             return query.Count();
         }
 
-        public List<Dominio.Modelos.OrdenModelo> GetFilteredPage(int pageNumber, int pageSize, int semanas, int estado)
+        public List<Dominio.Modelos.OrdenModelo> GetFilteredPage(int pageNumber, int pageSize, int semanas, int estado, ContactoModelo contacto = null)
         {
             Entities db = new Entities();
             IQueryable<ORDEN> query = db.ORDENES.AsQueryable();
@@ -79,6 +84,11 @@ namespace Datos.Repositorios
             if (estado != 0)
             {
                 query = query.Where(x => x.id_orden_estado == estado);
+            }
+            
+            if (contacto != null)
+            {
+                query = query.Where(x => x.id_cliente == contacto.Id);
             }
 
             List<ORDEN> ordenes = query

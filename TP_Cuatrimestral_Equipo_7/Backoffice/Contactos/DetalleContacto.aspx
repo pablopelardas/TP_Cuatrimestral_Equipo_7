@@ -23,6 +23,7 @@
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+    <asp:ScriptManager ID="sm" runat="server"></asp:ScriptManager>
     <% if (contacto != null)
        { %>
         <form action="#" class="mx-auto max-w-screen-xl px-4">
@@ -122,16 +123,26 @@
                 </div>
                 <div class="space-y-4 border-b py-8 dark:border-gray-700">
                     <h4 class="text-lg font-semibold text-gray-900 dark:text-white">Información Personal</h4>
-                    <dd class="mt-2 p-4 dark:bg-gray-800 dark:text-white">
+                    <dd class="mt-2 dark:bg-gray-800 dark:text-white">
                         <asp:Literal runat="server" ID="litInformacionPersonal" />
                     </dd>
                 </div>
-                <div class="space-y-4 border-b py-8 dark:border-gray-700">
-                    <h4 class="text-lg font-semibold text-gray-900 dark:text-white">Eventos del Contacto</h4>
-                    <dd class="mt-2 p-4 dark:bg-gray-800 dark:text-white">
-                        <asp:PlaceHolder runat="server" ID="phCalendario"></asp:PlaceHolder>
-                    </dd>
-                </div>
+                <asp:UpdatePanel runat="server">
+                    <ContentTemplate>
+                        <div class="space-y-4 border-b py-8 dark:border-gray-700">
+                            <h4 class="text-lg font-semibold text-gray-900 dark:text-white">Ordenes del Contacto</h4>
+                            <div class="mt-2 dark:text-white">
+                                <asp:PlaceHolder runat="server" ID="phListaDeOrdenes"></asp:PlaceHolder>
+                            </div>
+                        </div>               
+                        <div class="space-y-4 border-b py-8 dark:border-gray-700">
+                            <h4 class="text-lg font-semibold text-gray-900 dark:text-white">Eventos del Contacto</h4>
+                            <dd class="mt-2 p-4 dark:bg-gray-800 dark:text-white">
+                                <asp:PlaceHolder runat="server" ID="phEventos"></asp:PlaceHolder>
+                            </dd>
+                        </div>
+                    </ContentTemplate>
+                </asp:UpdatePanel>
             </div>
         </form> 
     <% } %>

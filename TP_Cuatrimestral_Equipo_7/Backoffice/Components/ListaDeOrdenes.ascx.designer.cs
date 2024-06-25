@@ -7,43 +7,38 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
+namespace TP_Cuatrimestral_Equipo_7.Backoffice.Components
 {
 
 
-    public partial class Default
+    public partial class ListaDeOrdenes
     {
 
         /// <summary>
-        /// sp control.
+        /// ddEstado control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.ScriptManager sp;
+        protected global::System.Web.UI.WebControls.DropDownList ddEstado;
 
         /// <summary>
-        /// phGrilla control.
+        /// ddIntervalo control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.PlaceHolder phGrilla;
+        protected global::System.Web.UI.WebControls.DropDownList ddIntervalo;
 
         /// <summary>
-        /// Master property.
+        /// phPaginado control.
         /// </summary>
         /// <remarks>
-        /// Auto-generated property.
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        public new TP_Cuatrimestral_Equipo_7.LayoutTailwind Master
-        {
-            get
-            {
-                return ((TP_Cuatrimestral_Equipo_7.LayoutTailwind)(base.Master));
-            }
-        }
+        protected global::System.Web.UI.WebControls.PlaceHolder phPaginado;
     }
 }

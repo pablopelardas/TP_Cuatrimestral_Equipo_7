@@ -19,6 +19,8 @@ namespace Datos.EF
         public Guid id_cliente { get; set; }
 
         public Guid id_tipo_evento { get; set; }
+        
+        public string descripcion { get; set; }
 
         [ForeignKey("id_cliente")]
         public virtual CONTACTO CLIENTE { get; set; }
@@ -28,5 +30,6 @@ namespace Datos.EF
 
         [ForeignKey("id_evento")]
         public virtual ICollection<ORDEN> ORDENES { get; set; }
+        
     }
 }

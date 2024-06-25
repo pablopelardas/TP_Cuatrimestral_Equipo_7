@@ -22,5 +22,10 @@ namespace Negocio.Servicios
             return eventoRepositorio.Listar(soloActivos);
         }
 
+        public List<EventoModelo> ListarEventosPorCliente(Guid idCliente)
+        {
+            return eventoRepositorio.ListarPorCliente(idCliente);
+        }
+
     }
 }
