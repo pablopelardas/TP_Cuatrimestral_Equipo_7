@@ -22,9 +22,9 @@ namespace Negocio.Servicios
             return eventoRepositorio.Listar(soloActivos);
         }
 
-        public List<EventoModelo> ListarEventosPorCliente(Guid idCliente)
+        public List<EventoModelo> ListarEventosPorCliente(Guid idCliente, bool sinOrden = false)
         {
-            return eventoRepositorio.ListarPorCliente(idCliente);
+            return eventoRepositorio.ListarPorCliente(idCliente, sinOrden);
         }
 
     }

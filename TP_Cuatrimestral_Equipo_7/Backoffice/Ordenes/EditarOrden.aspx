@@ -43,10 +43,6 @@
 
     <asp:ScriptManager ID="sm" runat="server">
     </asp:ScriptManager>
-
-    <div class="mb-12 flex justify-center">
-        <span id="output" class="text-large text-gray-900 dark:text-white"></span>
-    </div>
     <form action="#" class="mx-auto max-w-screen-xl px-4">
     <div class="mx-auto max-w-3xl px-4">
     <div class="flex-col">

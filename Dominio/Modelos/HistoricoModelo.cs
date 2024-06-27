@@ -2,6 +2,7 @@ using System;
 
 namespace Dominio.Modelos
 {
+    [Serializable()]
     public class HistoricoModelo
     {
         public Guid IdHistorico { get; set; }

@@ -1,9 +1,11 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
 namespace Dominio.Modelos
 {
+    [Serializable()]
     public class ListaCompra
     {
         public List<IngredienteDetalleRecetaModelo> Ingredientes { get; set; }

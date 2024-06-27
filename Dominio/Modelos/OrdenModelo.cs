@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Dominio.Modelos
 {
+    [Serializable()]
     public class OrdenModelo
     {
         public Guid IdOrden { get; set; }

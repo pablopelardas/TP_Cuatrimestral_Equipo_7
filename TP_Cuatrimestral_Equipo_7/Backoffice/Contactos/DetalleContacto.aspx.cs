@@ -14,7 +14,6 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Contactos
         private Negocio.Servicios.ContactoServicio negocio;
         private Negocio.Servicios.EventoServicio eventoServicio;
         
-        private Components.ListaDeOrdenes listaDeOrdenes;
         protected void Page_Load(object sender, EventArgs e)
         {
             if (Session["contacto"] != null)
@@ -48,10 +47,13 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Contactos
             }
             litInformacionPersonal.Text = contacto?.InformacionPersonal ?? "";
             
-            listaDeOrdenes = (Components.ListaDeOrdenes)LoadControl("~/Backoffice/Components/ListaDeOrdenes.ascx");
+            Components.ListaDeOrdenes listaDeOrdenes = (Components.ListaDeOrdenes)LoadControl("~/Backoffice/Components/ListaDeOrdenes.ascx");
             phListaDeOrdenes.Controls.Add(listaDeOrdenes);
             listaDeOrdenes.InicializarGrilla(contacto, 2);
-
+            
+            Components.ListaDeEventos listaDeEventos = (Components.ListaDeEventos)LoadControl("~/Backoffice/Components/ListaDeEventos.ascx");
+            phListaDeEventos.Controls.Add(listaDeEventos);
+            listaDeEventos.InicializarGrilla(contacto);
         }
     }
 }

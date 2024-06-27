@@ -137,39 +137,13 @@
                         </div>               
                         <div class="space-y-4 border-b py-8 dark:border-gray-700">
                             <h4 class="text-lg font-semibold text-gray-900 dark:text-white">Eventos del Contacto</h4>
-                            <dd class="mt-2 p-4 dark:bg-gray-800 dark:text-white">
-                                <asp:PlaceHolder runat="server" ID="phEventos"></asp:PlaceHolder>
-                            </dd>
+                            <div class="mt-2 dark:text-white">
+                                <asp:PlaceHolder runat="server" ID="phListaDeEventos"></asp:PlaceHolder>
+                            </div>
                         </div>
                     </ContentTemplate>
                 </asp:UpdatePanel>
             </div>
         </form> 
     <% } %>
-    
-    <%-- $1$ DIV Informacion personal  #1# --%>
-    <%-- <div> --%>
-    <%--     <h3>Información personal</h3> --%>
-    <%--     <asp:Literal ID="litInformacionPersonal" runat="server" /> --%>
-    <%-- </div> --%>
-    <%-- $1$ DIV Fechas importantes  #1# --%>
-    <%-- <div> --%>
-    <%--     <div> --%>
-    <%--         <h3>Fechas importantes</h3> --%>
-    <%--         <button>Nueva fecha</button> --%>
-    <%--     </div> --%>
-    <%--     <div> --%>
-    <%--         No hay fechas importantes agregadas --%>
-    <%--     </div> --%>
-    <%-- </div> --%>
-    <%-- $1$ DIV Ordenes  #1# --%>
-    <%-- <div> --%>
-    <%--     <div> --%>
-    <%--         <h3>Historial de Ordenes</h3> --%>
-    <%--         <button>Nueva orden</button> --%>
-    <%--     </div> --%>
-    <%--     <div> --%>
-    <%--         No hay ordenes agregadas --%>
-    <%--     </div> --%>
-    <%--     </div> --%>
 </asp:Content>

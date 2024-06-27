@@ -2,6 +2,7 @@ using System;
 
 namespace Dominio.Modelos
 {
+    [Serializable()]
     public class DireccionModelo
     { 
         public Guid IdDireccion { get; set; }

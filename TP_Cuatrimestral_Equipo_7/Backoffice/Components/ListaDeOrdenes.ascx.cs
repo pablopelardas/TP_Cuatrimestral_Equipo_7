@@ -13,7 +13,7 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Components
         private Negocio.Servicios.OrdenServicio ordenServicio = new Negocio.Servicios.OrdenServicio();
         private int paginaActual = 1;
         private int ordenesPorPagina = 5;
-        private int totalPaginas = 0;
+        public int totalPaginas = 0;
         private int semanas = 1;
         private int estado = 0;
         

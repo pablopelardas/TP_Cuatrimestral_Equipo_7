@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Dominio.Modelos
 {
+    [Serializable()]
     public class TipoEventoModelo
     {
         public Guid IdTipoEvento { get; set; }

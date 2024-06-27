@@ -41,7 +41,7 @@ namespace Datos.Repositorios
             }
         }
         
-        public List<Dominio.Modelos.EventoModelo> ListarPorCliente(Guid idCliente)
+        public List<Dominio.Modelos.EventoModelo> ListarPorCliente(Guid idCliente, bool sinOrden = false)
         {
             Entities db = new Entities();
             List<Dominio.Modelos.EventoModelo> eventos = new List<Dominio.Modelos.EventoModelo>();
@@ -50,17 +50,20 @@ namespace Datos.Repositorios
                 var query = db.EVENTOS.Where(x => x.id_cliente == idCliente).ToList();
                 foreach (var item in query)
                 {
-                    eventos.Add(Mappers.EventoMapper.EntidadAModelo(item));
-                }
-                // if event has no order, make event year current year
-                foreach (var evento in eventos)
-                {
+                    EventoModelo evento = Mappers.EventoMapper.EntidadAModelo(item);
                     if (evento.Orden == null)
                     {
                         evento.Fecha = new DateTime(DateTime.Now.Year, evento.Fecha.Month, evento.Fecha.Day);
                     }
+                    eventos.Add(evento);
                 }
+                // filter cancelled events
+                if (sinOrden)
+                    return eventos.Where(x => x.Orden == null).ToList();
+                // if event has no order, make event year current year
+
                 return eventos;
+                
             }
             catch (Exception ex)
             {

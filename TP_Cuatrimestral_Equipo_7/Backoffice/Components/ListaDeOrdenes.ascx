@@ -89,9 +89,11 @@
             </div>
         <% } %>
     </div>
+    <% if (totalPaginas > 1){%>
     <nav class="mt-6 flex items-center justify-center sm:mt-8" aria-label="Page navigation example">
         <ul class="flex h-8 items-center -space-x-px text-sm">
             <asp:PlaceHolder runat="server" ID="phPaginado" Visible="False"></asp:PlaceHolder>
         </ul>
     </nav>
+    <% } %>
 </div>

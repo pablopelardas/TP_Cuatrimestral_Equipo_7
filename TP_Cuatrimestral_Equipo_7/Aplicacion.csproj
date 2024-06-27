@@ -90,6 +90,7 @@
     <Content Include="Assets\Categorias\torta.svg" />
     <Content Include="Assets\logo.png" />
     <Content Include="Backoffice\Components\ComboBoxAutoComplete.ascx" />
+    <Content Include="Backoffice\Components\ListaDeEventos.ascx" />
     <Content Include="Backoffice\Components\ListaDeOrdenes.ascx" />
     <Content Include="Backoffice\Ingredientes\Default.aspx" />
     <Content Include="Backoffice\Ingredientes\DetalleIngrediente.aspx" />
@@ -176,6 +177,13 @@
     </Compile>
     <Compile Include="Backoffice\Components\ComboBoxAutoComplete.ascx.designer.cs">
       <DependentUpon>ComboBoxAutoComplete.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Backoffice\Components\ListaDeEventos.ascx.cs">
+      <SubType>ASPXCodeBehind</SubType>
+      <DependentUpon>ListaDeEventos.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Backoffice\Components\ListaDeEventos.ascx.designer.cs">
+      <DependentUpon>ListaDeEventos.ascx</DependentUpon>
     </Compile>
     <Compile Include="Backoffice\Components\ListaDeOrdenes.ascx.cs">
       <SubType>ASPXCodeBehind</SubType>

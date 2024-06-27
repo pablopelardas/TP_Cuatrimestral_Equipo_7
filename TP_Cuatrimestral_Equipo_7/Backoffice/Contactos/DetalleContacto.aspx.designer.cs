@@ -42,13 +42,13 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Contactos
         protected global::System.Web.UI.WebControls.PlaceHolder phListaDeOrdenes;
 
         /// <summary>
-        /// phEventos control.
+        /// phListaDeEventos control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.PlaceHolder phEventos;
+        protected global::System.Web.UI.WebControls.PlaceHolder phListaDeEventos;
 
         /// <summary>
         /// Master property.
