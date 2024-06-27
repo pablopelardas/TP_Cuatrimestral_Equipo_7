@@ -31,17 +31,14 @@ namespace Dominio.Modelos
         {
             get
             {
-                return Items
-                    .Sum(item => item.SubTotal);
-                // TODO: Implementar lógica de cálculo de precio de producto en base a los items
-                
-                // si es por margen
-                
-                // si es fijo
-                
-                // si es por porcion
-                
-                return 200;
+                if (TipoPrecio == "Margen")
+                    return Items.Sum(item => item.SubTotal) * (1 + (ValorPrecio / 100));
+                if (TipoPrecio == "Fijo")
+                    return ValorPrecio;
+                if (TipoPrecio == "Porcion")
+                    return ValorPrecio * Porciones;
+
+                return 0;
             }
         }
 
@@ -58,9 +55,9 @@ namespace Dominio.Modelos
                             .Sum(item => item.Suministro.Costo * item.Suministro.Cantidad);
             }
         }
-        
+
         // costo por porcion
-        
+
         public string ShortId
         {
             get

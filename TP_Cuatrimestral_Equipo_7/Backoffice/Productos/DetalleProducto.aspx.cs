@@ -12,11 +12,12 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Productos
     public partial class DetalleProducto : System.Web.UI.Page
     {
         public Dominio.Modelos.ProductoModelo producto;
-        public List<Dominio.Modelos.ItemDetalleProductoModelo> items;
         private Negocio.Servicios.ProductoServicio servicio;
         public string redirect_to = "/Backoffice/Productos";
         public decimal costoRecetas = 0;
         public decimal costoSuministros = 0;
+        public List<ItemDetalleProductoModelo> Recetas;
+        public List<ItemDetalleProductoModelo> Suministros;
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
@@ -24,13 +25,14 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Productos
                 Guid id = Guid.TryParse(Request.QueryString["id"], out id) ? id : Guid.Empty;
                 servicio = new Negocio.Servicios.ProductoServicio();
                 if (id == Guid.Empty) Response.Redirect(redirect_to, false);
+                Recetas = new List<ItemDetalleProductoModelo>();
+                Suministros = new List<ItemDetalleProductoModelo>();
                 try
                 {
                     if (id != Guid.Empty)
                     {
                         producto = servicio.ObtenerPorId(id);
-                        items = producto.Items;
-                        CalcularCostos();
+                        CargarListas();
                     }
 
                 }
@@ -41,19 +43,10 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Productos
             }
         }
 
-        private void CalcularCostos()
+        private void CargarListas()
         {
-            foreach (ItemDetalleProductoModelo item in items)
-            {
-                if (item.Receta != null)
-                {
-                    costoRecetas += item.Receta.CostoTotal;
-                }
-                else
-                {
-                    costoSuministros += item.Suministro.Costo * item.Suministro.Cantidad;
-                }
-            }
+            Recetas = producto.Items.Where(x => x.Receta != null).ToList();
+            Suministros = producto.Items.Where(x => x.Suministro != null).ToList();
         }
     }
 }

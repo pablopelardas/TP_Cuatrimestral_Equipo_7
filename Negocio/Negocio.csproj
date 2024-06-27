@@ -55,6 +55,7 @@
     <Compile Include="Servicios\PdfServicio.cs" />
     <Compile Include="Servicios\ProductoServicio.cs" />
     <Compile Include="Servicios\RecetaServicio.cs" />
+    <Compile Include="Servicios\SuministroServicio.cs" />
     <Compile Include="Servicios\UnidadMedidaServicio.cs" />
   </ItemGroup>
   <ItemGroup>

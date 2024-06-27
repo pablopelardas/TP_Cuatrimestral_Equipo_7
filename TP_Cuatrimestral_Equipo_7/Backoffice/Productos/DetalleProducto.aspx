@@ -39,14 +39,14 @@
                     <table class="w-full mt-5 text-left font-medium text-gray-900 dark:text-white md:table-fixed">
                         <thead class="">
                             <tr>
-                                <th class="text-lg font-semibold text-gray-900 dark:text-white">Receta/Suministro</th>
+                                <th class="text-lg font-semibold text-gray-900 dark:text-white">Receta</th>
                                 <th class="p-4 text-right">Subtotal</th>
                             </tr>
                         </thead>
 
                         <tbody class="divide-y divide-gray-200 dark:divide-gray-800">
 
-                            <%foreach (var item in producto.Items)
+                            <%foreach (var item in Recetas)
                                 { %>
                             <tr>
                                 <td class="whitespace nowrap py-4">
@@ -54,105 +54,131 @@
                                         <a href="#" class="flex gap-4 align-items-center">
                                             <div class="flex items-center aspect-square w-20 shrink-0 relative">
                                                 <div class="w-36 fill-primary-600 category-svg">
-                                                    <%if (item.Receta != null)
-                                                        {%>
                                                     <object type="image/svg+xml" data="<%: item.Receta.Categoria.ImagenPath %>"></object>
-                                                    <%}
-                                                        else
-                                                        {%>
-                                                    <object type="image/svg+xml" data="<%: item.Suministro.Categoria.ImagenPath %>"></object>
-                                                    <%} %>
                                                 </div>
 
                                                 <div class="absolute bg-primary-300  w-6 h-6 rounded-full text-primary-900 text-center place-content-center text-sm top-1/2 right-4">
                                                     <%: item.Cantidad %>
                                                 </div>
                                             </div>
-                                            <%if (item.Receta != null)
-                                                {%>
                                             <a href="/Backoffice/Recetas/DetalleReceta.aspx?id=<%: item.Receta.IdReceta %>" class="content-center hover:underline"><%: item.Receta.Nombre %></a>
-                                            <%}
-                                                else
-                                                {%>
-                                            <a href="/Backoffice/Recetas/DetalleReceta.aspx?id=<%: item.Suministro.IdSuministro %>" class="content-center hover:underline"><%: item.Suministro.Nombre %></a>
-                                            <%} %>
-                                            
-
                                         </a>
                                     </div>
                                 </td>
-
-
-                                <%if (item.Receta != null)
-                                    {%>
                                 <td class="p-4 text-right text-base font-bold text-gray-900 dark:text-white">$<%: item.Receta.CostoTotal.ToString("F2") %></td>
-                                <%}
-                                    else
-                                    {%>
-                                <td class="p-4 text-right text-base font-bold text-gray-900 dark:text-white">$<%: item.Suministro.Costo.ToString("F2") %></td>
-                                <%} %>
                             </tr>
                             <% } %>
                         </tbody>
                     </table>
-                </div>
+                    </div>
+                    <table class="w-full mt-5 text-left font-medium text-gray-900 dark:text-white md:table-fixed">
+                        <thead class="">
+                            <tr>
+                                <th class="text-lg font-semibold text-gray-900 dark:text-white">Suministro</th>
+                                <th class="p-4 text-right">Subtotal</th>
+                            </tr>
+                        </thead>
+
+                        <tbody class="divide-y divide-gray-200 dark:divide-gray-800">
+
+                            <%foreach (var item in Suministros)
+                                { %>
+                            <tr>
+                                <td class="whitespace nowrap py-4">
+                                    <div class="flex items center gap-4">
+                                        <a href="#" class="flex gap-4 align-items-center">
+                                            <div class="flex items-center aspect-square w-20 shrink-0 relative">
+                                                <div class="w-36 fill-primary-600 category-svg">
+                                                    <object type="image/svg+xml" data="<%: item.Suministro.Categoria.ImagenPath %>"></object>
+                                                </div>
+
+                                                <div class="absolute bg-primary-300  w-6 h-6 rounded-full text-primary-900 text-center place-content-center text-sm top-1/2 right-4">
+                                                    <%: item.Cantidad %>
+                                                </div>
+                                            </div>
+                                            <a href="/Backoffice/Recetas/DetalleReceta.aspx?id=<%: item.Suministro.IdSuministro %>" class="content-center hover:underline"><%: item.Suministro.Nombre %></a>
+                                        </a>
+                                    </div>
+                                </td>
+                                <td class="p-4 text-right text-base font-bold text-gray-900 dark:text-white">$<%: item.Suministro.Costo.ToString("F2") %></td>
+                            </tr>
+                            <% } %>
+                        </tbody>
+                    </table>
+                
                 <div class="mt-6 space-y-4 border-b border-t border-gray-200 py-8 dark:border-gray-700 sm:mt-8">
                     <h4 class="text-lg font-semibold text-gray-900 dark:text-white">Detalle</h4>
-                    <dl class="w-full flex justify-between text-start flex-wrap flex-col lg:flex-row">
-                        <div class="w-full mt-5 flex flex-col flex-wra">
-                            <dt class=" text-base font-medium text-gray-900 dark:text-white">Porciones</dt>
-                            <dd class=" mt-1 text-base font-normal text-gray-500 dark:text-gray-400"><%: producto.Porciones %></dd>
+                    <div class="w-full flex flex-wrap justify-between">
+                        <div class="w-full lg:w-1/2 flex flex-col space-y-4">
+                            <dl class="w-full">
+                                <div class="mt-5 flex flex-col flex-wrap">
+                                    <dt class="text-base font-medium text-gray-900 dark:text-white">Porciones</dt>
+                                    <dd class="mt-1 text-base font-normal text-gray-500 dark:text-gray-400"><%: producto.Porciones %></dd>
+                                </div>
+                            </dl>
+                            <dl class="w-full">
+                                <div class="mt-5 flex flex-col flex-wrap">
+                                    <dt class="text-base font-medium text-gray-900 dark:text-white">Horas de Trabajo</dt>
+                                    <dd class="mt-1 text-base font-normal text-gray-500 dark:text-gray-400"><%: producto.HorasTrabajo %></dd>
+                                </div>
+                            </dl>
+                            <dl class="w-full">
+                                <div class="mt-5 flex flex-col flex-wrap">
+                                    <dt class="text-base font-medium text-gray-900 dark:text-white">Tipo de Precio</dt>
+                                    <dd class="mt-1 text-base font-normal text-gray-500 dark:text-gray-400"><%: producto.TipoPrecio %></dd>
+                                </div>
+                            </dl>
+
+                            <%if(producto.TipoPrecio == "Margen") {%>
+                            <dl class="w-full">
+                                <div class="mt-5 flex flex-col flex-wrap">
+                                    <dt class="text-base font-medium text-gray-900 dark:text-white">Overhead</dt>
+                                    <dd class="mt-1 text-base font-normal text-gray-500 dark:text-gray-400"> <%: producto.ValorPrecio %></dd>
+                                </div>
+                            </dl>
+                            <%} %>
+                            <dl class="w-full">
+                                <div class="mt-5 flex flex-col flex-wrap">
+                                    <dt class="text-base font-medium text-gray-900 dark:text-white">Recetas</dt>
+                                    <dd class="mt-1 text-base font-normal text-gray-500 dark:text-gray-400">$<%: producto.ListaCompra.TotalIngredientes%></dd>
+                                </div>
+                            </dl>
+                            <dl class="w-full">
+                                <div class="mt-5 flex flex-col flex-wrap">
+                                    <dt class="text-base font-medium text-gray-900 dark:text-white">Suministros</dt>
+                                    <dd class="mt-1 text-base font-normal text-gray-500 dark:text-gray-400">$<%: producto.ListaCompra.TotalSuministros%></dd>
+                                </div>
+                            </dl>
                         </div>
-                    </dl>
-                    <dl class="w-full flex justify-between text-start flex-wrap flex-col lg:flex-row">
-                        <div class="mt-5 flex flex-col flex-wrap">
-                            <dt class="text-base font-medium text-gray-900 dark:text-white">Horas de Trabajo</dt>
-                            <dd class="mt-1 text-base font-normal text-gray-500 dark:text-gray-400"><%: producto.HorasTrabajo %></dd>
+                        <div class="w-full lg:w-1/2 flex flex-col space-y-4">
+                            <dl class="w-full">
+                                <div class="mt-5 flex flex-col flex-wrap">
+                                    <dt class="text-base font-medium text-gray-900 dark:text-white">Costo Total</dt>
+                                    <dd class="mt-1 text-base font-normal text-gray-500 dark:text-gray-400"><%: producto.Costo.ToString("F2") %></dd>
+                                </div>
+                            </dl>
+                            <dl class="w-full">
+                                <div class="mt-5 flex flex-col flex-wrap">
+                                    <dt class="text-base font-medium text-gray-900 dark:text-white">Costo por Porcion</dt>
+                                    <dd class="mt-1 text-base font-normal text-gray-500 dark:text-gray-400"><%: (producto.Costo / producto.Porciones).ToString("F2") %></dd>
+                                </div>
+                            </dl>
+                            <dl class="w-full">
+                                <div class="mt-5 flex flex-col flex-wrap">
+                                    <dt class="text-base font-medium text-gray-900 dark:text-white">Precio de Venta</dt>
+                                    <dd class="mt-1 text-base font-normal text-gray-500 dark:text-gray-400"><%: producto.Precio.ToString("F2") %></dd>
+                                </div>
+                            </dl>
+                            <dl class="w-full">
+                                <div class="mt-5 flex flex-col flex-wrap">
+                                    <dt class="text-base font-medium text-gray-900 dark:text-white">Ganancia Bruta</dt>
+                                    <dd class="mt-1 text-base font-normal text-gray-500 dark:text-gray-400"><%: (producto.Precio - producto.Costo).ToString("F2") %></dd>
+                                </div>
+                            </dl>
                         </div>
-                    </dl>
-                    <dl class="w-full flex justify-between text-start flex-wrap flex-col lg:flex-row">
-                        <div class="mt-5 flex flex-col flex-wrap">
-                            <dt class="text-base font-medium text-gray-900 dark:text-white">Overhead</dt>
-                            <dd class="mt-1 text-base font-normal text-gray-500 dark:text-gray-400"></dd>
-                        </div>
-                    </dl>
-                    <dl class="w-full flex justify-between text-start flex-wrap flex-col lg:flex-row">
-                        <div class="mt-5 flex flex-col flex-wrap">
-                            <dt class="text-base font-medium text-gray-900 dark:text-white">Recetas</dt>
-                            <dd class="mt-1 text-base font-normal text-gray-500 dark:text-gray-400">$<%: costoRecetas%></dd>
-                        </div>
-                    </dl>
-                    <dl class="w-full flex justify-between text-start flex-wrap flex-col lg:flex-row">
-                        <div class="mt-5 flex flex-col flex-wrap">
-                            <dt class="text-base font-medium text-gray-900 dark:text-white">Suministros</dt>
-                            <dd class="mt-1 text-base font-normal text-gray-500 dark:text-gray-400">$<%: costoSuministros%></dd>
-                        </div>
-                    </dl>
-                    <dl class="w-full flex justify-between text-start flex-wrap flex-col lg:flex-row">
-                        <div class="mt-5 flex flex-col flex-wrap">
-                            <dt class="text-base font-medium text-gray-900 dark:text-white">Costo Total</dt>
-                            <dd class="mt-1 text-base font-normal text-gray-500 dark:text-gray-400"><%: producto.Costo.ToString("F2") %></dd>
-                        </div>
-                    </dl>
-                    <dl class="w-full flex justify-between text-start flex-wrap flex-col lg:flex-row">
-                        <div class="mt-5 flex flex-col flex-wrap">
-                            <dt class="text-base font-medium text-gray-900 dark:text-white">Costo por Porcion</dt>
-                            <dd class="mt-1 text-base font-normal text-gray-500 dark:text-gray-400"><%: (producto.Costo / producto.Porciones).ToString("F2") %></dd>
-                        </div>
-                    </dl>
-                    <dl class="w-full flex justify-between text-start flex-wrap flex-col lg:flex-row">
-                        <div class="mt-5 flex flex-col flex-wrap">
-                            <dt class="text-base font-medium text-gray-900 dark:text-white">Precio de Venta</dt>
-                            <dd class="mt-1 text-base font-normal text-gray-500 dark:text-gray-400"><%: producto.Precio.ToString("F2") %></dd>
-                        </div>
-                    </dl>
-                    <dl class="w-full flex justify-between text-start flex-wrap flex-col lg:flex-row">
-                        <div class="mt-5 flex flex-col flex-wrap">
-                            <dt class="text-base font-medium text-gray-900 dark:text-white">Ganancia Bruta</dt>
-                            <dd class="mt-1 text-base font-normal text-gray-500 dark:text-gray-400"><%: (producto.Precio - producto.Costo) %></dd>
-                        </div>
-                    </dl>
+                    </div>
                 </div>
+
                 <div class="mt-4 space-y-6">
                     <h4 class="text-xl font-semibold text-gray-900 dark:text-white">Resumen</h4>
 

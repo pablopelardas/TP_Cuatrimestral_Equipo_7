@@ -52,5 +52,64 @@ namespace Datos.Repositorios
                 throw ex;
             }
         }
+
+        public void Agregar(SuministroModelo suministro)
+        {
+            using (Entities db = new Entities())
+            using (var transaction = db.Database.BeginTransaction())
+            {
+                try
+                {
+                    SUMINISTRO suministroEntidad = Mappers.SuministroMapper.ModeloAEntidad(suministro);
+                    db.SUMINISTROS.Add(suministroEntidad);
+
+                    db.SaveChanges();
+                    transaction.Commit();
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+                    throw ex;
+                }
+            }
+        }
+
+        public void Modificar(SuministroModelo suministro)
+        {
+            Entities db = new Entities();
+            try
+            {
+                SUMINISTRO entidad = Mappers.SuministroMapper.ModeloAEntidad(suministro);
+                SUMINISTRO entidadDB = db.SUMINISTROS.Find(entidad.id_suministro);
+                if (entidadDB == null)
+                {
+                    throw new Exception("Suministro no encontrado");
+                }
+
+                db.Entry(entidadDB).CurrentValues.SetValues(entidad);
+
+                db.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public void Eliminar(Guid id)
+        {
+            Entities db = new Entities();
+            try
+            {
+                SUMINISTRO entidad = db.SUMINISTROS.Find(id);
+                db.SUMINISTROS.Remove(entidad);
+                db.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
+
 }
+
