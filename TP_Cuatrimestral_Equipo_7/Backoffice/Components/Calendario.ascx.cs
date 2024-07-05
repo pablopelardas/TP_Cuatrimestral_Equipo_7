@@ -99,6 +99,7 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Components
             cldFecha.DayHeaderStyle.CssClass = "bg-gray-700 text-white";
             cldFecha.DayHeaderStyle.BorderStyle = BorderStyle.None;
             CellSizeTWClass = "h-8 sm:h-12 lg:h-20";
+
         }
 
         private void CargarCalendario(List<EventoModelo> eventos = null, DateTime? fechaInicial = null)

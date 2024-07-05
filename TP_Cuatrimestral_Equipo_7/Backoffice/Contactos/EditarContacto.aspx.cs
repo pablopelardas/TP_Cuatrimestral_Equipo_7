@@ -297,12 +297,12 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Contactos
         private void CargarCalendario()
         {
             Components.Calendario calendario = (Backoffice.Components.Calendario)LoadControl("~/Backoffice/Components/Calendario.ascx");
-            calendario.CellSizeTWClass = "h-8";
             phCalendarioEvento.Controls.Add(calendario);
             calendario.InicializarCalendario((object sender, EventArgs e) =>
             {
                 FechaEventoSeleccionada = calendario.FechaCalendario.ToShortDateString();
             });
+            calendario.CellSizeTWClass = "h-8";
             FechaEventoSeleccionada = calendario.FechaCalendario.ToShortDateString();
         }
         
