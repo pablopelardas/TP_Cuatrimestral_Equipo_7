@@ -152,9 +152,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Scripts\sql_create.sql" />
     <Content Include="Scripts\sql_drop.sql" />
-    <Content Include="Scripts\sql_seed.sql" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
