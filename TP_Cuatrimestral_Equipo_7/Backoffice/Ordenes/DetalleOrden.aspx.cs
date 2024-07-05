@@ -123,7 +123,8 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
             {
                 string subtitle = "#"+orden.ShortId + " - "+ orden.Cliente.NombreApellido + " - " + orden.Evento
                     .Fecha.ToString("dd/MM/yyyy");
-                Negocio.Servicios.PdfServicio.GeneratePdfAttachment(orden.ListaCompra.GenerateHTML(subtitle), $"lista-compras-{orden.ShortId}.pdf");
+                // Negocio.Servicios.PdfServicio.GeneratePdfAttachment(orden.ListaCompra.GenerateHTML(subtitle), $"lista-compras-{orden.ShortId}.pdf");
+                Negocio.Servicios.PdfServicio.GeneratePdfInline(orden.ListaCompra.GenerateHTML(subtitle));
             }
             catch (Exception exception)
             {

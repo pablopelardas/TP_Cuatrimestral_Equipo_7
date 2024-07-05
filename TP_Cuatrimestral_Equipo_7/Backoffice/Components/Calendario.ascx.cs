@@ -84,6 +84,21 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Components
 
 
             OnDayClick = onDayClick != null ? onDayClick : null;
+            
+            cldFecha.Font.Name = "Verdana";
+            cldFecha.Font.Size = FontUnit.Point(8);
+            cldFecha.FirstDayOfWeek = FirstDayOfWeek.Monday;
+            cldFecha.NextPrevFormat = NextPrevFormat.ShortMonth;
+            cldFecha.TitleFormat = TitleFormat.MonthYear;
+            cldFecha.VisibleDate = fechaInicial ?? DateTime.Now;
+            cldFecha.CssClass = "w-full";
+            cldFecha.TitleStyle.CssClass = "bg-gray-700 text-white";
+            cldFecha.Style.Add("border", "1px solid #374151");
+            cldFecha.TitleStyle.BackColor = ColorTranslator.FromHtml("#374151");
+            cldFecha.NextPrevStyle.ForeColor = ColorTranslator.FromHtml("#FFFFCC");
+            cldFecha.DayHeaderStyle.CssClass = "bg-gray-700 text-white";
+            cldFecha.DayHeaderStyle.BorderStyle = BorderStyle.None;
+            CellSizeTWClass = "h-8 sm:h-12 lg:h-20";
         }
 
         private void CargarCalendario(List<EventoModelo> eventos = null, DateTime? fechaInicial = null)
@@ -107,20 +122,7 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Components
             }
             Session[CLDLISTADEEVENTOS] = ListaDeEventos;
 
-            cldFecha.Font.Name = "Verdana";
-            cldFecha.Font.Size = FontUnit.Point(8);
-            cldFecha.FirstDayOfWeek = FirstDayOfWeek.Monday;
-            cldFecha.NextPrevFormat = NextPrevFormat.ShortMonth;
-            cldFecha.TitleFormat = TitleFormat.MonthYear;
-            cldFecha.VisibleDate = fechaInicial ?? DateTime.Now;
-            cldFecha.CssClass = "w-full";
-            cldFecha.TitleStyle.CssClass = "bg-gray-700 text-white";
-            cldFecha.Style.Add("border", "1px solid #374151");
-            cldFecha.TitleStyle.BackColor = ColorTranslator.FromHtml("#374151");
-            cldFecha.NextPrevStyle.ForeColor = ColorTranslator.FromHtml("#FFFFCC");
-            cldFecha.DayHeaderStyle.CssClass = "bg-gray-700 text-white";
-            cldFecha.DayHeaderStyle.BorderStyle = BorderStyle.None;
-            CellSizeTWClass = "h-8 sm:h-12 lg:h-20";
+
 
         }
 

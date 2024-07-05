@@ -49,7 +49,15 @@ namespace Datos.Mappers
                 {
                     modelo.DetalleProductos.Add(ProductoDetalleOrdenMapper.EntidadAModelo(detalle));
                 }
-                modelo.ListaCompra = new ListaCompra(modelo.DetalleProductos.Select(x => x.Producto.ListaCompra).ToList());
+                List<ListaCompra> listasCompraTemporales = new List<ListaCompra>();
+                foreach (var detalle in modelo.DetalleProductos)
+                {
+                    for (int i = 0; i < detalle.Cantidad; i++)
+                    {
+                        listasCompraTemporales.Add(detalle.Producto.ListaCompra);
+                    }
+                }
+                modelo.ListaCompra = new ListaCompra(listasCompraTemporales);
             }
 
             if (orden.ORDENDIRECCION != null)

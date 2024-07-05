@@ -16,7 +16,7 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
         private int paginaActual = 1;
         private int ordenesPorPagina = 5;
         private int totalPaginas = 0;
-        private int semanas = 1;
+        private int semanas = 4;
         private int estado = 0;
         protected void Page_Load(object sender, EventArgs e)
         {

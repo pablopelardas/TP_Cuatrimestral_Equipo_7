@@ -14,13 +14,22 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Components
         private int paginaActual = 1;
         private int ordenesPorPagina = 5;
         public int totalPaginas = 0;
-        private int semanas = 1;
+        private int semanas = 4;
         private int estado = 0;
         
         public void InicializarGrilla(ContactoModelo _contacto, int _ordenesPorPagina = 5)
         {
             ordenesPorPagina = _ordenesPorPagina;
             phPaginado.Controls.Clear();
+            
+            if (!IsPostBack)
+            {
+                ViewState["paginaActual"] = 1;
+                ViewState["semanas"] = 4;
+                ViewState["estado"] = 0;
+                ViewState["ordenes"] = null;
+                ViewState["totalPaginas"] = 0;
+            }
             
             if (ViewState["paginaActual"] != null)
             {
