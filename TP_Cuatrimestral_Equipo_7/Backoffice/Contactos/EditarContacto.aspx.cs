@@ -14,7 +14,12 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Contactos
         public Dominio.Modelos.ContactoModelo contacto;
         private Negocio.Servicios.ContactoServicio negocio;
         public Guid id = Guid.Empty;
-        public string redirect_to = "Contactos.aspx";
+        public string FechaEventoSeleccionada;
+        public string redirect_to = "Default.aspx";
+        private List<Guid> idsDireccionesBorradas = new List<Guid>();
+        private List<Guid> idsEventosBorrados = new List<Guid>();
+        
+        private List<string> ToastMessages = new List<string>();
         protected void Page_Load(object sender, EventArgs e)
         {
             negocio = new Negocio.Servicios.ContactoServicio();
@@ -23,12 +28,28 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Contactos
             {
                 contacto = (Dominio.Modelos.ContactoModelo)ViewState["contacto"];
             }
+            if (ViewState["idsDireccionesBorradas"] != null)
+            {
+                idsDireccionesBorradas = (List<Guid>)ViewState["idsDireccionesBorradas"];
+            }
+            if (ViewState["idsEventosBorrados"] != null)
+            {
+                idsEventosBorrados = (List<Guid>)ViewState["idsEventosBorrados"];
+            }
+            
+            if (Request.QueryString["redirect_to"] != null)
+            {
+                redirect_to = Request.QueryString["redirect_to"];
+            }
+            
             
             if (!IsPostBack)
             {
-                if (id == null)
+                if (id == Guid.Empty)
                 {
                     contacto = new Dominio.Modelos.ContactoModelo();
+                    contacto.Eventos = new List<EventoModelo>();
+                    contacto.Direcciones = new List<DireccionModelo>();
                 } else
                 {
                     try
@@ -36,7 +57,10 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Contactos
                         if (id != Guid.Empty)
                         {
                             contacto = negocio.ObtenerPorId(id);
-                            ViewState["contacto"] = contacto;
+                            Negocio.Servicios.EventoServicio negocioEventos = new Negocio.Servicios.EventoServicio();
+
+                            contacto.Eventos = negocioEventos.ListarEventosPorCliente(contacto.Id, true);
+                            ViewState["tiposDeEvento"] = negocioEventos.ListarTipoDeEventos();
                             if (contacto != null)
                             {
                                 ddTipoContacto.SelectedValue = contacto.Rol;
@@ -44,11 +68,9 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Contactos
                                 txtCorreo.Text = contacto.Email;
                                 txtTelefono.Text = contacto.Telefono;
                                 ddFuente.SelectedValue = contacto.Fuente;
-                                // txtDireccion.Text = contacto.Direcciones.FirstOrDefault()?.CalleNumero;
                                 chkDeseaRecibirCorreos.Checked = contacto.DeseaRecibirCorreos;
                                 chkDeseaRecibirWhatsapps.Checked = contacto.DeseaRecibirWhatsapp;
-                                rptDirecciones.DataSource = contacto.Direcciones;
-                                rptDirecciones.DataBind();
+
                             }
                         }
                     }
@@ -57,46 +79,86 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Contactos
                         throw ex;
                     }
                 }
+                ViewState["contacto"] = contacto;
+                rptDirecciones.DataSource = contacto.Direcciones;
+                rptDirecciones.DataBind();
+                rptEventos.DataSource = contacto.Eventos;
+                rptEventos.DataBind();
+
 
             }
+            CargarCalendario();
 
         }
 
         private ContactoModelo ObtenerModeloDesdeFormulario()
         {
-            return new ContactoModelo
+            bool hayError = id != Guid.Empty && !Page.IsValid;
+            if (id != Guid.Empty && string.IsNullOrEmpty(txtJustificacion.Text))
             {
-                // NombreApellido = txtNombreApellido.Text,
-                // Email = txtCorreo.Text,
-                // Telefono = txtTelefono.Text,
-                // Direcciones = new List<DireccionModelo>
-                // {
-                //     new DireccionModelo
-                //     {
-                //         CalleNumero = txtDireccion.Text
-                //     }
-                // },
-                // Rol = ddlTipo.SelectedValue == "1" ? "Cliente" : "Proveedor",
-                // Fuente = txtFuente.Text,
-                // DeseaRecibirCorreos = chkDeseaRecibirCorreos.Checked,
-                // DeseaRecibirWhatsapp = chkDeseaRecibirWhatsapps.Checked,
-                // InformacionPersonal = tiny.Text
-            };
-        }
+                ToastMessages.Add("Debe justificar la modificación de la orden");
+                hayError = true;
+            }
+            contacto.NombreApellido = txtNombreYApellido.Text;
+            contacto.Email = txtCorreo.Text;
+            contacto.Telefono = txtTelefono.Text;
+            contacto.Rol = ddTipoContacto.SelectedValue;
+            contacto.Fuente = ddFuente.SelectedValue;
+            contacto.DeseaRecibirCorreos = chkDeseaRecibirCorreos.Checked;
+            contacto.DeseaRecibirWhatsapp = chkDeseaRecibirWhatsapps.Checked;
+            contacto.InformacionPersonal = txtContactoExtra.Text;
+            if (hayError)
+            {
+                throw new Exception("Error al guardar el contacto");
+            }
 
+            return contacto;
+        }
+        
+        public void validateJustificacion(object sender, ServerValidateEventArgs e)
+        {
+            e.IsValid = !string.IsNullOrEmpty(txtJustificacion.Text) && txtJustificacion.Text.Length > 10;
+            if (!e.IsValid)
+            {
+                ToastMessages.Add("La justificación debe tener al menos 10 caracteres");
+            }
+        }
         protected void btnGuardar_Click(object sender, EventArgs e)
         {
-            if (id != Guid.Empty)
+
+            try
             {
                 ContactoModelo Ob = ObtenerModeloDesdeFormulario();
-                Ob.Id = id;
-                negocio.Modificar(Ob);
+                if (id != Guid.Empty)
+                {
+                    Ob.Id = id;
+                }
+
+                ContactoModelo updatedContacto = negocio.GuardarContacto(Ob, idsDireccionesBorradas, idsEventosBorrados);
+                
+                contacto.Id = updatedContacto.Id;
+                
+                string justificacion = id == Guid.Empty ? "Se ha creado un nuevo contacto" : txtJustificacion.Text;
+                Negocio.Servicios.HistoricoServicio historicoServicio = new Negocio.Servicios.HistoricoServicio();
+                historicoServicio.GeneraryGuardarHistorico(contacto.Id, justificacion);
+                Master?.FireToasts("success", "Contacto guardado correctamente", "");
+                Session["FIRE_TOASTS"] = new LayoutTailwind.Toast
+                {
+                    type = "success",
+                    title = "Contacto guardado correctamente",
+                    html = ""
+                };
+                
+                Response.Redirect(redirect_to, false);
+                Context.ApplicationInstance.CompleteRequest();
             }
-            else
+            catch (Exception exception)
             {
-                negocio.Agregar(ObtenerModeloDesdeFormulario());
+                Console.WriteLine(exception);
+
+                Master?.FireToasts("error", "Error al guardar la orden", ToastMessages);
+                ToastMessages.Clear();
             }
-            
         }
         
         protected void btnAgregarDireccion_Click(object sender, EventArgs e)
@@ -115,10 +177,36 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Contactos
             AbrirModal("modalDireccion");
         }
         
+        protected void btnAgregarEvento_Click(object sender, EventArgs e)
+        {
+            ViewState["updatingEvento"] = null;
+            lblTitleModalEvento.Text = "Agregar Evento";
+            txtEventoDesc.Text = "";
+            FechaEventoSeleccionada = DateTime.Now.ToShortDateString();
+            txtEventoDesc.Text = "";
+            ddTipoEvento.SelectedValue = null;
+            ScriptManager.RegisterStartupScript(this, GetType(), "text", "LoadEventoDesc();", true);
+            AbrirModal("modalEvento");
+        }
+        
         protected void btnEliminarDireccion_Click(object sender, EventArgs e)
         {
-            // contacto.Direcciones.RemoveAt(contacto.Direcciones.Count - 1);
-            // ViewState["contacto"] = contacto;
+            string idDireccion = ((Button)sender).CommandArgument;
+            idsDireccionesBorradas.Add(Guid.Parse(idDireccion));
+            ViewState["idsDireccionesBorradas"] = idsDireccionesBorradas;
+            contacto.Direcciones.RemoveAll(x => x.IdDireccion == Guid.Parse(idDireccion));
+            rptDirecciones.DataSource = contacto.Direcciones;
+            rptDirecciones.DataBind();
+        }
+        
+        protected void btnEliminarEvento_Click(object sender, EventArgs e)
+        {
+            string idEvento = ((Button)sender).CommandArgument;
+            idsEventosBorrados.Add(Guid.Parse(idEvento));
+            ViewState["idsEventosBorrados"] = idsEventosBorrados;
+            contacto.Eventos.RemoveAll(x => x.IdEvento == Guid.Parse(idEvento));
+            rptEventos.DataSource = contacto.Eventos;
+            rptEventos.DataBind();
         }
         
         protected void btnEditarDireccion_Click(object sender, EventArgs e)
@@ -138,7 +226,45 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Contactos
             AbrirModal("modalDireccion");
         }
         
-        protected void OnAceptarAgregarDireccion(object sender, EventArgs e)
+        protected void btnEditarEvento_Click(object sender, EventArgs e)
+        {
+            string idEvento = ((Button)sender).CommandArgument;
+            EventoModelo evento = contacto.Eventos.FirstOrDefault(x => x.IdEvento == Guid.Parse(idEvento));
+            FechaEventoSeleccionada = evento.Fecha.ToShortDateString();
+            txtEventoDesc.Text = evento.Descripcion;
+            ddTipoEvento.SelectedValue = evento.TipoEvento.IdTipoEvento.ToString();
+            ViewState["updatingEvento"] = idEvento;
+            lblTitleModalEvento.Text = "Editar Evento";
+            AbrirModal("modalEvento");
+        }
+        
+        protected void OnGuardarModalEvento(object sender, EventArgs e)
+        {
+            if (ViewState["updatingEvento"] != null)
+            {
+                EventoModelo evento = contacto.Eventos.FirstOrDefault(x => x.IdEvento == Guid.Parse((string)ViewState["updatingEvento"]));
+                evento.Fecha = DateTime.Parse(FechaEventoSeleccionada);
+                evento.Descripcion = txtEventoDesc.Text;
+                evento.TipoEvento = ((List<TipoEventoModelo>)ViewState["tiposDeEvento"])
+                    ?.FirstOrDefault(x => x.IdTipoEvento == Guid.Parse(ddTipoEvento.SelectedValue));
+                ViewState["updatingEvento"] = null;
+            }
+            else
+            {
+                contacto.Eventos.Add(new EventoModelo
+                {
+                    Fecha = DateTime.Parse(FechaEventoSeleccionada),
+                    Descripcion = txtEventoDesc.Text,
+                    TipoEvento = ((List<TipoEventoModelo>)ViewState["tiposDeEvento"])
+                        ?.FirstOrDefault(x => x.IdTipoEvento == Guid.Parse(ddTipoEvento.SelectedValue))
+                });
+            };
+            ViewState["contacto"] = contacto;
+            rptEventos.DataSource = contacto.Eventos;
+            rptEventos.DataBind();
+            HideModal("modalEvento");
+        }
+        protected void onGuardarModalDireccion(object sender, EventArgs e)
         {
             if (ViewState["updatingDireccion"] != null)
             {
@@ -168,35 +294,54 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Contactos
             HideModal("modalDireccion");
         }
         
+        private void CargarCalendario()
+        {
+            Components.Calendario calendario = (Backoffice.Components.Calendario)LoadControl("~/Backoffice/Components/Calendario.ascx");
+            calendario.CellSizeTWClass = "h-8";
+            phCalendarioEvento.Controls.Add(calendario);
+            calendario.InicializarCalendario((object sender, EventArgs e) =>
+            {
+                FechaEventoSeleccionada = calendario.FechaCalendario.ToShortDateString();
+            });
+            FechaEventoSeleccionada = calendario.FechaCalendario.ToShortDateString();
+        }
+        
+        
+        
         private void AbrirModal(string id)
         {
             ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", $"ShowModal({id});", true);
         }
         
-        // private void FirePostBackEvent(string eventTarget, bool async = false)
-        // {
-        //     if (async)
-        //     {
-        //         ScriptManager.RegisterStartupScript(this, this.GetType(), "PostBack", "__doPostBack('" + eventTarget + "','async');", true);
-        //         return;
-        //     }
-        //     ScriptManager.RegisterStartupScript(this, this.GetType(), "PostBack", "__doPostBack('" + eventTarget + "','');", true);
-        // }
+        protected void btnCancelar_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("Default.aspx");
+        } 
         
-        // protected void OnInfoExtraLoad(object sender, EventArgs e)
-        // {
-        //     ScriptManager.RegisterStartupScript(this, GetType(), "text", "LoadInfoExtra();", true);
-        // }       
+        protected void OnDescripcionEventoLoad(object sender, EventArgs e)
+        {
+            ScriptManager.RegisterStartupScript(this, GetType(), "text", "LoadEventoDesc();", true);
+        }       
+        protected void OnContactoExtraLoad(object sender, EventArgs e)
+        {
+            ScriptManager.RegisterStartupScript(this, GetType(), "text", "LoadContactoExtra();", true);
+        }   
         
         public void HideModalDireccion(object sender, EventArgs e)
         {
             HideModal("modalDireccion");
+        }
+        
+        public void HideModalEvento(object sender, EventArgs e)
+        {
+            HideModal("modalEvento");
         }
 
         public void HideModal(string id)
         {
             ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", $"HideModal({id});", true);
         }
+        
         
 
     }

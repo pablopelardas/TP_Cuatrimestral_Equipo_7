@@ -35,5 +35,6 @@ namespace Dominio.Modelos
         
         public List<DireccionModelo> Direcciones { get; set; }
         public List<EventoModelo> Eventos { get; set; }
+        public List<PagoModelo> Pagos { get; set; }
     }
 }

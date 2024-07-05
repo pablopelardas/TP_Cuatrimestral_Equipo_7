@@ -124,7 +124,6 @@ namespace Datos.Repositorios
         public OrdenModelo GuardarOrdenTx(OrdenModelo orden, bool guardarDireccionEnCliente = false)
         {
 
-            ORDEN entidadADevolver;
             using (Entities db = new Entities())
             using (var scope = new System.Transactions.TransactionScope())
             {
@@ -258,6 +257,71 @@ namespace Datos.Repositorios
                 }
             }
         }
+        
+    public void AgregarPagoTx(OrdenModelo orden, PagoModelo pago)
+    {
+        using (Entities db = new Entities())
+        using (var scope = new System.Transactions.TransactionScope())
+        {
+            try
+            {
+                PAGO pagoEntidad = Mappers.PagoMapper.ModeloAEntidad(pago);
+                // buscar orden
+                ORDEN ordenEntidad = db.ORDENES.Find(orden.IdOrden);
+                if (ordenEntidad == null)
+                {
+                    throw new Exception("No se encontró la orden");
+                }
+                // verificar si el monto es 0
+                if (pagoEntidad.monto <= 0)
+                {
+                    throw new Exception("El monto del pago debe ser mayor a 0");
+                }
+                // verificar si el pago es mayor al total de la orden
+                if (pagoEntidad.monto > orden.Total)
+                {
+                    throw new Exception("El monto del pago es mayor al total de la orden");
+                }
+                // verificar si el pago + el total pagado es mayor al total de la orden
+                if (pagoEntidad.monto + orden.TotalPagado > orden.Total)
+                {
+                    throw new Exception("El monto del pago + el total pagado es mayor al total de la orden");
+                }
+                
+                // agregar pago
+                pagoEntidad.id_orden = orden.IdOrden;
+                db.PAGOS.Add(pagoEntidad);
+                db.SaveChanges();
+                
+                //  actualizar estado de la orden
+                ordenEntidad.id_orden_pago_estado = pagoEntidad.monto + orden.TotalPagado == orden.Total ? 3 : 2;
+                
+                db.SaveChanges();
+                
+                db.HISTORICO_ENTIDADES.Add(new HISTORICOENTIDAD
+                {
+                    id_entidad = orden.IdOrden,
+                    justificacion = $"Pago de ${pagoEntidad.monto} realizado",
+                    fecha = DateTime.Now
+                });
+                db.HISTORICO_ENTIDADES.Add(new HISTORICOENTIDAD
+                {
+                    id_entidad = orden.Cliente.Id,
+                    justificacion = $"Pago de ${pagoEntidad.monto} realizado en orden {orden.ShortId}",
+                    fecha = DateTime.Now
+                });
+                
+                db.SaveChanges();
+                
+                scope.Complete();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+        }
+    }
         
     public OrdenModelo CambiarEstado(Guid idOrden, int idEstado)
         {

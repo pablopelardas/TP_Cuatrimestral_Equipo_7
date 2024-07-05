@@ -57,6 +57,11 @@ namespace Datos.Mappers
                 modelo.DireccionEntrega = OrdenDireccionMapper.EntidadAModelo(orden.ORDENDIRECCION, false);
                 modelo.DireccionEntrega.IdDireccion = modelo.IdOrden;
             }
+            
+            if (orden.PAGOS != null)
+            {
+               modelo.Pagos = PagoMapper.EntidadesAModelos(orden.PAGOS.ToList());
+            }
 
             return modelo;
         }

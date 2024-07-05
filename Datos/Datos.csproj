@@ -77,6 +77,7 @@
     <Compile Include="EF\ORDENPAGOESTADO.cs" />
     <Compile Include="EF\PRODUCTO.cs" />
     <Compile Include="EF\RECETA.cs" />
+    <Compile Include="EF\SOLICITUD.cs" />
     <Compile Include="EF\SUMINISTRO.cs" />
     <Compile Include="EF\PAGO.cs" />
     <Compile Include="EF\TIPO_EVENTO.cs" />
@@ -93,6 +94,7 @@
     <Compile Include="Mappers\OrdenEstadoMapper.cs" />
     <Compile Include="Mappers\OrdenEstadoPagoMapper.cs" />
     <Compile Include="Mappers\OrdenMapper.cs" />
+    <Compile Include="Mappers\PagoMapper.cs" />
     <Compile Include="Mappers\ProductoDetalleOrdenMapper.cs" />
     <Compile Include="Mappers\ProductoMapper.cs" />
     <Compile Include="Mappers\RecetaMapper.cs" />
@@ -106,6 +108,10 @@
     <Compile Include="Migrations\202406231910208_descripcion_evento.cs" />
     <Compile Include="Migrations\202406231910208_descripcion_evento.Designer.cs">
       <DependentUpon>202406231910208_descripcion_evento.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202407050103453_agrego_solicitudes.cs" />
+    <Compile Include="Migrations\202407050103453_agrego_solicitudes.Designer.cs">
+      <DependentUpon>202407050103453_agrego_solicitudes.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Migrations\Seeds\DireccionesSeed.cs" />
@@ -163,6 +169,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202406231910208_descripcion_evento.resx">
       <DependentUpon>202406231910208_descripcion_evento.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202407050103453_agrego_solicitudes.resx">
+      <DependentUpon>202407050103453_agrego_solicitudes.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

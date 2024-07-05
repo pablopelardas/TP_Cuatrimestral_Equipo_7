@@ -28,14 +28,14 @@ namespace Datos.EF
         public virtual DbSet<TIPO_EVENTO> TIPOS_EVENTOS { get; set; }
         public virtual DbSet<UNIDAD_MEDIDA> UNIDADES_MEDIDA { get; set; }
         public virtual DbSet<DETALLEPRODUCTO> DETALLE_PRODUCTOS { get; set; }
-
         public virtual DbSet<PAGO> PAGOS { get; set; }
-        
         public virtual DbSet<DIRECCION> DIRECCIONES { get; set; }
         
         public virtual DbSet<ORDENDIRECCION> ORDENES_DIRECCIONES { get; set; }
         
         public virtual DbSet<HISTORICOENTIDAD> HISTORICO_ENTIDADES { get; set; }
+        
+        public virtual DbSet<SOLICITUD> SOLICITUDES { get; set; }
         
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -60,6 +60,7 @@ namespace Datos.EF
             modelBuilder.Entity<DIRECCION>().ToTable("Direcciones");
             modelBuilder.Entity<ORDENDIRECCION>().ToTable("Ordenes_Direcciones");
             modelBuilder.Entity<HISTORICOENTIDAD>().ToTable("Historico_Entidades");
+            modelBuilder.Entity<SOLICITUD>().ToTable("Solicitudes");
 
 
             modelBuilder.Entity<PAGO>()

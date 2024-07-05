@@ -32,6 +32,13 @@ namespace Dominio.Modelos
             }
         }
         
+        public decimal TotalPagado
+        {
+            get
+            {
+                return decimal.Round(Pagos.Sum(x => x.Monto), 2);
+            }
+        }
         public string DetalleEntrega
         {
             get
@@ -56,6 +63,8 @@ namespace Dominio.Modelos
 
 
         public List<ProductoDetalleOrdenModelo> DetalleProductos { get; set; }
+        
+        public List<PagoModelo> Pagos { get; set; }
         public EventoModelo Evento { get; set; }
         
         public ListaCompra ListaCompra { get; set; }
@@ -64,6 +73,7 @@ namespace Dominio.Modelos
         {
             DireccionEntrega = new DireccionModelo();
             DetalleProductos = new List<ProductoDetalleOrdenModelo>();
+            Pagos = new List<PagoModelo>();
         }
 
 

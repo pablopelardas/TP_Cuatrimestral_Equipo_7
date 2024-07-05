@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Dominio.Modelos;
 
 namespace Negocio.Servicios
 {
@@ -44,6 +45,11 @@ namespace Negocio.Servicios
         public void Agregar(Dominio.Modelos.ContactoModelo contacto)
         {
             contactosRepositorio.Agregar(contacto);
+        }
+        
+        public ContactoModelo GuardarContacto(ContactoModelo contacto, List<Guid> direccionesEliminadas, List<Guid> eventosEliminados)
+        {
+            return contactosRepositorio.GuardarContactoTx(contacto, direccionesEliminadas, eventosEliminados);
         }
 
         public void Modificar(Dominio.Modelos.ContactoModelo contacto)

@@ -47,5 +47,14 @@ namespace Datos.Mappers
 
             return entidad;
         }
+
+        internal static void ActualizarEntidad(ref EVENTO evento, Dominio.Modelos.EventoModelo modelo)
+        {
+            evento.id_evento = modelo.IdEvento;
+            evento.fecha = modelo.Fecha;
+            evento.id_cliente = modelo.Cliente.Id;
+            evento.id_tipo_evento = modelo.TipoEvento.IdTipoEvento;
+            evento.descripcion = modelo.Descripcion;
+        }
     }
 }

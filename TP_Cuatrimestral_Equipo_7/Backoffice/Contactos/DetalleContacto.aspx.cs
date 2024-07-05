@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using Dominio.Modelos;
 
 namespace TP_Cuatrimestral_Equipo_7.Backoffice.Contactos
 {
@@ -13,9 +14,12 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Contactos
         public List<Dominio.Modelos.EventoModelo> eventos;
         private Negocio.Servicios.ContactoServicio negocio;
         private Negocio.Servicios.EventoServicio eventoServicio;
+        private Negocio.Servicios.HistoricoServicio servicioHistorico;
+        public List<HistoricoModelo> historicos;
         
         protected void Page_Load(object sender, EventArgs e)
         {
+            servicioHistorico = new Negocio.Servicios.HistoricoServicio();
             if (Session["contacto"] != null)
             {
                 contacto = (Dominio.Modelos.ContactoModelo)Session["contacto"];
@@ -23,6 +27,10 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Contactos
             if (Session["eventosDelContacto"] != null)
             {
                eventos = (List<Dominio.Modelos.EventoModelo>)Session["eventosDelContacto"];
+            }
+            if (Session["historicos"] != null)
+            {
+                historicos = (List<HistoricoModelo>)Session["historicos"];
             }
             if (!IsPostBack)
             {
@@ -36,6 +44,7 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Contactos
                     {
                         contacto = negocio.ObtenerPorId(id);
                         eventos = eventoServicio.ListarEventosPorCliente(id);
+                        historicos = servicioHistorico.ListarPorEntidad(contacto.Id);
                         Session["eventosDelContacto"] = eventos;
                         Session["contacto"] = contacto;
                     }

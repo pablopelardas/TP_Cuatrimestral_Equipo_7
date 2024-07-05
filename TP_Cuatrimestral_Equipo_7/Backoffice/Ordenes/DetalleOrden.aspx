@@ -151,8 +151,10 @@
                         <%: orden.EstadoPago.Nombre %>
                     </span>
                 </div>
-                <asp:Button CssClass="inline-flex items-center justify-center rounded-lg bg-primary-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 cursor-pointer" ID="btnAgregarPago" runat="server" Text="Agregar Pago"></asp:Button>
-                <%-- <button type="button" data-modal-target="billingInformationModal" data-modal-toggle="billingInformationModal">Abrir modal</button> --%>
+                <% if (orden.EstadoPago.IdOrdenPagoEstado < 3)
+                   { %>
+                <button type="button" data-modal-target="pago-modal" data-modal-toggle="pago-modal" class="inline-flex items-center justify-center rounded-lg bg-primary-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 cursor-pointer">Agregar Pago</button>
+                <% } %>
             </h4>
 
             <div class="flex justify-between">
@@ -163,12 +165,12 @@
                 </dl>
                 <dl>
                     <dt class="text-base mb-3 font-medium text-gray-900 dark:text-white">Pagado</dt>
-                    <dd class="text-base font-normal text-gray-900 dark:text-white">$<%: 0 %></dd>
+                    <dd class="text-base font-normal text-gray-900 dark:text-white">$<%: orden.TotalPagado %></dd>
                     <%-- <dd class="text-base font-normal text-gray-900 dark:text-white">$<%: orden.Pagado %></dd> --%>
                 </dl>
                 <dl>
                     <dt class="text-base mb-3 font-medium text-gray-900 dark:text-white">Restante</dt>
-                    <dd class="text-base font-normal text-gray-900 dark:text-white">$<%: orden.Total %></dd>
+                    <dd id="montoRestante" class="text-base font-normal text-gray-900 dark:text-white">$<%: orden.Total - orden.TotalPagado %></dd>
                     <%-- <dd class="text-base font-normal text-gray-900 dark:text-white">$<%: orden.Restante %></dd> --%>
                 </dl>
             </div>
@@ -211,7 +213,6 @@
                     </div>
             </div>
         </div> 
-        
     </ContentTemplate>
         <Triggers>
             <asp:AsyncPostBackTrigger ControlID="btnAvanzarEstado" EventName="Click" />
@@ -296,7 +297,70 @@
         </div>
     </div>
     </div>
-    </form>
 
+    
+    </form>
+    
+        
+            <div id="pago-modal" data-modal-backdrop="static" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+                <div class="relative p-4 w-full max-w-md max-h-full">
+                    <!-- Modal content -->
+                    <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                        <asp:UpdatePanel runat="server">
+                                            <ContentTemplate>
+                        <!-- Modal header -->
+                        <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
+                            <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
+                                Agregar pago
+                            </h3>
+                            <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-toggle="pago-modal">
+                                <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                                </svg>
+                                <span class="sr-only">Cerrar modal</span>
+                            </button>
+                        </div>
+                        <!-- Modal body -->
+                        <div class="p-4 md:p-5">
+                            <div class="grid gap-4 mb-4 grid-cols-2">
+                                <div class="col-span-2 flex gap-4 align-items-center">
+                                    <div class="w-full flex flex-col">
+                                        <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Monto ($)</label>
+                                        <asp:TextBox runat="server" step=".01" TextMode="Number" ID="txtMontoPago" ClientIDMode="Static" CssClass="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="2999"></asp:TextBox> 
+                                    </div>
+                                    <div class="flex w-full justify-center self-end">
+                                        <button  id="setMaxDisponible" type="button" class=" text-center rounded-lg bg-primary-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">MAX</button> 
+                                    </div>
+                                </div>
+                                <div class="col-span-2">
+                                    <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Metodo de pago</label>
+                                    <asp:DropDownList runat="server" ID="ddTipoPago" CssClass="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+                                        <asp:ListItem Text="Efectivo" Value="Efectivo"></asp:ListItem>
+                                        <asp:ListItem Text="Transferencia" Value="Transferencia"></asp:ListItem>
+                                    </asp:DropDownList>
+                                </div>
+                            </div>
+                            <asp:Button runat="server" ID="btnAgregarPago" CssClass="p-4 text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" OnClick="btnAgregarPago_OnClick" Text="Agregar Pago"/>
+                        </div>
+                        </ContentTemplate>
+                        <Triggers>
+                            <asp:PostBackTrigger ControlID="btnAgregarPago"></asp:PostBackTrigger>
+                        </Triggers>
+                    </asp:UpdatePanel>
+                    </div>
+                </div>
+            </div> 
+
+    <script type="text/javascript">
+    
+    setMaxDisponible.addEventListener('click', () => {
+         console.log("Setting max")
+        var montoRestante = document.getElementById('montoRestante').innerText;
+         montoRestante = montoRestante.replace('$', '').replace(',', '.');
+         montoRestante = parseFloat(montoRestante )
+        document.getElementById('txtMontoPago').value = montoRestante;
+    });
+    </script>
+    
 <% } %>
 </asp:Content>

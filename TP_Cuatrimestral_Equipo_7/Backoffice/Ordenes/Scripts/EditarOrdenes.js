@@ -13,7 +13,6 @@ function HideModal() {
 
 
 function LoadInfoExtra() {
-    console.log("Cargando Tiny")
     let options = {
         toolbar: "basic",
         editorResizeMode: "height",

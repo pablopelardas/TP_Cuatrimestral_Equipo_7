@@ -42,15 +42,6 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
         protected global::System.Web.UI.WebControls.Literal litOrdenExtra;
 
         /// <summary>
-        /// btnAgregarPago control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnAgregarPago;
-
-        /// <summary>
         /// btnGenerateShoppingList control.
         /// </summary>
         /// <remarks>
@@ -58,6 +49,33 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton btnGenerateShoppingList;
+
+        /// <summary>
+        /// txtMontoPago control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtMontoPago;
+
+        /// <summary>
+        /// ddTipoPago control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddTipoPago;
+
+        /// <summary>
+        /// btnAgregarPago control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnAgregarPago;
 
         /// <summary>
         /// Master property.

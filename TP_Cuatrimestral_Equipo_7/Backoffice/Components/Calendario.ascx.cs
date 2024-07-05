@@ -20,6 +20,8 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Components
         private string FechaSeleccionada;
         private string CLDFECHASELECCIONADA = "cldFechaSeleccionada";
         private string CLDLISTADEEVENTOS = "CldListaDeEventos";
+        
+        public string CellSizeTWClass { get; set;}
 
         public Action<object,EventArgs> OnDayClick { get; set; }
 
@@ -118,6 +120,7 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Components
             cldFecha.NextPrevStyle.ForeColor = ColorTranslator.FromHtml("#FFFFCC");
             cldFecha.DayHeaderStyle.CssClass = "bg-gray-700 text-white";
             cldFecha.DayHeaderStyle.BorderStyle = BorderStyle.None;
+            CellSizeTWClass = "h-8 sm:h-12 lg:h-20";
 
         }
 
@@ -140,14 +143,14 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Components
             e.Cell.BorderWidth = 1;
             e.Cell.ForeColor = ColorTranslator.FromHtml("#FFF");
             // tailwind cell
-            e.Cell.CssClass = "h-8 sm:h-12 lg:h-20 bg-[#2B4450]";
+            e.Cell.CssClass = $"{CellSizeTWClass} bg-[#2B4450]";
             if (e.Day.IsOtherMonth)
             {
-                e.Cell.CssClass = "h-8 sm:h-12 lg:h-20 bg-[#1f2937]";
+                e.Cell.CssClass = $"{CellSizeTWClass} bg-[#1f2937]";
             }
             if (e.Day.IsToday)
             {
-                e.Cell.CssClass = "h-8 sm:h-12 lg:h-20 bg-blue-400";
+                e.Cell.CssClass = $"{CellSizeTWClass} bg-blue-400";
             }
 
             // WARMMAP EN GRILLA

@@ -47,7 +47,6 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
                 historicos = (List<HistoricoModelo>)Session["historicos"];
             }
             
-            
             if (IsPostBack && Request.Form["__EVENTTARGET"] == "btnCancelarOrden")
             {
                 try
@@ -152,6 +151,33 @@ namespace TP_Cuatrimestral_Equipo_7.Backoffice.Ordenes
             {
                 Console.WriteLine(exception);
                 Master?.FireToasts("error", "Error al avanzar el estado de la orden");
+            }
+        }
+
+        protected void btnAgregarPago_OnClick(object sender, EventArgs e)
+        {
+            string formatted = txtMontoPago.Text.Replace(".", ",");
+            decimal monto = decimal.TryParse(formatted, out monto) ? monto : 0;
+            string tipoPago = ddTipoPago.SelectedValue;
+                
+            try
+            {
+                servicioOrden = new Negocio.Servicios.OrdenServicio();
+                servicioOrden.AgregarPago(orden, new PagoModelo
+                {
+                    IdOrden = orden.IdOrden,
+                    IdCliente = orden.Cliente.Id,
+                    Fecha = DateTime.Now,
+                    Monto = monto,
+                    TipoPago = tipoPago
+                });
+                Master?.FireToasts("success", "Pago agregado correctamente");
+                orden = servicioOrden.ObtenerPorId(orden.IdOrden);
+                Session[OrdenActual] = orden;
+            }
+            catch (Exception exception)
+            {
+                Master?.FireToasts("error", "Error al agregar el pago", exception.Message);
             }
         }
     }

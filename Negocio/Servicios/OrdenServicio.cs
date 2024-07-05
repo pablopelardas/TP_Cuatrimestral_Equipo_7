@@ -53,5 +53,10 @@ namespace Negocio.Servicios
         {
             return ordenRepositorio.ListarEstados();
         }
+        
+        public void AgregarPago(OrdenModelo orden, PagoModelo pago)
+        {
+            ordenRepositorio.AgregarPagoTx(orden,pago);
+        }
     }
 }

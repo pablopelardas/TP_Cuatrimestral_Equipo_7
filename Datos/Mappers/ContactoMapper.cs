@@ -23,7 +23,8 @@ namespace Datos.Mappers
                 DeseaRecibirCorreos = contactoEntidad.desea_recibir_correos,
                 DeseaRecibirWhatsapp = contactoEntidad.desea_recibir_whatsapp,
                 InformacionPersonal = contactoEntidad.informacion_personal,
-                Direcciones = contactoEntidad.DIRECCIONES.Select(d => DireccionMapper.EntidadAModelo(d, false)).ToList()
+                Direcciones = contactoEntidad.DIRECCIONES.Select(d => DireccionMapper.EntidadAModelo(d, false)).ToList(),
+                
             };
         }
         

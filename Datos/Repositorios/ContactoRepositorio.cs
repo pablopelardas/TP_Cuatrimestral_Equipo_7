@@ -2,10 +2,12 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Entity.Migrations;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Dominio.Modelos;
 
 namespace Datos.Repositorios
 {
@@ -121,6 +123,106 @@ namespace Datos.Repositorios
             catch (Exception ex)
             {
                 throw ex;
+            }
+        }
+        
+        public ContactoModelo GuardarContactoTx(Dominio.Modelos.ContactoModelo contacto, List<Guid> direccionesEliminadas, List<Guid> eventosEliminados)
+        {
+            using (Entities db = new Entities())
+            using (var scope = new System.Transactions.TransactionScope())
+            {
+                try
+                {
+                    CONTACTO contactoEntidad;
+                    if (contacto.Id != Guid.Empty)
+                    {
+                        contactoEntidad = db.CONTACTOS.Find(contacto.Id);
+                        if (contactoEntidad == null)
+                        {
+                            throw new Exception("No se encontró el contacto");
+                        }
+                        Mappers.ContactoMapper.ActualizarEntidad(ref contactoEntidad, contacto);
+                    }
+                    else
+                    {
+                        contactoEntidad = Mappers.ContactoMapper.ModeloAEntidad(contacto);
+                    }
+                    
+                    db.CONTACTOS.AddOrUpdate(contactoEntidad);
+                    db.SaveChanges();
+                    
+                    // Add or update addresses
+                    if (contacto.Direcciones != null)
+                    {
+                        foreach (var direccion in contacto.Direcciones)
+                        {
+                            DIRECCION direccionEntidad;
+                            direccion.Cliente = contacto;
+                            if (direccion.IdDireccion != Guid.Empty)
+                            {
+                                direccionEntidad = db.DIRECCIONES.Find(direccion.IdDireccion);
+                                if (direccionEntidad == null)
+                                {
+                                    throw new Exception("No se encontró la dirección");
+                                }
+                                Mappers.DireccionMapper.ActualizarEntidad(ref direccionEntidad, direccion);
+                            }
+                            else
+                            {
+                                direccionEntidad = Mappers.DireccionMapper.ModeloAEntidad(direccion);
+                            }
+                            direccionEntidad.id_cliente = contactoEntidad.id_contacto;
+                            db.DIRECCIONES.AddOrUpdate(direccionEntidad);
+                            db.SaveChanges();
+                            direccion.IdDireccion = direccionEntidad.id_direccion;
+                        }
+                    }
+
+                    
+                    db.DIRECCIONES.RemoveRange(db.DIRECCIONES.Where(d => direccionesEliminadas.Contains(d.id_direccion)));
+                    db.SaveChanges();
+                    
+                    // Add or update events
+                    if (contacto.Eventos != null)
+                    {
+                        foreach (var evento in contacto.Eventos)
+                        {
+                            EVENTO eventoEntidad;
+                            evento.Cliente = contacto;
+                            if (evento.IdEvento != Guid.Empty)
+                            {
+                                eventoEntidad = db.EVENTOS.Find(evento.IdEvento);
+                                if (eventoEntidad == null)
+                                {
+                                    throw new Exception("No se encontró el evento");
+                                }
+                                Mappers.EventoMapper.ActualizarEntidad(ref eventoEntidad, evento);
+                            }
+                            else
+                            {
+                                eventoEntidad = Mappers.EventoMapper.ModeloAEntidad(evento);
+                            }
+                            eventoEntidad.id_cliente = contactoEntidad.id_contacto;
+                            db.EVENTOS.AddOrUpdate(eventoEntidad);
+                            db.SaveChanges();
+                            evento.IdEvento = eventoEntidad.id_evento;
+                        }
+                    }
+                    
+                    db.EVENTOS.RemoveRange(db.EVENTOS.Where(e => eventosEliminados.Contains(e.id_evento)));
+                    db.SaveChanges();
+                    
+                    contacto.Id = contactoEntidad.id_contacto;
+                    scope.Complete();
+                    return contacto;
+
+
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                    throw;
+                }
             }
         }
 
